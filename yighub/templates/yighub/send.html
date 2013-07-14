@@ -1,0 +1,9 @@
+﻿<h1>쪽지 쓰기</h1>
+
+<form action = /yighub/letter/send', enctype = "multipart/form-data", method = "post">
+{% csrf_token %}
+{{ form.as_p }}
+<input type = 'file' name = 'files' />
+
+<input type = "submit" value = "Submit" />
+</form>

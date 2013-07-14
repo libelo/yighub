@@ -1,0 +1,14 @@
+﻿<h1>회원가입</h1>
+
+<form action = "{% url 'yighub:join' %}", enctype = "multipart/form-data", method = "post">
+{% csrf_token %}
+<ul>
+{% for field in form %}
+<li>{{ field.errors }}
+{{ field.label_tag }} : {{ field }}
+</li>
+{% endfor %}
+</ul>
+
+<input type = "submit" value = "가입하기" />
+</form>

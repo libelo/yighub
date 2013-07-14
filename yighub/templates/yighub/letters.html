@@ -1,0 +1,42 @@
+﻿{% extends 'base.html' %}
+{% block content %}
+<h1> 쪽지 목록</h1>
+{% for t in test %}
+<h3>{{ t }}</h3>
+{% endfor %}
+<h2>쪽지 목록</h2>
+{% if page.entry_list %}
+<ul>
+{% for entry in page.entry_list %}
+{% for i in entry.range %}
+<ul>
+{% endfor %}
+<li><a href = '/yighub/entry/{{ entry.id }}/'>{{ entry.title }}</a></li>
+{% for i in entry.range %}
+</ul>
+{% endfor %}
+
+{% endfor %}
+</ul>
+{% else %}
+<p> No entry is available. </p>
+{% endif %}
+<br />
+{% if page.first_page %}
+<br /><a href = '/yighub/board/{{ board.id }}/page/{{ page.first_page }}/'>first_page</a>
+<a href = '/yighub/board/{{ board.id }}/page/{{ page.prev_page }}/'>prev_page</a>
+{% endif %}
+{% for p in page.page_list %}
+<a href = '/yighub/board/{{ board.id }}/page/{{ p }}/'>{{ p }}</a>
+{% endfor %}
+{% if page.last_page %}
+<a href = '/yighub/board/{{ board.id }}/page/{{ page.next_page }}/'>next_page</a>
+<a href = '/yighub/board/{{ board.id }}/page/{{ page.last_page }}/'>last_page</a>
+{% endif %}
+<br />
+<a href = '/yighub/entry/create/'>글쓰기</a>
+
+<br />
+<a href = '/yighub/logout/'>로그아웃</a>
+
+{% endblock %}

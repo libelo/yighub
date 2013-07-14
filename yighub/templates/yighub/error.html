@@ -1,0 +1,11 @@
+﻿{% if messages %}
+<ul class = "messages">
+{% for message in messages %}
+<li {% if message.tags %} class = "{{ message.tags }}" {% endif %}>{{ message }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+
+<form>
+<input type = 'button', value = 'Move Back' onclick = 'history.back()' />
+</form>

@@ -1,0 +1,14 @@
+﻿<h1>게시판 만들기</h1>
+
+<form action = "/yighub/board/create/" method = "post">
+{% csrf_token %}
+<ul>
+{% for field in form %}
+<li>{{ field.errors }}
+{{ field.label_tag }} : {{ field }}
+</li>
+{% endfor %}
+</ul>
+
+<input type = "submit" value = "게시판 생성" />
+</form>

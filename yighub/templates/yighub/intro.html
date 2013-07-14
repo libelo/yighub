@@ -1,0 +1,29 @@
+﻿{% extends 'base.html' %}
+{% block content %}
+<h1> 게시판 이름 : {{ entry.board }}</h1>
+
+<h2>제목</h2>
+<p>{{ entry.title }}</p>
+
+<h2>내용</h2>
+<p>{{ entry.content }}</p>
+<br />
+{% if page.first_page %}
+<br />
+<a href = '/yighub/intro/{{ entry.board }}/page/{{ first_page }}/'>first_page</a>
+<a href = '/yighub/board/{{ entry.board }}/page/{{ prev_page }}/'>prev_page</a>
+{% endif %}
+{% for p in page.page_list %}
+<a href = '/yighub/board/{{ entry.board }}/page/{{ p }}/'>{{ p }}</a>
+{% endfor %}
+{% if page.last_page %}
+<a href = '/yighub/board/{{ entry.board }}/page/{{ next_page }}/'>next_page</a>
+<a href = '/yighub/board/{{ entry.board }}/page/{{ last_page }}/'>last_page</a>
+{% endif %}
+<br />
+<a href = '/yighub/intro/create/'>글쓰기</a>
+
+<br />
+<a href = '/yighub/logout/'>로그아웃</a>
+
+{% endblock %}

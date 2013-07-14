@@ -1,0 +1,39 @@
+﻿{% extends 'base.html' %}
+{% block content %}
+
+<h1>글 읽기</h1>
+
+<h2>제목</h2>
+<p>{{ entry.title }}</p>
+
+<h2>내용</h2>
+<p>{{ entry.content }}</p>
+<br />
+<h2>파일 다운로드</h2>
+{% for f in files %}
+<p><a href = '/yighub/download/{{ f.id }}/'>{{ f.file.name }}</a></p>
+{% endfor %}
+<br />
+<h2>추천한 사람들</h2>
+{% for r in recommendations %}
+{{ r }}, 
+{% endfor %}
+<p><a href = '/yighub/entry/{{ entry.id }}/recommendation/'>추천하기</a></p>
+<p><a href = '/yighub/entry/{{ entry.id }}/reply/'>답글 달기</a></p>
+<p><a href = '/yighub/entry/{{ entry.id }}/edit/'>수정하기</a></p>
+<p><a href = '/yighub/entry/{{ entry.id }}/delete/'>삭제하기</a></p>
+
+<h2>댓글 보여주기</h2>
+{% for c in comments %}
+<p>작성자 : {{ c.creator }}. 댓글 : {{ c.content }}</p>
+{% endfor %}
+
+<h2>댓글 달기</h2>
+
+<form action = '/yighub/entry/{{ entry.id }}/comment/' method = 'post' >
+{% csrf_token %}
+<input type = 'text' name = 'content' />
+<input type = 'submit' value = '댓글 쓰기' />
+</form>
+
+{% endblock %}

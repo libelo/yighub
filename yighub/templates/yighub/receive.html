@@ -1,0 +1,18 @@
+﻿{% extends 'base.html' %}
+{% block content %}
+
+<h1>쪽지 읽기</h1>
+
+<h2>제목</h2>
+<p>{{ letter.title }}</p>
+
+<h2>내용</h2>
+<p>{{ letter.content }}</p>
+<br />
+<h2>파일 다운로드</h2>
+<p><a href = '/yighub/download/{{ letter.file.url }}/'>{{ letter.file.name }}</a></p>
+<br />
+<p><a href = '/yighub/entry/{{ entry.id }}/delete/'>삭제하기</a></p>
+
+
+{% endblock %}

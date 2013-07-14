@@ -1,0 +1,22 @@
+﻿<form action = "/yighub/entry/{{ entry_id }}/edit/", enctype = "multipart/form-data", method = "post">
+{% csrf_token %}
+<ul>
+{% for field in form %}
+<li>{{ field.errors }}
+{{ field.label_tag }} : {{ field }}
+</li>
+{% endfor %}
+</ul>
+
+{% for f in files %}
+<p>
+<a href = '/yighub/download/{{ f.id }}/'>{{ f.file.name }}</a>
+삭제하기<input type = 'checkbox' name = 'delete_{{ f.id }}' />
+</p>
+{% endfor %}
+
+<input type = 'file' name = 'files' />
+<input type = 'file' name = 'files' />
+
+<input type = "submit" value = "Submit" />
+</form>

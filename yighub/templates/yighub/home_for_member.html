@@ -1,0 +1,55 @@
+﻿
+<h1>회원용 홈페이지</h1>
+
+<p> 안녕하세요 {{ user.name }}님!</p>
+{% if user.profile %}
+<img src = '{{ user.profile.url }}' height = '150' width = '100' />
+{% endif %}
+<h2>최신글 보기</h2>
+{% if page.entry_list %}
+<ul>
+{% for entry in news %}
+{% for i in entry.range %}
+<ul>
+{% endfor %}
+<li><a href = '/yighub/entry/{{ entry.id }}/'>{{ entry.title }}</a></li> {# 여러 정보 표시할 것#}
+{% for i in entry.range %}
+</ul>
+{% endfor %}
+
+{% endfor %}
+</ul>
+{% else %}
+<p> No entry is available. </p>
+{% endif %}
+<h2>최신글 더보기</h2>
+<p><a href = '/yighub/board/0/page/1'>최신글 페이지</a></p>
+<br />
+<h2>한줄게시판</h2>
+{% for m in memos.entry_list %}
+<p>{{ m.creator }} : {{ m.memo }} - {{ m.time_created }}</p>
+{% endfor %}
+<br />
+{% if memos.first_page %}
+<br />
+<a href = '/yighub/home/page/{{ memos.first_page }}/'>first_page</a>
+<a href = '/yighub/home/page/{{ memos.prev_page }}/'>prev_page</a>
+{% endif %}
+{% for p in memos.page_list %}
+<a href = '/yighub/home/page/{{ p }}/'>{{ p }}</a>
+{% endfor %}
+{% if page.last_page %}
+<a href = '/yighub/home/page/{{ memos.next_page }}/'>next_page</a>
+<a href = '/yighub/home/page/{{ memos.last_page }}/'>last_page</a>
+{% endif %}
+<h2>메모 쓰기</h2>
+<form action = '/yighub/memo/create/' method = 'post'>
+{% csrf_token %}
+<input type = 'text' name = 'memo' />
+<input type = 'submit' value = '메모 작성' />
+</form>
+<a href = '/yighub/entry/create/'>글쓰기</a>
+
+<br />
+<a href = '/yighub/logout/'>로그아웃</a>
+
