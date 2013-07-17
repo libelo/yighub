@@ -98,18 +98,18 @@ def is_member(request):
 
 def home(request, current_page = 1):
     if 'user_id' not in request.session:
-        return render_to_response('yighub/home_for_visitor.html', {}, context_instance = RequestContext(request))
+        return render(request, 'yighub/home_for_visitor.html')
     else:
         u = request.session['user_id']
     try:
         user = User.objects.get(user_id = u)
     except User.DoesNotExist:
-        return redirect(reverse('yighub:home',))
+        return redirect(reverse('yighub:logout'))
 
     # 홈페이지를 열 때마다 마지막 방문날짜를 업데이트한다.
     user.last_login = timezone.now()
     
-    if user.level == 'non':
+    if user.level == 'not':
         return render(request, 'yighub/home_for_visitor.html')
 
     # 최신글 목록 가져오기
@@ -162,12 +162,11 @@ def home(request, current_page = 1):
             'next_page' : next_page,
            }
 
-    return render_to_response('yighub/home_for_member.html', # 아직까지는 페이지 넘기기 지원하지 않음.
+    return render(request, 'yighub/home_for_member.html', # 아직까지는 페이지 넘기기 지원하지 않음.
                                   {'user' : user,
                                    'news' : news,
                                    'memos' : m,
                                    },   
-                                  context_instance = RequestContext(request)
                                   ) 
 
 def board(request, board_number, current_page = 1):    # url : yig.in/yighub/board/1/page/3
@@ -695,7 +694,7 @@ def delete_profile(request):
 
 def login(request):
     request.session.set_test_cookie()
-    return render_to_response('yighub/login.html', context_instance = RequestContext(request))
+    return render(request, 'yighub/login.html')
     
 def login_check(request):
     try:
@@ -709,18 +708,18 @@ def login_check(request):
             request.session['user_id'] = u.user_id
             request.session['user'] = u
 
-            return HttpResponseRedirect(reverse('yighub/home', ))
+            return HttpResponseRedirect(reverse('yighub:home'))
         else:
             messages.error(request, 'login failed') # send message 
-            return render_to_response('yighub/error.html', {}, context_instance = RequestContext(request))
+            return render(request, 'yighub/error.html')
     else:
         # send message about cookie
         messages.error(request, 'please enable cookie')
-        return render_to_response('yighub/error.html', {}, context_instance = RequestContext(request))
+        return render(request, 'yighub/error.html')
 
 def logout(request):
     request.session.flush() # exact functionality of flush method? after flush, home_for_visitor is presenting?
-    return HttpResponseRedirect(reverse('yighub.views.home'))
+    return HttpResponseRedirect(reverse('yighub:home'))
 
 def send(request):
     if request.method == 'POST':
