@@ -1,71 +1,79 @@
-﻿{% extends "yighub/for_member.html" %}
+{% extends "yighub/base.html" %}
 
 {% block contents %}
-
-<div class="container-fluid">
-  <div class="row-fluid">
-    <div class="span3">
-      <div class="well sidebar-nav">
-        <ul class="nav nav-list">
-          <li class="nav-header">Sidebar</li>
-          <li class="active"><a href="#">Link</a></li>
-          <li><a href="#">Link</a></li>
-          <li><a href="#">Link</a></li>
-          <li><a href="#">Link</a></li>
-          <li class="nav-header">Sidebar</li>
-          <li><a href="#">Link</a></li>
-          <li><a href="#">Link</a></li>
-          <li><a href="#">Link</a></li>
-          <li><a href="#">Link</a></li>
-          <li><a href="#">Link</a></li>
-          <li><a href="#">Link</a></li>
-          <li class="nav-header">Sidebar</li>
-          <li><a href="#">Link</a></li>
-          <li><a href="#">Link</a></li>
-          <li><a href="#">Link</a></li>
-        </ul>
-      </div><!--/.well -->
-    </div><!--/span-->
+<div class="row-fluid">
+	<div class="span3">
+		<div class="well sidebar-nav">
+			<ul class="nav nav-list">
+				<li class="nav-header">Sidebar</li>
+				<li class="active"><a href="#">Link</a></li>
+				<li><a href="#">Link</a></li>
+				<li><a href="#">Link</a></li>
+				<li><a href="#">Link</a></li>
+				<li class="nav-header">Sidebar</li>
+				<li><a href="#">Link</a></li>
+				<li><a href="#">Link</a></li>
+				<li><a href="#">Link</a></li>
+				<li><a href="#">Link</a></li>
+				<li><a href="#">Link</a></li>
+				<li><a href="#">Link</a></li>
+				<li class="nav-header">Sidebar</li>
+				<li><a href="#">Link</a></li>
+				<li><a href="#">Link</a></li>
+				<li><a href="#">Link</a></li>
+			</ul>
+		</div><!--/.well -->
+	</div><!--/span-->
 
 	<div class="span9">
-		{% if page.entry_list %}
-	  <table class="table">
-	    <thead>
-	      <tr>
-	        <td>
-	          글쓴이
-	        </td>
-	        <td>
-	          제목
-	        </td>
-	        <td>
-	          등록일
-	        </td>
-	      </tr>
-	    </thead>
-	    <tbody>
-	      {% for entry in news %}
-	      <tr>
-	        <td>
-	          {{ entry.creator }}
-	        </td>
-	        <td>
-	          <a href="{% url 'yighub:read' entry.id %}">{{ entry.title }} [{{ entry.count_comment }}]</a>
-	        </td>
-	        <td>
-	          {{ entry.time_created }}
-	        </td>
-	      </tr>
-	      {% endfor %}
-	    </tbody>
-	  </table>
-	</ul>
-	{% else %}
-	<p> No entry is available. </p>
-	{% endif %}
-	</div>
-{% endblock %}
 
+		{% if news %}
+		<table class="table">
+			<thead>
+				<tr class="info">
+					<td>
+						글쓴이
+					</td>
+					<td>
+						제목
+					</td>
+					<td>
+						등록일
+					</td>
+				</tr>
+			</thead>
+			<tbody>
+				{% for entry in news %}
+				<tr>
+					<td>
+						{{ entry.creator }}
+					</td>
+					<td>
+						<a href="{% url 'yighub:read' entry.id %}">{{ entry.title }} [{{ entry.count_comment }}]</a>
+					</td>
+					<td>
+						{{ entry.time_created }}
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		{% else %}
+		<div class="container-fruid text-center">
+			<p> 아직 글이 존재하지 않습니다. </p>
+		</div>
+		{% endif %}
+		<div class="row-fluid">
+			<div class="container-fluid pull-right">
+				<a href="{% url 'yighub:create' %}">
+					<button type="button" class="btn btn-primary">글쓰기</button>
+				</a>
+			</div> 
+			
+		</div>
+	</div><!--/span-->	
+</div><!--/.row-->
+{% endblock %}
 <!--
 <h2>최신글 보기</h2>
 {% if page.entry_list %}

@@ -1,39 +1,122 @@
-﻿{% extends 'base.html' %}
-{% block content %}
+﻿{% extends "yighub/base.html" %}
 
-<h1>글 읽기</h1>
+{% block style %}
+.comments p {
+	line-height: 180%;
+}
+{% endblock %}
 
-<h2>제목</h2>
-<p>{{ entry.title }}</p>
+{% block contents %}
+<div class="row-fluid">
+	<div class="span3">
+		<div class="well sidebar-nav">
+			<ul class="nav nav-list">
+				<li class="nav-header">Sidebar</li>
+				<li class="active"><a href="#">Link</a></li>
+				<li><a href="#">Link</a></li>
+				<li><a href="#">Link</a></li>
+				<li><a href="#">Link</a></li>
+				<li class="nav-header">Sidebar</li>
+				<li><a href="#">Link</a></li>
+				<li><a href="#">Link</a></li>
+				<li><a href="#">Link</a></li>
+				<li><a href="#">Link</a></li>
+				<li><a href="#">Link</a></li>
+				<li><a href="#">Link</a></li>
+				<li class="nav-header">Sidebar</li>
+				<li><a href="#">Link</a></li>
+				<li><a href="#">Link</a></li>
+				<li><a href="#">Link</a></li>
+			</ul>
+		</div><!--/.well -->
+	</div><!--/span-->
 
-<h2>내용</h2>
-<p>{{ entry.content }}</p>
-<br />
-<h2>파일 다운로드</h2>
-{% for f in files %}
-<p><a href = '/yighub/download/{{ f.id }}/'>{{ f.file.name }}</a></p>
-{% endfor %}
-<br />
-<h2>추천한 사람들</h2>
-{% for r in recommendations %}
-{{ r }}, 
-{% endfor %}
-<p><a href = '/yighub/entry/{{ entry.id }}/recommendation/'>추천하기</a></p>
-<p><a href = '/yighub/entry/{{ entry.id }}/reply/'>답글 달기</a></p>
-<p><a href = '/yighub/entry/{{ entry.id }}/edit/'>수정하기</a></p>
-<p><a href = '/yighub/entry/{{ entry.id }}/delete/'>삭제하기</a></p>
+	<div class="span9">
 
-<h2>댓글 보여주기</h2>
-{% for c in comments %}
-<p>작성자 : {{ c.creator }}. 댓글 : {{ c.content }}</p>
-{% endfor %}
+	
+		<br />	<br />
+		<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
+			<a href="">{{ entry.board }}</a>
+			<h3>{{ entry.title }}</h3>
+			<span> <strong>{{ entry.creator }}</strong> / {{ entry.time_created }} </span>
+			<span class="pull-right">조회수 {{ entry.count_view }} / 추천수 {{ entry.count_recommendation }} </span>
+			<hr />
+			{{ entry.content|linebreaks }}
+			<br />
+			<hr />
+			{% if files %}
+			<p class="lead">파일 다운로드</p>
+			<ul class="unstyled">
+				{% for f in files %}
+				<li><a href = "{% url 'yighub:download' f.id %}">{{ f.file.name }}</a></li>
+				{% endfor %}
+			</ul>
+			<br />
+			<hr />
+			{% endif %}
+			{% if recommendations %}
+			<p class="lead"><strong>추천하신 분들</strong></p>
+			<ul style="margin-left: 15px;" class="inline">
+				{% for r in recommendations %}
+				<li><strong>{{ r }}, </strong></li> 
+				{% endfor %}
+			</ul>
+			<br />
+			<hr />
+			{% endif %}
 
-<h2>댓글 달기</h2>
+			<span>
+				<a href = "{% url 'yighub:recommend' entry.id %}">추천하기</a>
+				&nbsp;&nbsp;
+				<a href = "{% url 'yighub:reply' entry.id %}">답글 쓰기</a>
+			</span>
+			{% if entry.creator == user %}
+			<span class="pull-right">
+				<a href = "{% url 'yighub:edit' entry.id %}">수정하기</a> 
+				&nbsp;&nbsp;
+				<a href = "{% url 'yighub:delete' entry.id %}">삭제하기</a>
+			</span>
+			{% endif %}
+			<br />
+			<br />
 
-<form action = '/yighub/entry/{{ entry.id }}/comment/' method = 'post' >
-{% csrf_token %}
-<input type = 'text' name = 'content' />
-<input type = 'submit' value = '댓글 쓰기' />
-</form>
+			{% if comments %}
+			<div class="comments" style="background-color: #edeff4; ">
+				{% for c in comments %}
+				<div style="padding: 15px 20px 5px 20px; border-bottom-style: solid; border-width: 2px; border-color: white;">
+				
+				<strong>{{ c.creator }}</strong>
+				<small class="muted"> {{ c.time_created }} </small>	
+				{{ c.content|linebreaks }}
+				</div>
+				{% endfor %}
+				
+			</div>	
+			{% endif %}
+			<div style="padding: 15px 20px 5px 20px;">
+				<form action = "{% url 'yighub:comment' entry.id %}" method = 'post' >
+					{% csrf_token %}
+					<textarea rows="3" class="span12" name = "content"></textarea>
+					<button style="margin: 10px;" class="btn btn-success pull-right" type = "submit">댓글달기</button>
+				</form>
+			</div>
+		</div>
 
+		<div class="row-fluid" style="margin-top: 70px">
+			<div class="container-fluid">
+				<span>
+				<a href="{% url 'yighub:board' entry.board.id %}">
+					<button type="button" class="btn">목록보기</button>
+				</a>
+				</span>
+				<span class="pull-right">
+				<a href="{% url 'yighub:create' %}">
+					<button type="button" class="btn btn-primary">글쓰기</button>
+				</a>
+				</span>
+			</div> 
+			
+		</div>
+	</div><!--/span-->	
+</div><!--/.row-->
 {% endblock %}

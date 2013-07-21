@@ -4,7 +4,7 @@ from django.db import models
 from django import forms
 
 MEMBER_LEVEL_CHOICES = (
-                        ('not', 'not a member'),
+                        ('non', 'non-member'),
                         ('pre', 'preliminary member'),
                         ('asc', 'associate member'),
                         ('reg', 'regular member'),
@@ -54,7 +54,7 @@ class Board(models.Model):
     newest_time = models.DateTimeField(null = True, blank = True) 
     participant = models.ManyToManyField(User, null = True, blank = True)
     archive = models.BooleanField(default = False) 
-    authority = models.CharField(max_length = 3, choices = MEMBER_LEVEL_CHOICES)
+    authority = models.CharField(max_length = 3, choices = MEMBER_LEVEL_CHOICES) # permission으로 바꾸기
 
     def __unicode__(self):
         return self.name

@@ -84,17 +84,17 @@ def page(board_number, current_page): # board_number가 0이면 최신글 목록
 def is_member(request):
     try:
         u = request.session['user_id']
-        user = User.objects.get(user_id = u) # 세션에는 남아있지만 데이터베이스에는 없는 경우. 회원탈퇴이거나 다른 app을 쓰다 접근.
+        user = User.objects.get(user_id = u) 
     except KeyError:
-        return redirect('yighub.views.login')
-    except User.DoesNotExist:
-        return redirect('yighub.views.logout',)
+        return False, redirect('yighub:login')
+    except User.DoesNotExist: # 세션에는 남아있지만 데이터베이스에는 없는 경우. 회원탈퇴이거나 다른 app을 쓰다 접근.
+        return False, redirect('yighub:logout',)
     
     if user.level == 'non':
         messages.error(request, '접근 권한이 없습니다.')
-        return render(request, 'yighub/error.html', context_instance = RequestContext(request))
+        return False, render(request, 'yighub/error.html', )
     else:
-        return True
+        return True, None # indexing을 위해 
 
 def home(request, current_page = 1):
     if 'user_id' not in request.session:
@@ -172,8 +172,9 @@ def home(request, current_page = 1):
 def board(request, board_number, current_page = 1):    # url : yig.in/yighub/board/1/page/3
 
     # 권한 검사
-    if is_member(request) != True:
-        return is_member(request)    
+    permission = is_member(request)
+    if permission[0] == False:
+        return permission[1] 
 
     board_number = int(board_number)
 
@@ -207,7 +208,7 @@ def create_board(request):
 
             form.save()
 
-            return redirect('yighub.views.home', )
+            return redirect('yighub:home', )
     else:
         form = BoardForm()
 
@@ -219,28 +220,31 @@ def edit_board(request):
 def read(request, entry_id):
     
     # 권한 검사
-    if is_member(request) != True:
-        return is_member(request)
+    permission = is_member(request)
+    if permission[0] == False:
+        return permission[1]
 
     try:
         e = Entry.objects.get(pk = entry_id) 
     except Entry.DoesNotExist:
         raise Http404
-
+    
     e.count_view += 1
     e.save()
+
+    u = request.session['user']
     recommendations = e.recommendation.all()
     files = e.files.all() #File.objects.filter(entry = e)
     comments = e.comment_set.all()
 
     return render(request, 'yighub/read.html',
-                  {'entry' : e,
-                   'files' : files,
-                   'recommendations' : recommendations,
-                   'comments' : comments,
-                  },
-                  context_instance = RequestContext(request)
-                  )
+      {'user' : u,
+      'entry' : e,
+      'files' : files,
+      'recommendations' : recommendations,
+      'comments' : comments,
+      },
+      )
 
 def create(request, board_number = 0):
     if request.method == 'POST':
@@ -276,7 +280,7 @@ def create(request, board_number = 0):
             b.newest_time = e.time_last_modified
             b.save()
 
-            return HttpResponseRedirect(reverse('yighub.views.home', ))
+            return redirect('yighub:home', )
     else:
         try:
             b = Board.objects.get(pk = board_number)
@@ -285,7 +289,7 @@ def create(request, board_number = 0):
         else:
             form = EntryForm(initial = {'board' : b})
   
-    return render(request, 'yighub/create.html', {'form' : form}, context_instance = RequestContext(request))
+    return render(request, 'yighub/create.html', {'form' : form})
 
 def edit(request, entry_id):
     try:
@@ -331,13 +335,17 @@ def edit(request, entry_id):
 
 def delete(request, entry_id):
     
-    e = get_object_or_404(pk = entry_id)
-    """
+    # 권한 검사
+    permission = is_member(request)
+    if permission[0] == False:
+        return permission[1]
+
     try:
         e = Entry.objects.get(pk = entry_id)
     except Entry.DoesNotExist:
         raise Http404
-    """
+
+
     if request.session['user'] == e.creator:
         files = e.files.all()
         for f in files:
@@ -354,16 +362,16 @@ def delete(request, entry_id):
 
         e.delete()
     else:
-        return render(request, 'yighub/error.html', {'error' : 'invalid approach'})
-    return HttpResponseRedirect(reverse('yighub.views.home', ))
+        messages.error(request, 'invalid approach')
+        return render(request, 'yighub/error.html', )
+        #return render(request, 'yighub/error.html', {'error' : 'invalid approach'})
+    return HttpResponseRedirect(reverse('yighub:home', ))
 
 def reply(request, entry_id): # yig.in/entry/12345/reply     
     try:
         parent = Entry.objects.get(pk = entry_id)
     except Entry.DoesNotExist:
-        messages.error(request, 'the entry does not exist')
-        return render(request, 'yighub/error.html', context_instance = RequestContext(request))
-    # 그냥 get_..._404 해도 될 것 같은데?
+        raise Http404
     
     if request.method == 'POST':
         form = EntryForm(request.POST)
@@ -406,17 +414,18 @@ def reply(request, entry_id): # yig.in/entry/12345/reply
             b.count_entry += 1
             b.save()
 
-            return HttpResponseRedirect(reverse('yighub.views.home'))
+            return HttpResponseRedirect(reverse('yighub:home'))
     else:
         form = EntryForm(initial = {'board' : parent.board}) # board 빼고 보내기
 
-    return render(request, 'yighub/reply.html', {'form' : form, 'parent' : entry_id}, context_instance = RequestContext(request)) 
+    return render(request, 'yighub/reply.html', {'form' : form, 'parent' : entry_id}, ) 
 
 def recommend(request, entry_id):
 
     # 권한 검사
-    if is_member(request) != True:
-        return is_member(request)
+    permission = is_member(request)
+    if permission[0] == False:
+        return permission[1]
 
     try:
         e = Entry.objects.get(pk = entry_id) 
@@ -426,18 +435,19 @@ def recommend(request, entry_id):
     u = request.session['user']
     if u in e.recommendation.all():
         messages.error(request, 'You already recommend this')
-        return render(request, 'yighub/error.html', context_instance = RequestContext(request))
+        return render(request, 'yighub/error.html', )
     e.recommendation.add(u)
     e.count_recommendation += 1
     e.save()
 
-    return redirect('yighub.views.read', entry_id = entry_id)
+    return redirect('yighub:read', entry_id = entry_id)
 
 def delete_recommend(request, entry_id):
     
     # 권한 검사
-    if is_member(request) != True:
-        return is_member(request)
+    permission = is_member(request)
+    if permission[0] == False:
+        return permission[1]
 
     try:
         e = Entry.objects.get(pk = entry_id) 
@@ -469,17 +479,17 @@ def comment(request, entry_id):
         e.count_comment += 1
         e.save()
 
-        return redirect('yighub.views.read', entry_id = entry_id) # HttpResponseRedirect(reverse('yighub.views.read', args = (entry_id)))
+        return redirect('yighub:read', entry_id = entry_id) # HttpResponseRedirect(reverse('yighub.views.read', args = (entry_id)))
     else:
         messages.error(request, 'invalid approach')
-        return render(request, 'yighub/error.html', context_instance = RequestContext(request))
+        return render(request, 'yighub/error.html', )
 
 def reply_comment(request, entry_id):
     if request.method == 'POST':
         e = Entry.objects.get(pk = entry_id)
-        u = User.objects.get(user_id = request.session['user_id'])
+        u = request.session['user']
 
-        parent = Comment.objects.get(pk = request.POST['comment_id']) # int error ?
+        parent = Comment.objects.get(pk = int(request.POST['comment_id'])) # int error ?
         current_depth = parent.depth + 1
         current_arrangement = parent.arrangement + 1
 
@@ -509,15 +519,17 @@ def reply_comment(request, entry_id):
                                 )                                              
         reply_comment.save()
 
-        return HttpResponseRedirect(reverse('yighub.views.home'))
+        return HttpResponseRedirect(reverse('yighub:home'))
     else:
-        return render(request, 'yighub/error.html', {'error' : 'invalid approach'})
+        messages.error(request, 'invalid approach')
+        return render(request, 'yighub/error.html', )
 
 def recommend_comment(request, entry_id, comment_id):
 
     # 권한 검사
-    if is_member(request) != True:
-        return is_member(request)
+    permission = is_member(request)
+    if permission[0] == False:
+        return permission[1]
 
     c = Comment.objects.get(pk = comment_id)
     u = request.session['user']
@@ -528,7 +540,7 @@ def recommend_comment(request, entry_id, comment_id):
     c.count_recommendation += 1
     c.save()
 
-    return redirect('yighub.views.read', entry_id = entry_id)
+    return redirect('yighub:read', entry_id = entry_id)
 
 def delete_comment(request, ):
     pass
