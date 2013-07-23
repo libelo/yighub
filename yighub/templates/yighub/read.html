@@ -32,9 +32,8 @@
 	</div><!--/span-->
 
 	<div class="span9">
-
-	
-		<br />	<br />
+		<br />	
+		<br />
 		<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
 			<a href="">{{ entry.board }}</a>
 			<h3>{{ entry.title }}</h3>
@@ -45,7 +44,7 @@
 			<br />
 			<hr />
 			{% if files %}
-			<p class="lead">파일 다운로드</p>
+			<!--<p class="lead">파일 다운로드</p>-->
 			<ul class="unstyled">
 				{% for f in files %}
 				<li><a href = "{% url 'yighub:download' f.id %}">{{ f.file.name }}</a></li>

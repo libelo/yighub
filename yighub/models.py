@@ -68,7 +68,7 @@ class Tag(models.Model):
     name = models.CharField(max_length = 200)
 
 class Entry(models.Model):
-    title = models.CharField(max_length = 200)
+    title = models.CharField(max_length = 30)
     content = models.TextField()
     creator = models.ForeignKey(User, related_name = 'entry_creators')
     board = models.ForeignKey(Board)

@@ -1,29 +1,7 @@
-{% extends "yighub/base.html" %}
+{% extends "yighub/sidebar.html" %}
 
 {% block contents %}
 <div class="row-fluid">
-	<div class="span3">
-		<div class="well sidebar-nav">
-			<ul class="nav nav-list">
-				<li class="nav-header">Sidebar</li>
-				<li class="active"><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li class="nav-header">Sidebar</li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li class="nav-header">Sidebar</li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-			</ul>
-		</div><!--/.well -->
-	</div><!--/span-->
 
 	<div class="span9">
 		<br />	
@@ -33,13 +11,13 @@
 			<div class="row-fluid">
 				<span class="lead">Boards</span>
 				<div class="container-fluid pull-right">
-					<a href="{% url 'yighub:create' %}">
+					<a href="{% url 'yighub:create' 'bulletin' %}">
 						<button type="button" class="btn btn-primary">글쓰기</button>
 					</a>
 				</div> 
 			</div>
 			<br />
-			{% if news %}
+			{% if bulletin_news %}
 			<table class="table">
 				<thead>
 					<tr class="info">
@@ -61,7 +39,54 @@
 							{{ entry.creator }}
 						</td>
 						<td>
-							<a href="{% url 'yighub:read' entry.id %}">{{ entry.title }} [{{ entry.count_comment }}]</a>
+							<a href="{% url 'yighub:read' board entry.id %}">{{ entry.title }} [{{ entry.count_comment }}]</a>
+						</td>
+						<td>
+							{{ entry.time_created }}
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			{% else %}
+			<div class="container-fruid text-center">
+				<p> 아직 글이 존재하지 않습니다. </p>
+			</div>
+			{% endif %}
+
+
+			<div class="row-fluid">
+				<span class="lead">Taskforce</span>
+				<div class="container-fluid pull-right">
+					<a href="{% url 'yighub:create' 'taskforce' %}">
+						<button type="button" class="btn btn-primary">글쓰기</button>
+					</a>
+				</div> 
+			</div>
+			<br />
+			{% if bulletin_news %}
+			<table class="table">
+				<thead>
+					<tr class="info">
+						<td>
+							글쓴이
+						</td>
+						<td>
+							제목
+						</td>
+						<td>
+							등록일
+						</td>
+					</tr>
+				</thead>
+				<tbody>
+					{% for entry in news %}
+					<tr>
+						<td>
+							{{ entry.creator }}
+						</td>
+						<td>
+							<a href="{% url 'yighub:read' board entry.id %}">{{ entry.title }} [{{ entry.count_comment }}]</a>
 						</td>
 						<td>
 							{{ entry.time_created }}

@@ -1,7 +1,15 @@
 # -*- coding: utf-8 -*-
 
 from django.template import Context, loader
-from yighub.models import User, Board, Intro, Entry, Comment, File, Letter, Memo, UserForm, BoardForm, IntroForm, EntryForm, LetterForm
+
+from yighub.models import User, Letter, Memo, UserForm
+from yighub.models import BulletinBoard, TaskforceBoard, PublicBoard
+from yighub.models import BulletinEntry, TaskforceEntry, PublicEntry
+from yighub.models import BulletinComment, TaskforceComment, PublicComment
+from yighub.models import BulletinFile, TaskforceFile, PublicFile
+from yighub.models import BulletinEntryForm, TaskforceEntryForm, PublicEntryForm
+from yighub.models import TaskforceBoardForm
+
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render_to_response, get_object_or_404, render, redirect
 from django.template import RequestContext
@@ -12,15 +20,45 @@ import datetime
 from django.utils import timezone
 from django.contrib.auth import hashers
 
-def page(board_number, current_page): # board_number가 0이면 최신글 목록
-    
+BulletinBoardName = {1: 'notice'}
+PublicBoardName = {1: 'about'}
+
+def classify(board):
+    exist = True
+    if board == 'bulletin':
+        Board = BulletinBoard
+        Entry = BulletinEntry
+        Comment = BulletinComment
+        File = BulletinFile
+        EntryForm = BulletinEntryForm
+    elif board == 'taskforce':
+        Board = TaskforceBoard
+        Entry = TaskforceEntry
+        Comment = TaskforceComment
+        File = TaskforceFile
+        EntryForm = TaskforceEntryForm
+    elif board == 'public':
+        Board = PublicBoard
+        Entry = PublicEntry
+        Comment = PublicComment
+        File = PublicFile
+        EntryForm = PublicEntryForm
+    else:
+        exist = False
+
+    return (exist, Board, Entry, Comment, File, EntryForm)
+
+
+def page(board_id, current_page): # board_number가 0이면 최신글 목록
+
+    board_id = int(board_id)
     current_page = int(current_page)
     page_size = 20
     no = (current_page - 1) * page_size # 그 앞 페이지 마지막 글까지 개수
 
     # 총 글 수와 entry list 구하기
-    if board_number != 0:
-        board = Board.objects.get(pk = board_number)
+    if board_id != 0:
+        board = Board.objects.get(pk = board_id)
         count_entry = board.count_entry #Entry.objects.filter(board = ... ).count()
         entry_list = Entry.objects.filter(board = board).order_by('-arrangement')[no : (no + page_size)]
     else:
@@ -96,7 +134,8 @@ def is_member(request):
     else:
         return True, None # indexing을 위해 
 
-def home(request, current_page = 1):
+def home(request):
+
     if 'user_id' not in request.session:
         return render(request, 'yighub/home_for_visitor.html')
     else:
@@ -109,8 +148,13 @@ def home(request, current_page = 1):
     # 홈페이지를 열 때마다 마지막 방문날짜를 업데이트한다.
     user.last_login = timezone.now()
     
-    if user.level == 'not':
+    if user.level == 'non':
         return render(request, 'yighub/home_for_visitor.html')
+
+    bulletin_news = BulletinEntry.objects.all().order_by('-arrangement')[0:5]
+    taskforce_news = TaskforceEntry.objects.all().order_by('-arrangement')[0:5]
+
+""" 메모를 위한 거였구만.
 
     # 최신글 목록 가져오기
     news = Entry.objects.all().order_by('-arrangement')[0:10]
@@ -151,7 +195,8 @@ def home(request, current_page = 1):
     if current_page == first_page:
         prev_page = 0
         first_page = 0
-    
+"""
+
     # memo 페이지 dictionary 만들기
     m = {'entry_list' : entry_list,
             'current_page' : current_page,
@@ -164,23 +209,37 @@ def home(request, current_page = 1):
 
     return render(request, 'yighub/home_for_member.html', # 아직까지는 페이지 넘기기 지원하지 않음.
                                   {'user' : user,
-                                   'news' : news,
+                                   'bulletin_news' : bulletin_news,
+                                   'taskforce_news' : taskforce_news,
                                    'memos' : m,
                                    },   
                                   ) 
 
-def board(request, board_number, current_page = 1):    # url : yig.in/yighub/board/1/page/3
+def news(request, board, page):
 
+    # board 분류
+    exist, Board, Entry, Comment, File, EntryForm = classify(board)
+    if exist == False or Board == PublicBoard:
+        raise Http404
+
+    pass
+
+def listing(request, board, board_id, page = 1):    # url : yig.in/yighub/board/1/page/3
+
+    # board 분류
+    exist, Board, Entry, Comment, File, EntryForm = classify(board)
+    if exist == False:
+        raise Http404
+    
     # 권한 검사
     permission = is_member(request)
     if permission[0] == False:
         return permission[1] 
+    u = request.session['user']
 
-    board_number = int(board_number)
-
-    p = page(board_number, current_page)
-    if board_number:
-        b = Board.objects.get(pk = board_number)
+    p = page(board_id, page)
+    if board_id:
+        b = Board.objects.get(pk = board_id)
     else:
         class b:
             pass
@@ -201,29 +260,35 @@ def board(request, board_number, current_page = 1):    # url : yig.in/yighub/boa
     else:
         return render(request, 'yighub/taskforce.html', {'user' : request.session['user'], 'board' : b, 'page' : p, })
 
-def create_board(request):
+def create_taskforce(request):
     if request.method == 'POST':
-        form = BoardForm(request.POST)
+        form = TaskforceBoardForm(request.POST)
         if form.is_valid():
 
             form.save()
 
             return redirect('yighub:home', )
     else:
-        form = BoardForm()
+        form = TaskforceBoardForm()
 
     return render(request, 'yighub/create_board.html', {'form' : form})
 
-def edit_board(request):
+def edit_taskforce(request):
     pass # 여기서 archive로 넘기기도 처리. 삭제는 일단 구현 안함. 게시글이 하나도 없을 때만 가능.
 
-def read(request, entry_id):
-    
+def read(request, board, entry_id,):
+        
+    # board 분류
+    exist, Board, Entry, Comment, File, EntryForm = classify(board)
+    if exist == False:
+        raise Http404
+
     # 권한 검사
     permission = is_member(request)
     if permission[0] == False:
         return permission[1]
-
+    u = request.session['user']
+    
     try:
         e = Entry.objects.get(pk = entry_id) 
     except Entry.DoesNotExist:
@@ -232,13 +297,15 @@ def read(request, entry_id):
     e.count_view += 1
     e.save()
 
-    u = request.session['user']
-    recommendations = e.recommendation.all()
     files = e.files.all() #File.objects.filter(entry = e)
+    recommendations = e.recommendation.all()
     comments = e.comment_set.all()
+    board_id = e.board.id
 
     return render(request, 'yighub/read.html',
       {'user' : u,
+      'board' : board,
+      'board_id' : board_id,
       'entry' : e,
       'files' : files,
       'recommendations' : recommendations,
@@ -246,12 +313,18 @@ def read(request, entry_id):
       },
       )
 
-def create(request, board_number = 0):
+def create(request, board, board_id = None):
+
+    # board 분류
+    exist, Board, Entry, Comment, File, EntryForm = classify(board)
+    if exist == False:
+        raise Http404
 
     # 권한 검사
     permission = is_member(request)
     if permission[0] == False:
         return permission[1]
+    u = request.session['user']
 
     if request.method == 'POST':
         form = EntryForm(request.POST)
@@ -288,18 +361,29 @@ def create(request, board_number = 0):
 
             return redirect('yighub:home', )
     else:
-        try:
-            b = Board.objects.get(pk = board_number)
-        except Board.DoesNotExist:
-            form = EntryForm()
+        if board_id:
+            try:
+                b = Board.objects.get(pk = board_id)
+            except Board.DoesNotExist:
+                raise Http404
+            else:
+                form = EntryForm(initial = {'board' : b})
         else:
-            form = EntryForm(initial = {'board' : b})
-        
-    u = request.session['user']
+            form = EntryForm()
 
-    return render(request, 'yighub/create.html', {'user' : u, 'form' : form})
+    return render(request, 'yighub/create.html', 
+        {'user' : u, 
+        'board' : board,
+        'board_id' : board_id,
+        'form' : form, }
+        )
 
-def edit(request, entry_id):
+def edit(request, board, entry_id):
+
+    # board 분류
+    exist, Board, Entry, Comment, File, EntryForm = classify(board)
+    if exist == False:
+        raise Http404
 
     # 권한 검사
     permission = is_member(request)
@@ -310,8 +394,9 @@ def edit(request, entry_id):
     try:
         e = Entry.objects.get(pk = entry_id)
     except Entry.DoesNotExist:
-        messages.error(request, 'the entry does not exist')
-        return render(request, 'yighub/error.html', )
+        return Http404
+        #messages.error(request, 'the entry does not exist')
+        #return render(request, 'yighub/error.html', )
 
     if request.method == 'POST':
         form = EntryForm(request.POST, instance = e)
@@ -348,12 +433,22 @@ def edit(request, entry_id):
             )
         
     files = e.files.all()
+    board_id = e.board.id
 
-    return render(request, 'yighub/edit.html', {'user' : u, 'form' : form, 'files' : files, 'entry_id' : entry_id },)
+    return render(request, 'yighub/edit.html', 
+        {'user' : u, 
+        'board' : board,
+        'board_id' : board_id,
+        'form' : form, 'files' : files, 'entry_id' : entry_id },)
 
 
-def delete(request, entry_id):
+def delete(request, board, entry_id):
     
+    # board 분류
+    exist, Board, Entry, Comment, File, EntryForm = classify(board)
+    if exist == False:
+        raise Http404
+
     # 권한 검사
     permission = is_member(request)
     if permission[0] == False:
@@ -386,7 +481,19 @@ def delete(request, entry_id):
         #return render(request, 'yighub/error.html', {'error' : 'invalid approach'})
     return HttpResponseRedirect(reverse('yighub:home', ))
 
-def reply(request, entry_id): # yig.in/entry/12345/reply     
+def reply(request, board, entry_id): # yig.in/entry/12345/reply     
+
+    # board 분류
+    exist, Board, Entry, Comment, File, EntryForm = classify(board)
+    if exist == False:
+        raise Http404
+
+    # 권한 검사
+    permission = is_member(request)
+    if permission[0] == False:
+        return permission[1]
+    u = request.session['user']
+
     try:
         parent = Entry.objects.get(pk = entry_id)
     except Entry.DoesNotExist:
@@ -401,11 +508,11 @@ def reply(request, entry_id): # yig.in/entry/12345/reply
             current_depth = parent.depth + 1
             current_arrangement = parent.arrangement - 1
             p = entry_id
-            range = Entry.objects.filter(arrangement__gt = (current_arrangement/1000) * 1000).filter(arrangement__lte = current_arrangement)
+            scope = Entry.objects.filter(arrangement__gt = (current_arrangement/1000) * 1000).filter(arrangement__lte = current_arrangement)
             
             while True:
                 try:
-                    q = range.filter(parent = p).order_by('arrangement')[0] 
+                    q = scope.filter(parent = p).order_by('arrangement')[0] 
                 except IndexError:
                     break
                 else:
@@ -437,9 +544,19 @@ def reply(request, entry_id): # yig.in/entry/12345/reply
     else:
         form = EntryForm(initial = {'board' : parent.board}) # board 빼고 보내기
 
-    return render(request, 'yighub/reply.html', {'form' : form, 'parent' : entry_id}, ) 
+    return render(request, 'yighub/reply.html', 
+        {'user' : u,
+        'board' : board,
+        'board_id' : board_id,
+        'form' : form, 'parent' : entry_id}, 
+        ) 
 
-def recommend(request, entry_id):
+def recommend(request, board, entry_id):
+
+    # board 분류
+    exist, Board, Entry, Comment, File, EntryForm = classify(board)
+    if exist == False:
+        raise Http404
 
     # 권한 검사
     permission = is_member(request)
@@ -461,8 +578,13 @@ def recommend(request, entry_id):
 
     return redirect('yighub:read', entry_id = entry_id)
 
-def delete_recommend(request, entry_id):
+def delete_recommend(request, board, entry_id):
     
+    # board 분류
+    exist, Board, Entry, Comment, File, EntryForm = classify(board)
+    if exist == False:
+        raise Http404
+
     # 권한 검사
     permission = is_member(request)
     if permission[0] == False:
@@ -479,7 +601,13 @@ def delete_recommend(request, entry_id):
     """
     return 0
 
-def comment(request, entry_id):
+def comment(request, board, entry_id):
+
+    # board 분류
+    exist, Board, Entry, Comment, File, EntryForm = classify(board)
+    if exist == False:
+        raise Http404
+
     if request.method == 'POST':
         e = Entry.objects.get(pk = entry_id)
         try:
@@ -503,7 +631,13 @@ def comment(request, entry_id):
         messages.error(request, 'invalid approach')
         return render(request, 'yighub/error.html', )
 
-def reply_comment(request, entry_id):
+def reply_comment(request, board, entry_id):
+
+    # board 분류
+    exist, Board, Entry, Comment, File, EntryForm = classify(board)
+    if exist == False:
+        raise Http404
+
     if request.method == 'POST':
         e = Entry.objects.get(pk = entry_id)
         u = request.session['user']
@@ -513,11 +647,11 @@ def reply_comment(request, entry_id):
         current_arrangement = parent.arrangement + 1
 
         p = request.POST['comment_id']
-        range = Comment.objects.filter(entry = e).filter(arrangement__gte = current_arrangement).filter(arrangement__lt = (parent.arrangement/1000 + 1) * 1000)
+        scope = Comment.objects.filter(entry = e).filter(arrangement__gte = current_arrangement).filter(arrangement__lt = (parent.arrangement/1000 + 1) * 1000)
 
         while True:
             try:
-                q = range.filter(parent = p).order_by('arrangement')[0] 
+                q = scope.filter(parent = p).order_by('arrangement')[0] 
             except IndexError:
                 break
             else:
@@ -543,7 +677,12 @@ def reply_comment(request, entry_id):
         messages.error(request, 'invalid approach')
         return render(request, 'yighub/error.html', )
 
-def recommend_comment(request, entry_id, comment_id):
+def recommend_comment(request, board, entry_id, comment_id):
+
+    # board 분류
+    exist, Board, Entry, Comment, File, EntryForm = classify(board)
+    if exist == False:
+        raise Http404
 
     # 권한 검사
     permission = is_member(request)
@@ -563,144 +702,6 @@ def recommend_comment(request, entry_id, comment_id):
 
 def delete_comment(request, ):
     pass
-
-
-def intro(request, intro_name, current_page = 1):
-
-    current_page = int(current_page)
-
-    # 속한 게시판 알아내기
-    for i in Intro.INTRO_BOARD_CHOICES:
-        if intro_name in i:
-            b = i[0]
-            break
-    try:
-        test = b
-    except:
-        raise Http404
-
-    # 글 가져오기
-    try:
-        e = Intro.objects.filter(board = b).order_by('-pk')[current_page - 1]
-    except:
-        class e:
-            pass
-    else:
-        e.count_view += 1 
-
-    # 첫 페이지와 끝 페이지 설정
-    first_page = 1
-    last_page = Intro.objects.filter(board = b).count()
-    
-    # 페이지 리스트 만들기
-    if current_page < 5:
-        start_page = 1
-    else:
-        start_page = current_page - 4
-
-    if current_page > last_page - 5:
-        end_page = last_page
-    else:
-        end_page = current_page + 4
-    
-    page_list = range(start_page, end_page + 1)
-
-    # 이전 페이지, 다음 페이지 설정
-    prev_page = current_page - 1
-    next_page = current_page + 1
-    
-    # 맨 첫 페이지나 맨 끝 페이지일 때 고려
-    if current_page == last_page:
-        next_page = 0
-        last_page = 0
-    if current_page == first_page:
-        prev_page = 0
-        first_page = 0
-    
-    # 페이지 dictionary 만들기
-    p = {'current_page' : current_page,
-            'page_list' : page_list,
-            'first_page' : first_page,
-            'last_page' : last_page,
-            'prev_page' : prev_page,
-            'next_page' : next_page,
-           }
-
-    # 회원, 비회원 구분하기
-    try:
-        u = request.session['user_id']
-        user = User.objects.get(user_id = u) # 세션에는 남아있지만 데이터베이스에는 없는 경우. 회원탈퇴이거나 다른 app을 쓰다 접근.
-    except KeyError:
-        member = False
-    except User.DoesNotExist:
-        return redirect('yighub.views.logout',)
-    else:
-        if user.level == 'non':
-            member = False
-        else:
-            member = user
-
-
-    if intro_name == 'introduction':
-        return render(request, 'yighub/introduction.html', {'user' : member, 'entry' : e, 'page' : p }, )
-    if intro_name == 'vision':
-        return render(request, 'yighub/vision.html', {'user' : member, 'entry' : e, 'page' : p }, )
-    if intro_name == 'activity':
-        return render(request, 'yighub/activity.html', {'user' : member, 'entry' : e, 'page' : p }, )
-    if intro_name == 'history':
-        return render(request, 'yighub/history.html', {'user' : member, 'entry' : e, 'page' : p }, )
-    if intro_name == 'clipping':
-        return render(request, 'yighub/clipping.html', {'user' : member, 'entry' : e, 'page' : p }, )
-    if intro_name == 'recruiting':
-        return render(request, 'yighub/recruiting.html', {'user' : member, 'entry' : e, 'page' : p }, )
-    if intro_name == 'schedule':
-        return render(request, 'yighub/schedule.html', {'user' : member, 'entry' : e, 'page' : p }, )
-    if intro_name == 'apply':
-        return render(request, 'yighub/apply.html', {'user' : member, 'entry' : e, 'page' : p }, )
-    if intro_name == 'universe':
-        return render(request, 'yighub/universe.html', {'user' : member, 'entry' : e, 'page' : p }, )
-    if intro_name == 'simA fund':
-        return render(request, 'yighub/simA fund.html', {'user' : member, 'entry' : e, 'page' : p }, )
-    if intro_name == 'simB fund':
-        return render(request, 'yighub/simB fund.html', {'user' : member, 'entry' : e, 'page' : p }, )
-    if intro_name == 'simV fund':
-        return render(request, 'yighub/simV fund.html', {'user' : member, 'entry' : e, 'page' : p }, )
-    if intro_name == 'contact us':
-        return render(request, 'yighub/contact us.html', {'user' : member, 'entry' : e, 'page' : p }, )
-
-def create_intro(request, intro_name ):
-    
-    # 속한 게시판 알아내기
-    for i in Intro.INTRO_BOARD_CHOICES:
-        if intro_name in i:
-            b = i[0]
-            break
-    try:
-        test = b
-    except:
-        raise Http404
-
-    if request.method == 'POST':
-        form = IntroForm(request.POST)
-        if form.is_valid():
-
-            form.save()
-
-            return redirect('yighub.views.intro', {'intro_name' : intro_name} )
-    else:
-        form = IntroForm(initial = {'board' : b}) # 반드시 intro_name을 지정해야 함. /intro/create는 불가능.
-
-    return render(request, 'yighub/create_intro.html', {'form' : form, 'intro_name' : intro_name}, context_instance = RequestContext(request))
-
-
-def edit_intro(request, ):
-    pass
-
-def delete_intro(request, ):
-    pass
-
-
-
 
 def join(request):
     if request.method == 'POST':
