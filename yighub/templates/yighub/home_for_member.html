@@ -1,71 +1,128 @@
 {% extends "yighub/base.html" %}
 
-{% block contents %}
-<div class="row-fluid">
+
+{% block sidebar %}
 	<div class="span3">
-		<div class="well sidebar-nav">
-			<ul class="nav nav-list">
-				<li class="nav-header">Sidebar</li>
-				<li class="active"><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li class="nav-header">Sidebar</li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li class="nav-header">Sidebar</li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
+		<div class="sidebar-nav">
+			<ul class="nav nav-list sidebar">
+				<li class="nav-header">Boards</li>
+				{% for b in bulletin_list %}
+				<li>
+					<a href="{% url 'yighub:listing' 'bulletin' b.id 1 %}">{{ b.name }}
+						<i class="icon-chevron-right"></i>
+					</a>
+				</li>
+				{% endfor %}
+				<li class="nav-header">Taskforce</li>
+				{% for t in taskforce_list %}
+				<li>
+					<a href="{% url 'yighub:listing' 'taskforce' t.id 1 %}">{{ t.name }}
+						<i class="icon-chevron-right"></i>
+					</a>
+				</li>
+				{% endfor %}
 			</ul>
 		</div><!--/.well -->
 	</div><!--/span-->
-
+{% endblock %}
+{% block contents %}
 	<div class="span9">
 		<br />	
 		<br />
 
 		<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
+			<form class="form-inline" action="{% url 'yighub:create_memo' %}" method="post">
+				{% csrf_token %}
+				<label>Memo</label>
+				<input class="span10" type = 'text' name = 'memo' placeholder="한줄씩 흔적 남기기"/>
+				
+				<button type="submit" class="btn pull-right">남기기</button>
+			</form>
+
+			<table class="table">
+				{% if memos %}
+				<tbody>
+					{% for m in memos %}
+					<tr>
+						<td> {{ m.creator }} </td>
+						<td> {{ m.memo }} </td>
+						<td> {{ m.time_created }} </td>
+					</tr>
+					{% endfor %}
+				</tbody>
+				{% else %}
+				<tbody>
+					<tr>
+						<td>
+							<p class="text-center"> 아직 글이 존재하지 않습니다. </p>
+						</td>
+					</tr>
+				</tbody>
+				{% endif %}
+			</table>
+
 			<div class="row-fluid">
-				<span class="lead">Boards</span>
+				<span class="lead">Boards News</span>
 				<div class="container-fluid pull-right">
-					<a href="{% url 'yighub:create' %}">
+					<a href="{% url 'yighub:create' 'bulletin' %}">
 						<button type="button" class="btn btn-primary">글쓰기</button>
 					</a>
 				</div> 
 			</div>
 			<br />
-			{% if news %}
+			{% if bulletin_news %}
 			<table class="table">
 				<thead>
 					<tr class="info">
-						<td>
-							글쓴이
-						</td>
-						<td>
-							제목
-						</td>
-						<td>
-							등록일
-						</td>
+						<td> 글쓴이 </td>
+						<td> 제목 </td>
+						<td> 등록일 </td>
 					</tr>
 				</thead>
 				<tbody>
-					{% for entry in news %}
+					{% for entry in bulletin_news %}
 					<tr>
+						<td> {{ entry.creator }} </td>
 						<td>
-							{{ entry.creator }}
+							<a href="{% url 'yighub:read' 'bulletin' entry.id %}">{{ entry.title }} [{{ entry.count_comment }}]</a>
 						</td>
+						<td> {{ entry.time_created }} </td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			{% else %}
+			<div class="container-fruid text-center">
+				<p> 아직 글이 존재하지 않습니다. </p>
+			</div>
+			{% endif %}
+
+			<div class="row-fluid">
+				<span class="lead">Taskforce News</span>
+				<div class="container-fluid pull-right">
+					<a href="{% url 'yighub:create' 'taskforce' %}">
+						<button type="button" class="btn btn-primary">글쓰기</button>
+					</a>
+				</div> 
+			</div>
+			<br />
+			{% if taskforce_news %}
+			<table class="table">
+				<thead>
+					<tr class="info">
+						<td> 글쓴이 </td>
+						<td> 제목 </td>
+						<td> 등록일 </td>
+					</tr>
+				</thead>
+				<tbody>
+					{% for entry in taskforce_news %}
+					<tr>
+						<td> {{ entry.creator }} </td>
 						<td>
-							<a href="{% url 'yighub:read' entry.id %}">{{ entry.title }} [{{ entry.count_comment }}]</a>
+							<a href="{% url 'yighub:read' 'taskforce' entry.id %}">{{ entry.title }} [{{ entry.count_comment }}]</a>
 						</td>
-						<td>
-							{{ entry.time_created }}
-						</td>
+						<td> {{ entry.time_created }} </td>
 					</tr>
 					{% endfor %}
 				</tbody>
@@ -78,7 +135,7 @@
 		</div>
 
 	</div><!--/span-->	
-</div><!--/.row-->
+
 {% endblock %}
 <!--
 <h2>최신글 보기</h2>

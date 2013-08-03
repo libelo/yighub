@@ -1,77 +1,52 @@
-﻿{% extends "yighub/base.html" %}
+﻿{% extends "yighub/sidebar.html" %}
 
 {% block contents %}
-<div class="row-fluid">
-	<div class="span3">
-		<div class="well sidebar-nav">
-			<ul class="nav nav-list">
-				<li class="nav-header">Sidebar</li>
-				<li class="active"><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li class="nav-header">Sidebar</li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li class="nav-header">Sidebar</li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-			</ul>
-		</div><!--/.well -->
-	</div><!--/span-->
+<div class="span9">
+	<br />	
+	<br />
+	<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
+		<form action = "{% url 'yighub:edit' board entry_id %}", enctype = "multipart/form-data", method = "post">
+			{% csrf_token %}
+			<fieldset>
+				<label>게시판 선택</label>
+				{{ form.board.errors }}
+				{{ form.board }}
+				<br />
+				<br />
+				{{ form.title.errors }}
+				<input id="id_title" name="title" type="text" class="span12" placeholder="여기에 제목을 입력하세요…" value="{{ form.title.value }}">
+				<br />
+				{{ form.content.errors }}
+				<textarea id="id_content" name="content" rows="20" class="span12" placeholder="여기에 내용을 입력하세요…">{{ form.content.value }}</textarea>
+				<br />
+				<br />
 
-	<div class="span9">
+				{% for f in files %}
+				<p>
+					<label class="checkbox">
+						<a href = "{% url 'yighub:download' f.id %}">{{ f.file.name }}</a>
+						삭제하기
+						<input type = 'checkbox' name = 'delete_{{ f.id }}' />
+					</label>
+				</p>
+				{% endfor %}
+				<br />
+				<input type = 'file' name = 'files' />
+				<br />
+				<input type = 'file' name = 'files' />
+				<br />
+				<input type = 'file' name = 'files' />
+				<br />
+				<div class="form-actions text-center">
+					<button type="submit" class="btn btn-primary">올리기</button>
+					&nbsp;
+					<a href="">
+						<button type="button" class="btn">취소</button>
+					</a>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+</div><!--/span-->	
 
-
-		<br />	<br />
-		<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
-			<form action = "{% url 'yighub:edit' entry_id %}", enctype = "multipart/form-data", method = "post">
-				{% csrf_token %}
-				<fieldset>
-					<label>게시판 선택</label>
-					{{ form.board.errors }}
-					{{ form.board }}
-					<br />
-					<br />
-					{{ form.title.errors }}
-					<input id="id_title" name="title" type="text" class="span12" placeholder="여기에 제목을 입력하세요…" value="{{ form.title.value }}">
-					<br />
-					{{ form.content.errors }}
-					<textarea id="id_content" name="content" rows="20" class="span12" placeholder="여기에 내용을 입력하세요…">{{ form.content.value }}</textarea>
-					<br />
-					<br />
-
-					{% for f in files %}
-					<p>
-						<label class="checkbox">
-							<a href = "{% url 'yighub:download' f.id %}">{{ f.file.name }}</a>
-							삭제하기
-							<input type = 'checkbox' name = 'delete_{{ f.id }}' />
-						</label>
-					</p>
-					{% endfor %}
-					<br />
-					<input type = 'file' name = 'files' />
-					<br />
-					<input type = 'file' name = 'files' />
-					<br />
-					<input type = 'file' name = 'files' />
-					<br />
-					<div class="form-actions text-center">
-						<button type="submit" class="btn btn-primary">올리기</button>
-						&nbsp;
-						<a href="">
-							<button type="button" class="btn">취소</button>
-						</a>
-					</div>
-				</fieldset>
-			</form>
-
-		</div><!--/span-->	
-	</div><!--/.row-->
-	{% endblock %}
+{% endblock %}

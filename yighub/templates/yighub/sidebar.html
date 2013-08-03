@@ -1,0 +1,56 @@
+{% extends "yighub/base.html" %}
+
+{% block sidebar %}
+{% if board == 'bulletin' %}
+	<div class="span3 ">
+		<div class="sidebar-nav">
+			<ul class="nav nav-list sidebar">
+				{% for b in board_list %}
+				<li {% if b == current_board %} class="active" {% endif %}>
+					<a  href="{% url 'yighub:listing' board b.id 1 %}">
+						{{ b.name }}
+						<i class="icon-chevron-right"></i>
+					</a>
+				</li>
+				{% endfor %}
+			</ul>
+		</div><!--/.well -->
+	</div><!--/span-->
+{% elif board == 'taskforce' %}
+	<div class="span3">
+		<div class="sidebar-nav">
+			<ul class="nav nav-list sidebar">
+				{% for b in board_list %}
+				<li {% if b == current_board %} class="active" {% endif %}>
+					<a href="{% url 'yighub:listing' board b.id 1 %}">
+						{{ b.name }}
+						<i class="icon-chevron-right"></i>
+					</a>
+				</li>
+				{% endfor %}
+			</ul>
+		</div><!--/.well -->
+	</div><!--/span-->
+{% else %}
+	<div class="span3">
+		<div class="sidebar-nav">
+			<ul class="nav nav-list sidebar">
+				{% for b in board_list %}
+					{% if forloop.counter == 1 %}<li class="nav-header">About YIG</li>{% endif %}
+					{% if forloop.counter == 6 %}<li class="nav-header">Recruiting</li>{% endif %}
+					{% if forloop.counter == 9 %}<li class="nav-header">Member Profile</li>{% endif %}
+					{% if forloop.counter == 10 %}<li class="nav-header">Fund</li>{% endif %}
+					{% if forloop.counter == 11 %}<li class="nav-header">Research</li>{% endif %}
+					{% if forloop.counter == 12 %}<li class="nav-header">Contact Us</li>{% endif %}
+					<li {% if b == current_board %} class="active" {% endif %}>
+						<a href="{% url 'yighub:listing' board b.id 1 %}">
+							{{ b.name }}
+							<i class="icon-chevron-right"></i>
+						</a>
+					</li>
+				{% endfor %}
+			</ul>
+		</div><!--/.well -->
+	</div><!--/span-->
+{% endif %}
+{% endblock %}

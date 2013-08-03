@@ -1,5 +1,79 @@
-﻿
+﻿{% extends "yighub/sidebar.html" %}
 
+{% block contents %}
+	<div class="span9">
+		<br />	
+		<br />
+
+		<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
+			<div class="row-fluid">
+				<span class="lead">{{ board }} news</span>
+				<div class="container-fluid pull-right">
+					<a href="{% url 'yighub:create' board %}">
+						<button type="button" class="btn btn-primary">글쓰기</button>
+					</a>
+				</div> 
+			</div>
+			<br />
+			{% if page.entry_list %}
+			<table class="table">
+				<thead>
+					<tr class="info">
+						<td> 글쓴이 </td>
+						<td> 제목 </td>
+						<td> 등록일 </td>
+					</tr>
+				</thead>
+				<tbody>
+					{% for entry in page.entry_list %}
+					{# for i in entry.range #}
+					<tr>
+						<td> {{ entry.creator }} </td>
+						<td>
+							<a href="{% url 'yighub:read' board entry.id %}">{{ entry.title }} [{{ entry.count_comment }}]</a>
+						</td>
+						<td> {{ entry.time_created }} </td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			<br />
+			<div class="pagination text-center">
+			  <ul>
+			  	{% if page.first_page %}
+			    <li><a href="{% url 'yighub:news' board page.first_page %}">First</a></li>
+			    <li><a href="{% url 'yighub:news' board page.prev_page %}">Prev</a></li>
+			    {% endif %}
+			    {% for p in page.page_list %}
+			    <li><a href="{% url 'yighub:news' board p %}">{{ p }}</a></li>
+			    {% endfor %}
+			    {% if page.last_page %}
+			    <li><a href="{% url 'yighub:news' board page.next_page %}">Next</a></li>
+			    <li><a href="{% url 'yighub:news' board page.last_page %}">Last</a></li>
+			    {% endif %}
+			  </ul>
+			</div>
+			{% else %}
+			<div class="container-fruid text-center">
+				<p> 아직 글이 존재하지 않습니다. </p>
+			</div>
+			{% endif %}
+			{% if board == 'taskforce' %}
+			<div class="row-fluid">
+				<div class="container-fluid">
+					<a href="{% url 'yighub:create_taskforce' %}">
+						<button type="button" class="btn">taskforce 만들기</button>
+					</a>
+				</div> 
+			</div>
+			{% endif %}
+
+		</div>
+	</div><!--/span-->	
+
+{% endblock %}
+
+<!--
 <h1> 게시판 이름 : {{ board.name }}</h1>
 
 <h2>글 목록</h2>

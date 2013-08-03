@@ -1,36 +1,11 @@
-﻿{% extends "yighub/base.html" %}
+{% extends "yighub/sidebar.html" %}
 
 {% block contents %}
-<div class="row-fluid">
-	<div class="span3">
-		<div class="well sidebar-nav">
-			<ul class="nav nav-list">
-				<li class="nav-header">Sidebar</li>
-				<li class="active"><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li class="nav-header">Sidebar</li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li class="nav-header">Sidebar</li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-			</ul>
-		</div><!--/.well -->
-	</div><!--/span-->
-
 	<div class="span9">
-
-
 		<br />	<br />
 		<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
-			<form action = "{% url 'yighub:create' %}", enctype = "multipart/form-data", method = "post">
+			<form action = {% if board_id %} "{% url 'yighub:create_in_board' board board_id %}" {% else %} "{% url 'yighub:create' board %}" {% endif %}, enctype = "multipart/form-data", method = "post">
+				<!-- 이렇게 구현하긴 했지만 솔직히 in board인지 아닌지 올 때나 상관있지 form action에선 어디로 가나 똑같을 듯 -->
 				{% csrf_token %}
 				<fieldset>
 					<label>게시판 선택</label>
@@ -62,5 +37,4 @@
 			</form>
 
 		</div><!--/span-->	
-	</div><!--/.row-->
 {% endblock %}

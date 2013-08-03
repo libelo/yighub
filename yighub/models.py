@@ -2,157 +2,75 @@
 
 from django.db import models
 from django import forms
+from models_base import User, Board, Entry, Comment, File
 
-MEMBER_LEVEL_CHOICES = (
-                        ('non', 'non-member'),
-                        ('pre', 'preliminary member'),
-                        ('asc', 'associate member'),
-                        ('reg', 'regular member'),
-                        ('exe', 'executive member'),
-                        ('mgr', 'website manager'),
-                        )
-
-class User(models.Model):
-    user_id = models.CharField(max_length = 30)
-    password = models.CharField(max_length = 200) 
-    name = models.CharField(max_length = 30)
-    date_joined = models.DateField(auto_now_add = True)
-    last_login = models.DateTimeField()
-
-    birthday = models.DateField(blank = True, null = True)
-    email = models.EmailField(blank = True)
-    messenger = models.CharField(max_length = 50, blank = True) # sns
-    phone_number = models.PositiveIntegerField(blank = True, null = True) # force users to input only numbers, for consistency
-    
-    ordinal = models.PositiveSmallIntegerField(blank = True, null = True) # null for non-member
-
-    level = models.CharField(max_length = 3, choices = MEMBER_LEVEL_CHOICES)
-    carrer1 = models.CharField(max_length = 200, blank = True)
-    carrer2 = models.CharField(max_length = 200, blank = True)
-    carrer3 = models.CharField(max_length = 200, blank = True)
-    carrer4 = models.CharField(max_length = 200, blank = True)
-    carrer5 = models.CharField(max_length = 200, blank = True)
-    self_introduction = models.TextField(blank = True)
-    point = models.PositiveIntegerField(default = 0)
-
-    profile = models.ImageField(upload_to = 'images/profiles', blank = True, ) # 내부용 null = True
-    picture = models.ImageField(upload_to = 'images/pictures', blank = True, ) # 외부용 null = True
-
-    def __unicode__(self):
-        return self.name
 
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
         exclude = ('date_joined', 'last_login', 'ordinal', 'level', 'point')
 
-class Board(models.Model):
-    name = models.CharField(max_length = 50)
-    count_entry = models.PositiveIntegerField(default = 0)
-    # due_date = models.DateField(blank = True, null = True)
-    newest_entry = models.PositiveIntegerField(null = True, blank = True)
-    newest_time = models.DateTimeField(null = True, blank = True) 
+
+class BulletinBoard(Board):
+    pass
+
+class TaskforceBoard(Board):
     participant = models.ManyToManyField(User, null = True, blank = True)
     archive = models.BooleanField(default = False) 
-    authority = models.CharField(max_length = 3, choices = MEMBER_LEVEL_CHOICES) # permission으로 바꾸기
 
-    def __unicode__(self):
-        return self.name
+class PublicBoard(Board):
+    pass
 
-class BoardForm(forms.ModelForm):
+class TaskforceBoardForm(forms.ModelForm):
     class Meta:
-        model = Board
-        fields = ('name', 'participant')
+        model = TaskforceBoard
+        fields = ('name', )
 
-class Tag(models.Model):
-    name = models.CharField(max_length = 200)
 
-class Entry(models.Model):
-    title = models.CharField(max_length = 30)
-    content = models.TextField()
-    creator = models.ForeignKey(User, related_name = 'entry_creators')
-    board = models.ForeignKey(Board)
-    time_created = models.DateTimeField(auto_now_add = True)
-    time_last_modified = models.DateTimeField(auto_now = True)
-    count_comment = models.PositiveIntegerField(default = 0)
-    recommendation = models.ManyToManyField(User, related_name = 'entry_recommendations', blank = True, null = True)
-    count_view = models.PositiveIntegerField(default = 0)
-    count_recommendation = models.PositiveIntegerField(default = 0)
-    notice = models.BooleanField(default = False)
+class BulletinEntry(Entry):
+    board = models.ForeignKey(BulletinBoard)
+
+class TaskforceEntry(Entry):
+    board = models.ForeignKey(TaskforceBoard)
+
+class PublicEntry(Entry):
+    board = models.ForeignKey(PublicBoard)
     
-    # hierarchy funcionality
-    arrangement = models.PositiveIntegerField() # better to number or arrange_number ? number_arrange ?
-    depth = models.PositiveSmallIntegerField(default = 0)
-    parent = models.PositiveIntegerField(null = True, blank = True) # must be pk
-    
-    tag = models.ManyToManyField(Tag, related_name = 'entrys', blank = True, null = True)
-
-    def __unicode__(self):
-        return self.title
-
-class EntryForm(forms.ModelForm):
+class BulletinEntryForm(forms.ModelForm):
     class Meta:
-        model = Entry
+        model = BulletinEntry
+        fields = ('board', 'title', 'content', 'notice', 'tag')
+
+class TaskforceEntryForm(forms.ModelForm):
+    class Meta:
+        model = TaskforceEntry
+        fields = ('board', 'title', 'content', 'notice', 'tag')
+
+class PublicEntryForm(forms.ModelForm):
+    class Meta:
+        model = PublicEntry
         fields = ('board', 'title', 'content', 'notice')
 
-class Comment(models.Model):
-    entry = models.ForeignKey(Entry)
-    content = models.TextField()
-    creator = models.ForeignKey(User, related_name='comment_creators')
-    time_created = models.DateTimeField(auto_now_add = True)
-    recommendation = models.ManyToManyField(User, related_name = 'comment_recommendations', blank = True, null = True)
-    count_recommendation = models.PositiveIntegerField(default = 0)
 
-    # hierarchy functionality
-    arrangement = models.PositiveIntegerField()
-    depth = models.PositiveSmallIntegerField(default = 0)
-    parent = models.PositiveIntegerField(null = True, blank = True)
-    
-    def __unicode__(self):
-        return self.content
+class BulletinComment(Comment):
+    entry = models.ForeignKey(BulletinEntry, related_name = 'comments')
 
-class File(models.Model):
-    entry = models.ForeignKey(Entry, related_name = 'files') 
-    name = models.CharField(max_length = 200)
-    file = models.FileField(upload_to = 'files/%Y/%m/%d', )
-    hit = models.PositiveIntegerField(default = 0)
+class TaskforceComment(Comment):
+    entry = models.ForeignKey(TaskforceEntry, related_name = 'comments')
 
-    def __unicode__(self):
-        return self.name
+class PublicComment(Comment):
+    entry = models.ForeignKey(PublicEntry, related_name = 'comments')
 
-class Intro(models.Model): # do not allow comment, and so on... diffrent from entry.
-    
-    INTRO_BOARD_CHOICES = (
-                    ('int', 'introduction'),
-                    ('vis', 'vision'),
-                    ('act', 'activity'),
-                    ('his', 'history'),
-                    ('cli', 'clipping'),
-                    ('rec', 'recruiting'),
-                    ('apy', 'apply'),
-                    ('sch', 'schedule'),
-                    ('uni', 'universe'),
-                    ('sima', 'simA fund'),
-                    ('simb', 'simB fund'),
-                    ('simv', 'simV fund'),
-                    ('con', 'contact us'),
-                    )
-    board = models.CharField(max_length = 4, choices = INTRO_BOARD_CHOICES)
-    title = models.CharField(max_length = 200, blank = True)
-    content = models.TextField()
-    time_last_modified = models.DateTimeField(auto_now = True)
-    count_view = models.PositiveIntegerField(default = 0)
-    file = models.FileField(upload_to = 'intro_files', )
-    file_name = models.CharField(max_length = 200)
-    hit = models.PositiveIntegerField(default = 0)
 
-    def __unicode__(self):
-        print self.title
+class BulletinFile(File):
+    entry = models.ForeignKey(BulletinEntry, related_name = 'files')
 
-class IntroForm(forms.ModelForm):
-    class Meta:
-        model = Intro
-        fields = ('board', 'title', 'content', 'file')
+class TaskforceFile(File):
+    entry = models.ForeignKey(TaskforceEntry, related_name = 'files')
+
+class PublicFile(File):
+    entry = models.ForeignKey(PublicEntry, related_name = 'files')
+
 
 class Letter(models.Model):
     sender = models.ForeignKey(User, related_name = 'letter_senders')
@@ -213,3 +131,5 @@ class poll
 
 class choice
 """
+
+# class Log

@@ -2,17 +2,58 @@
 
 from django.db import models
 
+MEMBER_LEVEL_CHOICES = (
+                        ('non', 'non-member'),
+                        ('pre', 'preliminary member'),
+                        ('asc', 'associate member'),
+                        ('reg', 'regular member'),
+                        ('exe', 'executive member'),
+                        ('mgr', 'website manager'),
+                        )
+
+class User(models.Model):
+    user_id = models.CharField(max_length = 30)
+    password = models.CharField(max_length = 200) 
+    name = models.CharField(max_length = 30)
+    date_joined = models.DateField(auto_now_add = True)
+    last_login = models.DateTimeField()
+
+    birthday = models.DateField(blank = True, null = True)
+    email = models.EmailField(blank = True)
+    messenger = models.CharField(max_length = 50, blank = True) # sns
+    phone_number = models.PositiveIntegerField(blank = True, null = True) # force users to input only numbers, for consistency
+    
+    ordinal = models.PositiveSmallIntegerField(blank = True, null = True) # null for non-member
+
+    level = models.CharField(max_length = 3, choices = MEMBER_LEVEL_CHOICES)
+    carrer1 = models.CharField(max_length = 200, blank = True)
+    carrer2 = models.CharField(max_length = 200, blank = True)
+    carrer3 = models.CharField(max_length = 200, blank = True)
+    carrer4 = models.CharField(max_length = 200, blank = True)
+    carrer5 = models.CharField(max_length = 200, blank = True)
+    self_introduction = models.TextField(blank = True)
+    point = models.PositiveIntegerField(default = 0)
+
+    profile = models.ImageField(upload_to = 'images/profiles', blank = True, ) # 내부용 null = True
+    picture = models.ImageField(upload_to = 'images/pictures', blank = True, ) # 외부용 null = True
+
+    def __unicode__(self):
+        return self.name
+
 class Board(models.Model):
     name = models.CharField(max_length = 50)
     count_entry = models.PositiveIntegerField(default = 0)
     # due_date = models.DateField(blank = True, null = True)
     newest_entry = models.PositiveIntegerField(null = True, blank = True)
     newest_time = models.DateTimeField(null = True, blank = True) 
-    permission_writing = models.CharField(max_length = 3, choices = MEMBER_LEVEL_CHOICES)
     permission_reading = models.CharField(max_length = 3, choices = MEMBER_LEVEL_CHOICES)
+    permission_writing = models.CharField(max_length = 3, choices = MEMBER_LEVEL_CHOICES)
 
     def __unicode__(self):
         return self.name
+
+class Tag(models.Model):
+    name = models.CharField(max_length = 200)
 
 class Entry(models.Model):
     title = models.CharField(max_length = 200)
@@ -52,7 +93,6 @@ class Comment(models.Model):
         return self.content
 
 class File(models.Model):
-    entry = models.ForeignKey(Entry, related_name = 'files') 
     name = models.CharField(max_length = 200)
     file = models.FileField(upload_to = 'files/%Y/%m/%d', )
     hit = models.PositiveIntegerField(default = 0)

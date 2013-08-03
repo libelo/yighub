@@ -1,4 +1,4 @@
-﻿{% extends "yighub/base.html" %}
+﻿{% extends "yighub/sidebar.html" %}
 
 {% block style %}
 .comments p {
@@ -7,30 +7,6 @@
 {% endblock %}
 
 {% block contents %}
-<div class="row-fluid">
-	<div class="span3">
-		<div class="well sidebar-nav">
-			<ul class="nav nav-list">
-				<li class="nav-header">Sidebar</li>
-				<li class="active"><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li class="nav-header">Sidebar</li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li class="nav-header">Sidebar</li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-			</ul>
-		</div><!--/.well -->
-	</div><!--/span-->
-
 	<div class="span9">
 		<br />	
 		<br />
@@ -65,15 +41,15 @@
 			{% endif %}
 
 			<span>
-				<a href = "{% url 'yighub:recommend' entry.id %}">추천하기</a>
+				<a href = "{% url 'yighub:recommend' board entry.id %}">추천하기</a>
 				&nbsp;&nbsp;
-				<a href = "{% url 'yighub:reply' entry.id %}">답글 쓰기</a>
+				<a href = "{% url 'yighub:reply' board entry.id %}">답글 쓰기</a>
 			</span>
 			{% if entry.creator == user %}
 			<span class="pull-right">
-				<a href = "{% url 'yighub:edit' entry.id %}">수정하기</a> 
+				<a href = "{% url 'yighub:edit' board entry.id %}">수정하기</a> 
 				&nbsp;&nbsp;
-				<a href = "{% url 'yighub:delete' entry.id %}">삭제하기</a>
+				<a href = "{% url 'yighub:delete' board entry.id %}">삭제하기</a>
 			</span>
 			{% endif %}
 			<br />
@@ -93,7 +69,7 @@
 			</div>	
 			{% endif %}
 			<div style="padding: 15px 20px 5px 20px;">
-				<form action = "{% url 'yighub:comment' entry.id %}" method = 'post' >
+				<form action = "{% url 'yighub:comment' board entry.id %}" method = 'post' >
 					{% csrf_token %}
 					<textarea rows="3" class="span12" name = "content"></textarea>
 					<button style="margin: 10px;" class="btn btn-success pull-right" type = "submit">댓글달기</button>
@@ -104,12 +80,10 @@
 		<div class="row-fluid" style="margin-top: 70px">
 			<div class="container-fluid">
 				<span>
-				<a href="{% url 'yighub:board' entry.board.id %}">
-					<button type="button" class="btn">목록보기</button>
-				</a>
+					<button type="button" class="btn" onclick = 'history.back()'>돌아가기</button>
 				</span>
 				<span class="pull-right">
-				<a href="{% url 'yighub:create' %}">
+				<a href="{% url 'yighub:create_in_board' board current_board.id %}">
 					<button type="button" class="btn btn-primary">글쓰기</button>
 				</a>
 				</span>
@@ -117,5 +91,4 @@
 			
 		</div>
 	</div><!--/span-->	
-</div><!--/.row-->
 {% endblock %}

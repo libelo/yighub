@@ -1,4 +1,25 @@
-﻿<h1>회원가입</h1>
+﻿{% extends "yighub/simple.html" %}
+
+{% block contents %}
+    <div class="container">
+
+      <form class="form-signin" action="{% url 'yighub:join' %}", method = "post">
+      	{% csrf_token %}
+        <h2 class="form-signin-heading">회원가입</h2>
+        {% for field in form %}
+        {{ field.errors }}
+        {{ field.label_tag }} : {{ field }}
+        
+        {% endfor %}
+        <br />
+        <br />
+        <button class="btn btn-large btn-primary" type="submit">가입하기</button>
+      </form>
+
+    </div> <!-- /container -->
+{% endblock %}
+
+<!--<h1>회원가입</h1>
 
 <form action = "{% url 'yighub:join' %}", enctype = "multipart/form-data", method = "post">
 {% csrf_token %}
