@@ -1,0 +1,4 @@
+
+*.db
+*.sql
+/yighub/media/

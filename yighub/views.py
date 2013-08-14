@@ -6,7 +6,7 @@ from yighub.models import User, Letter, Memo, UserForm
 from yighub.models import BulletinBoard, TaskforceBoard, PublicBoard
 from yighub.models import BulletinEntry, TaskforceEntry, PublicEntry
 from yighub.models import BulletinComment, TaskforceComment, PublicComment
-from yighub.models import BulletinFile, TaskforceFile, PublicFile
+from yighub.models import BulletinFile, TaskforceFile, PublicFile, File
 from yighub.models import BulletinEntryForm, TaskforceEntryForm, PublicEntryForm
 from yighub.models import TaskforceBoardForm
 
@@ -947,3 +947,5 @@ def download(request, file_id):
 
 def download_letter(request, letter_id):
     pass
+
+
