@@ -94,7 +94,7 @@ class Comment(models.Model):
 
 class File(models.Model):
     name = models.CharField(max_length = 200)
-    file = models.FileField(upload_to = 'files/%Y/%m/%d', )
+    file = models.FileField(upload_to = 'yighub/files/%Y/%m/%d', )
     hit = models.PositiveIntegerField(default = 0)
 
     def __unicode__(self):
