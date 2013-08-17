@@ -300,7 +300,7 @@ def listing(request, board, board_id, page = 1):    # url : yig.in/yighub/board/
         u = None
 
     if board == 'public':
-        return render(request, 'yighub/' + current_board.name + '.html', 
+        return render(request, 'yighub/public_' + current_board.name + '.html', 
             {'user': u, 'public_list' : PublicBoardList, 'board': board, 'board_list': board_list, 'current_board': current_board, 'page': p}
             )
 
