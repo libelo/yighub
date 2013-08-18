@@ -3,3 +3,4 @@
 *.sql
 /yighub/media/
 *.DS_Store
+*.tar.gz

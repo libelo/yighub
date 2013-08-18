@@ -821,7 +821,7 @@ def join(request):
             f = form.save(commit = False)
             f.password = hashers.make_password(request.POST['password'])
             f.last_login = timezone.now()
-            f.level = 'non'
+            f.level = 'pre'
             f.save()
             return redirect('yighub:home', )
     else:
