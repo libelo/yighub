@@ -26,11 +26,11 @@ class User(models.Model):
     ordinal = models.PositiveSmallIntegerField(blank = True, null = True) # null for non-member
 
     level = models.CharField(max_length = 3, choices = MEMBER_LEVEL_CHOICES)
-    carrer1 = models.CharField(max_length = 200, blank = True)
-    carrer2 = models.CharField(max_length = 200, blank = True)
-    carrer3 = models.CharField(max_length = 200, blank = True)
-    carrer4 = models.CharField(max_length = 200, blank = True)
-    carrer5 = models.CharField(max_length = 200, blank = True)
+    career1 = models.CharField(max_length = 200, blank = True)
+    career2 = models.CharField(max_length = 200, blank = True)
+    career3 = models.CharField(max_length = 200, blank = True)
+    career4 = models.CharField(max_length = 200, blank = True)
+    career5 = models.CharField(max_length = 200, blank = True)
     self_introduction = models.TextField(blank = True)
     point = models.PositiveIntegerField(default = 0)
 
