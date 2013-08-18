@@ -514,7 +514,7 @@ def edit(request, board, entry_id):
             ##b.newest_entry
             ##b.newest_time
 
-            return redirect('yighub:read', entry_id = entry_id) #HttpResponseRedirect(reverse('yighub.views.read', args = (entry_id, )))
+            return redirect('yighub:read', board=board, entry_id = entry_id) #HttpResponseRedirect(reverse('yighub.views.read', args = (entry_id, )))
             
     else:
         form = EntryForm(
