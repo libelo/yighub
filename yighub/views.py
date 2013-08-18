@@ -818,12 +818,20 @@ def join(request):
     if request.method == 'POST':
         form = UserForm(request.POST, request.FILES)
         if form.is_valid():
-            f = form.save(commit = False)
-            f.password = hashers.make_password(request.POST['password'])
-            f.last_login = timezone.now()
-            f.level = 'pre'
-            f.save()
-            return redirect('yighub:home', )
+            try:
+                User.objects.get(user_id = request.POST['user_id'])
+            except User.DoesNotExist:
+                if request.POST['password'] == request.POST['password_check']:
+                    f = form.save(commit = False)
+                    f.password = hashers.make_password(request.POST['password'])
+                    f.last_login = timezone.now()
+                    f.level = 'pre'
+                    f.save()
+                    return redirect('yighub:home', )
+                else:
+                    messages.error(request, 'please check your password.')
+            else:
+                    messages.error(request, 'already used id. please change your id.')
     else:
         form = UserForm()
 

@@ -14,7 +14,7 @@
 					<br />
 					<br />
 					{{ form.title.errors }}
-					<input name="title" type="text" class="span12" placeholder="여기에 제목을 입력하세요…" {% if form.title.value %} value="{{ form.title.value }}" {% endif %}>
+					<input name="title" type="text" class="span12" placeholder="여기에 제목을 입력하세요" {% if form.title.value %} value="{{ form.title.value }}" {% endif %}>
 					<br />
 					{{ form.content.errors }}
 					<textarea name="content" rows="20" class="span12" placeholder="여기에 내용을 입력하세요">{% if form.content.value %}{{ form.content.value }}{% endif %}</textarea>
