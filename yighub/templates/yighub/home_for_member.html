@@ -1,5 +1,11 @@
 {% extends "yighub/base.html" %}
 
+{% block style %}
+.lead {
+	background-color:gray;
+	color:white;
+}
+{% endblock %}
 
 {% block sidebar %}
 	<div class="span3">
@@ -31,36 +37,6 @@
 		<br />
 
 		<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
-			<form class="form-inline" action="{% url 'yighub:create_memo' %}" method="post">
-				{% csrf_token %}
-				<label>Memo</label>
-				<input class="span9" style="margin-left:25px;"type = 'text' name = 'memo' placeholder="한줄씩 흔적 남기기"/>
-				
-				<button type="submit" class="btn pull-right">남기기</button>
-			</form>
-
-			<table class="table">
-				{% if memos %}
-				<tbody>
-					{% for m in memos %}
-					<tr>
-						<td> {{ m.creator }} </td>
-						<td> {{ m.memo }} </td>
-						<td> {{ m.time_created }} </td>
-					</tr>
-					{% endfor %}
-				</tbody>
-				{% else %}
-				<tbody>
-					<tr>
-						<td>
-							<p class="text-center"> 아직 글이 존재하지 않습니다. </p>
-						</td>
-					</tr>
-				</tbody>
-				{% endif %}
-			</table>
-
 			<div class="row-fluid">
 				<span class="lead">Boards News</span>
 				<div class="container-fluid pull-right">
@@ -96,6 +72,7 @@
 				<p> 아직 글이 존재하지 않습니다. </p>
 			</div>
 			{% endif %}
+			<br />
 
 			<div class="row-fluid">
 				<span class="lead">Taskforce News</span>
@@ -132,6 +109,37 @@
 				<p> 아직 글이 존재하지 않습니다. </p>
 			</div>
 			{% endif %}
+			<br />
+
+			<form class="form-inline" action="{% url 'yighub:create_memo' %}" method="post">
+				{% csrf_token %}
+				<span class="lead">Memo</span>
+				<input class="span9" style="margin-left:15px;"type = 'text' name = 'memo' placeholder="한줄씩 흔적 남기기"/>
+				
+				<button type="submit" class="btn pull-right">남기기</button>
+			</form>
+
+			<table class="table">
+				{% if memos %}
+				<tbody>
+					{% for m in memos %}
+					<tr>
+						<td> {{ m.creator }} </td>
+						<td> {{ m.memo }} </td>
+						<td> {{ m.time_created }} </td>
+					</tr>
+					{% endfor %}
+				</tbody>
+				{% else %}
+				<tbody>
+					<tr>
+						<td>
+							<p class="text-center"> 아직 글이 존재하지 않습니다. </p>
+						</td>
+					</tr>
+				</tbody>
+				{% endif %}
+			</table>
 		</div>
 
 	</div><!--/span-->	
