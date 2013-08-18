@@ -60,7 +60,7 @@
           <div class="control-group">
             <label class="control-label" for="{{ form.messenger.label }}">메신저</label>
             <div class="controls">
-              <input type="text" name="messenger" maxlength="50" id="{{ form.messenger.label }}" placeholder="messenger id" {% if form.messenger.value %} value="{{ form.messenger.value }}" {% endif %} />
+              <input type="text" name="messenger" maxlength="50" id="{{ form.messenger.label }}" placeholder="메신저 아이디" {% if form.messenger.value %} value="{{ form.messenger.value }}" {% endif %} />
             </div>
           </div>
           {{ form.phone_number.errors }}

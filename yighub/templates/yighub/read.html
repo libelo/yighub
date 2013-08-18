@@ -43,7 +43,7 @@
 			<span>
 				<a href = "{% url 'yighub:recommend' board entry.id %}">추천하기</a>
 				&nbsp;&nbsp;
-				<a href = "{% url 'yighub:reply' board entry.id %}">답글 쓰기</a>
+				<!-- <a href = "{% url 'yighub:reply' board entry.id %}">답글 쓰기</a> -->
 			</span>
 			{% if entry.creator == user %}
 			<span class="pull-right">

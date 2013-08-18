@@ -86,8 +86,8 @@
 						<a href="{% url 'yighub:logout' %}">&nbsp;Logout</a>
 					</p>
 					<ul class="nav">
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<li class="dropdown visible-desktop">
+							<a href="{% url 'yighub:listing' 'public' public_list.0.id 1 %}" class="dropdown-toggle" data-toggle="dropdown">
 								Menu
 								<b class="caret"></b>
 							</a>
@@ -100,15 +100,24 @@
 								<li><a href="{% url 'yighub:listing' 'public' public_list.11.id 1 %}">Contact Us</a></li>
 							</ul>
 						</li>
+						<li class="hidden-desktop"><a href="{% url 'yighub:listing' 'public' public_list.0.id 1 %}">About YIG</a></li>
+						<li class="hidden-desktop"><a href="{% url 'yighub:listing' 'public' public_list.5.id 1 %}">Recruiting</a></li>
+						<li class="hidden-desktop"><a href="{% url 'yighub:listing' 'public' public_list.8.id 1 %}">Member Profile</a></li>
+						<li class="hidden-desktop"><a href="{% url 'yighub:listing' 'public' public_list.9.id 1 %}">Fund</a></li>
+						<li class="hidden-desktop"><a href="{% url 'yighub:listing' 'public' public_list.10.id 1 %}">Research</a></li>
+						<li class="hidden-desktop"><a href="{% url 'yighub:listing' 'public' public_list.11.id 1 %}">Contact Us</a></li>
+
 						<li><a href="{% url 'yighub:news' 'bulletin' 1 %}">Boards</a></li>
 						<li><a href="{% url 'yighub:news' 'taskforce' 1 %}">Taskforce</a></li>
 					</ul>
 				</div><!--/.nav-collapse -->
+
+
 				{% else %}
 				<div class="nav-collapse collapse">
 					<ul class="nav">
-						<li class="dropdown">
-							<a href="{% url 'yighub:listing' 'public' 1 1 %}" class="dropdown-toggle" data-toggle="dropdown">
+						<li class="dropdown visible-desktop">
+							<a class="dropdown-toggle" data-toggle="dropdown">
 								About YIG
 								<b class="caret"></b>
 							</a>
@@ -120,8 +129,10 @@
 								<li><a href="{% url 'yighub:listing' 'public' public_list.4.id 1 %}">Clipping</a></li>
 							</ul>
 						</li>
-						<li class="dropdown">
-							<a href="{% url 'yighub:listing' 'public' public_list.5.id 1 %}" class="dropdown-toggle" data-toggle="dropdown">
+						<li class="hidden-desktop"><a href="{% url 'yighub:listing' 'public' public_list.0.id 1 %}">About YIG</a></li>
+
+						<li class="dropdown visible-desktop">
+							<a class="dropdown-toggle" data-toggle="dropdown">
 								Recruiting
 								<b class="caret"></b>
 							</a>
@@ -131,11 +142,13 @@
 								<li><a href="{% url 'yighub:listing' 'public' public_list.7.id 1 %}">Schedule</a></li>
 							</ul>
 						</li>
+						<li class="hidden-desktop"><a href="{% url 'yighub:listing' 'public' public_list.5.id 1 %}">Recruiting</a></li>
+
 						<li><a href="{% url 'yighub:listing' 'public' public_list.8.id 1 %}">Member Profile</a></li>
 						<li><a href="{% url 'yighub:listing' 'public' public_list.9.id 1 %}">Fund</a></li>
 						<li><a href="{% url 'yighub:listing' 'public' public_list.10.id 1 %}">Research</a></li>
-						<li class="dropdown">
-							<a href="{% url 'yighub:listing' 'public' public_list.11.id 1 %}" class="dropdown-toggle" data-toggle="dropdown">
+						<li class="dropdown visible-desktop">
+							<a class="dropdown-toggle" data-toggle="dropdown">
 								Contact Us
 								<b class="caret"></b>
 							</a>
@@ -144,6 +157,8 @@
 								<li><a href="{% url 'yighub:listing' 'public' public_list.12.id 1 %}">Q/A</a></li>
 							</ul>
 						</li>
+						<li class="hidden-desktop"><a href="{% url 'yighub:listing' 'public' public_list.11.id 1 %}">Contact Us</a></li>
+
 					</ul>
 				</div><!--/.nav-collapse -->
 				<div class="container-fluid pull-right">
