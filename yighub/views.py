@@ -828,6 +828,11 @@ def join(request):
                     f.last_login = timezone.now()
                     f.level = 'pre'
                     f.save()
+
+                    u = User.objects.get(user_id = request.POST['user_id'])
+                    request.session['user_id'] = u.user_id
+                    request.session['user'] = u
+
                     return redirect('yighub:home', )
                 else:
                     messages.error(request, 'please check your password.')
