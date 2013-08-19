@@ -173,6 +173,7 @@ def home(request):
 
     # 홈페이지를 열 때마다 마지막 방문날짜를 업데이트한다.
     user.last_login = timezone.now()
+    user.save()
     
     if user.level == 'non':
         return render(request, 'yighub/home_for_visitor.html', {'public_list' : PublicBoardList})
@@ -943,10 +944,10 @@ def download(request, file_id):
     f.hit += 1
     f.save()
     
-    type, encoding = mimetypes.guess_type(f.file.name)
+    filetype, encoding = mimetypes.guess_type(f.file.name)
     #if type is None:
     #    type = 'application/octet-stream'
-    response['Content-Type'] = type
+    response['Content-Type'] = filetype
     response['Content-Encoding'] = encoding
 #    encoded_name = f.file.name.encode(encoding = 'UTF-8')
 #    response['Content-Disposition'] = u'attachment; filename=%s' % encoded_name
