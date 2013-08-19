@@ -51,7 +51,7 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = 'yighub/media/'
+MEDIA_ROOT = path.join(path.dirname(__file__), "../yighub/media/")
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
