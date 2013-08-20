@@ -34,8 +34,8 @@ class User(models.Model):
     self_introduction = models.TextField(blank = True)
     point = models.PositiveIntegerField(default = 0)
 
-    profile = models.ImageField(upload_to = 'images/profiles', blank = True, ) # 내부용 null = True
-    picture = models.ImageField(upload_to = 'images/pictures', blank = True, ) # 외부용 null = True
+    profile = models.ImageField(upload_to = 'yighub/profiles', blank = True, ) # 외부용 null = True 
+    avatar = models.ImageField(upload_to = 'yighub/avatars', blank = True, ) # 내부용 null = True
 
     def __unicode__(self):
         return self.name
@@ -46,8 +46,8 @@ class Board(models.Model):
     # due_date = models.DateField(blank = True, null = True)
     newest_entry = models.PositiveIntegerField(null = True, blank = True)
     newest_time = models.DateTimeField(null = True, blank = True) 
-    permission_reading = models.CharField(max_length = 3, choices = MEMBER_LEVEL_CHOICES)
-    permission_writing = models.CharField(max_length = 3, choices = MEMBER_LEVEL_CHOICES)
+    permission_reading = models.CharField(max_length = 3, choices = MEMBER_LEVEL_CHOICES, default = 'non')
+    permission_writing = models.CharField(max_length = 3, choices = MEMBER_LEVEL_CHOICES, default = 'non')
 
     def __unicode__(self):
         return self.name
@@ -99,3 +99,22 @@ class File(models.Model):
 
     def __unicode__(self):
         return self.name
+
+class Photo(models.Model):
+    photo = models.ImageField(upload_to = 'yighub/albums/%Y/%m/%d', ) # 외부용 null = True 
+    description = models.TextField(blank = True)
+    photographer = models.ForeignKey(User, related_name = 'photographers')
+    time_created = models.DateTimeField(auto_now_add = True)
+    time_last_modified = models.DateTimeField(auto_now = True)
+    recommendation = models.ManyToManyField(User, related_name = 'photo_recommendations', blank = True, null = True)
+    count_recommendation = models.PositiveIntegerField(default = 0)
+    #arrangement는 필요없다. 그냥 id 순서로 늘어놓으면 될 듯.
+    tag = models.ManyToManyField(Tag, related_name = 'photos', blank = True, null = True)
+
+    def __unicode__(self):
+        if self.description:
+            return self.description
+        else:
+            return self.photographer.name + u'의 사진'
+
+

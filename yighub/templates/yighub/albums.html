@@ -1,0 +1,14 @@
+{% extends "yighub/base.html" %}
+
+{% block contents %}
+
+{% for album in albums %}
+<div>
+	<img src="{{ album.thumbnail.photo.url }}" height="50px" width="50px" />
+	<span>{{ album.name }}</span>
+	{% if album.event_time %}
+	<span>{{ album.event_time }}</span>
+	{% endif %}
+</div>
+{% endfor %}
+{% endblock %}

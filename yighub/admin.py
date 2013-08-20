@@ -3,6 +3,7 @@ from yighub.models import BulletinBoard, TaskforceBoard, PublicBoard
 from yighub.models import BulletinEntry, TaskforceEntry, PublicEntry
 from yighub.models import BulletinComment, TaskforceComment, PublicComment
 from yighub.models import BulletinFile, TaskforceFile, PublicFile
+from yighub.models import Album, Photo, PhotoComment
 
 from django.contrib import admin
 
@@ -23,6 +24,10 @@ admin.site.register(PublicComment)
 admin.site.register(BulletinFile)
 admin.site.register(TaskforceFile)
 admin.site.register(PublicFile)
+
+admin.site.register(Album)
+admin.site.register(Photo)
+admin.site.register(PhotoComment)
 
 admin.site.register(Letter)
 admin.site.register(Memo)

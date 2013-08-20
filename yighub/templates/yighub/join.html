@@ -4,7 +4,7 @@
     <div class="container">
 
 
-        <form class="form-horizontal" style="max-width: 500px; padding: 19px 29px 29px 29px; margin-left: auto; margin-right: auto; background-color:white; border: 1px solid #e5e5e5; border-radius:5px;" action="{% url 'yighub:join' %}", method = "post">
+        <form class="form-horizontal" style="max-width: 500px; padding: 19px 29px 29px 29px; margin-left: auto; margin-right: auto; background-color:white; border: 1px solid #e5e5e5; border-radius:5px;" action="{% url 'yighub:join' %}" enctype = "multipart/form-data" method = "post">
         	{% csrf_token %}
           <h2 class="form-signin-heading text-center">회원가입</h2>
           <br />
@@ -99,11 +99,11 @@
               <input id="{{ form.profile.label }}" name="profile" type="file">
             </div>
           </div>
-          {{ form.picture.errors }}
+          {{ form.avatar.errors }}
           <div class="control-group">
-            <label class="control-label" for="{{ form.picture.label }}">아바타</label>
+            <label class="control-label" for="{{ form.avatar.label }}">아바타</label>
             <div class="controls">
-              <input id="{{ form.picture.label }}" name="picture" type="file">
+              <input id="{{ form.avatar.label }}" name="avatar" type="file">
             </div>
           </div>
 

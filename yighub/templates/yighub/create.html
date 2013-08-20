@@ -4,7 +4,7 @@
 	<div class="span9">
 		<br />	<br />
 		<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
-			<form action = {% if board_id %} "{% url 'yighub:create_in_board' board board_id %}" {% else %} "{% url 'yighub:create' board %}" {% endif %}, enctype = "multipart/form-data", method = "post">
+			<form action = {% if board_id %} "{% url 'yighub:create_in_board' board board_id %}" {% else %} "{% url 'yighub:create' board %}" {% endif %} enctype = "multipart/form-data" method = "post">
 				<!-- 이렇게 구현하긴 했지만 솔직히 in board인지 아닌지 올 때나 상관있지 form action에선 어디로 가나 똑같을 듯 -->
 				{% csrf_token %}
 				<fieldset>

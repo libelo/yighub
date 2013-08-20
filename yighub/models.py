@@ -2,7 +2,7 @@
 
 from django.db import models
 from django import forms
-from models_base import User, Board, Entry, Comment, File
+from models_base import User, Board, Entry, Comment, File, Photo
 
 
 class UserForm(forms.ModelForm):
@@ -99,6 +99,14 @@ class Memo(models.Model):
 
     def __unicode__(self):
         print self.memo
+
+class Album(Board): # 그냥 Album으로 하자.
+    thumbnail = models.ForeignKey(Photo)
+    event_time = models.DateField(blank = True, null = True)
+    count_view = models.PositiveIntegerField(default = 0)
+
+class PhotoComment(Comment):
+    photo = models.ForeignKey(Photo, related_name = 'comments')
 
 """
 class Image(models.Model):
