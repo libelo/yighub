@@ -9,6 +9,7 @@ from yighub.models import BulletinComment, TaskforceComment, PublicComment
 from yighub.models import BulletinFile, TaskforceFile, PublicFile, File
 from yighub.models import BulletinEntryForm, TaskforceEntryForm, PublicEntryForm
 from yighub.models import TaskforceBoardForm
+from yighub.models import Album, Photo, PhotoComment
 
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render_to_response, get_object_or_404, render, redirect
@@ -817,7 +818,7 @@ def delete_comment(request, ):
 
 def join(request):
     if request.method == 'POST':
-        form = UserForm(request.POST, request.FILES)
+        form = UserForm(request.POST)
         if form.is_valid():
             try:
                 User.objects.get(user_id = request.POST['user_id'])
@@ -827,12 +828,16 @@ def join(request):
                     f.password = hashers.make_password(request.POST['password'])
                     f.last_login = timezone.now()
                     f.level = 'pre'
+                    
+                    f.profile = request.FILES['profile'] if 'profile' in request.FILES else None
+                    f.avatar = request.FILES['avatar'] if 'avatar' in request.FILES else None
+                    
                     f.save()
 
                     u = User.objects.get(user_id = request.POST['user_id'])
                     request.session['user_id'] = u.user_id
                     request.session['user'] = u
-
+                    
                     return redirect('yighub:home', )
                 else:
                     messages.error(request, 'please check your password.')
@@ -962,4 +967,19 @@ def download(request, file_id):
 def download_letter(request, letter_id):
     pass
 
+def albums(request, page = 1):
+    
+    board = 'albums'
 
+    # 권한 검사
+    permission = check_permission(request, board, )
+    if permission[0] == False:
+        return permission[1]
+    u = request.session['user']
+    
+    albums = AlbumBoard.objects.all()
+
+    return render(request, 'yighub/albums.html', {'user':u, 'public_list' : PublicBoardList, 'albums':albums, })
+
+def photos(request, ):
+    pass
