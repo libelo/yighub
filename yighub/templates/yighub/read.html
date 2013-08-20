@@ -62,6 +62,13 @@
 				
 				<strong>{{ c.creator }}</strong>
 				<small class="muted"> {{ c.time_created }} </small>	
+				{% if c.creator == user %}
+				<span class="pull-right">
+					<a href = "{% url 'yighub:delete_comment' board entry.id c.id %}"> 
+						<i class="icon-remove" style="opacity:0.25"></i> 
+					</a>
+				</span>
+				{% endif %}
 				{{ c.content|linebreaks }}
 				</div>
 				{% endfor %}

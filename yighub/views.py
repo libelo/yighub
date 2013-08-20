@@ -813,8 +813,33 @@ def recommend_comment(request, board, entry_id, comment_id):
 
     return redirect('yighub:read', board = board, entry_id = entry_id)
 
-def delete_comment(request, ):
-    pass
+def delete_comment(request, board, entry_id, comment_id):
+    
+    # board 분류
+    exist, Board, Entry, Comment, File, EntryForm = classify(board)
+    if exist == False:
+        raise Http404
+
+    try:
+        e = Entry.objects.get(pk = entry_id)
+        c = Comment.objects.get(pk = comment_id)
+    except Entry.DoesNotExist, Comment.DoesNotExist:
+        raise Http404
+
+    # 권한 검사
+    permission = check_permission(request, board, e.board, mode = 'writing')
+    if permission[0] == False:
+        return permission[1]
+
+    if request.session['user'] == c.creator:
+        c.delete()
+
+    else:
+        messages.error(request, 'invalid approach')
+        return render(request, 'yighub/error.html', )
+        #return render(request, 'yighub/error.html', {'error' : 'invalid approach'})
+    return redirect('yighub:read', board=board, entry_id=entry_id)
+
 
 def join(request):
     if request.method == 'POST':
@@ -837,7 +862,7 @@ def join(request):
                     u = User.objects.get(user_id = request.POST['user_id'])
                     request.session['user_id'] = u.user_id
                     request.session['user'] = u
-                    
+
                     return redirect('yighub:home', )
                 else:
                     messages.error(request, 'please check your password.')
@@ -943,6 +968,22 @@ def create_memo(request):
     else:
         messages.error(request, 'invalid approach')
         return render(request, 'yighub/error.html', context_instance = RequestContext(request))
+
+def delete_memo(request, memo_id):
+
+    try:
+        m = Memo.objects.get(pk = memo_id)
+    except Memo.DoesNotExist:
+        raise Http404
+
+    if request.session['user'] == m.creator:
+        m.delete()
+
+    else:
+        messages.error(request, 'invalid approach')
+        return render(request, 'yighub/error.html', )
+        #return render(request, 'yighub/error.html', {'error' : 'invalid approach'})
+    return HttpResponseRedirect(reverse('yighub:home', ))
 
 def download(request, file_id):
     f = File.objects.get(pk = file_id)

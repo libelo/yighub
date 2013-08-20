@@ -17,6 +17,8 @@ urlpatterns = patterns('yighub.views',
     url(r'^letter/receive/(?P<letter_id>\d+)/download/$', 'download_letter'),
 
     url(r'^memo/create/$', 'create_memo', name='create_memo'),
+    url(r'^memo/(?P<memo_id>\d+)/delete/$', 'delete_memo', name='delete_memo'),
+
     url(r'^download/(?P<file_id>\d+)/$', 'download', name='download'),
 
     url(r'^taskforce/create/$', 'create_taskforce', name='create_taskforce'), # can make taskforce board 
@@ -44,6 +46,7 @@ urlpatterns = patterns('yighub.views',
     url(r'^(?P<board>\w+)/entry/(?P<entry_id>\d+)/reply/$', 'reply', name='reply'),
     url(r'^(?P<board>\w+)/entry/(?P<entry_id>\d+)/recommend/$', 'recommend', name='recommend'),
     url(r'^(?P<board>\w+)/entry/(?P<entry_id>\d+)/comment/$', 'comment', name='comment'),
+    url(r'^(?P<board>\w+)/entry/(?P<entry_id>\d+)/comment/(?P<comment_id>\d+)/delete/$', 'delete_comment', name='delete_comment'),    
     url(r'^(?P<board>\w+)/entry/(?P<entry_id>\d+)/comment/(?P<comment_id>\d+)/reply/$', 'reply_comment', name='reply_comment'),
     url(r'^(?P<board>\w+)/entry/(?P<entry_id>\d+)/comment/(?P<comment_id>\d+)/recommend/$', 'recommend_comment', name='recommend_comment'),
 )

@@ -114,7 +114,7 @@
 			<form class="form-inline" action="{% url 'yighub:create_memo' %}" method="post">
 				{% csrf_token %}
 				<span class="lead">Memo</span>
-				<input class="span9" style="margin-left:15px;"type = 'text' name = 'memo' placeholder="한줄씩 흔적 남기기"/>
+				<input class="span9" style="margin-left:15px;" type = 'text' name = 'memo' placeholder="한줄씩 흔적 남기기"/>
 				
 				<button type="submit" class="btn pull-right">남기기</button>
 			</form>
@@ -127,6 +127,13 @@
 						<td> {{ m.creator }} </td>
 						<td> {{ m.memo }} </td>
 						<td> {{ m.time_created }} </td>
+						{% if m.creator == user %}
+						<td class="pull-right"> 
+							<a href = "{% url 'yighub:delete_memo' m.id %}"> 
+								<i class="icon-remove" style="opacity:0.25"></i> 
+							</a>
+						</td>
+						{% endif %}
 					</tr>
 					{% endfor %}
 				</tbody>
