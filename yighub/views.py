@@ -1016,8 +1016,63 @@ def receive(request, letter_id):
         messages.error(request, 'Not You')
         return render(request, 'yighub/error.html', context_instance = RequestContext(request))
 
-def memo(request):
-    pass
+def memo(request, page = 1):
+    
+    permission = check_permission(request, 'memo')
+    if permission[0] == False:
+        return permission[1] 
+    u = request.session['user']
+    
+    current_page = int(page)
+    page_size = 20
+    no = (current_page - 1) * page_size # 그 앞 페이지 마지막 글까지 개수
+
+    count_entry = Memo.objects.count()
+    memo_list = Memo.objects.all().order_by('-pk')[no : (no + page_size)] # filter(board = board_number)
+
+    # 첫 페이지와 끝 페이지 설정
+    first_page = 1
+    last_page = (count_entry - 1)/page_size + 1
+
+    # 페이지 리스트 만들기
+    if current_page < 5:
+        start_page = 1
+    else:
+        start_page = current_page - 4
+
+    if current_page > last_page - 5:
+        end_page = last_page
+    else:
+        end_page = current_page + 4
+
+    page_list = range(start_page, end_page + 1)
+
+    # 이전 페이지, 다음 페이지 설정
+    prev_page = current_page - 1
+    next_page = current_page + 1
+
+    # 맨 첫 페이지나 맨 끝 페이지일 때 고려
+    if current_page == last_page:
+        next_page = 0
+        last_page = 0
+    if current_page == first_page:
+        prev_page = 0
+        first_page = 0
+
+    p = {'memo_list' : memo_list,
+            'current_page' : current_page,
+            'page_list' : page_list,
+            'first_page' : first_page,
+            'last_page' : last_page,
+            'prev_page' : prev_page,
+            'next_page' : next_page,
+            }
+
+    return render(request, 'yighub/memo.html',
+        {'user': u, 'public_list' : PublicBoardList, 'page': p}
+        )
+
+
 
 def create_memo(request):
     if request.method == 'POST':

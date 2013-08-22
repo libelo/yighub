@@ -4,8 +4,6 @@ urlpatterns = patterns('yighub.views',
     url(r'^$', 'home'),
     url(r'^home/$', 'home', name='home'),
 
-    url(r'^memo/(?P<page>\d+)/$', 'memo'),
-
     url(r'^join/$', 'join', name='join'),
     url(r'^login/$', 'login', name='login'),
     url(r'^login_check/$', 'login_check', name='login_check'),
@@ -19,6 +17,7 @@ urlpatterns = patterns('yighub.views',
 
     url(r'^memo/create/$', 'create_memo', name='create_memo'),
     url(r'^memo/(?P<memo_id>\d+)/delete/$', 'delete_memo', name='delete_memo'),
+    url(r'^memo/(?P<page>\d+)/$', 'memo', name='memo'),
 
     url(r'^download/(?P<file_id>\d+)/$', 'download', name='download'),
 

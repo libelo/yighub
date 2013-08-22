@@ -1,0 +1,65 @@
+{% extends "yighub/sidebar.html" %}
+
+{% block contents %}
+	<div class="span9">
+		<br />	
+		<br />
+
+		<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
+			<div class="row-fluid">
+				<span class="lead">Memo</span>
+			</div>
+			<br />
+			{% if page.memo_list %}
+			<table class="table">
+				<thead>
+					<tr class="info">
+						<td> 글쓴이 </td>
+						<td> 메모 </td>
+						<td> 등록일 </td>
+					</tr>
+				</thead>
+				<tbody>
+					{% for m in page.memo_list %}
+					<tr>
+						<td> {{ m.creator }} </td>
+						<td>
+							{{ m.memo }}
+						</td>
+						<td> {{ m.time_created }} </td>
+						{% if m.creator == user %}
+						<td class="pull-right"> 
+							<a href = "{% url 'yighub:delete_memo' m.id %}"> 
+								<i class="icon-remove" style="opacity:0.25"></i> 
+							</a>
+						</td>
+						{% endif %}
+					</tr>
+					{% endfor %}
+				</tbody>
+				</table>
+			<br />
+			<div class="pagination text-center">
+			  <ul>
+			  	{% if page.first_page %}
+			    <li><a href="{% url 'yighub:memo' page.first_page %}">First</a></li>
+			    <li><a href="{% url 'yighub:memo' page.prev_page %}">Prev</a></li>
+			    {% endif %}
+			    {% for p in page.page_list %}
+			    <li><a href="{% url 'yighub:memo' p %}">{{ p }}</a></li>
+			    {% endfor %}
+			    {% if page.last_page %}
+			    <li><a href="{% url 'yighub:memo' page.next_page %}">Next</a></li>
+			    <li><a href="{% url 'yighub:memo' page.last_page %}">Last</a></li>
+			    {% endif %}
+			  </ul>
+			</div>
+			{% else %}
+			<div class="container-fruid text-center">
+				<p> 아직 한줄 남기기가 존재하지 않습니다. </p>
+			</div>
+			{% endif %}
+		</div>
+	</div><!--/span-->	
+
+{% endblock %}
