@@ -495,7 +495,11 @@ def edit(request, board, entry_id):
         if form.is_valid():
 
             files = request.FILES.getlist('files')
-            form.save()
+
+            e = form.save(commit = False)
+            e.time_last_modified = timezone.now()
+            e.thumbnail = request.FILES['thumbnail'] if 'thumbnail' in request.FILES else None
+            e.save()
             
             for f in e.files.all():
                 try:
