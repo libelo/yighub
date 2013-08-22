@@ -20,11 +20,16 @@
 				<textarea id="id_content" name="content" rows="20" class="span12" placeholder="여기에 내용을 입력하세요…">{{ form.content.value }}</textarea>
 				<br />
 				<br />
+				<label>썸네일</label>
+				<input type = 'file' name = 'thumbnail' />
+				<br />
+				<br />
+				<label>파일 업로드</label>
 
 				{% for f in files %}
 				<p>
 					<label class="checkbox">
-						<a href = "{% url 'yighub:download' f.id %}">{{ f.file.name }}</a>
+						<a href = "{% url 'yighub:download' f.id %}">{{ f.name }}</a>
 						삭제하기
 						<input type = 'checkbox' name = 'delete_{{ f.id }}' />
 					</label>
