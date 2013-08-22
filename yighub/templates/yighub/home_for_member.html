@@ -60,7 +60,9 @@
 					<tr>
 						<td> {{ entry.creator }} </td>
 						<td>
-							<a href="{% url 'yighub:read' 'bulletin' entry.id %}">{{ entry.title }} [{{ entry.count_comment }}]</a>
+							<a href="{% url 'yighub:read' 'bulletin' entry.id %}">{{ entry.title }}
+								<span class="badge badge-info">{{ entry.count_comment }}</span>
+							</a>
 						</td>
 						<td> {{ entry.time_created }} </td>
 					</tr>
@@ -97,7 +99,9 @@
 					<tr>
 						<td> {{ entry.creator }} </td>
 						<td>
-							<a href="{% url 'yighub:read' 'taskforce' entry.id %}">{{ entry.title }} [{{ entry.count_comment }}]</a>
+							<a href="{% url 'yighub:read' 'taskforce' entry.id %}">{{ entry.title }}
+								<span class="badge badge-info">{{ entry.count_comment }}</span>
+							</a>
 						</td>
 						<td> {{ entry.time_created }} </td>
 					</tr>

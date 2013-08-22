@@ -31,7 +31,8 @@
 						<td> {{ entry.creator }} </td>
 						<td>
 							<a href="{% url 'yighub:read' board entry.id %}">{{ entry.title }}
-							<span class="badge badge-info">{{ entry.count_comment }}</span></a>
+								<span class="badge badge-info">{{ entry.count_comment }}</span>
+							</a>
 						</td>
 						<td> {{ entry.time_created }} </td>
 					</tr>

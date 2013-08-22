@@ -17,7 +17,9 @@
 			<span class="pull-right">조회수 {{ entry.count_view }} / 추천수 {{ entry.count_recommendation }} </span>
 			<hr />
 			{% if entry.thumbnail %}
-			<img src="{{ entry.thumbnail.url }}" style="width:100%; max-width:600px;"/>
+			<div class="text-center">
+				<img src="{{ entry.thumbnail.url }}" style="width:100%; max-width:650px;"/>
+			</div>
 			<br />
 			<br />
 			{% endif %}
