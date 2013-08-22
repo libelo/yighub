@@ -118,7 +118,7 @@
 			<form class="form-inline" action="{% url 'yighub:create_memo' %}" method="post">
 				{% csrf_token %}
 				<span class="lead">Memo</span>
-				<input class="span9" style="margin-left:15px;" type = 'text' name = 'memo' placeholder="한줄씩 흔적 남기기"/>
+				<input class="span9" style="margin-left:15px;" type = 'text' name = 'memo' maxlength="50" placeholder="한줄씩 흔적 남기기"/>
 				
 				<button type="submit" class="btn pull-right">남기기</button>
 			</form>

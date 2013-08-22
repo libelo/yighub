@@ -179,7 +179,7 @@ def home(request):
     if user.level == 'non':
         return render(request, 'yighub/home_for_visitor.html', {'public_list' : PublicBoardList})
 
-    memos = Memo.objects.all().order_by('-pk')[0:5]
+    memos = Memo.objects.all().order_by('-pk')[0:10]
     bulletin_list = BulletinBoard.objects.all()
     taskforce_list = TaskforceBoard.objects.filter(archive = False)
     bulletin_news = BulletinEntry.objects.all().order_by('-arrangement')[0:5]
