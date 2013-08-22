@@ -1,5 +1,45 @@
-﻿<form action = "/yighub/entry/{{ parent }}/reply/", enctype = "multipart/form-data", method = "post">
-{% csrf_token %}
-{{ form.as_p }}
-<input type = "submit" value = "Submit" />
-</form>
+﻿{% extends "yighub/sidebar.html" %}
+
+{% block contents %}
+	<div class="span9">
+		<br />	<br />
+		<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
+			<form action = "{% url 'yighub:reply' board parent %}" enctype = "multipart/form-data" method = "post">
+				<!-- 이렇게 구현하긴 했지만 솔직히 in board인지 아닌지 올 때나 상관있지 form action에선 어디로 가나 똑같을 듯 -->
+				{% csrf_token %}
+				<fieldset>
+					<label>게시판</label>
+					<input type="text" placeholder="{{ current_board.name }}" disabled />
+					<input type="hidden" name="board" value="{{ current_board.id }}"  />
+					<br />
+					<br />
+					{{ form.title.errors }}
+					<input name="title" type="text" class="span12" maxlength="50" placeholder="여기에 제목을 입력하세요" {% if form.title.value %} value="{{ form.title.value }}" {% endif %}>
+					<br />
+					{{ form.content.errors }}
+					<textarea name="content" rows="20" class="span12" placeholder="여기에 내용을 입력하세요">{% if form.content.value %}{{ form.content.value }}{% endif %}</textarea>
+					<br />
+					<br />
+					<label>썸네일</label>
+					<input type = 'file' name = 'thumbnail' />
+					<br />
+					<br />
+					<label>파일 업로드</label>
+					<input type = 'file' name = 'files' />
+					<br />
+					<input type = 'file' name = 'files' />
+					<br />
+					<input type = 'file' name = 'files' />
+					<br />
+					<div class="form-actions text-center">
+						<button type="submit" class="btn btn-primary">올리기</button>
+						&nbsp;
+						<a href="{% url 'yighub:read' board parent %}">
+							<button type="button" class="btn">취소</button>
+						</a>
+					</div>
+				</fieldset>
+			</form>
+
+		</div><!--/span-->	
+{% endblock %}

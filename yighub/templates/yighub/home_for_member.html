@@ -60,6 +60,7 @@
 					<tr>
 						<td> {{ entry.creator }} </td>
 						<td>
+							{% for i in entry.range %} ↳ {% endfor %}
 							<a href="{% url 'yighub:read' 'bulletin' entry.id %}">{{ entry.title }}
 								<span class="badge badge-info">{{ entry.count_comment }}</span>
 							</a>
@@ -99,6 +100,7 @@
 					<tr>
 						<td> {{ entry.creator }} </td>
 						<td>
+							{% for i in entry.range %} ↳ {% endfor %}
 							<a href="{% url 'yighub:read' 'taskforce' entry.id %}">{{ entry.title }}
 								<span class="badge badge-info">{{ entry.count_comment }}</span>
 							</a>

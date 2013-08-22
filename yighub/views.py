@@ -183,7 +183,11 @@ def home(request):
     bulletin_list = BulletinBoard.objects.all()
     taskforce_list = TaskforceBoard.objects.filter(archive = False)
     bulletin_news = BulletinEntry.objects.all().order_by('-arrangement')[0:5]
+    for b in bulletin_news:
+        b.range = range(b.depth)
     taskforce_news = TaskforceEntry.objects.all().order_by('-arrangement')[0:5]
+    for t in taskforce_news:
+        t.range = range(t.depth)
 
     """ 메모를 위한 거였구만.
 
@@ -602,7 +606,7 @@ def reply(request, board, entry_id): # yig.in/entry/12345/reply
     u = request.session['user']
 
     if request.method == 'POST':
-        form = EntryForm(request.POST)
+        form = EntryForm(request.POST, request.FILES)
         if form.is_valid():
 
             files = request.FILES.getlist('files')
@@ -631,6 +635,7 @@ def reply(request, board, entry_id): # yig.in/entry/12345/reply
             reply.depth = current_depth
             reply.parent = entry_id
             reply.creator = request.session['user']
+            reply.thumbnail = request.FILES['thumbnail'] if 'thumbnail' in request.FILES else None
             reply.save()
 
             for file in files:
@@ -647,8 +652,7 @@ def reply(request, board, entry_id): # yig.in/entry/12345/reply
         form = EntryForm(initial = {'board' : parent.board}) # board 빼고 보내기
 
     board_list = Board.objects.all()
-    b = parrent.board
-
+    b = parent.board
 
     return render(request, 'yighub/reply.html', 
         {'user' : u,
