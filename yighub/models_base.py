@@ -74,6 +74,8 @@ class Entry(models.Model):
     
     tag = models.ManyToManyField(Tag, related_name = 'entrys', blank = True, null = True)
 
+    thumbnail = models.ImageField(upload_to = 'yighub/thumbnails/%Y/%m/%d', blank = True)
+
     def __unicode__(self):
         return self.title
 
@@ -99,22 +101,3 @@ class File(models.Model):
 
     def __unicode__(self):
         return self.name
-
-class Photo(models.Model):
-    photo = models.ImageField(upload_to = 'yighub/albums/%Y/%m/%d', ) # 외부용 null = True 
-    description = models.TextField(blank = True)
-    photographer = models.ForeignKey(User, related_name = 'photographers')
-    time_created = models.DateTimeField(auto_now_add = True)
-    time_last_modified = models.DateTimeField(auto_now = True)
-    recommendation = models.ManyToManyField(User, related_name = 'photo_recommendations', blank = True, null = True)
-    count_recommendation = models.PositiveIntegerField(default = 0)
-    #arrangement는 필요없다. 그냥 id 순서로 늘어놓으면 될 듯.
-    tag = models.ManyToManyField(Tag, related_name = 'photos', blank = True, null = True)
-
-    def __unicode__(self):
-        if self.description:
-            return self.description
-        else:
-            return self.photographer.name + u'의 사진'
-
-

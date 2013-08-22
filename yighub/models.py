@@ -2,7 +2,7 @@
 
 from django.db import models
 from django import forms
-from models_base import User, Board, Entry, Comment, File, Photo
+from models_base import User, Board, Entry, Comment, File, Tag
 
 
 class UserForm(forms.ModelForm):
@@ -85,7 +85,7 @@ class Letter(models.Model):
     # read 를 count_view처럼? No.
 
     def __unicode__(self):
-        print self.title
+        return self.title
 
 class LetterForm(forms.ModelForm):
     class Meta:
@@ -98,12 +98,30 @@ class Memo(models.Model):
     time_created = models.DateTimeField(auto_now_add = True)
 
     def __unicode__(self):
-        print self.memo
+        return self.memo
 
 class Album(Board): # 그냥 Album으로 하자.
-    thumbnail = models.ForeignKey(Photo)
+    #썸네일은 필요없다. 그냥 첫번째 사진을 썸네일로 한다.
     event_time = models.DateField(blank = True, null = True)
     count_view = models.PositiveIntegerField(default = 0)
+
+class Photo(models.Model):
+    album = models.ForeignKey(Album, related_name = 'photos')
+    photo = models.ImageField(upload_to = 'yighub/albums/%Y/%m/%d', ) # 외부용 null = True 
+    description = models.TextField(blank = True)
+    photographer = models.ForeignKey(User, related_name = 'photographers')
+    time_created = models.DateTimeField(auto_now_add = True)
+    time_last_modified = models.DateTimeField(auto_now = True)
+    recommendation = models.ManyToManyField(User, related_name = 'photo_recommendations', blank = True, null = True)
+    count_recommendation = models.PositiveIntegerField(default = 0)
+    #arrangement는 필요없다. 그냥 id 순서로 늘어놓으면 될 듯.
+    tag = models.ManyToManyField(Tag, related_name = 'photos', blank = True, null = True)
+
+    def __unicode__(self):
+        if self.description:
+            return self.description
+        else:
+            return self.photographer.name + u'의 사진'
 
 class PhotoComment(Comment):
     photo = models.ForeignKey(Photo, related_name = 'comments')

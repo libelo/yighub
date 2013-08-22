@@ -77,12 +77,12 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<!-- <img src="/static/yighub/images/yiglogo.jpg" height="50px" width="50px" /> -->
+				<img src="/static/yighub/images/yiglogo.png" class="pull-left" height="40px" width="40px" />
 				<a class="brand" href="{% url 'yighub:home' %}">YIG</a>
 				{% if user.name %}
 				<div class="nav-collapse collapse">
 					<p class="navbar-text pull-right">
-						Logged in as <a href="/a" class="navbar-link">{{ user.name }}</a>
+						Logged in as <a href="{% url 'yighub:edit_profile' %}" class="navbar-link">{{ user.name }}</a>
 						<a href="{% url 'yighub:logout' %}">&nbsp;Logout</a>
 					</p>
 					<ul class="nav">

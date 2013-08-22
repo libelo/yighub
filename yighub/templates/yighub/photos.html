@@ -1,0 +1,22 @@
+{% extends "yighub/base.html" %}
+
+{% block contents %}
+
+<div class="text-center" style="margin:30px auto 50px auto">
+	<h2>{{ album.name }}</h2>
+</div>
+<br />
+
+<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
+
+{% for p in photos %}
+
+<div style="margin-left:12px">
+	<img src="{{ p.photo.url }}" width="200px" />
+	</a>
+</div>
+
+{% endfor %}
+</div>
+
+{% endblock %}

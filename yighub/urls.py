@@ -10,6 +10,7 @@ urlpatterns = patterns('yighub.views',
     url(r'^login/$', 'login', name='login'),
     url(r'^login_check/$', 'login_check', name='login_check'),
     url(r'^logout/$', 'logout', name='logout'),
+    url(r'^profile/$', 'edit_profile', name='edit_profile'),
 
     url(r'^letter/list/$', 'letters'),
     url(r'^letter/send/$', 'send'),
@@ -23,7 +24,7 @@ urlpatterns = patterns('yighub.views',
 
     url(r'^taskforce/create/$', 'create_taskforce', name='create_taskforce'), # can make taskforce board 
 
-    # url(r'^albums/$', 'albums', {'page' : 1}, name='albums'),
+    url(r'^albums/$', 'albums', {'page' : 1}, name='albums'),
     url(r'^albums/page/(?P<page>\d+)/$', 'albums'),
     url(r'^albums/(?P<album_id>\d+)/photos/$', 'photos', name='photos'),
     #url(r'^albums/create/$', 'create_album', name='create_album'),

@@ -420,10 +420,8 @@ def create(request, board, board_id = None):
     u = request.session['user']
 
     if request.method == 'POST':
-        form = EntryForm(request.POST)
+        form = EntryForm(request.POST, request.FILES)
         if form.is_valid():
-
-            files = request.FILES.getlist('files')
             
             # arrangement 할당
             try:
@@ -438,9 +436,11 @@ def create(request, board, board_id = None):
             e.creator = request.session['user']
             e.time_last_modified = timezone.now()
             e.arrangement = arrangement
+            e.thumbnail = request.FILES['thumbnail'] if 'thumbnail' in request.FILES else None
             e.save()
 
             # 여러 파일들을 저장한다.
+            files = request.FILES.getlist('files')
             for file in files:
                 f = File(entry = e, name = file.name, file = file)
                 f.save()
@@ -843,7 +843,7 @@ def delete_comment(request, board, entry_id, comment_id):
 
 def join(request):
     if request.method == 'POST':
-        form = UserForm(request.POST)
+        form = UserForm(request.POST, request.FILES)
         if form.is_valid():
             try:
                 User.objects.get(user_id = request.POST['user_id'])
@@ -874,7 +874,65 @@ def join(request):
     return render(request, 'yighub/join.html', {'public_list' : PublicBoardList, 'form' : form}, context_instance = RequestContext(request))
 
 def edit_profile(request):
-    pass
+
+    try:
+        u = User.objects.get(user_id = request.session['user_id'])
+    except User.DoesNotExist:
+        raise Http404
+
+    if request.method == 'POST':
+
+        if u.user_id != request.POST['user_id']:
+            try:
+                User.objects.get(user_id = request.POST['user_id'])
+            except User.DoesNotExist:
+                pass
+            else:
+                messages.error(request, 'already used id. please change your id.')
+                form = UserForm(request.POST, )
+                return render(request, 'yighub/edit_profile.html', {'user':u, 'public_list' : PublicBoardList, 'form' : form}, )
+
+        if hashers.check_password(request.POST['password'], u.password):
+            pass
+        else:
+            messages.error(request, 'please enter your old password.')
+            form = UserForm(request.POST, )
+            return render(request, 'yighub/edit_profile.html', {'user':u, 'public_list' : PublicBoardList, 'form' : form}, )
+
+        if request.POST['new_password']:
+            if request.POST['new_password'] == request.POST['password_check']:
+                pass
+            else:
+                messages.error(request, 'please check your new password.')
+                form = UserForm(request.POST, )
+                return render(request, 'yighub/edit_profile.html', {'user':u, 'public_list' : PublicBoardList, 'form' : form}, )
+
+        form = UserForm(request.POST, request.FILES, instance = u)
+        if form.is_valid():
+
+            f = form.save(commit = False)
+
+            if request.POST['new_password']:
+                f.password = hashers.make_password(request.POST['new_password'])
+
+            f.profile = request.FILES['profile'] if 'profile' in request.FILES else u.profile
+            f.avatar = request.FILES['avatar'] if 'avatar' in request.FILES else u.avatar
+
+            f.save()
+
+            u = User.objects.get(user_id = request.POST['user_id'])
+            request.session['user_id'] = u.user_id
+            request.session['user'] = u
+
+            return redirect('yighub:home', )
+    else:
+        form = UserForm(instance = u, )
+
+    return render(request, 'yighub/edit_profile.html', {'user':u, 'public_list' : PublicBoardList, 'form' : form}, )
+
+
+        
+    
 
 def delete_profile(request):
     pass
@@ -1018,9 +1076,30 @@ def albums(request, page = 1):
         return permission[1]
     u = request.session['user']
     
-    albums = AlbumBoard.objects.all()
+    album_list = Album.objects.all()
+    albums = []
+    for album in album_list:
+        try:
+            albums += [{'album':album, 'thumbnail':album.photos.all()[0]}]
+        except:
+            albums += [{'album':album, 'thumbnail':None}]
 
     return render(request, 'yighub/albums.html', {'user':u, 'public_list' : PublicBoardList, 'albums':albums, })
 
-def photos(request, ):
-    pass
+def photos(request, album_id):
+    
+    board = 'albums'
+
+    # 권한 검사
+    permission = check_permission(request, board, )
+    if permission[0] == False:
+        return permission[1]
+    u = request.session['user']
+    
+    album = Album.objects.get(pk = album_id)
+    photos = album.photos.all()
+
+    return render(request, 'yighub/photos.html', {'user':u, 'public_list' : PublicBoardList, 'album':album, 'photos':photos, })
+
+
+

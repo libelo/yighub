@@ -1,0 +1,133 @@
+{% extends "yighub/simple.html" %}
+
+{% block contents %}
+    <div class="container">
+
+
+        <form class="form-horizontal" style="max-width: 500px; padding: 19px 29px 29px 29px; margin-left: auto; margin-right: auto; background-color:white; border: 1px solid #e5e5e5; border-radius:5px;" action="{% url 'yighub:edit_profile' %}" enctype = "multipart/form-data" method = "post">
+        	{% csrf_token %}
+          <h2 class="form-signin-heading text-center">프로필 수정</h2>
+          <br />
+          {% if messages %}
+          <ul class = "messages">
+          {% for message in messages %}
+          <li {% if message.tags %} class = "{{ message.tags }}" {% endif %}>{{ message }}</li>
+          {% endfor %}
+          </ul>
+          {% endif %}
+          {{ form.user_id.errors }}
+          <div class="control-group">
+            <label class="control-label" for="{{ form.user_id.label }}">아이디</label>
+            <div class="controls">
+              <input type="text" name="user_id" maxlength="30" id="{{ form.user_id.label }}" placeholder="id" {% if form.user_id.value %} value="{{ form.user_id.value }}" {% endif %} />
+            </div>
+          </div>
+
+          {{ form.password.errors }}
+          <div class="control-group">
+            <label class="control-label" for="{{ form.password.label }}">기존 비밀번호</label>
+            <div class="controls">
+              <input type="password" name="password" maxlength="200" id="{{ form.password.label }}" placeholder="password" />
+            </div>
+          </div>
+        
+          <div class="control-group">
+            <label class="control-label" for="new_password">새 비밀번호</label>
+            <div class="controls">
+              <input type="password" name="new_password" maxlength="200" id="new_password" placeholder="new password" {% if form.new_password.value %} value="{{ form.new_password.value }}" {% endif %} />
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="password_check">비밀번호 확인</label>
+            <div class="controls">
+              <input type="password" name="password_check" maxlength="200" id="password_check" placeholder="new password" />
+            </div>
+          </div>
+          {{ form.name.errors }}
+          <div class="control-group">
+            <label class="control-label" for="{{ form.name.label }}">이름</label>
+            <div class="controls">
+              <input type="text" name="name" maxlength="30" id="{{ form.name.label }}" placeholder="홍길동" {% if form.name.value %} value="{{ form.name.value }}" {% endif %} />
+            </div>
+          </div>
+          {{ form.birthday.errors }}
+          <div class="control-group">
+            <label class="control-label" for="{{ form.birthday.label }}">생년월일</label>
+            <div class="controls">
+              <input type="text" name="birthday" id="{{ form.birthday.label }}" placeholder="1991-06-24" {% if form.birthday.value %} value="{{ form.birthday.value }}" {% endif %} />
+            </div>
+          </div>
+          {{ form.email.errors }}
+          <div class="control-group">
+            <label class="control-label" for="{{ form.email.label }}">이메일</label>
+            <div class="controls">
+              <input type="text" name="email" maxlength="75" id="{{ form.email.label }}" placeholder="email@gmail.com" {% if form.email.value %} value="{{ form.email.value }}" {% endif %} />
+            </div>
+          </div>
+          {{ form.messenger.errors }}
+          <div class="control-group">
+            <label class="control-label" for="{{ form.messenger.label }}">메신저</label>
+            <div class="controls">
+              <input type="text" name="messenger" maxlength="50" id="{{ form.messenger.label }}" placeholder="메신저 아이디" {% if form.messenger.value %} value="{{ form.messenger.value }}" {% endif %} />
+            </div>
+          </div>
+          {{ form.phone_number.errors }}
+          <div class="control-group">
+            <label class="control-label" for="{{ form.phone_number.label }}">전화번호</label>
+            <div class="controls">
+              <input type="text" name="phone_number" id="{{ form.phone_number.label }}" placeholder="01012341234" {% if form.phone_number.value %} value="{{ form.phone_number.value }}" {% endif %} />
+            </div>
+          </div>
+          {{ form.career1.errors }}
+          {{ form.career2.errors }}
+          {{ form.career3.errors }}
+          {{ form.career4.errors }}
+          {{ form.career5.errors }}
+          <div class="control-group">
+            <label class="control-label" for="{{ form.career1.label }}">경력사항</label>
+            <div class="controls">
+              <input type="text" name="career1" maxlength="200" id="{{ form.career1.label }}" placeholder="OO학과 OO학번" {% if form.career1.value %} value="{{ form.career1.value }}" {% endif %} />
+              <input type="text" name="career2" maxlength="200" id="{{ form.career2.label }}" placeholder="" {% if form.career2.value %} value="{{ form.career2.value }}" {% endif %} />
+              <input type="text" name="career3" maxlength="200" id="{{ form.career3.label }}" placeholder="" {% if form.career3.value %} value="{{ form.career3.value }}" {% endif %} />
+              <input type="text" name="career4" maxlength="200" id="{{ form.career4.label }}" placeholder="" {% if form.career4.value %} value="{{ form.career4.value }}" {% endif %} />
+              <input type="text" name="career5" maxlength="200" id="{{ form.career5.label }}" placeholder="" {% if form.career5.value %} value="{{ form.career5.value }}" {% endif %} />
+            </div>
+          </div>
+          {{ form.self_introduction.errors }}
+          <div class="control-group">
+            <label class="control-label" for="{{ form.self_introduction.label }}">자기소개</label>
+            <div class="controls">
+              <textarea cols="40" id="{{ form.self_introduction.label }}" name="self_introduction" rows="10" placeholder="자기소개를 해주세요">{{ form.self_introduction.value }}</textarea>
+            </div>
+          </div>
+          {{ form.profile.errors }}
+          <div class="control-group">
+            <label class="control-label" for="{{ form.profile.label }}">프로필 사진</label>
+            {% if user.profile %}
+            <img src="{{ user.profile.url }}" style="width:100%; max-width:220px; margin:20px;" />
+            {% endif %}
+            <div class="controls">
+              <input id="{{ form.profile.label }}" name="profile" type="file">
+            </div>
+          </div>
+          {{ form.avatar.errors }}
+          <div class="control-group">
+            <label class="control-label" for="{{ form.avatar.label }}">아바타</label>
+            {% if user.avatar %}
+            <img src="{{ user.avatar.url }}" style="width:100%; max-width:220px; margin:20px;" />
+            {% endif %}
+            <div class="controls">
+              <input id="{{ form.avatar.label }}" name="avatar" type="file">
+            </div>
+          </div>
+
+          <br />
+          <br />
+          <div class="text-center">
+            <button class="btn btn-large btn-primary" type="submit">수정하기</button>
+          </div>
+          <br />
+        </form>
+
+    </div> <!-- /container -->
+{% endblock %}

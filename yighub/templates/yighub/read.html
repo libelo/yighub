@@ -16,6 +16,11 @@
 			<span> <strong>{{ entry.creator }}</strong> / {{ entry.time_created }} </span>
 			<span class="pull-right">조회수 {{ entry.count_view }} / 추천수 {{ entry.count_recommendation }} </span>
 			<hr />
+			{% if entry.thumbnail %}
+			<img src="{{ entry.thumbnail.url }}" style="width:100%; max-width:600px;"/>
+			<br />
+			<br />
+			{% endif %}
 			{{ entry.content|linebreaks }}
 			<br />
 			<hr />
