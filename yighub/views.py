@@ -1043,24 +1043,32 @@ def delete_memo(request, memo_id):
         #return render(request, 'yighub/error.html', {'error' : 'invalid approach'})
     return HttpResponseRedirect(reverse('yighub:home', ))
 
+from django.core.files import File as FileWrapper
+from django.utils.encoding import smart_str
+import os
 def download(request, file_id):
+    
     f = File.objects.get(pk = file_id)
+    
     path = f.file.path
-    fp = open(path,'rb')
-    response = HttpResponse(fp.read())
-    fp.close()
+    filetype, encoding = mimetypes.guess_type(path)
+    fw = FileWrapper(open(path,'r'))
+
+    response = HttpResponse(fw)
+    response['Content-Type'] = filetype
+    response['Content-Encoding'] = encoding
+    response['Content-Length'] = os.path.getsize(path)
+    response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(os.path.basename(path))
     
     f.hit += 1
     f.save()
     
-    filetype, encoding = mimetypes.guess_type(f.file.name)
     #if type is None:
     #    type = 'application/octet-stream'
-    response['Content-Type'] = filetype
-    response['Content-Encoding'] = encoding
+     #response['Content-Type'] = filetype
+     #response['Content-Encoding'] = encoding
 #    encoded_name = f.file.name.encode(encoding = 'UTF-8')
-#    response['Content-Disposition'] = u'attachment; filename=%s' % encoded_name
-
+    #fp.close를 하면 안된다?
     return response
 
 def download_letter(request, letter_id):
