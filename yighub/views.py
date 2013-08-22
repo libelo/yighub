@@ -836,6 +836,7 @@ def delete_comment(request, board, entry_id, comment_id):
         return permission[1]
 
     if request.session['user'] == c.creator:
+        e.count_comment -= 1
         c.delete()
 
     else:
