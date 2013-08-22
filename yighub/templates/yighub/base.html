@@ -78,7 +78,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<img src="/static/yighub/images/yiglogo.png" class="pull-left" height="40px" width="40px" />
+				<img src="/static/yighub/images/yiglogo.png" class="pull-left" height="30px" width="30px" style="margin:5px 5px 0px 0px"/>
 				<a class="brand" href="{% url 'yighub:home' %}">YIG</a>
 				{% if user.name %}
 				<div class="nav-collapse collapse">
@@ -110,7 +110,7 @@
 
 						<li><a href="{% url 'yighub:news' 'bulletin' 1 %}">Boards</a></li>
 						<li><a href="{% url 'yighub:news' 'taskforce' 1 %}">Taskforce</a></li>
-						<li><a href="{% url 'yighub:albums' %}" style="color:black;"><span style="color=black;">Albums</span></a></li>
+						<li><a href="{% url 'yighub:albums' %}" style="color:black;">Albums</a></li>
 					</ul>
 				</div><!--/.nav-collapse -->
 
