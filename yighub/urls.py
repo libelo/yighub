@@ -26,14 +26,16 @@ urlpatterns = patterns('yighub.views',
     url(r'^albums/$', 'albums', {'page' : 1}, name='albums'),
     url(r'^albums/page/(?P<page>\d+)/$', 'albums'),
     url(r'^albums/(?P<album_id>\d+)/photos/$', 'photos', name='photos'),
-    #url(r'^albums/create/$', 'create_album', name='create_album'),
-    #url(r'^albums/(?P<album_id>\d+)/photos/create/$', 'create_photos', name='create_photos'),
-    #url(r'^albums/(?P<album_id>\d+)/photos/(?P<photo_id>\d+)/edit/$', 'edit_photo', name='edit_photo'),
-    #url(r'^albums/(?P<album_id>\d+)/photos/(?P<photo_id>\d+)/delete/$', 'delete_photo', name='delete_photo'),
-    #url(r'^albums/(?P<album_id>\d+)/photos/(?P<photo_id>\d+)/recommend/$', 'recommed_photo', name='recommend_photo'),
-    #url(r'^albums/(?P<album_id>\d+)/photos/(?P<photo_id>\d+)/comment/$', 'comment_photo', name='comment_photo'),
-    #url(r'^albums/(?P<album_id>\d+)/photos/(?P<photo_id>\d+)/comment/(?P<comment_id>\d+)/reply$', 'reply_comment_photo', name='reply_comment_photo'),
-    #url(r'^albums/(?P<album_id>\d+)/photos/(?P<photo_id>\d+)/comment/(?P<comment_id>\d+)/recommend$', 'recommend_comment_photo', name='recommed_comment_photo'),
+    url(r'^albums/create/$', 'create_album', name='create_album'),
+    url(r'^albums/(?P<album_id>\d+)/photos/create/$', 'create_photos', name='create_photos'),
+    url(r'^albums/(?P<album_id>\d+)/photos/(?P<photo_id>\d+)/edit/$', 'edit_photo', name='edit_photo'),
+    url(r'^albums/(?P<album_id>\d+)/photos/(?P<photo_id>\d+)/delete/$', 'delete_photo', name='delete_photo'),
+    url(r'^albums/(?P<album_id>\d+)/photos/(?P<photo_id>\d+)/recommend/$', 'recommend_photo', name='recommend_photo'),
+    url(r'^albums/(?P<album_id>\d+)/photos/(?P<photo_id>\d+)/recommend/delete/$', 'delete_recommend_photo', name='delete_recommend_photo'),
+    url(r'^albums/(?P<album_id>\d+)/photos/(?P<photo_id>\d+)/comment/$', 'comment_photo', name='comment_photo'),
+    url(r'^albums/(?P<album_id>\d+)/photos/(?P<photo_id>\d+)/comment/(?P<comment_id>\d+)/delete/$', 'delete_comment_photo', name='delete_comment_photo'),    
+    url(r'^albums/(?P<album_id>\d+)/photos/(?P<photo_id>\d+)/comment/(?P<comment_id>\d+)/reply/$', 'reply_comment_photo', name='reply_comment_photo'),
+    url(r'^albums/(?P<album_id>\d+)/photos/(?P<photo_id>\d+)/comment/(?P<comment_id>\d+)/recommend/$', 'recommend_comment_photo', name='recommed_comment_photo'),
     
     
     url(r'^(?P<board>\w+)/news/(?P<page>\d+)/$', 'news', name='news'), # newest entries in member boards. every links to boards should be with page ( even 1)
@@ -45,10 +47,13 @@ urlpatterns = patterns('yighub.views',
     url(r'^(?P<board>\w+)/entry/(?P<entry_id>\d+)/delete/$', 'delete', name='delete'),
     url(r'^(?P<board>\w+)/entry/(?P<entry_id>\d+)/reply/$', 'reply', name='reply'),
     url(r'^(?P<board>\w+)/entry/(?P<entry_id>\d+)/recommend/$', 'recommend', name='recommend'),
+    url(r'^(?P<board>\w+)/entry/(?P<entry_id>\d+)/recommend/delete/$', 'delete_recommend', name='delete_recommend'),
     url(r'^(?P<board>\w+)/entry/(?P<entry_id>\d+)/comment/$', 'comment', name='comment'),
     url(r'^(?P<board>\w+)/entry/(?P<entry_id>\d+)/comment/(?P<comment_id>\d+)/delete/$', 'delete_comment', name='delete_comment'),    
     url(r'^(?P<board>\w+)/entry/(?P<entry_id>\d+)/comment/(?P<comment_id>\d+)/reply/$', 'reply_comment', name='reply_comment'),
     url(r'^(?P<board>\w+)/entry/(?P<entry_id>\d+)/comment/(?P<comment_id>\d+)/recommend/$', 'recommend_comment', name='recommend_comment'),
+    #url(r'^(?P<board>\w+)/entry/(?P<entry_id>\d+)/comment/(?P<comment_id>\d+)/recommend/delete/$', 'recommend_comment', name='recommend_comment'),
+
 )
 
     # url(r'^boards/news/(?P<page>\d+)/$', news, {'board' : 'bulletin'}, name='news_bulletin') # newest entries in member boards. every links to boards should be with page ( even 1)

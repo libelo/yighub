@@ -48,9 +48,13 @@
 			{% endif %}
 
 			<span>
+				{% if user not in entry.recommendation.all %}
 				<a href = "{% url 'yighub:recommend' board entry.id %}">추천하기</a>
+				{% else %}
+				<a href = "{% url 'yighub:delete_recommend' board entry.id %}">추천 취소</a>
+				{% endif %}
 				&nbsp;&nbsp;
-				<a href = "{% url 'yighub:reply' board entry.id %}">답글 쓰기</a>
+				<a href = "{% url 'yighub:reply' board entry.id %}">답글쓰기</a>
 			</span>
 			{% if entry.creator == user %}
 			<span class="pull-right">

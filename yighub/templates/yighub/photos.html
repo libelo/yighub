@@ -1,22 +1,112 @@
 {% extends "yighub/base.html" %}
 
+{% block style %}
+.comments p {
+	line-height: 180%;
+}
+{% endblock %}
+
+
 {% block contents %}
 
-<div class="text-center" style="margin:30px auto 50px auto">
+<div class="text-center" style="margin:25px auto 0px auto">
 	<h2>{{ album.name }}</h2>
 </div>
-<br />
-
-<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
-
-{% for p in photos %}
-
-<div style="margin-left:12px">
-	<img src="{{ p.photo.url }}" width="200px" />
-	</a>
+<div class="row-fluid">
+	<div class="container-fluid">
+		<span>
+			<a href="{% url 'yighub:albums' %}">
+				<button type="button" class="btn" onclick = 'history.back()'>돌아가기</button>
+			</a>
+		</span>
+		<span class="pull-right">
+			<a href="{% url 'yighub:create_photos' album.id %}">
+				<button type="button" class="btn btn-primary">사진 추가하기</button>
+			</a>
+		</span>
+	</div> 
 </div>
 
-{% endfor %}
+<div class="span2"></div>
+<div class="span8" style="margin-left:auto; margin-right:auto;">
+
+	{% for p in photos %}
+	<hr />
+	<div class="text-center">
+		<img src="{{ p.photo.url }}" style="max-height:600px;" />
+	</div>
+
+	<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
+		<br />
+		{% if p.description %}
+		{{ p.description|linebreaks }}
+
+		<hr />
+		{% endif %}
+
+		<span>
+			{% if user not in p.recommendation.all %}
+			<a href = "{% url 'yighub:recommend_photo' album.id p.id %}">추천하기</a>
+			{% else %}
+			<a href = "{% url 'yighub:delete_recommend_photo' album.id p.id %}">추천 취소</a>
+			{% endif %}
+		</span>
+		{% if p.photographer == user %}
+		<span class="pull-right">
+			<a href = "{% url 'yighub:edit_photo' album.id p.id %}">수정하기</a> 
+			&nbsp;&nbsp;
+			<a href = "{% url 'yighub:delete_photo' album.id p.id %}">삭제하기</a>
+		</span>
+		{% else %}
+		<span class="pull-right muted">
+			Photo by <strong>{{ p.photographer }}</strong>
+		</span>
+		{% endif %}
+		
+		{% if p.recommendation.all %}
+		<br />
+		<span class="muted">{{ p.count_recommendation }}명이 추천합니다 -</span>
+		{% for r in p.recommendation.all %}
+		<strong>&nbsp;{{ r }}</strong> 
+		{% endfor %}
+		{% endif %}
+		
+		{% if p.comments.all %}
+		<br />
+		<br />
+		<div class="comments" style="background-color: #edeff4; ">
+			{% for c in p.comments.all %}
+			<div style="padding: 15px 20px 5px 20px; border-bottom-style: solid; border-width: 2px; border-color: white;">
+
+				<strong>{{ c.creator }}</strong>
+				<small class="muted"> {{ c.time_created }} </small>	
+				{% if c.creator == user %}
+				<span class="pull-right">
+					<a href = "{% url 'yighub:delete_comment_photo' album.id p.id c.id %}"> 
+						<i class="icon-remove" style="opacity:0.25"></i> 
+					</a>
+				</span>
+				{% endif %}
+				{{ c.content|linebreaks }}
+			</div>
+			{% endfor %}
+
+		</div>	
+		{% endif %}
+		<div style="padding: 15px 20px 5px 20px;">
+			<form action = "{% url 'yighub:comment_photo' album.id p.id %}" method = 'post' >
+				{% csrf_token %}
+				<textarea rows="3" class="span12" name = "content"></textarea>
+				<button style="margin: 10px;" class="btn btn-success pull-right" type = "submit">댓글달기</button>
+			</form>
+		</div>
+	</div>
+
+	{% endfor %}
+
 </div>
+<div class="span2"></div>
+
+
 
 {% endblock %}

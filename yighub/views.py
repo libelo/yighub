@@ -706,16 +706,16 @@ def delete_recommend(request, board, entry_id):
     permission = check_permission(request, board, e.board, mode = 'writing')
     if permission[0] == False:
         return permission[1]
-
-    """
+    
     u = request.session['user']
     if u in e.recommendation.all():
-        d = e.recommendation.get(messages.error(request, 'You already recommend this')
-    """
-
-    # 구현하기
-
-    return 0
+        e.count_recommendation -= 1
+        e.recommendation.remove(u)
+        e.save()
+        return redirect('yighub:read', board = board, entry_id = entry_id)
+    else:
+        messages.error(request, 'You have not recommended this')
+        return render(request, 'yighub/error.html', )
 
 def comment(request, board, entry_id):
 
@@ -841,6 +841,7 @@ def delete_comment(request, board, entry_id, comment_id):
 
     if request.session['user'] == c.creator:
         e.count_comment -= 1
+        e.save()
         c.delete()
 
     else:
@@ -1170,8 +1171,143 @@ def photos(request, album_id):
     
     album = Album.objects.get(pk = album_id)
     photos = album.photos.all()
+    # template과 model의 분리를 위해 여기서 처리해야 하지만, 일단 이번엔 template에서 시도해본다. 되긴 된다. 
+    #for p in photos:
+    #    p.recommendations = p.recommendation.all()
+    #    p.comment_list = p.comments.all()
 
     return render(request, 'yighub/photos.html', {'user':u, 'public_list' : PublicBoardList, 'album':album, 'photos':photos, })
 
+def create_album(request,):
+    pass
+
+def create_photos(request, album_id):
+    pass
+def edit_photo(request, album_id, photo_id):
+    pass
+def delete_photo(request, album_id, photo_id):
+    try:
+        p = Photo.objects.get(pk = photo_id)
+    except Photo.DoesNotExist:
+        raise Http404
+
+    # 권한 검사
+    permission = check_permission(request, 'albums', p.album, mode = 'writing')
+    if permission[0] == False:
+        return permission[1]
+
+    if request.session['user'] == p.photographer:
+        
+        # 게시판 정보를 업데이트한다.
+        a = p.album
+        a.count_entry -= 1
+        if p.id == a.newest_entry:
+            if a.count_entry > 1: 
+                prev_entry = a.photos.order_by('-arrangement')[1] # edit과 reply를 포함하면 time_last_modified로.
+                a.newest_entry = prev_entry.id
+                a.newest_time = prev_entry.time_last_modified
+            else: # 게시판에 글이 하나 남았을 때
+                a.newest_entry = None
+                a.newest_time = None
+        a.save()
+
+        p.delete()
+    else:
+        messages.error(request, 'invalid approach')
+        return render(request, 'yighub/error.html', )
+        #return render(request, 'yighub/error.html', {'error' : 'invalid approach'})
+    return redirect('yighub:photos', album_id=album_id)
+
+def recommend_photo(request, album_id, photo_id):
+
+    # 권한 검사
+    permission = check_permission(request, 'albums', get_object_or_404(Album, pk=album_id), mode = 'writing')
+    if permission[0] == False:
+        return permission[1]
+
+    try:
+        p = Photo.objects.get(pk = photo_id) 
+    except Photo.DoesNotExist:
+        raise Http404
+
+    u = request.session['user']
+    if u in p.recommendation.all():
+        messages.error(request, 'You already recommend this')
+        return render(request, 'yighub/error.html', )
+    p.recommendation.add(u)
+    p.count_recommendation += 1
+    p.save()
+
+    return redirect('yighub:photos', album_id = album_id)
+
+def delete_recommend_photo(request, album_id, photo_id):
+
+    # 권한 검사
+    permission = check_permission(request, 'albums', get_object_or_404(Album, pk=album_id), mode = 'writing')
+    if permission[0] == False:
+        return permission[1]
+      
+    try:
+        p = Photo.objects.get(pk = photo_id) 
+    except Photo.DoesNotExist:
+        raise Http404
+
+    u = request.session['user']
+    if u in p.recommendation.all():
+        p.count_recommendation -= 1
+        p.recommendation.remove(u)
+        p.save()
+        return redirect('yighub:photos', album_id = album_id)
+    else:
+        messages.error(request, 'You have not recommended this')
+        return render(request, 'yighub/error.html', )
 
 
+def comment_photo(request, album_id, photo_id):
+    
+    if request.method == 'POST':
+        p = get_object_or_404(Photo, pk = photo_id)
+        try:
+            newest_comment = PhotoComment.objects.order_by('-arrangement')[0]
+        except IndexError:
+            arrangement = 0
+        else:
+            arrangement = (newest_comment.arrangement/1000 + 1) * 1000
+        c = PhotoComment(photo = p,
+                    content = request.POST['content'],
+                    creator = request.session['user'],
+                    time_created = timezone.now(),
+                    arrangement = arrangement,
+                    )
+        c.save()
+
+        return redirect('yighub:photos', album_id = album_id) 
+    else:
+        messages.error(request, 'invalid approach')
+        return render(request, 'yighub/error.html', )
+
+def delete_comment_photo(request, album_id, photo_id, comment_id):
+    
+    try:
+        p = Photo.objects.get(pk = photo_id)
+        c = PhotoComment.objects.get(pk = comment_id)
+    except Photo.DoesNotExist, PhotoComment.DoesNotExist:
+        raise Http404
+
+    # 권한 검사
+    permission = check_permission(request, 'albums', p.album, mode = 'writing')
+    if permission[0] == False:
+        return permission[1]
+
+    if request.session['user'] == c.creator:
+        c.delete()
+        return redirect('yighub:photos', album_id = album_id)
+
+    else:
+        messages.error(request, 'invalid approach')
+        return render(request, 'yighub/error.html', )
+
+def reply_comment_photo(request, album_id, photo_id, comment_id):
+    pass
+def recommend_comment_photo(request, album_id, photo_id, comment_id):
+    pass
