@@ -67,7 +67,12 @@
 		<br />
 		<span class="muted">{{ p.count_recommendation }}명이 추천합니다 -</span>
 		{% for r in p.recommendation.all %}
-		<strong>&nbsp;{{ r }}</strong> 
+		<strong>
+			{% if forloop.counter > 1 %}
+			,
+			{% endif %}
+			&nbsp;{{ r }}
+		</strong> 
 		{% endfor %}
 		{% endif %}
 		

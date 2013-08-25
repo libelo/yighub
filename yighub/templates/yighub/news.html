@@ -30,6 +30,7 @@
 					<tr>
 						<td> {{ entry.creator }} </td>
 						<td>
+							{% for i in entry.range %} ↳ {% endfor %}
 							<a href="{% url 'yighub:read' board entry.id %}">{{ entry.title }} [{{ entry.count_comment }}]</a>
 						</td>
 						<td> {{ entry.time_created }} </td>
