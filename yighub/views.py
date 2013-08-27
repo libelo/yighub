@@ -10,6 +10,7 @@ from yighub.models import BulletinFile, TaskforceFile, PublicFile, File
 from yighub.models import BulletinEntryForm, TaskforceEntryForm, PublicEntryForm
 from yighub.models import TaskforceBoardForm
 from yighub.models import Album, Photo, PhotoComment
+from yighub.models import AlbumForm, PhotoForm
 
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render_to_response, get_object_or_404, render, redirect
@@ -1170,6 +1171,8 @@ def photos(request, album_id):
     u = request.session['user']
     
     album = Album.objects.get(pk = album_id)
+    album.count_view += 1
+    album.save()
     photos = album.photos.all()
     # template과 model의 분리를 위해 여기서 처리해야 하지만, 일단 이번엔 template에서 시도해본다. 되긴 된다. 
     #for p in photos:
@@ -1179,10 +1182,71 @@ def photos(request, album_id):
     return render(request, 'yighub/photos.html', {'user':u, 'public_list' : PublicBoardList, 'album':album, 'photos':photos, })
 
 def create_album(request,):
+    
+    # 권한 검사
+    permission = check_permission(request, 'albums')
+    if permission[0] == False:
+        return permission[1]
+
+    if request.method == 'POST':
+        form = AlbumForm(request.POST)
+        if form.is_valid():
+
+            a = form.save(commit = False)            
+            a.permission_reading = 'pre'
+            a.permission_writing = 'pre'
+            a.save()
+
+            return redirect('yighub:albums', )
+    else:
+        form = AlbumForm()
+
+    u = request.session['user']
+
+    return render(request, 'yighub/create_album.html', {'user' : u, 'public_list' : PublicBoardList, 'form' : form})
+
+def edit_album(request,):
     pass
 
 def create_photos(request, album_id):
-    pass
+
+    try:
+        a = Album.objects.get(pk = album_id)
+    except Album.DoesNotExist:
+        raise Http404
+
+    # 권한 검사
+    permission = check_permission(request, 'albums', a, mode = 'writing')
+    if permission[0] == False:
+        return permission[1]
+    u = request.session['user']
+
+    if request.method == 'POST':
+            
+            # 글을 저장한다.
+        for k in range(int(request.POST['size'])):
+            if 'photo_'+str(k) in request.FILES:
+                p = Photo()
+                p.album = a
+                p.photo = request.FILES['photo_'+str(k)]
+                p.description = request.POST['description_'+str(k)]
+                p.photographer = request.session['user']
+                p.time_last_modified = timezone.now()
+                p.save()
+                # 게시판 정보를 업데이트한다.
+                a.count_entry += 1
+                a.newest_entry = p.id
+                a.newest_time = p.time_last_modified
+                a.save()
+        
+        return redirect('yighub:photos', album_id = album_id)
+    else:
+        form = PhotoForm()
+
+    return render(request, 'yighub/create_photos.html', 
+        {'user' : u, 'public_list' : PublicBoardList, 'album' : a, 'form' : form, })
+
+
 def edit_photo(request, album_id, photo_id):
     pass
 def delete_photo(request, album_id, photo_id):

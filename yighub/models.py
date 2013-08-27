@@ -105,6 +105,12 @@ class Album(Board): # 그냥 Album으로 하자.
     event_time = models.DateField(blank = True, null = True)
     count_view = models.PositiveIntegerField(default = 0)
 
+
+class AlbumForm(forms.ModelForm):
+    class Meta:
+        model = Album
+        fields = ('name', 'event_time')
+
 class Photo(models.Model):
     album = models.ForeignKey(Album, related_name = 'photos')
     photo = models.ImageField(upload_to = 'yighub/albums/%Y/%m/%d', ) # 외부용 null = True 
@@ -114,6 +120,7 @@ class Photo(models.Model):
     time_last_modified = models.DateTimeField(auto_now = True)
     recommendation = models.ManyToManyField(User, related_name = 'photo_recommendations', blank = True, null = True)
     count_recommendation = models.PositiveIntegerField(default = 0)
+    # count_comment
     #arrangement는 필요없다. 그냥 id 순서로 늘어놓으면 될 듯.
     tag = models.ManyToManyField(Tag, related_name = 'photos', blank = True, null = True)
 
@@ -122,6 +129,11 @@ class Photo(models.Model):
             return self.description
         else:
             return self.photographer.name + u'의 사진'
+
+class PhotoForm(forms.ModelForm):
+    class Meta:
+        model = Photo
+        fields = ('photo', 'description')
 
 class PhotoComment(Comment):
     photo = models.ForeignKey(Photo, related_name = 'comments')

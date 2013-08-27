@@ -5,7 +5,7 @@
 <div class="text-center" style="margin:30px auto 50px auto">
 	<h2>Albums</h2>
 	<div class="container-fluid pull-right">
-		<a href="{# url 'yighub:create_in_board' board current_board.id #}">
+		<a href="{% url 'yighub:create_album' %}">
 			<button type="button" class="btn btn-primary">새 앨범</button>
 		</a>
 	</div> 
@@ -14,20 +14,24 @@
 {% if albums %}
 
 {% for a in albums %}
-<div class="span3 text-center" style="margin-left:12px">
-	<a href="{% url 'yighub:photos' a.album.id %}">
-		{% if a.thumbnail %}
-		<img src="{{ a.thumbnail.photo.url }}" width="200px" />
-		{% else %}
-		<div height="200px" width="200px" />
-		{% endif %}
-	<h4 class="text-center">{{ a.album.name }}</h4>
-	{% if a.album.event_time %}
-	<span>{{ a.album.event_time }}</span>
-	{% endif %}
-	</a>
-</div>
-
+{% cycle '<div class="row-fluid" style="margin-bottom:50px;">' '' '' '' %}
+	<div class="span3 text-center" style="margin-left:12px">
+		<a href="{% url 'yighub:photos' a.album.id %}">
+			
+			<div style="height:160px;">
+				{% if a.thumbnail %}
+				<img src="{{ a.thumbnail.photo.url }}" style="max-width:200px; max-height:150px;" />
+				{% else %}
+				<img src="/static/yighub/images/main.jpg" style="max-width:200px; max-height:150px;" />
+				{% endif %}
+			</div>
+			<h4 class="text-center">{{ a.album.name }}</h4>
+			{% if a.album.event_time %}
+			<span>{{ a.album.event_time }}</span>
+			{% endif %}
+		</a>
+	</div>
+{% cycle '' '' '' '</div>' %}
 {% endfor %}
 {% else %}
 <p> 아직 앨범이 없습니다. </p>

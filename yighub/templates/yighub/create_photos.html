@@ -1,0 +1,97 @@
+{% extends "yighub/base.html" %}
+
+{% block contents %}
+
+<div class="text-center" style="margin:25px auto 0px auto">
+	<h2>{{ album.name }}</h2>
+	<h3>사진 추가하기</h3>
+</div>
+
+<div class="span2"></div>
+<div class="span8" style="margin-left:auto; margin-right:auto;">
+	<form action="{% url 'yighub:create_photos' album.id %}" enctype = "multipart/form-data" method = "post">
+		{% csrf_token %}
+		<input type="hidden" name="size" value="5" />
+		<hr />
+		<div class="container-fluid" style="max-width: 680px; margin-left: 200px; margin-right: 200px;">
+			
+			<label>사진</label>
+			{{ form.photo.errors }}
+			<input type="file" name="photo_0" />
+
+			<br />
+			<br />
+			<label>설명</label>
+			<textarea class="span12" name="description_0" rows="5" placeholder="사진 설명을 해주세요" {% if form.description.value %} value="{{ form.description.value }}" {% endif %} ></textarea>
+			
+		</div>
+
+		<hr />
+		<div class="container-fluid" style="max-width: 680px; margin-left: 200px; margin-right: 200px;">
+			
+			<label>사진</label>
+			<input type="file" name="photo_1" />
+
+			<br />
+			<br />
+			<label>설명</label>
+			{{ form.description.errors }}
+			<textarea class="span12" name="description_1" rows="5" placeholder="사진 설명을 해주세요" {% if form.description.value %} value="{{ form.description.value }}" {% endif %} ></textarea>
+			
+		</div>
+
+		<hr />
+		<div class="container-fluid" style="max-width: 680px; margin-left: 200px; margin-right: 200px;">
+			
+			<label>사진</label>
+			<input type="file" name="photo_2" />
+
+			<br />
+			<br />
+			<label>설명</label>
+			{{ form.description.errors }}
+			<textarea class="span12" name="description_2" rows="5" placeholder="사진 설명을 해주세요" {% if form.description.value %} value="{{ form.description.value }}" {% endif %} ></textarea>
+			
+		</div>
+
+		<hr />
+		<div class="container-fluid" style="max-width: 680px; margin-left: 200px; margin-right: 200px;">
+			
+			<label>사진</label>
+			<input type="file" name="photo_3" />
+
+			<br />
+			<br />
+			<label>설명</label>
+			{{ form.description.errors }}
+			<textarea class="span12" name="description_3" rows="5" placeholder="사진 설명을 해주세요" {% if form.description.value %} value="{{ form.description.value }}" {% endif %} ></textarea>
+			
+		</div>
+
+		<hr />
+		<div class="container-fluid" style="max-width: 680px; margin-left: 200px; margin-right: 200px;">
+			
+			<label>사진</label>
+			<input type="file" name="photo_4" />
+
+			<br />
+			<br />
+			<label>설명</label>
+			{{ form.description.errors }}
+			<textarea class="span12" name="description_4" rows="5" placeholder="사진 설명을 해주세요" {% if form.description.value %} value="{{ form.description.value }}" {% endif %} ></textarea>
+			
+		</div>
+
+
+		<div class="form-actions text-center">
+			<button type="submit" class="btn btn-primary">추가하기</button>
+			<button type="button" class="btn">취소</button>
+		</div>
+	</form>
+
+</div>
+<div class="span2"></div>
+
+
+
+{% endblock %}

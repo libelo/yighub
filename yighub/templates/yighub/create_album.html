@@ -1,0 +1,21 @@
+{% extends "yighub/simple.html" %}
+
+{% block contents %}
+    <div class="container">
+
+      <form class="form-signin" action="{% url 'yighub:create_album' %}", method = "post">
+      	{% csrf_token %}
+        <h2 class="form-signin-heading">앨범 만들기</h2>
+        <br />
+        {{ form.name.errors }}
+        <label>앨범 이름</label>
+        <input type="text" class="input-block-level" placeholder="이름" name="name" />
+        <label>이벤트 날짜</label>
+        <input type="text" class="input-block-level" name="event_time" id="{{ form.birthday.label }}" placeholder="2013-09-01" {% if form.event_time.value %} value="{{ form.event_time.value }}" {% endif %} />
+        <br />
+        <br />
+        <button class="btn btn-large btn-primary" type="submit">만들기</button>
+      </form>
+
+    </div> <!-- /container -->
+{% endblock %}
