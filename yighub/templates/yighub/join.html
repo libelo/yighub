@@ -8,6 +8,7 @@
         	{% csrf_token %}
           <h2 class="form-signin-heading text-center">회원가입</h2>
           <br />
+          <p class="text-right">* : 필수항목</p>
           {% if messages %}
           <ul class = "messages">
           {% for message in messages %}
@@ -17,27 +18,27 @@
           {% endif %}
           {{ form.user_id.errors }}
           <div class="control-group">
-            <label class="control-label" for="{{ form.user_id.label }}">아이디</label>
+            <label class="control-label" for="{{ form.user_id.label }}">아이디*</label>
             <div class="controls">
               <input type="text" name="user_id" maxlength="30" id="{{ form.user_id.label }}" placeholder="id" {% if form.user_id.value %} value="{{ form.user_id.value }}" {% endif %} />
             </div>
           </div>
           {{ form.password.errors }}
           <div class="control-group">
-            <label class="control-label" for="{{ form.password.label }}">비밀번호</label>
+            <label class="control-label" for="{{ form.password.label }}">비밀번호*</label>
             <div class="controls">
               <input type="password" name="password" maxlength="200" id="{{ form.password.label }}" placeholder="password" {% if form.password.value %} value="{{ form.password.value }}" {% endif %} />
             </div>
           </div>
           <div class="control-group">
-            <label class="control-label" for="password_check">비밀번호 확인</label>
+            <label class="control-label" for="password_check">비밀번호 확인*</label>
             <div class="controls">
               <input type="password" name="password_check" maxlength="200" id="password_check" placeholder="password" />
             </div>
           </div>
           {{ form.name.errors }}
           <div class="control-group">
-            <label class="control-label" for="{{ form.name.label }}">이름</label>
+            <label class="control-label" for="{{ form.name.label }}">이름*</label>
             <div class="controls">
               <input type="text" name="name" maxlength="30" id="{{ form.name.label }}" placeholder="홍길동" {% if form.name.value %} value="{{ form.name.value }}" {% endif %} />
             </div>
