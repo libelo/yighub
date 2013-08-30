@@ -23,6 +23,11 @@ from django.utils import timezone
 from django.contrib.auth import hashers
 
 PublicBoardList = PublicBoard.objects.all()
+PublicBoardDict = {}
+for public_board in PublicBoardList:
+    PublicBoardDict[public_board.name[:3]] = public_board
+
+current_ordinal = 21
 
 def classify(board):
     exist = True
@@ -58,7 +63,7 @@ def pagination(board, board_id, current_page): # board_number가 0이면 최신�
         raise Http404
 
     board_id = int(board_id)
-    current_page = int(current_page)
+    current_page = int(current_page) if current_page != '0' else 1
     page_size = 20
     no = (current_page - 1) * page_size # 그 앞 페이지 마지막 글까지 개수
 
@@ -165,7 +170,7 @@ def check_permission(request, board, current_board = None, mode = 'reading'):
 def home(request):
 
     if 'user_id' not in request.session:
-        return render(request, 'yighub/home_for_visitor.html', {'public_list' : PublicBoardList})
+        return render(request, 'yighub/home_for_visitor.html', {'public_dict' : PublicBoardDict})
     else:
         u = request.session['user_id']
     try:
@@ -178,7 +183,7 @@ def home(request):
     user.save()
     
     if user.level == 'non':
-        return render(request, 'yighub/home_for_visitor.html', {'public_list' : PublicBoardList})
+        return render(request, 'yighub/home_for_visitor.html', {'public_dict' : PublicBoardDict})
 
     memos = Memo.objects.all().order_by('-pk')[0:10]
     bulletin_list = BulletinBoard.objects.all()
@@ -244,7 +249,7 @@ def home(request):
 
     return render(request, 'yighub/home_for_member.html', # 아직까지는 페이지 넘기기 지원하지 않음.
                                   { 'user' : user,
-                                    'public_list' : PublicBoardList,
+                                    'public_dict' : PublicBoardDict,
                                     'bulletin_list' : bulletin_list,
                                     'taskforce_list' : taskforce_list,
                                     'bulletin_news' : bulletin_news,
@@ -276,10 +281,10 @@ def news(request, board, page):
     board_list = Board.objects.all()
 
     return render(request, 'yighub/news.html',
-        {'user': user, 'public_list' : PublicBoardList, 'board': board, 'board_list': board_list, 'page': p}
+        {'user': user, 'public_dict' : PublicBoardDict, 'board': board, 'board_list': board_list, 'page': p}
         )
 
-def listing(request, board, board_id, page = 1):    # url : yig.in/yighub/board/1/page/3
+def listing(request, board, board_id, page = 0):    # url : yig.in/yighub/board/1/page/3
 
     # board 분류
     exist, Board, Entry, Comment, File, EntryForm = classify(board)
@@ -307,12 +312,23 @@ def listing(request, board, board_id, page = 1):    # url : yig.in/yighub/board/
         u = None
 
     if board == 'public':
+
+        if current_board.name == 'Member Profile':
+
+            if page == '0':
+                p['display_ordinal'] = current_ordinal
+            else:
+                p['display_ordinal'] = int(page)
+
+            p['user_list'] = User.objects.filter(ordinal = p['display_ordinal'])
+            p['ordinal_range'] = range(1, current_ordinal+1)
+
         return render(request, 'yighub/public_' + current_board.name + '.html', 
-            {'user': u, 'public_list' : PublicBoardList, 'board': board, 'board_list': board_list, 'current_board': current_board, 'page': p}
+            {'user': u, 'public_dict' : PublicBoardDict, 'board': board, 'board_list': board_list, 'current_board': current_board, 'page': p}
             )
 
     return render(request, 'yighub/listing.html',
-        {'user': u, 'public_list' : PublicBoardList, 'board': board, 'board_list': board_list, 'current_board': current_board, 'page': p}
+        {'user': u, 'public_dict' : PublicBoardDict, 'board': board, 'board_list': board_list, 'current_board': current_board, 'page': p}
         )
 
     # if board_id:
@@ -359,7 +375,7 @@ def create_taskforce(request):
 
     u = request.session['user']
 
-    return render(request, 'yighub/create_taskforce.html', {'user' : u, 'public_list' : PublicBoardList, 'form' : form})
+    return render(request, 'yighub/create_taskforce.html', {'user' : u, 'public_dict' : PublicBoardDict, 'form' : form})
 
 def edit_taskforce(request):
     pass # 여기서 archive로 넘기기도 처리. 삭제는 일단 구현 안함. 게시글이 하나도 없을 때만 가능.
@@ -393,7 +409,7 @@ def read(request, board, entry_id,):
 
     return render(request, 'yighub/read.html',
       {'user' : u,
-      'public_list' : PublicBoardList, 
+      'public_dict' : PublicBoardDict, 
       'board' : board,
       'board_list' : board_list,
       'current_board' : current_board,
@@ -468,7 +484,7 @@ def create(request, board, board_id = None):
 
     return render(request, 'yighub/create.html', 
         {'user' : u, 
-        'public_list' : PublicBoardList, 
+        'public_dict' : PublicBoardDict, 
         'board' : board,
         'board_list' : board_list,
         'current_board' : current_board,
@@ -539,7 +555,7 @@ def edit(request, board, entry_id):
 
     return render(request, 'yighub/edit.html', 
         {'user' : u, 
-        'public_list' : PublicBoardList, 
+        'public_dict' : PublicBoardDict, 
         'board' : board,
         'board_list' : board_list,
         'current_board' : current_board,
@@ -657,7 +673,7 @@ def reply(request, board, entry_id): # yig.in/entry/12345/reply
 
     return render(request, 'yighub/reply.html', 
         {'user' : u,
-        'public_list' : PublicBoardList, 
+        'public_dict' : PublicBoardDict, 
         'board' : board,
         'board_list' : board_list,
         'current_board' : b,
@@ -882,7 +898,7 @@ def join(request):
     else:
         form = UserForm()
 
-    return render(request, 'yighub/join.html', {'public_list' : PublicBoardList, 'form' : form}, context_instance = RequestContext(request))
+    return render(request, 'yighub/join.html', {'public_dict' : PublicBoardDict, 'form' : form}, context_instance = RequestContext(request))
 
 def edit_profile(request):
 
@@ -901,14 +917,14 @@ def edit_profile(request):
             else:
                 messages.error(request, 'already used id. please change your id.')
                 form = UserForm(request.POST, )
-                return render(request, 'yighub/edit_profile.html', {'user':u, 'public_list' : PublicBoardList, 'form' : form}, )
+                return render(request, 'yighub/edit_profile.html', {'user':u, 'public_dict' : PublicBoardDict, 'form' : form}, )
 
         if hashers.check_password(request.POST['password'], u.password):
             pass
         else:
             messages.error(request, 'please enter your old password.')
             form = UserForm(request.POST, )
-            return render(request, 'yighub/edit_profile.html', {'user':u, 'public_list' : PublicBoardList, 'form' : form}, )
+            return render(request, 'yighub/edit_profile.html', {'user':u, 'public_dict' : PublicBoardDict, 'form' : form}, )
 
         if request.POST['new_password']:
             if request.POST['new_password'] == request.POST['password_check']:
@@ -916,7 +932,7 @@ def edit_profile(request):
             else:
                 messages.error(request, 'please check your new password.')
                 form = UserForm(request.POST, )
-                return render(request, 'yighub/edit_profile.html', {'user':u, 'public_list' : PublicBoardList, 'form' : form}, )
+                return render(request, 'yighub/edit_profile.html', {'user':u, 'public_dict' : PublicBoardDict, 'form' : form}, )
 
         form = UserForm(request.POST, request.FILES, instance = u)
         if form.is_valid():
@@ -925,6 +941,8 @@ def edit_profile(request):
 
             if request.POST['new_password']:
                 f.password = hashers.make_password(request.POST['new_password'])
+            else:
+                f.password = hashers.make_password(request.POST['password'])
 
             f.profile = request.FILES['profile'] if 'profile' in request.FILES else u.profile
             f.avatar = request.FILES['avatar'] if 'avatar' in request.FILES else u.avatar
@@ -939,7 +957,7 @@ def edit_profile(request):
     else:
         form = UserForm(instance = u, )
 
-    return render(request, 'yighub/edit_profile.html', {'user':u, 'public_list' : PublicBoardList, 'form' : form}, )
+    return render(request, 'yighub/edit_profile.html', {'user':u, 'public_dict' : PublicBoardDict, 'form' : form}, )
 
 
         
@@ -950,7 +968,7 @@ def delete_profile(request):
 
 def login(request):
     request.session.set_test_cookie()
-    return render(request, 'yighub/login.html', {'public_list' : PublicBoardList})
+    return render(request, 'yighub/login.html', {'public_dict' : PublicBoardDict})
     
 def login_check(request):
     try:
@@ -1075,7 +1093,7 @@ def memo(request, page = 1):
             }
 
     return render(request, 'yighub/memo.html',
-        {'user': u, 'public_list' : PublicBoardList, 'page': p}
+        {'user': u, 'public_dict' : PublicBoardDict, 'page': p}
         )
 
 
@@ -1158,7 +1176,7 @@ def albums(request, page = 1):
         except:
             albums += [{'album':album, 'thumbnail':None}]
 
-    return render(request, 'yighub/albums.html', {'user':u, 'public_list' : PublicBoardList, 'albums':albums, })
+    return render(request, 'yighub/albums.html', {'user':u, 'public_dict' : PublicBoardDict, 'albums':albums, })
 
 def photos(request, album_id):
     
@@ -1179,7 +1197,7 @@ def photos(request, album_id):
     #    p.recommendations = p.recommendation.all()
     #    p.comment_list = p.comments.all()
 
-    return render(request, 'yighub/photos.html', {'user':u, 'public_list' : PublicBoardList, 'album':album, 'photos':photos, })
+    return render(request, 'yighub/photos.html', {'user':u, 'public_dict' : PublicBoardDict, 'album':album, 'photos':photos, })
 
 def create_album(request,):
     
@@ -1203,7 +1221,7 @@ def create_album(request,):
 
     u = request.session['user']
 
-    return render(request, 'yighub/create_album.html', {'user' : u, 'public_list' : PublicBoardList, 'form' : form})
+    return render(request, 'yighub/create_album.html', {'user' : u, 'public_dict' : PublicBoardDict, 'form' : form})
 
 def edit_album(request,):
     pass
@@ -1244,7 +1262,7 @@ def create_photos(request, album_id):
         form = PhotoForm()
 
     return render(request, 'yighub/create_photos.html', 
-        {'user' : u, 'public_list' : PublicBoardList, 'album' : a, 'form' : form, })
+        {'user' : u, 'public_dict' : PublicBoardDict, 'album' : a, 'form' : form, })
 
 
 def edit_photo(request, album_id, photo_id):

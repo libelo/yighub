@@ -7,7 +7,7 @@
 			<ul class="nav nav-list sidebar">
 				{% for b in board_list %}
 				<li {% if b == current_board %} class="active" {% endif %}>
-					<a  href="{% url 'yighub:listing' board b.id 1 %}">
+					<a  href="{% url 'yighub:listing' board b.id 0 %}">
 						{{ b.name }}
 						<i class="icon-chevron-right"></i>
 					</a>
@@ -22,7 +22,7 @@
 			<ul class="nav nav-list sidebar">
 				{% for b in board_list %}
 				<li {% if b == current_board %} class="active" {% endif %}>
-					<a href="{% url 'yighub:listing' board b.id 1 %}">
+					<a href="{% url 'yighub:listing' board b.id 0 %}">
 						{{ b.name }}
 						<i class="icon-chevron-right"></i>
 					</a>
@@ -35,20 +35,47 @@
 	<div class="span3">
 		<div class="sidebar-nav">
 			<ul class="nav nav-list sidebar">
-				{% for b in board_list %}
-					{% if forloop.counter == 1 %}<li class="nav-header">About YIG</li>{% endif %}
-					{% if forloop.counter == 6 %}<li class="nav-header">Recruiting</li>{% endif %}
-					{% if forloop.counter == 9 %}<li class="nav-header">Member Profile</li>{% endif %}
-					{% if forloop.counter == 10 %}<li class="nav-header">Fund</li>{% endif %}
-					{% if forloop.counter == 11 %}<li class="nav-header">Research</li>{% endif %}
-					{% if forloop.counter == 12 %}<li class="nav-header">Contact Us</li>{% endif %}
+
+				<li class="nav-header">About YIG</li>
+				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Int.id 0 %}">Introduction</a></li>
+				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Vis.id 0 %}">Vision</a></li>
+				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Act.id 0 %}">Activity</a></li>
+				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.His.id 0 %}">History</a></li>
+				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Cli.id 0 %}">Clipping</a></li>
+				
+				<li class="nav-header">Recruiting</li>
+				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Rec.id 0 %}">Recruiting</a></li>
+				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.App.id 0 %}">Apply</a></li>
+				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Sch.id 0 %}">Schedule</a></li>
+				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.FAQ.id 0 %}">FAQ</a></li>
+
+				<li class="nav-header">Member Profile</li>
+				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Mem.id 0 %}">Member Profile</a></li>
+
+				<li class="nav-header">Fund</li>
+				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Fun.id 0 %}">Fund</a></li>
+
+				<li class="nav-header">Research</li>
+				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Res.id 0 %}">Research</a></li>
+
+				<li class="nav-header">Contact Us</li>
+				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Con.id 0 %}">Contact Us</a></li>
+				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.QnA.id 0 %}">QnA</a></li>
+
+				<!-- {% for b in board_list %}
+					{% if b.name == 'Introduction' %}<li class="nav-header">About YIG</li>{% endif %}
+					{% if b.name == 'Recruiting' %}<li class="nav-header">Recruiting</li>{% endif %}
+					{% if b.name == 'Member Profile' %}<li class="nav-header">Member Profile</li>{% endif %}
+					{% if b.name == 'Fund' %}<li class="nav-header">Fund</li>{% endif %}
+					{% if b.name == 'Research' %}<li class="nav-header">Research</li>{% endif %}
+					{% if b.name == 'Contact Us' %}<li class="nav-header">Contact Us</li>{% endif %}
 					<li {% if b == current_board %} class="active" {% endif %}>
-						<a href="{% url 'yighub:listing' board b.id 1 %}">
+						<a href="{% url 'yighub:listing' board b.id 0 %}">
 							{{ b.name }}
 							<i class="icon-chevron-right"></i>
 						</a>
 					</li>
-				{% endfor %}
+				{% endfor %} -->
 			</ul>
 		</div><!--/.well -->
 	</div><!--/span-->

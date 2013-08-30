@@ -18,7 +18,7 @@
 	}
 	.sidebar-nav {
 		padding: 9px 0;
-	}
+	}d
 
 	@media (max-width: 980px) {
 		/* Enable use of floated navbar text */
@@ -88,28 +88,28 @@
 					</p>
 					<ul class="nav">
 						<li class="dropdown visible-desktop">
-							<a href="{% url 'yighub:listing' 'public' public_list.0.id 1 %}" class="dropdown-toggle" data-toggle="dropdown">
+							<a href="{% url 'yighub:listing' 'public' public_dict.Int.id 0 %}" class="dropdown-toggle" data-toggle="dropdown">
 								Menu
 								<b class="caret"></b>
 							</a>
 							<ul class="dropdown-menu">
-								<li><a href="{% url 'yighub:listing' 'public' public_list.0.id 1 %}">About YIG</a></li>
-								<li><a href="{% url 'yighub:listing' 'public' public_list.5.id 1 %}">Recruiting</a></li>
-								<li><a href="{% url 'yighub:listing' 'public' public_list.8.id 1 %}">Member Profile</a></li>
-								<li><a href="{% url 'yighub:listing' 'public' public_list.9.id 1 %}">Fund</a></li>
-								<li><a href="{% url 'yighub:listing' 'public' public_list.10.id 1 %}">Research</a></li>
-								<li><a href="{% url 'yighub:listing' 'public' public_list.11.id 1 %}">Contact Us</a></li>
+								<li><a href="{% url 'yighub:listing' 'public' public_dict.Int.id 0 %}">About YIG</a></li>
+								<li><a href="{% url 'yighub:listing' 'public' public_dict.Rec.id 0 %}">Recruiting</a></li>
+								<li><a href="{% url 'yighub:listing' 'public' public_dict.Mem.id 0 %}">Member Profile</a></li>
+								<li><a href="{% url 'yighub:listing' 'public' public_dict.Fun.id 0 %}">Fund</a></li>
+								<li><a href="{% url 'yighub:listing' 'public' public_dict.Res.id 0 %}">Research</a></li>
+								<li><a href="{% url 'yighub:listing' 'public' public_dict.Con.id 0 %}">Contact Us</a></li>
 							</ul>
 						</li>
-						<li class="hidden-desktop"><a href="{% url 'yighub:listing' 'public' public_list.0.id 1 %}">About YIG</a></li>
-						<li class="hidden-desktop"><a href="{% url 'yighub:listing' 'public' public_list.5.id 1 %}">Recruiting</a></li>
-						<li class="hidden-desktop"><a href="{% url 'yighub:listing' 'public' public_list.8.id 1 %}">Member Profile</a></li>
-						<li class="hidden-desktop"><a href="{% url 'yighub:listing' 'public' public_list.9.id 1 %}">Fund</a></li>
-						<li class="hidden-desktop"><a href="{% url 'yighub:listing' 'public' public_list.10.id 1 %}">Research</a></li>
-						<li class="hidden-desktop"><a href="{% url 'yighub:listing' 'public' public_list.11.id 1 %}">Contact Us</a></li>
+						<li class="hidden-desktop"><a href="{% url 'yighub:listing' 'public' public_dict.Int.id 0 %}">About YIG</a></li>
+						<li class="hidden-desktop"><a href="{% url 'yighub:listing' 'public' public_dict.Rec.id 0 %}">Recruiting</a></li>
+						<li class="hidden-desktop"><a href="{% url 'yighub:listing' 'public' public_dict.Mem.id 0 %}">Member Profile</a></li>
+						<li class="hidden-desktop"><a href="{% url 'yighub:listing' 'public' public_dict.Fun.id 0 %}">Fund</a></li>
+						<li class="hidden-desktop"><a href="{% url 'yighub:listing' 'public' public_dict.Res.id 0 %}">Research</a></li>
+						<li class="hidden-desktop"><a href="{% url 'yighub:listing' 'public' public_dict.Con.id 0 %}">Contact Us</a></li>
 
-						<li><a href="{% url 'yighub:news' 'bulletin' 1 %}">Boards</a></li>
-						<li><a href="{% url 'yighub:news' 'taskforce' 1 %}">Taskforce</a></li>
+						<li><a href="{% url 'yighub:news' 'bulletin' 0 %}">Boards</a></li>
+						<li><a href="{% url 'yighub:news' 'taskforce' 0 %}">Taskforce</a></li>
 						<li><a href="{% url 'yighub:albums' %}">Albums</a></li>
 					</ul>
 				</div><!--/.nav-collapse -->
@@ -124,14 +124,14 @@
 								<b class="caret"></b>
 							</a>
 							<ul class="dropdown-menu">
-								<li><a href="{% url 'yighub:listing' 'public' public_list.0.id 1 %}">Introduction</a></li>
-								<li><a href="{% url 'yighub:listing' 'public' public_list.1.id 1 %}">Vision</a></li>
-								<li><a href="{% url 'yighub:listing' 'public' public_list.2.id 1 %}">Activity</a></li>
-								<li><a href="{% url 'yighub:listing' 'public' public_list.3.id 1 %}">History</a></li>
-								<li><a href="{% url 'yighub:listing' 'public' public_list.4.id 1 %}">Clipping</a></li>
+								<li><a href="{% url 'yighub:listing' 'public' public_dict.Int.id 0 %}">Introduction</a></li>
+								<li><a href="{% url 'yighub:listing' 'public' public_dict.Vis.id 0 %}">Vision</a></li>
+								<li><a href="{% url 'yighub:listing' 'public' public_dict.Act.id 0 %}">Activity</a></li>
+								<li><a href="{% url 'yighub:listing' 'public' public_dict.His.id 0 %}">History</a></li>
+								<li><a href="{% url 'yighub:listing' 'public' public_dict.Cli.id 0 %}">Clipping</a></li>
 							</ul>
 						</li>
-						<li class="hidden-desktop"><a href="{% url 'yighub:listing' 'public' public_list.0.id 1 %}">About YIG</a></li>
+						<li class="hidden-desktop"><a href="{% url 'yighub:listing' 'public' public_dict.Int.id 0 %}">About YIG</a></li>
 
 						<li class="dropdown visible-desktop">
 							<a class="dropdown-toggle" data-toggle="dropdown">
@@ -139,27 +139,28 @@
 								<b class="caret"></b>
 							</a>
 							<ul class="dropdown-menu">
-								<li><a href="{% url 'yighub:listing' 'public' public_list.5.id 1 %}">Recruiting</a></li>
-								<li><a href="{% url 'yighub:listing' 'public' public_list.6.id 1 %}">Apply</a></li>
-								<li><a href="{% url 'yighub:listing' 'public' public_list.7.id 1 %}">Schedule</a></li>
+								<li><a href="{% url 'yighub:listing' 'public' public_dict.Rec.id 0 %}">Recruiting</a></li>
+								<li><a href="{% url 'yighub:listing' 'public' public_dict.App.id 0 %}">Apply</a></li>
+								<li><a href="{% url 'yighub:listing' 'public' public_dict.Sch.id 0 %}">Schedule</a></li>
+								<li><a href="{% url 'yighub:listing' 'public' public_dict.FAQ.id 0 %}">FAQ</a></li>
 							</ul>
 						</li>
-						<li class="hidden-desktop"><a href="{% url 'yighub:listing' 'public' public_list.5.id 1 %}">Recruiting</a></li>
+						<li class="hidden-desktop"><a href="{% url 'yighub:listing' 'public' public_dict.Rec.id 0 %}">Recruiting</a></li>
 
-						<li><a href="{% url 'yighub:listing' 'public' public_list.8.id 1 %}">Member Profile</a></li>
-						<li><a href="{% url 'yighub:listing' 'public' public_list.9.id 1 %}">Fund</a></li>
-						<li><a href="{% url 'yighub:listing' 'public' public_list.10.id 1 %}">Research</a></li>
+						<li><a href="{% url 'yighub:listing' 'public' public_dict.Mem.id 0 %}">Member Profile</a></li>
+						<li><a href="{% url 'yighub:listing' 'public' public_dict.Fun.id 0 %}">Fund</a></li>
+						<li><a href="{% url 'yighub:listing' 'public' public_dict.Res.id 0 %}">Research</a></li>
 						<li class="dropdown visible-desktop">
 							<a class="dropdown-toggle" data-toggle="dropdown">
 								Contact Us
 								<b class="caret"></b>
 							</a>
 							<ul class="dropdown-menu">
-								<li><a href="{% url 'yighub:listing' 'public' public_list.11.id 1 %}">Contact Us</a></li>
-								<li><a href="{% url 'yighub:listing' 'public' public_list.12.id 1 %}">Q/A</a></li>
+								<li><a href="{% url 'yighub:listing' 'public' public_dict.Con.id 0 %}">Contact Us</a></li>
+								<li><a href="{% url 'yighub:listing' 'public' public_dict.QnA.id 0 %}">Q/A</a></li>
 							</ul>
 						</li>
-						<li class="hidden-desktop"><a href="{% url 'yighub:listing' 'public' public_list.11.id 1 %}">Contact Us</a></li>
+						<li class="hidden-desktop"><a href="{% url 'yighub:listing' 'public' public_dict.Con.id 0 %}">Contact Us</a></li>
 
 					</ul>
 				</div><!--/.nav-collapse -->
