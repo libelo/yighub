@@ -2,7 +2,7 @@
 
 from django.db import models
 from django import forms
-from models_base import User, Board, Entry, Comment, File, Tag
+from models_base import User, Board, Entry, Comment, File, Thumbnail, Tag
 
 
 class UserForm(forms.ModelForm):
@@ -60,6 +60,16 @@ class TaskforceComment(Comment):
 
 class PublicComment(Comment):
     entry = models.ForeignKey(PublicEntry, related_name = 'comments')
+
+
+class BulletinThumbnail(Thumbnail):
+    entry = models.ForeignKey(BulletinEntry, related_name = 'thumbnails')
+
+class TaskforceThumbnail(Thumbnail):
+    entry = models.ForeignKey(TaskforceEntry, related_name = 'thumbnails')
+
+class PublicThumbnail(Thumbnail):
+    entry = models.ForeignKey(PublicEntry, related_name = 'thumbnails')
 
 
 class BulletinFile(File):
@@ -120,7 +130,7 @@ class Photo(models.Model):
     time_last_modified = models.DateTimeField(auto_now = True)
     recommendation = models.ManyToManyField(User, related_name = 'photo_recommendations', blank = True, null = True)
     count_recommendation = models.PositiveIntegerField(default = 0)
-    # count_comment
+    count_comment = models.PositiveIntegerField(default = 0)
     #arrangement는 필요없다. 그냥 id 순서로 늘어놓으면 될 듯.
     tag = models.ManyToManyField(Tag, related_name = 'photos', blank = True, null = True)
 

@@ -21,17 +21,25 @@
 				<br />
 				<br />
 				<label>썸네일</label>
-				<input type = 'file' name = 'thumbnail' />
+				{% for t in thumbnails %}
+				<p>
+					<img src="{{ t.thumbnail.url }}" style="width:100%; max-width:220px; margin:20px;" />
+					<label class="checkbox">
+						삭제하기
+						<input type = 'checkbox' name = 'delete_thumbnail_{{ t.id }}' />
+					</label>
+				</p>
+				{% endfor %}
+				<input type = 'file' name = 'thumbnails' />
 				<br />
 				<br />
 				<label>파일 업로드</label>
-
 				{% for f in files %}
 				<p>
 					<label class="checkbox">
 						<a href = "{% url 'yighub:download' f.id %}">{{ f.name }}</a>
 						삭제하기
-						<input type = 'checkbox' name = 'delete_{{ f.id }}' />
+						<input type = 'checkbox' name = 'delete_file_{{ f.id }}' />
 					</label>
 				</p>
 				{% endfor %}

@@ -6,6 +6,7 @@ from yighub.models import User, Letter, Memo, UserForm
 from yighub.models import BulletinBoard, TaskforceBoard, PublicBoard
 from yighub.models import BulletinEntry, TaskforceEntry, PublicEntry
 from yighub.models import BulletinComment, TaskforceComment, PublicComment
+from yighub.models import BulletinThumbnail, TaskforceThumbnail, PublicThumbnail 
 from yighub.models import BulletinFile, TaskforceFile, PublicFile, File
 from yighub.models import BulletinEntryForm, TaskforceEntryForm, PublicEntryForm
 from yighub.models import TaskforceBoardForm
@@ -25,7 +26,7 @@ from django.contrib.auth import hashers
 PublicBoardList = PublicBoard.objects.all()
 PublicBoardDict = {}
 for public_board in PublicBoardList:
-    PublicBoardDict[public_board.name[:3]] = public_board
+    PublicBoardDict[public_board.name[:4]] = public_board
 
 current_ordinal = 21
 
@@ -35,30 +36,33 @@ def classify(board):
         Board = BulletinBoard
         Entry = BulletinEntry
         Comment = BulletinComment
+        Thumbnail = BulletinThumbnail
         File = BulletinFile
         EntryForm = BulletinEntryForm
     elif board == 'taskforce':
         Board = TaskforceBoard
         Entry = TaskforceEntry
         Comment = TaskforceComment
+        Thumbnail = TaskforceThumbnail
         File = TaskforceFile
         EntryForm = TaskforceEntryForm
     elif board == 'public':
         Board = PublicBoard
         Entry = PublicEntry
         Comment = PublicComment
+        Thumbnail = PublicThumbnail
         File = PublicFile
         EntryForm = PublicEntryForm
     else:
         exist = False
 
-    return (exist, Board, Entry, Comment, File, EntryForm)
+    return (exist, Board, Entry, Comment, Thumbnail, File, EntryForm)
 
 
 def pagination(board, board_id, current_page, page_size = 20): # board_number가 0이면 최신글 목록
 
     # board 분류
-    exist, Board, Entry, Comment, File, EntryForm = classify(board)
+    exist, Board, Entry, Comment, Thumbnail, File, EntryForm = classify(board)
     if exist == False:
         raise Http404
 
@@ -260,7 +264,7 @@ def home(request):
 def news(request, board, page):
 
     # board 분류
-    exist, Board, Entry, Comment, File, EntryForm = classify(board)
+    exist, Board, Entry, Comment, Thumbnail, File, EntryForm = classify(board)
     if exist == False or Board == PublicBoard:
         raise Http404
 
@@ -286,7 +290,7 @@ def news(request, board, page):
 def listing(request, board, board_id, page = '0'):    # url : yig.in/yighub/board/1/page/3
 
     # board 분류
-    exist, Board, Entry, Comment, File, EntryForm = classify(board)
+    exist, Board, Entry, Comment, Thumbnail, File, EntryForm = classify(board)
     if exist == False:
         raise Http404
 
@@ -295,7 +299,7 @@ def listing(request, board, board_id, page = '0'):    # url : yig.in/yighub/boar
     except Board.DoesNotExist:
         raise Http404
 
-    if current_board.name == 'Fund':
+    if current_board.name in ('Research', 'simA', 'simB', 'simV', 'Universe'):
         p = pagination(board, board_id, current_page = page, page_size = 1)
     else:
         p = pagination(board, board_id, current_page = page)
@@ -385,7 +389,7 @@ def edit_taskforce(request):
 def read(request, board, entry_id,):
         
     # board 분류
-    exist, Board, Entry, Comment, File, EntryForm = classify(board)
+    exist, Board, Entry, Comment, Thumbnail, File, EntryForm = classify(board)
     if exist == False:
         raise Http404
 
@@ -403,6 +407,7 @@ def read(request, board, entry_id,):
     e.count_view += 1
     e.save()
 
+    thumbnails = e.thumbnails.all()
     files = e.files.all() #File.objects.filter(entry = e)
     recommendations = e.recommendation.all()
     comments = e.comments.all()
@@ -416,6 +421,7 @@ def read(request, board, entry_id,):
       'board_list' : board_list,
       'current_board' : current_board,
       'entry' : e,
+      'thumbnails' : thumbnails,
       'files' : files,
       'recommendations' : recommendations,
       'comments' : comments,
@@ -425,7 +431,7 @@ def read(request, board, entry_id,):
 def create(request, board, board_id = None):
 
     # board 분류
-    exist, Board, Entry, Comment, File, EntryForm = classify(board)
+    exist, Board, Entry, Comment, Thumbnail, File, EntryForm = classify(board)
     if exist == False:
         raise Http404
 
@@ -459,8 +465,13 @@ def create(request, board, board_id = None):
             e.creator = request.session['user']
             e.time_last_modified = timezone.now()
             e.arrangement = arrangement
-            e.thumbnail = request.FILES['thumbnail'] if 'thumbnail' in request.FILES else None
             e.save()
+
+            # 썸네일을 저장한다.
+            thumbnails = request.FILES.getlist('thumbnails')
+            for thumbnail in thumbnails:
+                t = Thumbnail(entry = e, name = thumbnail.name, thumbnail = thumbnail)
+                t.save()
 
             # 여러 파일들을 저장한다.
             files = request.FILES.getlist('files')
@@ -496,7 +507,7 @@ def create(request, board, board_id = None):
 def edit(request, board, entry_id):
 
     # board 분류
-    exist, Board, Entry, Comment, File, EntryForm = classify(board)
+    exist, Board, Entry, Comment, Thumbnail, File, EntryForm = classify(board)
     if exist == False:
         raise Http404
 
@@ -517,16 +528,28 @@ def edit(request, board, entry_id):
         form = EntryForm(request.POST, instance = e)
         if form.is_valid():
 
-            files = request.FILES.getlist('files')
-
             e = form.save(commit = False)
             e.time_last_modified = timezone.now()
-            e.thumbnail = request.FILES['thumbnail'] if 'thumbnail' in request.FILES else None
             e.save()
             
+            for t in e.thumbnails.all():
+                try:
+                    string = 'delete_thumbnail_' + str(t.id)
+                    request.POST[string]
+                except KeyError:
+                    pass
+                else:
+                    t.thumbnail.delete()
+                    t.delete()
+
+            thumbnails = request.FILES.getlist('thumbnails')
+            for thumbnail in thumbnails:
+                t = Thumbnail(entry = e, name = thumbnail.name, thumbnail = thumbnail)
+                t.save()
+
             for f in e.files.all():
                 try:
-                    string = 'delete_' + str(f.id)
+                    string = 'delete_file_' + str(f.id)
                     request.POST[string]
                 except KeyError:
                     pass
@@ -534,6 +557,7 @@ def edit(request, board, entry_id):
                     f.file.delete()
                     f.delete()
             
+            files = request.FILES.getlist('files')
             for file in files:
                 f = File(entry = e, name = file.name, file = file)
                 f.save()
@@ -550,7 +574,8 @@ def edit(request, board, entry_id):
             initial = {'user' : u,
             'board' : e.board, 'title' : e.title, 'content' : e.content, 'notice' : e.notice}
             )
-        
+    
+    thumbnails = e.thumbnails.all()
     files = e.files.all()
     board_list = Board.objects.all()
     current_board = e.board
@@ -561,13 +586,13 @@ def edit(request, board, entry_id):
         'board' : board,
         'board_list' : board_list,
         'current_board' : current_board,
-        'form' : form, 'files' : files, 'entry_id' : entry_id },)
+        'form' : form, 'thumbnails' : thumbnails, 'files' : files, 'entry_id' : entry_id },)
 
 
 def delete(request, board, entry_id):
     
     # board 분류
-    exist, Board, Entry, Comment, File, EntryForm = classify(board)
+    exist, Board, Entry, Comment, Thumbnail, File, EntryForm = classify(board)
     if exist == False:
         raise Http404
 
@@ -582,6 +607,10 @@ def delete(request, board, entry_id):
         return permission[1]
 
     if request.session['user'] == e.creator:
+        thumbnails = e.thumbnails.all()
+        for t in thumbnails:
+            t.thumbnail.delete()
+
         files = e.files.all()
         for f in files:
             f.file.delete()
@@ -609,7 +638,7 @@ def delete(request, board, entry_id):
 def reply(request, board, entry_id): # yig.in/entry/12345/reply     
 
     # board 분류
-    exist, Board, Entry, Comment, File, EntryForm = classify(board)
+    exist, Board, Entry, Comment, Thumbnail, File, EntryForm = classify(board)
     if exist == False:
         raise Http404
 
@@ -627,8 +656,6 @@ def reply(request, board, entry_id): # yig.in/entry/12345/reply
     if request.method == 'POST':
         form = EntryForm(request.POST, request.FILES)
         if form.is_valid():
-
-            files = request.FILES.getlist('files')
             
             current_depth = parent.depth + 1
             current_arrangement = parent.arrangement - 1
@@ -654,9 +681,14 @@ def reply(request, board, entry_id): # yig.in/entry/12345/reply
             reply.depth = current_depth
             reply.parent = entry_id
             reply.creator = request.session['user']
-            reply.thumbnail = request.FILES['thumbnail'] if 'thumbnail' in request.FILES else None
             reply.save()
 
+            thumbnails = request.POST.getlist('thumbnails')
+            for thumbnail in thumbnails:
+                t = Thumbnail(entry = reply, name = thumbnail.name, thumbnail = thumbnail)
+                t.save()
+
+            files = request.FILES.getlist('files')
             for file in files:
                 f = File(entry = reply, name = file.name, file = file)
                 f.save()
@@ -685,7 +717,7 @@ def reply(request, board, entry_id): # yig.in/entry/12345/reply
 def recommend(request, board, entry_id):
 
     # board 분류
-    exist, Board, Entry, Comment, File, EntryForm = classify(board)
+    exist, Board, Entry, Comment, Thumbnail, File, EntryForm = classify(board)
     if exist == False:
         raise Http404
 
@@ -712,7 +744,7 @@ def recommend(request, board, entry_id):
 def delete_recommend(request, board, entry_id):
     
     # board 분류
-    exist, Board, Entry, Comment, File, EntryForm = classify(board)
+    exist, Board, Entry, Comment, Thumbnail, File, EntryForm = classify(board)
     if exist == False:
         raise Http404
 
@@ -739,7 +771,7 @@ def delete_recommend(request, board, entry_id):
 def comment(request, board, entry_id):
 
     # board 분류
-    exist, Board, Entry, Comment, File, EntryForm = classify(board)
+    exist, Board, Entry, Comment, Thumbnail, File, EntryForm = classify(board)
     if exist == False:
         raise Http404
 
@@ -769,7 +801,7 @@ def comment(request, board, entry_id):
 def reply_comment(request, board, entry_id):
 
     # board 분류
-    exist, Board, Entry, Comment, File, EntryForm = classify(board)
+    exist, Board, Entry, Comment, Thumbnail, File, EntryForm = classify(board)
     if exist == False:
         raise Http404
 
@@ -815,7 +847,7 @@ def reply_comment(request, board, entry_id):
 def recommend_comment(request, board, entry_id, comment_id):
 
     # board 분류
-    exist, Board, Entry, Comment, File, EntryForm = classify(board)
+    exist, Board, Entry, Comment, Thumbnail, File, EntryForm = classify(board)
     if exist == False:
         raise Http404
 
@@ -843,7 +875,7 @@ def recommend_comment(request, board, entry_id, comment_id):
 def delete_comment(request, board, entry_id, comment_id):
     
     # board 분류
-    exist, Board, Entry, Comment, File, EntryForm = classify(board)
+    exist, Board, Entry, Comment, Thumbnail, File, EntryForm = classify(board)
     if exist == False:
         raise Http404
 

@@ -11,7 +11,7 @@
 			</div>
 			<br />
 			<br />
-			<strong>심봤다 A형</strong>
+			<strong>심봤다 B형</strong>
 			<br />
 			{% for entry in page.entry_list %}
 			<h3>{{ entry.title }}</h3>
@@ -54,6 +54,19 @@
 			</div>
 
 		</div>
+
+		{% if user and user.level != 'non' %}
+		<div class="row-fluid" style="margin-top: 70px">
+			<div class="container-fluid">
+				<span class="pull-right">
+				<a href="{% url 'yighub:create_in_board' board current_board.id %}">
+					<button type="button" class="btn btn-primary">글쓰기</button>
+				</a>
+				</span>
+			</div> 			
+		</div>
+		{% endif %}
+
 	</div><!--/span-->	
 
 {% endblock %}

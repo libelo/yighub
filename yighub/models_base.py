@@ -74,8 +74,6 @@ class Entry(models.Model):
     
     tag = models.ManyToManyField(Tag, related_name = 'entrys', blank = True, null = True)
 
-    thumbnail = models.ImageField(upload_to = 'yighub/thumbnails/%Y/%m/%d', blank = True)
-
     def __unicode__(self):
         return self.title
 
@@ -93,6 +91,13 @@ class Comment(models.Model):
     
     def __unicode__(self):
         return self.content
+
+class Thumbnail(models.Model):
+    name = models.CharField(max_length = 200)
+    thumbnail = models.ImageField(upload_to = 'yighub/thumbnails/%Y/%m/%d', )
+
+    def __unicode__(self):
+        return self.name
 
 class File(models.Model):
     name = models.CharField(max_length = 200)

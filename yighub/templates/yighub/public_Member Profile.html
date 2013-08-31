@@ -18,7 +18,7 @@
 			<br />
 			<ul class="breadcrumb">
 				{% for o in page.ordinal_range %}
-				<li {% if o == page.display_ordinal %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Mem.id o %}">{{ o }}기</a> {% if not forloop.last %}<span class="divider">/</span>{% endif %}</li>
+				<li {% if o == page.display_ordinal %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Memb.id o %}">{{ o }}기</a> {% if not forloop.last %}<span class="divider">/</span>{% endif %}</li>
 				{% endfor %}
 			</ul>
 			<br />

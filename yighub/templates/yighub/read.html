@@ -16,10 +16,13 @@
 			<span> <strong>{{ entry.creator }}</strong> / {{ entry.time_created }} </span>
 			<span class="pull-right">조회수 {{ entry.count_view }} / 추천수 {{ entry.count_recommendation }} </span>
 			<hr />
-			{% if entry.thumbnail %}
+			{% if thumbnails %}
+			{% for t in thumbnails %}
 			<div class="text-center">
-				<img src="{{ entry.thumbnail.url }}" style="width:100%; max-width:650px;"/>
+				<img src="{{ t.thumbnail.url }}" style="width:100%; max-width:650px;"/>
 			</div>
+			<br />
+			{% endfor %}
 			<br />
 			<br />
 			{% endif %}

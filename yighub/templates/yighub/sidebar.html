@@ -37,29 +37,32 @@
 			<ul class="nav nav-list sidebar">
 
 				<li class="nav-header">About YIG</li>
-				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Int.id 0 %}">Introduction<i class="icon-chevron-right"></i></a></li>
-				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Vis.id 0 %}">Vision<i class="icon-chevron-right"></i></a></li>
-				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Act.id 0 %}">Activity<i class="icon-chevron-right"></i></a></li>
-				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.His.id 0 %}">History<i class="icon-chevron-right"></i></a></li>
-				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Cli.id 0 %}">Clipping<i class="icon-chevron-right"></i></a></li>
+				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Intr.id 0 %}">Introduction<i class="icon-chevron-right"></i></a></li>
+				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Visi.id 0 %}">Vision<i class="icon-chevron-right"></i></a></li>
+				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Acti.id 0 %}">Activity<i class="icon-chevron-right"></i></a></li>
+				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Hist.id 0 %}">History<i class="icon-chevron-right"></i></a></li>
+				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Clip.id 0 %}">Clipping<i class="icon-chevron-right"></i></a></li>
 				
 				<li class="nav-header">Recruiting</li>
-				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Rec.id 0 %}">Recruiting<i class="icon-chevron-right"></i></a></li>
-				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.App.id 0 %}">Apply<i class="icon-chevron-right"></i></a></li>
-				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Sch.id 0 %}">Schedule<i class="icon-chevron-right"></i></a></li>
+				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Recr.id 0 %}">Recruiting<i class="icon-chevron-right"></i></a></li>
+				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Appl.id 0 %}">Apply<i class="icon-chevron-right"></i></a></li>
+				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Sche.id 0 %}">Schedule<i class="icon-chevron-right"></i></a></li>
 				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.FAQ.id 0 %}">FAQ<i class="icon-chevron-right"></i></a></li>
 
 				<li class="nav-header">Member Profile</li>
-				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Mem.id 0 %}">Member Profile<i class="icon-chevron-right"></i></a></li>
+				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Memb.id 0 %}">Member Profile<i class="icon-chevron-right"></i></a></li>
 
 				<li class="nav-header">Fund</li>
-				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Fun.id 0 %}">Fund<i class="icon-chevron-right"></i></a></li>
+				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.simA.id 0 %}">심봤다 A형<i class="icon-chevron-right"></i></a></li>
+				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.simB.id 0 %}">심봤다 B형<i class="icon-chevron-right"></i></a></li>
+				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.simV.id 0 %}">심봤다 V형<i class="icon-chevron-right"></i></a></li>
+				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Univ.id 0 %}">YIG Universe<i class="icon-chevron-right"></i></a></li>
 
 				<li class="nav-header">Research</li>
-				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Res.id 0 %}">Research<i class="icon-chevron-right"></i></a></li>
+				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Rese.id 0 %}">Research<i class="icon-chevron-right"></i></a></li>
 
 				<li class="nav-header">Contact Us</li>
-				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Con.id 0 %}">Contact Us<i class="icon-chevron-right"></i></a></li>
+				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Cont.id 0 %}">Contact Us<i class="icon-chevron-right"></i></a></li>
 				<li {% if b == current_board %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.QnA.id 0 %}">QnA<i class="icon-chevron-right"></i></a></li>
 
 				<!-- {% for b in board_list %}
