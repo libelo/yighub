@@ -1081,6 +1081,9 @@ def memo(request, page = 1):
         return permission[1] 
     u = request.session['user']
     
+    bulletin_list = BulletinBoard.objects.all()
+    taskforce_list = TaskforceBoard.objects.filter(archive = False)
+
     current_page = int(page)
     page_size = 20
     no = (current_page - 1) * page_size # 그 앞 페이지 마지막 글까지 개수
@@ -1127,8 +1130,9 @@ def memo(request, page = 1):
             }
 
     return render(request, 'yighub/memo.html',
-        {'user': u, 'public_dict' : PublicBoardDict, 'page': p}
-        )
+        {'user': u, 'public_dict' : PublicBoardDict, 
+        'bulletin_list' : bulletin_list, 
+        'taskforce_list' : taskforce_list, 'page': p})
 
 
 
