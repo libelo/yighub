@@ -10,9 +10,49 @@
 				<span class="lead">Fund</span> 
 			</div>
 			<br />
-			<p>Hello World</p>
+			<br />
+			<strong>심봤다 A형</strong>
+			<br />
+			{% for entry in page.entry_list %}
+			<h3>{{ entry.title }}</h3>
+			<span> {{ entry.time_created }} </span>
+			<hr />
+			{% if entry.thumbnail %}
+			<div class="text-center">
+				<img src="{{ entry.thumbnail.url }}" style="width:100%; max-width:650px;"/>
+			</div>
 			<br />
 			<br />
+			{% endif %}
+			{{ entry.content|linebreaks }}
+			<br />
+			<hr />
+			{% if entry.creator == user %}
+			<span class="pull-right">
+				<a href = "{% url 'yighub:edit' board entry.id %}">수정하기</a> 
+				&nbsp;&nbsp;
+				<a href = "{% url 'yighub:delete' board entry.id %}">삭제하기</a>
+			</span>
+			{% endif %}
+			{% endfor %}
+			<br />
+			<br />
+			<div class="pagination text-center">
+			  <ul>
+			  	{% if page.first_page %}
+			    <li><a href="{% url 'yighub:listing' board current_board.id page.first_page %}">First</a></li>
+			    <li><a href="{% url 'yighub:listing' board current_board.id page.prev_page %}">Prev</a></li>
+			    {% endif %}
+			    {% for p in page.page_list %}
+			    <li><a href="{% url 'yighub:listing' board current_board.id p %}">{{ p }}</a></li>
+			    {% endfor %}
+			    {% if page.last_page %}
+			    <li><a href="{% url 'yighub:listing' board current_board.id page.next_page %}">Next</a></li>
+			    <li><a href="{% url 'yighub:listing' board current_board.id page.last_page %}">Last</a></li>
+			    {% endif %}
+			  </ul>
+			</div>
+
 		</div>
 	</div><!--/span-->	
 

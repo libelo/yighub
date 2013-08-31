@@ -55,7 +55,7 @@ def classify(board):
     return (exist, Board, Entry, Comment, File, EntryForm)
 
 
-def pagination(board, board_id, current_page): # board_number가 0이면 최신글 목록
+def pagination(board, board_id, current_page, page_size = 20): # board_number가 0이면 최신글 목록
 
     # board 분류
     exist, Board, Entry, Comment, File, EntryForm = classify(board)
@@ -64,7 +64,6 @@ def pagination(board, board_id, current_page): # board_number가 0이면 최신�
 
     board_id = int(board_id)
     current_page = int(current_page) if current_page != '0' else 1
-    page_size = 20
     no = (current_page - 1) * page_size # 그 앞 페이지 마지막 글까지 개수
 
     # 총 글 수와 entry list 구하기
@@ -284,7 +283,7 @@ def news(request, board, page):
         {'user': user, 'public_dict' : PublicBoardDict, 'board': board, 'board_list': board_list, 'page': p}
         )
 
-def listing(request, board, board_id, page = 0):    # url : yig.in/yighub/board/1/page/3
+def listing(request, board, board_id, page = '0'):    # url : yig.in/yighub/board/1/page/3
 
     # board 분류
     exist, Board, Entry, Comment, File, EntryForm = classify(board)
@@ -296,7 +295,10 @@ def listing(request, board, board_id, page = 0):    # url : yig.in/yighub/board/
     except Board.DoesNotExist:
         raise Http404
 
-    p = pagination(board, board_id, current_page = page)
+    if current_board.name == 'Fund':
+        p = pagination(board, board_id, current_page = page, page_size = 1)
+    else:
+        p = pagination(board, board_id, current_page = page)
     if board == 'taskforce':
         board_list = Board.objects.filter(archive = False)
     else:
