@@ -10,10 +10,30 @@
 				<span class="lead">Clipping</span> 
 			</div>
 			<br />
-			<p>clipping</p>
+			<br />
+			<ul>
+			{% for e in page.entry_list %}
+				<li><a href="{{ e.content }}" target="_blank">{{ e.title }}</a></li>
+			{% endfor %}
+			</ul>
 			<br />
 			<br />
-			<p class="text-right">2013.2.9 토 YIG회장 단상우.</p>
+			{% if user and user.level != 'non' %}
+			<div class="row-fluid" style="margin-top: 70px">
+				<div class="container-fluid">
+					<span class="pull-right">
+					<a href="{% url 'yighub:create_in_board' board current_board.id %}">
+						<button type="button" class="btn btn-primary">추가하기</button>
+					</a>
+					</span>
+				</div> 	
+				<br />
+				<p class="pull-right">
+				* 추가할 때 제목에는 [언론사] 기사 제목, 내용에는 링크 주소만을 써주세요. 
+				</p>
+			</div>
+			{% endif %}
+
 		</div>
 	</div><!--/span-->	
 
