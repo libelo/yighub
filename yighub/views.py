@@ -329,6 +329,15 @@ def listing(request, board, board_id, page = '0'):    # url : yig.in/yighub/boar
             p['user_list'] = User.objects.filter(ordinal = p['display_ordinal'])
             p['ordinal_range'] = range(1, current_ordinal+1)
 
+        if current_board.name == 'History':
+            for e in p['entry_list']:                
+                e.history = [] 
+                months = e.content.split('\n')
+                for m in months:
+                    month = m.split('-')[0][:-1]
+                    events = m.split('-')[1].split(', ')
+                    e.history.append({'month': month, 'events': events})
+
         return render(request, 'yighub/public_' + current_board.name + '.html', 
             {'user': u, 'public_dict' : PublicBoardDict, 'board': board, 'board_list': board_list, 'current_board': current_board, 'page': p}
             )
