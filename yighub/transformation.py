@@ -18,7 +18,7 @@ def extract_one(board_name, no):
 
 		cur = db.cursor()
 
-		script = "SELECT * FROM %s WHERE no == %d" % (board_name, no)
+		script = "SELECT * FROM %s WHERE no = %d" % (board_name, no)
 
 		cur.execute(script)
 		return cur.fetchone()
@@ -43,7 +43,7 @@ def transform_user():
         u = User()
         u.id = row[0]
         u.user_id = row[2]
-        u.password = row[3]
+        u.password = '' #row[3]
         u.name = row[5]
         if row[6] == 9:
             u.level = 'non'

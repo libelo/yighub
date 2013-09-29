@@ -6,6 +6,13 @@
       <form class="form-signin" action="{% url 'yighub:login_check' %}", method = "post">
       	{% csrf_token %}
         <h2 class="form-signin-heading">Please sign in</h2>
+        {% if messages %}
+        <ul class = "messages">
+        {% for message in messages %}
+        <li {% if message.tags %} class = "{{ message.tags }}" {% endif %}>{{ message }}</li>
+        {% endfor %}
+        </ul>
+        {% endif %}
         <input type="text" class="input-block-level" placeholder="id" name="user_id" />
         <input type="password" class="input-block-level" placeholder="password" name="password" />
         <!--

@@ -922,7 +922,7 @@ def join(request):
             except User.DoesNotExist:
                 if request.POST['password'] == request.POST['password_check']:
                     regex = re.compile(r'\d{3}-\d{4}-\d{4}')
-                    if regex.match(request.POST['phone_number']):
+                    if not request.POST['phone_number'] or regex.match(request.POST['phone_number']):
 
                         f = form.save(commit = False)
                         f.password = hashers.make_password(request.POST['password'])
@@ -951,7 +951,7 @@ def join(request):
 
     return render(request, 'yighub/join.html', {'public_dict' : PublicBoardDict, 'form' : form}, context_instance = RequestContext(request))
 
-def edit_profile(request):
+def edit_profile(request, first_login = False):
 
     try:
         u = User.objects.get(user_id = request.session['user_id'])
@@ -968,39 +968,49 @@ def edit_profile(request):
             else:
                 messages.error(request, 'already used id. please change your id.')
                 form = UserForm(request.POST, )
-                return render(request, 'yighub/edit_profile.html', {'user':u, 'public_dict' : PublicBoardDict, 'form' : form}, )
+                return render(request, 'yighub/edit_profile.html', {'user':u, 'public_dict' : PublicBoardDict, 'form' : form, 'first_login' : first_login}, )
 
-        if hashers.check_password(request.POST['password'], u.password):
-            pass
-        else:
-            messages.error(request, 'please enter your old password.')
-            form = UserForm(request.POST, )
-            return render(request, 'yighub/edit_profile.html', {'user':u, 'public_dict' : PublicBoardDict, 'form' : form}, )
-
-        if request.POST['new_password']:
-            if request.POST['new_password'] == request.POST['password_check']:
+        if not first_login:
+            if hashers.check_password(request.POST['password'], u.password):
                 pass
             else:
-                messages.error(request, 'please check your new password.')
+                messages.error(request, 'please enter your old password.')
                 form = UserForm(request.POST, )
-                return render(request, 'yighub/edit_profile.html', {'user':u, 'public_dict' : PublicBoardDict, 'form' : form}, )
+                return render(request, 'yighub/edit_profile.html', {'user':u, 'public_dict' : PublicBoardDict, 'form' : form, 'first_login' : first_login}, )
+
+            if request.POST['new_password']:
+                if request.POST['new_password'] == request.POST['password_check']:
+                    pass
+                else:
+                    messages.error(request, 'please check your new password.')
+                    form = UserForm(request.POST, )
+                    return render(request, 'yighub/edit_profile.html', {'user':u, 'public_dict' : PublicBoardDict, 'form' : form, 'first_login' : first_login}, )
+        else:
+            if request.POST['password'] == request.POST['password_check']:
+                pass
+            else:
+                messages.error(request, 'please check your password.')
+                form = UserForm(request.POST, )
+                return render(request, 'yighub/edit_profile.html', {'user':u, 'public_dict' : PublicBoardDict, 'form' : form, 'first_login' : first_login}, )
 
         regex = re.compile(r'\d{3}-\d{4}-\d{4}')
         if not regex.match(request.POST['phone_number']):
             messages.error(request, 'phone number must be a form of "010-1234-1234"')
             form = UserForm(request.POST, )
-            return render(request, 'yighub/edit_profile.html', {'user':u, 'public_dict' : PublicBoardDict, 'form' : form}, )
+            return render(request, 'yighub/edit_profile.html', {'user':u, 'public_dict' : PublicBoardDict, 'form' : form, 'first_login' : first_login}, )
 
         form = UserForm(request.POST, request.FILES, instance = u)
         if form.is_valid():
 
             f = form.save(commit = False)
 
-            if request.POST['new_password']:
-                f.password = hashers.make_password(request.POST['new_password'])
+            if not first_login:
+                if request.POST['new_password']:
+                    f.password = hashers.make_password(request.POST['new_password'])
+                # else:
+                #     f.password = hashers.make_password(request.POST['password'])
             else:
                 f.password = hashers.make_password(request.POST['password'])
-
             f.profile = request.FILES['profile'] if 'profile' in request.FILES else u.profile
             f.avatar = request.FILES['avatar'] if 'avatar' in request.FILES else u.avatar
 
@@ -1014,11 +1024,7 @@ def edit_profile(request):
     else:
         form = UserForm(instance = u, )
 
-    return render(request, 'yighub/edit_profile.html', {'user':u, 'public_dict' : PublicBoardDict, 'form' : form}, )
-
-
-        
-    
+    return render(request, 'yighub/edit_profile.html', {'user':u, 'public_dict' : PublicBoardDict, 'form' : form, 'first_login' : first_login}, )
 
 def delete_profile(request):
     pass
@@ -1032,21 +1038,29 @@ def login_check(request):
         u = User.objects.get(user_id = request.POST['user_id'])
     except User.DoesNotExist:
         messages.error(request, 'incorrect user id')
-        return render(request, 'yighub/error.html', )
+        return render(request, 'yighub/login.html', {'public_dict' : PublicBoardDict})
 
     if request.session.test_cookie_worked():
+
+        if u.password == '':
+            u.password = hashers.make_password(request.POST['password'])
+            u.save()
+            request.session['user_id'] = u.user_id      
+            request.session['user'] = u      
+            return redirect('yighub:first_login',)
+
         if hashers.check_password(request.POST['password'], u.password):
             request.session['user_id'] = u.user_id
             request.session['user'] = u
 
             return HttpResponseRedirect(reverse('yighub:home'))
         else:
-            messages.error(request, 'login failed') # send message 
-            return render(request, 'yighub/error.html')
+            messages.error(request, 'password does not correct') # send message 
+            return render(request, 'yighub/login.html', {'public_dict' : PublicBoardDict})
     else:
         # send message about cookie
         messages.error(request, 'please enable cookie')
-        return render(request, 'yighub/error.html')
+        return render(request, 'yighub/login.html', {'public_dict' : PublicBoardDict})
 
 def logout(request):
     request.session.flush() # exact functionality of flush method? after flush, home_for_visitor is presenting?

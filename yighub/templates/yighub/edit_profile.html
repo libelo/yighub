@@ -4,8 +4,18 @@
     <div class="container">
 
 
-        <form class="form-horizontal" style="max-width: 500px; padding: 19px 29px 29px 29px; margin-left: auto; margin-right: auto; background-color:white; border: 1px solid #e5e5e5; border-radius:5px;" action="{% url 'yighub:edit_profile' %}" enctype = "multipart/form-data" method = "post">
+        <form class="form-horizontal" style="max-width: 500px; padding: 19px 29px 29px 29px; margin-left: auto; margin-right: auto; background-color:white; border: 1px solid #e5e5e5; border-radius:5px;" action="{% if not first_login %}{% url 'yighub:edit_profile' %}{% else %}{% url 'yighub:first_login' %}{% endif %}" enctype = "multipart/form-data" method = "post">
         	{% csrf_token %}
+          {% if first_login %}
+          <div class="alert alert-block">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h4>환영합니다!</h4>
+            <br />
+            안녕하세요 {{ user.name }}님! YIG의 새로운 웹사이트에 처음 오신 것을 환영합니다. 
+            <br /><br />
+            새 웹사이트를 위해 회원 정보를 업데이트해주세요!!
+          </div>
+          {% endif %}
           <h2 class="form-signin-heading text-center">프로필 수정</h2>
           <br />
           {% if messages %}
@@ -24,13 +34,13 @@
           </div>
 
           {{ form.password.errors }}
+          {% if not first_login %}
           <div class="control-group">
             <label class="control-label" for="{{ form.password.label }}">기존 비밀번호</label>
             <div class="controls">
               <input type="password" name="password" maxlength="200" id="{{ form.password.label }}" placeholder="password" />
             </div>
           </div>
-        
           <div class="control-group">
             <label class="control-label" for="new_password">새 비밀번호</label>
             <div class="controls">
@@ -43,6 +53,21 @@
               <input type="password" name="password_check" maxlength="200" id="password_check" placeholder="new password" />
             </div>
           </div>
+          {% else %}
+          <div class="control-group">
+            <label class="control-label" for="password">비밀번호</label>
+            <div class="controls">
+              <input type="password" name="password" maxlength="200" id="password" placeholder="password" />
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="password_check">비밀번호 확인</label>
+            <div class="controls">
+              <input type="password" name="password_check" maxlength="200" id="password_check" placeholder="password" />
+            </div>
+          </div>
+          {% endif %}
+
           {{ form.name.errors }}
           <div class="control-group">
             <label class="control-label" for="{{ form.name.label }}">이름</label>
@@ -75,7 +100,7 @@
           <div class="control-group">
             <label class="control-label" for="{{ form.phone_number.label }}">전화번호</label>
             <div class="controls">
-              <input type="text" name="phone_number" id="{{ form.phone_number.label }}" placeholder="01012341234" {% if form.phone_number.value %} value="{{ form.phone_number.value }}" {% endif %} />
+              <input type="text" name="phone_number" id="{{ form.phone_number.label }}" placeholder="010-1234-1234" {% if form.phone_number.value %} value="{{ form.phone_number.value }}" {% endif %} />
             </div>
           </div>
           {{ form.career1.errors }}

@@ -9,6 +9,8 @@ urlpatterns = patterns('yighub.views',
     url(r'^login_check/$', 'login_check', name='login_check'),
     url(r'^logout/$', 'logout', name='logout'),
     url(r'^profile/$', 'edit_profile', name='edit_profile'),
+    url(r'^first_login/$', 'edit_profile', {'first_login':True}, name='first_login'),
+
 
     url(r'^letter/list/$', 'letters'),
     url(r'^letter/send/$', 'send'),
