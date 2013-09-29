@@ -20,8 +20,8 @@ class User(models.Model):
 
     birthday = models.DateField(blank = True, null = True)
     email = models.EmailField(blank = True)
-    messenger = models.CharField(max_length = 50, blank = True) # sns
-    phone_number = models.PositiveIntegerField(blank = True, null = True) # force users to input only numbers, for consistency
+    sns = models.CharField(max_length = 200, blank = True) # sns
+    phone_number = models.CharField(max_length = 20, blank = True)
     
     ordinal = models.PositiveSmallIntegerField(blank = True, null = True) # null for non-member
 

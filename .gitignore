@@ -1,6 +1,7 @@
 
 *.db
 *.sql
+*.sqlite
 /yighub/media/
 *.DS_Store
 *.tar.gz

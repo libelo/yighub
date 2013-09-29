@@ -23,6 +23,8 @@ import datetime
 from django.utils import timezone
 from django.contrib.auth import hashers
 
+import re
+
 PublicBoardList = PublicBoard.objects.all()
 PublicBoardDict = {}
 for public_board in PublicBoardList:
@@ -919,21 +921,27 @@ def join(request):
                 User.objects.get(user_id = request.POST['user_id'])
             except User.DoesNotExist:
                 if request.POST['password'] == request.POST['password_check']:
-                    f = form.save(commit = False)
-                    f.password = hashers.make_password(request.POST['password'])
-                    f.last_login = timezone.now()
-                    f.level = 'pre'
-                    
-                    f.profile = request.FILES['profile'] if 'profile' in request.FILES else None
-                    f.avatar = request.FILES['avatar'] if 'avatar' in request.FILES else None
-                    
-                    f.save()
+                    regex = re.compile(r'\d{3}-\d{4}-\d{4}')
+                    if regex.match(request.POST['phone_number']):
 
-                    u = User.objects.get(user_id = request.POST['user_id'])
-                    request.session['user_id'] = u.user_id
-                    request.session['user'] = u
+                        f = form.save(commit = False)
+                        f.password = hashers.make_password(request.POST['password'])
+                        f.last_login = timezone.now()
+                        f.level = 'pre'
+                        
 
-                    return redirect('yighub:home', )
+                        f.profile = request.FILES['profile'] if 'profile' in request.FILES else None
+                        f.avatar = request.FILES['avatar'] if 'avatar' in request.FILES else None
+                        
+                        f.save()
+
+                        u = User.objects.get(user_id = request.POST['user_id'])
+                        request.session['user_id'] = u.user_id
+                        request.session['user'] = u
+
+                        return redirect('yighub:home', )
+                    else:
+                        messages.error(request, 'phone number must be a form of "010-1234-1234"')
                 else:
                     messages.error(request, 'please check your password.')
             else:
@@ -976,6 +984,12 @@ def edit_profile(request):
                 messages.error(request, 'please check your new password.')
                 form = UserForm(request.POST, )
                 return render(request, 'yighub/edit_profile.html', {'user':u, 'public_dict' : PublicBoardDict, 'form' : form}, )
+
+        regex = re.compile(r'\d{3}-\d{4}-\d{4}')
+        if not regex.match(request.POST['phone_number']):
+            messages.error(request, 'phone number must be a form of "010-1234-1234"')
+            form = UserForm(request.POST, )
+            return render(request, 'yighub/edit_profile.html', {'user':u, 'public_dict' : PublicBoardDict, 'form' : form}, )
 
         form = UserForm(request.POST, request.FILES, instance = u)
         if form.is_valid():
@@ -1440,3 +1454,9 @@ def reply_comment_photo(request, album_id, photo_id, comment_id):
     pass
 def recommend_comment_photo(request, album_id, photo_id, comment_id):
     pass
+
+import transformation
+def transform(request,):
+
+    transformation.transform_user()
+    return HttpResponse("Success!")

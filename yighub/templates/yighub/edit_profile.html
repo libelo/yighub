@@ -64,11 +64,11 @@
               <input type="text" name="email" maxlength="75" id="{{ form.email.label }}" placeholder="email@gmail.com" {% if form.email.value %} value="{{ form.email.value }}" {% endif %} />
             </div>
           </div>
-          {{ form.messenger.errors }}
+          {{ form.sns.errors }}
           <div class="control-group">
-            <label class="control-label" for="{{ form.messenger.label }}">메신저</label>
+            <label class="control-label" for="{{ form.sns.label }}">SNS 계정</label>
             <div class="controls">
-              <input type="text" name="messenger" maxlength="50" id="{{ form.messenger.label }}" placeholder="메신저 아이디" {% if form.messenger.value %} value="{{ form.messenger.value }}" {% endif %} />
+              <input type="text" name="sns" maxlength="200" id="{{ form.sns.label }}" placeholder="페이스북, 네이트온, 미쓰리 등" {% if form.sns.value %} value="{{ form.sns.value }}" {% endif %} />
             </div>
           </div>
           {{ form.phone_number.errors }}

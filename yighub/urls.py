@@ -21,6 +21,8 @@ urlpatterns = patterns('yighub.views',
 
     url(r'^download/(?P<file_id>\d+)/$', 'download', name='download'),
 
+    url(r'^transform/$', 'transform'),
+
     url(r'^taskforce/create/$', 'create_taskforce', name='create_taskforce'), # can make taskforce board 
 
     url(r'^albums/$', 'albums', {'page' : 1}, name='albums'),
