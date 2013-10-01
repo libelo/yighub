@@ -105,7 +105,7 @@ class LetterForm(forms.ModelForm):
 class Memo(models.Model):
     memo = models.CharField(max_length = 200)
     creator = models.ForeignKey(User, related_name = 'memo_creators')
-    time_created = models.DateTimeField(auto_now_add = True)
+    time_created = models.DateTimeField()
 
     def __unicode__(self):
         return self.memo
@@ -126,8 +126,8 @@ class Photo(models.Model):
     photo = models.ImageField(upload_to = 'yighub/albums/%Y/%m/%d', ) # 외부용 null = True 
     description = models.TextField(blank = True)
     photographer = models.ForeignKey(User, related_name = 'photographers')
-    time_created = models.DateTimeField(auto_now_add = True)
-    time_last_modified = models.DateTimeField(auto_now = True)
+    time_created = models.DateTimeField()
+    time_last_modified = models.DateTimeField()
     recommendation = models.ManyToManyField(User, related_name = 'photo_recommendations', blank = True, null = True)
     count_recommendation = models.PositiveIntegerField(default = 0)
     count_comment = models.PositiveIntegerField(default = 0)

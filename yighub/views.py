@@ -474,6 +474,7 @@ def create(request, board, board_id = None):
             # 글을 저장한다.
             e = form.save(commit = False)
             e.creator = request.session['user']
+            e.time_created = timezone.now()
             e.time_last_modified = timezone.now()
             e.arrangement = arrangement
             e.save()
@@ -692,6 +693,8 @@ def reply(request, board, entry_id): # yig.in/entry/12345/reply
             reply.depth = current_depth
             reply.parent = entry_id
             reply.creator = request.session['user']
+            reply.time_created = timezone.now()
+            reply.time_last_modified = timezone.now()
             reply.save()
 
             thumbnails = request.POST.getlist('thumbnails')
@@ -926,6 +929,7 @@ def join(request):
 
                         f = form.save(commit = False)
                         f.password = hashers.make_password(request.POST['password'])
+                        f.date_joined = timezone.now()
                         f.last_login = timezone.now()
                         f.level = 'pre'
                         
@@ -1324,6 +1328,7 @@ def create_photos(request, album_id):
                 p.photo = request.FILES['photo_'+str(k)]
                 p.description = request.POST['description_'+str(k)]
                 p.photographer = request.session['user']
+                p.time_created = timezone.now()
                 p.time_last_modified = timezone.now()
                 p.save()
                 # 게시판 정보를 업데이트한다.
@@ -1472,5 +1477,6 @@ def recommend_comment_photo(request, album_id, photo_id, comment_id):
 import transformation
 def transform(request,):
 
-    transformation.transform_user()
-    return HttpResponse("Success!")
+    # transformation.transform_user()
+    result = transformation.transform_analysis()
+    return HttpResponse(result)
