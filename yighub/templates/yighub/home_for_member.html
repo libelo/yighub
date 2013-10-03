@@ -58,14 +58,14 @@
 				<tbody>
 					{% for entry in bulletin_news %}
 					<tr>
-						<td> {{ entry.creator }} </td>
-						<td>
+						<td style="min-width: 50px;"> {{ entry.creator }} </td>
+						<td style="min-width: 400px;">
 							{% for i in entry.range %} ↳ {% endfor %}
-							<a href="{% url 'yighub:read' 'bulletin' entry.id %}">{{ entry.title }}
+							<a href="{% url 'yighub:read' 'bulletin' entry.id %}">{{ entry.title|truncatechars:38 }}
 								<span class="badge badge-info">{{ entry.count_comment }}</span>
 							</a>
 						</td>
-						<td> {{ entry.time_created }} </td>
+						<td style="min-width: 150px;"> {{ entry.time_created }} </td>
 					</tr>
 					{% endfor %}
 				</tbody>
@@ -98,14 +98,14 @@
 				<tbody>
 					{% for entry in taskforce_news %}
 					<tr>
-						<td> {{ entry.creator }} </td>
-						<td>
+						<td style="min-width: 50px;"> {{ entry.creator }} </td>
+						<td style="min-width: 400px;">
 							{% for i in entry.range %} ↳ {% endfor %}
-							<a href="{% url 'yighub:read' 'taskforce' entry.id %}">{{ entry.title }}
+							<a href="{% url 'yighub:read' 'taskforce' entry.id %}">{{ entry.title|truncatechars:38 }}
 								<span class="badge badge-info">{{ entry.count_comment }}</span>
 							</a>
 						</td>
-						<td> {{ entry.time_created }} </td>
+						<td style="min-width: 150px;"> {{ entry.time_created }} </td>
 					</tr>
 					{% endfor %}
 				</tbody>
@@ -130,9 +130,9 @@
 				<tbody>
 					{% for m in memos %}
 					<tr>
-						<td> {{ m.creator }} </td>
-						<td> {{ m.memo }} </td>
-						<td> {{ m.time_created }} </td>
+						<td style="min-width: 50px;"> {{ m.creator }} </td>
+						<td style="min-width: 400px;"> {{ m.memo }} </td>
+						<td style="min-width: 150px;"> {{ m.time_created }} </td>
 						{% if m.creator == user %}
 						<td class="pull-right"> 
 							<a href = "{% url 'yighub:delete_memo' m.id %}"> 

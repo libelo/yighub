@@ -99,9 +99,13 @@ class Thumbnail(models.Model):
     def __unicode__(self):
         return self.name
 
+def upload_file_path(instance, filename):
+    time = instance.entry.time_created
+    return 'yighub/files/%s/%s/%s/%s' % (time.year, time.month, time.day, instance.name)
+
 class File(models.Model):
     name = models.CharField(max_length = 200)
-    file = models.FileField(upload_to = 'yighub/files/%Y/%m/%d', )
+    file = models.FileField(upload_to = upload_file_path)
     hit = models.PositiveIntegerField(default = 0)
 
     def __unicode__(self):

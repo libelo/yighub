@@ -446,12 +446,13 @@ def create(request, board, board_id = None):
     if exist == False:
         raise Http404
 
-    current_board = None
     if board_id:
         try:
             current_board = Board.objects.get(pk = board_id)
         except Board.DoesNotExist:
             raise Http404
+    else:
+        current_board = None
 
     # 권한 검사
     permission = check_permission(request, board, current_board, mode = 'writing')
@@ -463,13 +464,15 @@ def create(request, board, board_id = None):
         form = EntryForm(request.POST, request.FILES)
         if form.is_valid():
             
+            current_board = Board.objects.get(pk = request.POST['board'])
+
             # arrangement 할당
             try:
-                newest_entry = Entry.objects.order_by('-arrangement')[0] # largest board_number
-            except IndexError:
+                last_entry = Entry.objects.get(pk = current_board.newest_entry)
+            except Entry.DoesNotExist:
                 arrangement = 1000
             else:
-                arrangement = (newest_entry.arrangement/1000 + 1) * 1000
+                arrangement = (last_entry.arrangement/1000 + 1) * 1000
 
             # 글을 저장한다.
             e = form.save(commit = False)
@@ -484,7 +487,7 @@ def create(request, board, board_id = None):
             for thumbnail in thumbnails:
                 t = Thumbnail(entry = e, name = thumbnail.name, thumbnail = thumbnail)
                 t.save()
-
+            
             # 여러 파일들을 저장한다.
             files = request.FILES.getlist('files')
             for file in files:
@@ -672,7 +675,7 @@ def reply(request, board, entry_id): # yig.in/entry/12345/reply
             current_depth = parent.depth + 1
             current_arrangement = parent.arrangement - 1
             p = entry_id
-            scope = Entry.objects.filter(arrangement__gt = (current_arrangement/1000) * 1000).filter(arrangement__lte = current_arrangement)
+            scope = Entry.objects.filter(board = parent.board).filter(arrangement__gt = (current_arrangement/1000) * 1000).filter(arrangement__lte = current_arrangement)
             
             while True:
                 try:
@@ -681,9 +684,9 @@ def reply(request, board, entry_id): # yig.in/entry/12345/reply
                     break
                 else:
                     current_arrangement = q.arrangement - 1
-                    p = q.pk
+                    p = q.id
             
-            to_update = Entry.objects.filter(arrangement__gt = (current_arrangement/1000) * 1000 ).filter(arrangement__lte = current_arrangement)
+            to_update = Entry.objects.filter(board = parent.board).filter(arrangement__gt = (current_arrangement/1000) * 1000 ).filter(arrangement__lte = current_arrangement)
             for e in to_update:
                 e.arrangement -= 1
                 e.save()
@@ -697,7 +700,7 @@ def reply(request, board, entry_id): # yig.in/entry/12345/reply
             reply.time_last_modified = timezone.now()
             reply.save()
 
-            thumbnails = request.POST.getlist('thumbnails')
+            thumbnails = request.FILES.getlist('thumbnails')
             for thumbnail in thumbnails:
                 t = Thumbnail(entry = reply, name = thumbnail.name, thumbnail = thumbnail)
                 t.save()
@@ -1478,5 +1481,5 @@ import transformation
 def transform(request,):
 
     # transformation.transform_user()
-    result = transformation.transform_analysis()
-    return HttpResponse(result)
+    transformation.transform_board('board')
+    return HttpResponse("Success!")

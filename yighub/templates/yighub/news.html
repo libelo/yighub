@@ -28,14 +28,14 @@
 					{% for entry in page.entry_list %}
 					{# for i in entry.range #}
 					<tr>
-						<td> {{ entry.creator }} </td>
-						<td>
+						<td style="min-width: 50px;"> {{ entry.creator }} </td>
+						<td style="min-width: 400px;">
 							{% for i in entry.range %} ↳ {% endfor %}
-							<a href="{% url 'yighub:read' board entry.id %}">{{ entry.title }}
+							<a href="{% url 'yighub:read' board entry.id %}">{{ entry.title|truncatechars:38 }}
 								<span class="badge badge-info">{{ entry.count_comment }}</span>
 							</a>
 						</td>
-						<td> {{ entry.time_created }} </td>
+						<td style="min-width: 150px;"> {{ entry.time_created }} </td>
 					</tr>
 					{% endfor %}
 				</tbody>
@@ -44,15 +44,21 @@
 			<div class="pagination text-center">
 			  <ul>
 			  	{% if page.first_page %}
-			    <li><a href="{% url 'yighub:news' board page.first_page %}">First</a></li>
-			    <li><a href="{% url 'yighub:news' board page.prev_page %}">Prev</a></li>
+			    <li><a href="{% url 'yighub:news' board page.first_page %}">&laquo;</a></li>
+			    <li><a href="{% url 'yighub:news' board page.prev_page %}">&lsaquo;</a></li>
 			    {% endif %}
 			    {% for p in page.page_list %}
-			    <li><a href="{% url 'yighub:news' board p %}">{{ p }}</a></li>
+				    {% if p == page.current_page %}
+				    <li class="active">
+				    {% else %}
+				    <li>
+				    {% endif %}
+				    	<a href="{% url 'yighub:news' board p %}">{{ p }}</a>
+				    </li>
 			    {% endfor %}
 			    {% if page.last_page %}
-			    <li><a href="{% url 'yighub:news' board page.next_page %}">Next</a></li>
-			    <li><a href="{% url 'yighub:news' board page.last_page %}">Last</a></li>
+			    <li><a href="{% url 'yighub:news' board page.next_page %}">&rsaquo;</a></li>
+			    <li><a href="{% url 'yighub:news' board page.last_page %}">&raquo;</a></li>
 			    {% endif %}
 			  </ul>
 			</div>
