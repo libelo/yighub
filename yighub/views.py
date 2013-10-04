@@ -1481,5 +1481,11 @@ import transformation
 def transform(request,):
 
     # transformation.transform_user()
-    transformation.transform_board('board')
+    # transformation.transform_board('data')
+    # transformation.transform_board('column')
+    # transformation.transform_board('portfolio')
+    # transformation.transform_board('analysis')
+    # transformation.transform_board('m_notice')
+    # transformation.transform_board('board')
+
     return HttpResponse("Success!")

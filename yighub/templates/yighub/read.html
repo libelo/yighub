@@ -26,7 +26,9 @@
 			<br />
 			<br />
 			{% endif %}
-			{{ entry.content|linebreaks }}
+			{% filter urlize|linebreaks %}
+			{{ entry.content }}
+			{% endfilter %}
 			<br />
 			<hr />
 			{% if files %}
@@ -83,7 +85,9 @@
 					</a>
 				</span>
 				{% endif %}
-				{{ c.content|linebreaks }}
+				{% filter urlize|linebreaks %}
+				{{ c.content }}
+				{% endfilter %}
 				</div>
 				{% endfor %}
 				

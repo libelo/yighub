@@ -14,6 +14,8 @@ from yighub.models import Entry
 from yighub.models import BulletinBoard, BulletinEntry, BulletinThumbnail, BulletinFile, BulletinComment
 
 from os import path
+from bs4 import BeautifulSoup
+import HTMLParser as parser
 
 
 def extract_one(board_name, no):
@@ -38,6 +40,40 @@ def extract_user():
 		rows = cur.fetchall()
 
 		return rows
+
+def reverse_escape(content):
+    result = re.compile(r'\\r').sub("", content)
+    result = re.compile(r'\\n').sub("\n", result)
+    result = re.compile(r'\\\\\\"').sub('"', result)
+    result = re.compile(r"\\\\\\'").sub("'", result)
+
+
+    result = re.compile(r'<p>|</p>').sub("\n", result)
+    result = re.compile(r'<br />').sub("\n", result)
+    p = parser.HTMLParser()
+    result = p.unescape(result)
+    # result = re.compile(r'&lt;').sub("<", result)
+    # result = re.compile(r'&gt;').sub(">", result)
+    # result = re.compile(r'&#39;').sub("'", result)
+    # result = re.compile(r'&quot;').sub('"', result)
+    # result = re.compile(r'&nbsp;').sub(" ", result)
+    # result = re.compile(r'&#8226;').sub("•", result)
+    # result = re.compile(r'&#46468;').sub("떄", result)
+    # result = re.compile(r'&#54973;').sub("횽", result)
+    # result = re.compile(r'&#47225;').sub("롹", result)
+    # result = re.compile(r'&#47973;').sub("뭥", result)
+    # result = re.compile(r'&#48577;').sub("뷁", result)
+    # result = re.compile(r'&#52634;').sub("춚", result)
+    # result = re.compile(r'&#52573;').sub("쵝", result)
+    # result = re.compile(r'&#50043;').sub("썻", result)
+    # result = re.compile(r'&#47167;').sub("렿", result)
+    # result = re.compile(r'&#51861;').sub("쪕", result)
+    # result = re.compile(r'&#55203;').sub("힣", result)
+    # result = re.compile(r'&#46489;').sub("떙", result)
+    # result = re.compile(r'&#55203;').sub("힣", result)
+
+
+    return result
 
 def transform_user():
 
@@ -66,7 +102,7 @@ def transform_user():
                 s += ' | '
             s += u'msn: ' + row[11]
         u.sns = s
-        u.self_introduction = re.compile(r'\\r\\n').sub("\n", re.compile(r'&nbsp;').sub(" ", row[13]))
+        u.self_introduction = reverse_escape(row[13])
         u.point = row[14]*10 + row[15]*3
         regex_p = re.compile(r'\d{3}-\d{3,4}-\d{4}')
         if row[22]:
@@ -104,7 +140,7 @@ def transform_user():
 def transform_board(board_name):
 
     filepath1 = u'/Users/libelo/documents/code/yig03/yig03_20130204/public_html/zero/'
-    image_extension = ['jpg', 'JPG', 'png', 'PNG', 'jpeg', 'JPEG', 'bmp', 'BMP']
+    image_extension = ['jpg', 'JPG', 'png', 'PNG', 'jpeg', 'JPEG', 'bmp', 'BMP', 'gif', 'GIF']
 
     with sqlite3.connect('yig03.sqlite') as db:
 
@@ -125,8 +161,9 @@ def transform_board(board_name):
             e = BulletinEntry()
             e.board = b
 
-            e.title = row[17]
-            e.content = re.compile(r'\\r\\n').sub("\n", re.compile(r'&nbsp;').sub(" ", row[11]))
+            e.title = reverse_escape(row[17])
+
+            e.content = reverse_escape(row[11])
             
             try:
                 e.creator = User.objects.get(pk = row[9])
@@ -143,7 +180,6 @@ def transform_board(board_name):
             else:
                 e.time_last_modified = e.time_created
             e.count_comment = row[33]
-
 
             if row[7]:
                 cur.execute("SELECT reg_date FROM zetyx_board_%s WHERE no = %d" % (board_name, row[7]))
@@ -164,12 +200,11 @@ def transform_board(board_name):
                 else:
                     current_arrangement = 1000
                 e.arrangement = current_arrangement
-                e.save()
-                b.count_entry += 1
-                b.newest_entry = e.id
-                b.newest_time = e.time_last_modified
-                b.save()
-
+                # e.save()
+                # b.count_entry += 1
+                # b.newest_entry = e.id
+                # b.newest_time = e.time_last_modified
+                # b.save()
             else:
                 assert parent_object.depth + 1 == e.depth
                 current_arrangement = parent_object.arrangement - 1
@@ -191,10 +226,10 @@ def transform_board(board_name):
                     t.save()
 
                 e.arrangement = current_arrangement
-                e.save()
+                # e.save()
 
-                b.count_entry += 1
-                b.save()
+                # b.count_entry += 1
+                # b.save()
 
             cur.execute("SELECT file_names, s_file_names, vote_users FROM dq_revolution WHERE zb_id = '%s' AND zb_no = %s" % (board_name, row[0]))
             recs = cur.fetchall()
@@ -210,44 +245,60 @@ def transform_board(board_name):
             e.count_recommendation = row[32]
 
             e.save()
-
+            b.count_entry += 1
+            b.newest_entry = e.id
+            b.newest_time = e.time_last_modified
+            b.save()
             f1_03, f2_03 = None, None
             if row[24]:
                 if path.isfile(filepath1 + row[24]):
                     f1_03 = open(filepath1 + row[24])
+                else:
+                    pass
+
+                if f1_03:
                     if row[24].split('.')[-1] in image_extension:
                         t1 = BulletinThumbnail()
                         t1.entry = e
-                        t1.name = row[26]
+                        t1.name = reverse_escape(row[26])
                         t1.thumbnail = ImageFile(f1_03)
                         t1.save()
                     else:
                         f1 = BulletinFile()
                         f1.entry = e
-                        f1.name = row[26]
+                        f1.name = reverse_escape(row[26])
                         f1.file = File(f1_03)
                         f1.hit = row[28]
                         f1.save()
                 else:
-                    pass
+                    null_ = open('/Users/libelo/documents/code/yig03/파일이_유실되었습니다..txt')
+                    null_file = BulletinFile(entry = e, name = '파일이 유실되었습니다.', file = File(null_))
+                    null_file.save()
             if row[25]:
                 if path.isfile(filepath1 + row[25]): 
                     f2_03 = open(filepath1 + row[25])
+                else:
+                    pass
+
+                if f2_03:
                     if row[25].split('.')[-1] in image_extension:
                         t2 = BulletinThumbnail()
                         t2.entry = e
-                        t2.name = row[27]
+                        t2.name = reverse_escape(row[27])
                         t2.thumbnail = ImageFile(f2_03)
                         t2.save()
                     else:
                         f2 = BulletinFile()
                         f2.entry = e
-                        f2.name = row[27]
+                        f2.name = reverse_escape(row[27])
                         f2.file = File(f2_03)
                         f2.hit = row[29]
                         f2.save()
                 else:
-                    pass
+                    null_ = open('/Users/libelo/documents/code/yig03/파일이_유실되었습니다..txt')
+                    null_file = BulletinFile(entry = e, name = '파일이 유실되었습니다.', file = File(null_))
+                    null_file.save()
+
             if f1_03:
                 f1_03.close()
             if f2_03:
@@ -258,20 +309,27 @@ def transform_board(board_name):
                 for s_file in enumerate(recs[0][0].split(',')):
                     if path.isfile(filepath1 + s_file[1]):
                         s_f = open(filepath1 + s_file[1])
+                    else:
+                        pass
+
+                    if s_f:
                         if s_file[1].split('.')[-1] in image_extension:
                             t3 = BulletinThumbnail()
                             t3.entry = e
-                            t3.name = recs[0][1].split(',')[s_file[0]]
+                            t3.name = reverse_escape(recs[0][1].split(',')[s_file[0]])
                             t3.thumbnail = ImageFile(s_f)
                             t3.save()
                         else:
                             f3 = BulletinFile()
                             f3.entry = e
-                            f3.name = recs[0][1].split(',')[s_file[0]]
+                            f3.name = reverse_escape(recs[0][1].split(',')[s_file[0]])
                             f3.file = File(s_f)
                             f3.save()
                     else:
-                        pass
+                        null_ = open('/Users/libelo/documents/code/yig03/파일이_유실되었습니다..txt')
+                        null_file = BulletinFile(entry = e, name = '파일이 유실되었습니다.', file = File(null_))
+                        null_file.save()
+
                     if s_f:
                         s_f.close()
 

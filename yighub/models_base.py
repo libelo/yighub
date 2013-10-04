@@ -11,6 +11,14 @@ MEMBER_LEVEL_CHOICES = (
                         ('mgr', 'website manager'),
                         )
 
+def upload_profile_path(instance, filename):
+    name = instance.name
+    return 'yighub/profiles/%s/%s' % (name, filename)
+
+def upload_avatar_path(instance, filename):
+    name = instance.name
+    return 'yighub/avatars/%s/%s' % (name, filename)
+
 class User(models.Model):
     user_id = models.CharField(max_length = 30)
     password = models.CharField(max_length = 200) 
@@ -34,8 +42,8 @@ class User(models.Model):
     self_introduction = models.TextField(blank = True)
     point = models.PositiveIntegerField(default = 0)
 
-    profile = models.ImageField(upload_to = 'yighub/profiles', blank = True, ) # 외부용 null = True 
-    avatar = models.ImageField(upload_to = 'yighub/avatars', blank = True, ) # 내부용 null = True
+    profile = models.ImageField(upload_to = upload_profile_path, blank = True, ) # 외부용 null = True 
+    avatar = models.ImageField(upload_to = upload_avatar_path, blank = True, ) # 내부용 null = True
 
     def __unicode__(self):
         return self.name
@@ -92,16 +100,22 @@ class Comment(models.Model):
     def __unicode__(self):
         return self.content
 
+def upload_thumbnail_path(instance, filename):
+    board = 'board' + str(instance.entry.board.id)
+    time = instance.entry.time_created
+    return 'yighub/thumbnails/%s/%s/%s/%s/%s' % (board, time.year, time.month, time.day, instance.name)
+
 class Thumbnail(models.Model):
     name = models.CharField(max_length = 200)
-    thumbnail = models.ImageField(upload_to = 'yighub/thumbnails/%Y/%m/%d', )
+    thumbnail = models.ImageField(upload_to = upload_thumbnail_path)
 
     def __unicode__(self):
         return self.name
 
 def upload_file_path(instance, filename):
+    board = 'board' + str(instance.entry.board.id)
     time = instance.entry.time_created
-    return 'yighub/files/%s/%s/%s/%s' % (time.year, time.month, time.day, instance.name)
+    return 'yighub/files/%s/%s/%s/%s/%s' % (board, time.year, time.month, time.day, instance.name)
 
 class File(models.Model):
     name = models.CharField(max_length = 200)
