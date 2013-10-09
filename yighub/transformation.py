@@ -20,9 +20,6 @@ from os import path
 from bs4 import BeautifulSoup
 import HTMLParser as parser
 
-check_count = 0
-check_num = 0
-check_list = []
 filepath1 = u'/Users/libelo/documents/code/yig03/yig03_20130204/public_html/zero/'
 image_extension = ['jpg', 'JPG', 'png', 'PNG', 'jpeg', 'JPEG', 'bmp', 'BMP', 'gif', 'GIF']
 
@@ -367,9 +364,6 @@ def transform_board(board_name, board_type = 'Bulletin'):
                     if s_f:
                         s_f.close()
         cur.close()
-        # check_count += 1
-        # check_num = len(rows)
-        # check_list.append(row[0])
 
 def transform_comment(board_name, board_type = 'Bulletin'):
 

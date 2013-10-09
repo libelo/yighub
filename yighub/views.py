@@ -195,17 +195,22 @@ def home(request):
     memos = Memo.objects.all().order_by('-pk')[0:10]
     bulletin_list = BulletinBoard.objects.all()
     taskforce_list = TaskforceBoard.objects.filter(archive = False)
-    bulletin_news = BulletinEntry.objects.all().order_by('-time_created')[0:5]
+    # bulletin_news = BulletinEntry.objects.all().order_by('-time_created')[0:5]
+    # for b in bulletin_news:
+    #     b.range = range(b.depth)
+    # taskforce_news = TaskforceEntry.objects.all().order_by('-time_created')[0:5]
+    # for t in taskforce_news:
+    #     t.range = range(t.depth)
+    news = []
+    bulletin_news = BulletinEntry.objects.all().order_by('-time_created')[0:10]
     for b in bulletin_news:
-        b.range = range(b.depth)
-    taskforce_news = TaskforceEntry.objects.all().order_by('-time_created')[0:5]
+        b.board_type = 'bulletin'
+    news += bulletin_news
+    taskforce_news = TaskforceEntry.objects.all().order_by('-time_created')[0:10]
     for t in taskforce_news:
-        t.range = range(t.depth)
-    # news = []
-    # bulletin_news = BulletinEntry.objects.all().order_by('-time_created')[0:15]
-    # news += bulletin_news
-    # taskforce_news = TaskforceEntry.objects.all().order_by('-time_created')[0:15]
-    # news += taskforce_news
+        t.board_type = 'taskforce'
+    news += taskforce_news
+    news = sorted(news, key = lambda news: news.time_created, reverse = True)[:10]
     """ 메모를 위한 거였구만.
 
     # 최신글 목록 가져오기
@@ -263,8 +268,9 @@ def home(request):
                                     'public_dict' : PublicBoardDict,
                                     'bulletin_list' : bulletin_list,
                                     'taskforce_list' : taskforce_list,
-                                    'bulletin_news' : bulletin_news,
-                                    'taskforce_news' : taskforce_news,
+                                    # 'bulletin_news' : bulletin_news,
+                                    # 'taskforce_news' : taskforce_news,
+                                    'news' : news,
                                     'memos' : memos,
                                    },   
                                   ) 
@@ -1537,11 +1543,9 @@ def transform(request,):
     transformation.transform_user()
 
     transformation.transform_board('data', 'Bulletin')
-    hi = 'end data'
     transformation.transform_comment('data', 'Bulletin')
-    hi = 'end data comment'
+
     transformation.transform_board('column', 'Bulletin')
-    hi = 'end column'
     transformation.transform_comment('column', 'Bulletin')
 
     transformation.transform_board('portfolio', 'Bulletin')

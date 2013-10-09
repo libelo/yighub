@@ -15,7 +15,9 @@
 <div class="row-fluid">
 	<div class="container-fluid">
 		<span>
-			<button type="button" class="btn" onclick = 'history.back()'>돌아가기</button>
+			<a href="{% url 'yighub:albums' 0 %}">
+				<button type="button" class="btn">앨범 목록</button>
+			</a>
 		</span>
 		<span class="pull-right">
 			<a href="{% url 'yighub:create_photos' album.id %}">
