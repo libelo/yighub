@@ -27,8 +27,7 @@ urlpatterns = patterns('yighub.views',
 
     url(r'^taskforce/create/$', 'create_taskforce', name='create_taskforce'), # can make taskforce board 
 
-    url(r'^albums/$', 'albums', {'page' : 1}, name='albums'),
-    url(r'^albums/page/(?P<page>\d+)/$', 'albums'),
+    url(r'^albums/page/(?P<page>\d+)/$', 'albums', name='albums'),
     url(r'^albums/(?P<album_id>\d+)/photos/$', 'photos', name='photos'),
     url(r'^albums/create/$', 'create_album', name='create_album'),
     url(r'^albums/(?P<album_id>\d+)/photos/create/$', 'create_photos', name='create_photos'),

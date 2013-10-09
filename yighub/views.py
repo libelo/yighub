@@ -25,6 +25,8 @@ from django.contrib.auth import hashers
 
 import re
 
+import transformation
+
 PublicBoardList = PublicBoard.objects.all()
 PublicBoardDict = {}
 for public_board in PublicBoardList:
@@ -79,7 +81,7 @@ def pagination(board, board_id, current_page, page_size = 20): # board_number가
         entry_list = Entry.objects.filter(board = b).order_by('-arrangement')[no : (no + page_size)]
     else:
         count_entry = Entry.objects.count()
-        entry_list = Entry.objects.all().order_by('-arrangement')[no : (no + page_size)] # filter(board = board_number)
+        entry_list = Entry.objects.all().order_by('-time_created')[no : (no + page_size)] # filter(board = board_number)
 
     # 첫 페이지와 끝 페이지 설정
     first_page = 1
@@ -115,14 +117,14 @@ def pagination(board, board_id, current_page, page_size = 20): # board_number가
     page_list = range(start_page, end_page + 1)
 
     # 이전 페이지, 다음 페이지 설정
-    prev_page = current_page - 1
-    next_page = current_page + 1
+    prev_page = current_page - 5
+    next_page = current_page + 5
 
     # 맨 첫 페이지나 맨 끝 페이지일 때 고려
-    if current_page == last_page:
+    if current_page > last_page - 5:
         next_page = 0
         last_page = 0
-    if current_page == first_page:
+    if current_page <= 5:
         prev_page = 0
         first_page = 0
 
@@ -193,13 +195,17 @@ def home(request):
     memos = Memo.objects.all().order_by('-pk')[0:10]
     bulletin_list = BulletinBoard.objects.all()
     taskforce_list = TaskforceBoard.objects.filter(archive = False)
-    bulletin_news = BulletinEntry.objects.all().order_by('-arrangement')[0:5]
+    bulletin_news = BulletinEntry.objects.all().order_by('-time_created')[0:5]
     for b in bulletin_news:
         b.range = range(b.depth)
-    taskforce_news = TaskforceEntry.objects.all().order_by('-arrangement')[0:5]
+    taskforce_news = TaskforceEntry.objects.all().order_by('-time_created')[0:5]
     for t in taskforce_news:
         t.range = range(t.depth)
-
+    # news = []
+    # bulletin_news = BulletinEntry.objects.all().order_by('-time_created')[0:15]
+    # news += bulletin_news
+    # taskforce_news = TaskforceEntry.objects.all().order_by('-time_created')[0:15]
+    # news += taskforce_news
     """ 메모를 위한 거였구만.
 
     # 최신글 목록 가져오기
@@ -301,8 +307,10 @@ def listing(request, board, board_id, page = '0'):    # url : yig.in/yighub/boar
     except Board.DoesNotExist:
         raise Http404
 
-    if current_board.name in ('Research', 'simA', 'simB', 'simV', 'Universe'):
-        p = pagination(board, board_id, current_page = page, page_size = 1)
+    if current_board.name in ('Research',):
+        p = pagination(board, board_id, current_page = page, page_size = 3)
+    elif current_board.name in ('simA', 'simB', 'simV', 'Universe'):
+        p = pagination(board, board_id, current_page = page, page_size = 1)        
     else:
         p = pagination(board, board_id, current_page = page)
     if board == 'taskforce':
@@ -421,7 +429,7 @@ def read(request, board, entry_id,):
     thumbnails = e.thumbnails.all()
     files = e.files.all() #File.objects.filter(entry = e)
     recommendations = e.recommendation.all()
-    comments = e.comments.all()
+    comments = e.comments.order_by('arrangement')
     current_board = e.board
     board_list = Board.objects.all()
 
@@ -468,8 +476,8 @@ def create(request, board, board_id = None):
 
             # arrangement 할당
             try:
-                last_entry = Entry.objects.get(pk = current_board.newest_entry)
-            except Entry.DoesNotExist:
+                last_entry = Entry.objects.filter(board = current_board).order_by('-arrangement')[0]
+            except IndexError:
                 arrangement = 1000
             else:
                 arrangement = (last_entry.arrangement/1000 + 1) * 1000
@@ -712,6 +720,8 @@ def reply(request, board, entry_id): # yig.in/entry/12345/reply
 
             # 게시판 정보를 업데이트한다.
             b = reply.board
+            b.newest_entry = reply.id
+            b.newest_time = reply.time_created
             b.count_entry += 1
             b.save()
 
@@ -850,6 +860,7 @@ def reply_comment(request, board, entry_id):
         reply_comment = Comment(entry = e,
                                 content = request.POST['content'], 
                                 creater = u, 
+                                time_created = timezone.now(),
                                 arrangement = current_arrangement,
                                 depth = current_depth,
                                 parent = request.POST['comment_id'],
@@ -1153,14 +1164,14 @@ def memo(request, page = 1):
     page_list = range(start_page, end_page + 1)
 
     # 이전 페이지, 다음 페이지 설정
-    prev_page = current_page - 1
-    next_page = current_page + 1
+    prev_page = current_page - 5
+    next_page = current_page + 5
 
     # 맨 첫 페이지나 맨 끝 페이지일 때 고려
-    if current_page == last_page:
+    if current_page > last_page - 5:
         next_page = 0
         last_page = 0
-    if current_page == first_page:
+    if current_page <= 5:
         prev_page = 0
         first_page = 0
 
@@ -1250,7 +1261,13 @@ def albums(request, page = 1):
         return permission[1]
     u = request.session['user']
     
-    album_list = Album.objects.all()
+    page_size = 20
+    current_page = int(page) if page != '0' else 1
+    no = (current_page - 1) * page_size # 그 앞 페이지 마지막 글까지 개수
+
+    count_album = Album.objects.count()
+    album_list = Album.objects.order_by('-newest_time')[no : (no + page_size)]
+
     albums = []
     for album in album_list:
         try:
@@ -1258,7 +1275,46 @@ def albums(request, page = 1):
         except:
             albums += [{'album':album, 'thumbnail':None}]
 
-    return render(request, 'yighub/albums.html', {'user':u, 'public_dict' : PublicBoardDict, 'albums':albums, })
+    # 첫 페이지와 끝 페이지 설정
+    first_page = 1
+    last_page = (count_album - 1)/page_size + 1
+
+    # 페이지 리스트 만들기
+    if current_page < 5:
+        start_page = 1
+    else:
+        start_page = current_page - 4
+
+    if current_page > last_page - 5:
+        end_page = last_page
+    else:
+        end_page = current_page + 4
+
+    page_list = range(start_page, end_page + 1)
+
+    # 이전 페이지, 다음 페이지 설정
+    prev_page = current_page - 5
+    next_page = current_page + 5
+
+    # 맨 첫 페이지나 맨 끝 페이지일 때 고려
+    if current_page > last_page - 5:
+        next_page = 0
+        last_page = 0
+    if current_page <= 5:
+        prev_page = 0
+        first_page = 0
+
+    p = {'album_list' : album_list,
+            'current_page' : current_page,
+            'page_list' : page_list,
+            'first_page' : first_page,
+            'last_page' : last_page,
+            'prev_page' : prev_page,
+            'next_page' : next_page,
+            }
+
+
+    return render(request, 'yighub/albums.html', {'user':u, 'public_dict' : PublicBoardDict, 'albums':albums, 'page':p})
 
 def photos(request, album_id):
     
@@ -1297,7 +1353,7 @@ def create_album(request,):
             a.permission_writing = 'pre'
             a.save()
 
-            return redirect('yighub:albums', )
+            return redirect('yighub:albums', page = 1)
     else:
         form = AlbumForm()
 
@@ -1335,8 +1391,7 @@ def create_photos(request, album_id):
                 p.time_last_modified = timezone.now()
                 p.save()
                 # 게시판 정보를 업데이트한다.
-                a.count_entry += 1
-                a.newest_entry = p.id
+                a.count_photo += 1
                 a.newest_time = p.time_last_modified
                 a.save()
         
@@ -1477,15 +1532,41 @@ def reply_comment_photo(request, album_id, photo_id, comment_id):
 def recommend_comment_photo(request, album_id, photo_id, comment_id):
     pass
 
-import transformation
 def transform(request,):
 
-    # transformation.transform_user()
-    # transformation.transform_board('data')
-    # transformation.transform_board('column')
-    # transformation.transform_board('portfolio')
-    # transformation.transform_board('analysis')
-    # transformation.transform_board('m_notice')
-    # transformation.transform_board('board')
+    transformation.transform_user()
 
+    transformation.transform_board('data', 'Bulletin')
+    hi = 'end data'
+    transformation.transform_comment('data', 'Bulletin')
+    hi = 'end data comment'
+    transformation.transform_board('column', 'Bulletin')
+    hi = 'end column'
+    transformation.transform_comment('column', 'Bulletin')
+
+    transformation.transform_board('portfolio', 'Bulletin')
+    transformation.transform_comment('portfolio', 'Bulletin')
+
+    transformation.transform_board('analysis', 'Bulletin')
+    transformation.transform_comment('analysis', 'Bulletin')
+
+    transformation.transform_board('m_notice', 'Bulletin')
+    transformation.transform_comment('m_notice', 'Bulletin')
+
+    transformation.transform_board('board', 'Bulletin')
+    transformation.transform_comment('board', 'Bulletin')
+
+    transformation.transform_board('tf', 'Taskforce')
+    transformation.transform_comment('tf', 'Taskforce')
+
+    transformation.transform_board('Research', 'Public')
+    transformation.transform_comment('Research', 'Public')
+
+    transformation.transform_board('fund', 'Public')
+    transformation.transform_comment('fund', 'Public')
+
+    transformation.transform_photos()
+
+    transformation.transform_memo()
     return HttpResponse("Success!")
+

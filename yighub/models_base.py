@@ -50,6 +50,7 @@ class User(models.Model):
 
 class Board(models.Model):
     name = models.CharField(max_length = 50)
+    order = models.PositiveIntegerField(default = 1)
     count_entry = models.PositiveIntegerField(default = 0)
     # due_date = models.DateField(blank = True, null = True)
     newest_entry = models.PositiveIntegerField(null = True, blank = True)
@@ -88,7 +89,7 @@ class Entry(models.Model):
 class Comment(models.Model):
     content = models.TextField()
     creator = models.ForeignKey(User, related_name='comment_creators')
-    time_created = models.DateTimeField(auto_now_add = True)
+    time_created = models.DateTimeField()
     recommendation = models.ManyToManyField(User, related_name = 'comment_recommendations', blank = True, null = True)
     count_recommendation = models.PositiveIntegerField(default = 0)
 

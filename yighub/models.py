@@ -3,6 +3,7 @@
 from django.db import models
 from django import forms
 from models_base import User, Board, Entry, Comment, File, Thumbnail, Tag
+from models_base import MEMBER_LEVEL_CHOICES
 
 
 class UserForm(forms.ModelForm):
@@ -88,7 +89,7 @@ class Letter(models.Model):
     title = models.CharField(max_length = 200)
     content = models.TextField()
     read = models.BooleanField(default = False)
-    time_created = models.DateTimeField(auto_now_add = True)
+    time_created = models.DateTimeField()
     file = models.FileField(upload_to = 'letter_files/%Y/%m/%d', blank = True)
     file_name = models.CharField(max_length = 200)
     #file_hit ? no.
@@ -110,10 +111,17 @@ class Memo(models.Model):
     def __unicode__(self):
         return self.memo
 
-class Album(Board): # 그냥 Album으로 하자.
+class Album(models.Model):
     #썸네일은 필요없다. 그냥 첫번째 사진을 썸네일로 한다.
+    name = models.CharField(max_length = 50)
     event_time = models.DateField(blank = True, null = True)
     count_view = models.PositiveIntegerField(default = 0)
+    count_photo = models.PositiveIntegerField(default = 0)
+    thumbnail = models.PositiveIntegerField(null = True, blank = True)
+
+    newest_time = models.DateTimeField(null = True, blank = True) 
+    permission_reading = models.CharField(max_length = 3, choices = MEMBER_LEVEL_CHOICES, default = 'pre')
+    permission_writing = models.CharField(max_length = 3, choices = MEMBER_LEVEL_CHOICES, default = 'pre')
 
 
 class AlbumForm(forms.ModelForm):

@@ -33,6 +33,30 @@
 	</div>
 {% cycle '' '' '' '</div>' %}
 {% endfor %}
+
+<br />
+<div class="pagination text-center">
+  <ul>
+  	{% if page.first_page %}
+    <li><a href="{% url 'yighub:albums' page.first_page %}">&laquo;</a></li>
+    <li><a href="{% url 'yighub:albums' page.prev_page %}">&lsaquo;</a></li>
+    {% endif %}
+    {% for p in page.page_list %}
+	    {% if p == page.current_page %}
+	    <li class="active">
+	    {% else %}
+	    <li>
+	    {% endif %}
+	    	<a href="{% url 'yighub:albums' p %}">{{ p }}</a>
+	    </li>
+    {% endfor %}
+    {% if page.last_page %}
+    <li><a href="{% url 'yighub:albums' page.next_page %}">&rsaquo;</a></li>
+    <li><a href="{% url 'yighub:albums' page.last_page %}">&raquo;</a></li>
+    {% endif %}
+  </ul>
+</div>
+
 {% else %}
 <p> 아직 앨범이 없습니다. </p>
 {% endif %}

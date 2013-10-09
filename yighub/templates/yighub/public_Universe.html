@@ -17,10 +17,13 @@
 			<h3>{{ entry.title }}</h3>
 			<span> {{ entry.time_created }} </span>
 			<hr />
-			{% if entry.thumbnail %}
+			{% if entry.thumbnails %}
+			{% for t in entry.thumbnails.all %}
 			<div class="text-center">
-				<img src="{{ entry.thumbnail.url }}" style="width:100%; max-width:650px;"/>
+				<img src="{{ t.thumbnail.url }}" style="width:100%; max-width:650px;"/>
 			</div>
+			<br />
+			{% endfor %}
 			<br />
 			<br />
 			{% endif %}
@@ -40,15 +43,21 @@
 			<div class="pagination text-center">
 			  <ul>
 			  	{% if page.first_page %}
-			    <li><a href="{% url 'yighub:listing' board current_board.id page.first_page %}">First</a></li>
-			    <li><a href="{% url 'yighub:listing' board current_board.id page.prev_page %}">Prev</a></li>
+			    <li><a href="{% url 'yighub:listing' board current_board.id page.first_page %}">&laquo;</a></li>
+			    <li><a href="{% url 'yighub:listing' board current_board.id page.prev_page %}">&lsaquo;</a></li>
 			    {% endif %}
 			    {% for p in page.page_list %}
-			    <li><a href="{% url 'yighub:listing' board current_board.id p %}">{{ p }}</a></li>
+				    {% if p == page.current_page %}
+				    <li class="active">
+				    {% else %}
+				    <li>
+				    {% endif %}
+					    <a href="{% url 'yighub:listing' board current_board.id p %}">{{ p }}</a>
+					</li>
 			    {% endfor %}
 			    {% if page.last_page %}
-			    <li><a href="{% url 'yighub:listing' board current_board.id page.next_page %}">Next</a></li>
-			    <li><a href="{% url 'yighub:listing' board current_board.id page.last_page %}">Last</a></li>
+			    <li><a href="{% url 'yighub:listing' board current_board.id page.next_page %}">&rsaquo;</a></li>
+			    <li><a href="{% url 'yighub:listing' board current_board.id page.last_page %}">&raquo;</a></li>
 			    {% endif %}
 			  </ul>
 			</div>

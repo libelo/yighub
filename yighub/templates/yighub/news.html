@@ -32,7 +32,9 @@
 						<td style="min-width: 400px;">
 							{% for i in entry.range %} ↳ {% endfor %}
 							<a href="{% url 'yighub:read' board entry.id %}">{{ entry.title|truncatechars:38 }}
+								{% if not entry.count_comment == 0 %}
 								<span class="badge badge-info">{{ entry.count_comment }}</span>
+								{% endif %}
 							</a>
 						</td>
 						<td style="min-width: 150px;"> {{ entry.time_created }} </td>

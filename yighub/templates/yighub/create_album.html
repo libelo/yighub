@@ -9,7 +9,7 @@
         <br />
         {{ form.name.errors }}
         <label>앨범 이름</label>
-        <input type="text" class="input-block-level" placeholder="이름" name="name" />
+        <input type="text" class="input-block-level" placeholder="새 앨범" name="name" />
         <label>이벤트 날짜</label>
         <input type="text" class="input-block-level" name="event_time" id="{{ form.birthday.label }}" placeholder="2013-09-01" {% if form.event_time.value %} value="{{ form.event_time.value }}" {% endif %} />
         <br />

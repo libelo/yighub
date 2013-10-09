@@ -85,8 +85,8 @@
 					</a>
 				</span>
 				{% endif %}
-				{% filter urlize|linebreaks %}
-				{{ c.content }}
+				{% filter urlize %}
+				{{ c.content|linebreaks }}
 				{% endfilter %}
 				</div>
 				{% endfor %}

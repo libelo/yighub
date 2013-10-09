@@ -51,6 +51,7 @@
 				<thead>
 					<tr class="info">
 						<th> 글쓴이 </th>
+						<th> 게시판 </th>
 						<th> 제목 </th>
 						<th> 등록일 </th>
 					</tr>
@@ -59,6 +60,7 @@
 					{% for entry in bulletin_news %}
 					<tr>
 						<td style="min-width: 50px;"> {{ entry.creator }} </td>
+						<td style="min-width: 70px;"> {{ entry.board.name|truncatechars:8 }} </td>
 						<td style="min-width: 400px;">
 							{% for i in entry.range %} ↳ {% endfor %}
 							<a href="{% url 'yighub:read' 'bulletin' entry.id %}">{{ entry.title|truncatechars:38 }}
@@ -91,6 +93,7 @@
 				<thead>
 					<tr class="info">
 						<th> 글쓴이 </th>
+						<th> 게시판 </th>
 						<th> 제목 </th>
 						<th> 등록일 </th>
 					</tr>
@@ -99,6 +102,7 @@
 					{% for entry in taskforce_news %}
 					<tr>
 						<td style="min-width: 50px;"> {{ entry.creator }} </td>
+						<td style="min-width: 70px;"> {{ entry.board.name|truncatechars:8 }} </td>
 						<td style="min-width: 400px;">
 							{% for i in entry.range %} ↳ {% endfor %}
 							<a href="{% url 'yighub:read' 'taskforce' entry.id %}">{{ entry.title|truncatechars:38 }}
