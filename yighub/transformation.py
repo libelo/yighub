@@ -17,7 +17,6 @@ from yighub.models import Album, Photo, PhotoComment
 from yighub.models import Memo
 
 from os import path
-from bs4 import BeautifulSoup
 import HTMLParser as parser
 
 filepath1 = u'/Users/libelo/documents/code/yig03/yig03_20130204/public_html/zero/'
