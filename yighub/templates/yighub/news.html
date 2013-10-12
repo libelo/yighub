@@ -7,7 +7,13 @@
 
 		<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
 			<div class="row-fluid">
-				<span class="lead">{{ board }} news</span>
+				<span class="lead">
+					{% if board == 'bulletin' %}
+					Boards News
+					{% elif board == 'taskforce' %}
+					Taskforce News
+					{% endif %}
+				</span>
 				<div class="container-fluid pull-right">
 					<a href="{% url 'yighub:create' board %}">
 						<button type="button" class="btn btn-primary">글쓰기</button>
@@ -45,10 +51,10 @@
 			<br />
 			<div class="pagination text-center">
 			  <ul>
-			  	{% if page.first_page %}
-			    <li><a href="{% url 'yighub:news' board page.first_page %}">&laquo;</a></li>
-			    <li><a href="{% url 'yighub:news' board page.prev_page %}">&lsaquo;</a></li>
-			    {% endif %}
+			  	<!-- {% if page.first_page %} -->
+			    <!-- <li><a href="{% url 'yighub:news' board page.first_page %}">&laquo;</a></li> -->
+			    <!-- <li><a href="{% url 'yighub:news' board page.prev_page %}">&lsaquo;</a></li> -->
+			    <!-- {% endif %} -->
 			    {% for p in page.page_list %}
 				    {% if p == page.current_page %}
 				    <li class="active">
@@ -58,10 +64,10 @@
 				    	<a href="{% url 'yighub:news' board p %}">{{ p }}</a>
 				    </li>
 			    {% endfor %}
-			    {% if page.last_page %}
-			    <li><a href="{% url 'yighub:news' board page.next_page %}">&rsaquo;</a></li>
-			    <li><a href="{% url 'yighub:news' board page.last_page %}">&raquo;</a></li>
-			    {% endif %}
+			    <!-- {% if page.last_page %} -->
+			    <!-- <li><a href="{% url 'yighub:news' board page.next_page %}">&rsaquo;</a></li> -->
+			    <!-- <li><a href="{% url 'yighub:news' board page.last_page %}">&raquo;</a></li> -->
+			    <!-- {% endif %} -->
 			  </ul>
 			</div>
 			{% else %}
@@ -71,11 +77,17 @@
 			{% endif %}
 			{% if board == 'taskforce' %}
 			<div class="row-fluid">
-				<div class="container-fluid">
+				<div class="container-fluid pull-left">
 					<a href="{% url 'yighub:create_taskforce' %}">
-						<button type="button" class="btn">taskforce 만들기</button>
+						<button type="button" class="btn">Taskforce 만들기</button>
 					</a>
 				</div> 
+				<div class="container-fluid pull-right">
+					<a href="{% url 'yighub:taskforce_archive' %}">
+						<button type="button" class="btn">Taskforce 아카이브</button>
+					</a>
+				</div> 
+
 			</div>
 			{% endif %}
 

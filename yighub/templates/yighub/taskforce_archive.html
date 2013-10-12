@@ -1,0 +1,44 @@
+{% extends "yighub/sidebar.html" %}
+
+{% block contents %}
+	<div class="span9">
+		<br />	
+		<br />
+
+		<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
+			<div class="row-fluid">
+				<span class="lead">Taskforce 아카이브</span>
+			</div>
+			<br />
+			{% if taskforce_list %}
+			<table class="table">
+				<thead>
+					<tr class="info">
+						<th> 게시판 </th>
+						<th> 마지막 등록일 </th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for taskforce in taskforce_list %}
+					<tr>
+						<td>
+							<a href="{% url 'yighub:listing' 'taskforce' taskforce.id 1 %}"> 
+								{{ taskforce.name }}
+								<span class="muted">{{ taskforce.count_entry }}</span>
+							</a>
+						</td>
+						<td style="width: 150px;"> {{ taskforce.newest_time }} </td>
+					</tr>
+					{% endfor %}
+				</tbody>
+				</table>
+			<br />
+			{% else %}
+			<div class="container-fruid text-center">
+				<p> 아직 글이 존재하지 않습니다. </p>
+			</div>
+			{% endif %}
+		</div>
+	</div><!--/span-->	
+
+{% endblock %}

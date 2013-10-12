@@ -15,7 +15,7 @@
 			<h3>{{ entry.title }}</h3>
 			<span> <strong>{{ entry.creator }}</strong> / {{ entry.time_created }} </span>
 			{% if entry.time_last_modified != entry.time_created %}
-			<span> (마지막 수정 {{ entry.time_last_modified }}) </span>
+			<span class="muted"> &nbsp;&nbsp;(마지막 수정 {{ entry.time_last_modified }}) </span>
 			{% endif %}
 			<span class="pull-right">조회수 {{ entry.count_view }} / 추천수 {{ entry.count_recommendation }} </span>
 			<hr />

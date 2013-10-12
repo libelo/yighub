@@ -104,15 +104,21 @@ def pagination(board, board_id, current_page, page_size = 20): # board_number가
                     pass
         real_list.append(e) 
         """
-    if current_page < 5:
+    # if current_page < 5:
+    if current_page < 4:
         start_page = 1
     else:
-        start_page = current_page - 4
+        # start_page = current_page - 4
+        start_page = current_page - 3
 
-    if current_page > last_page - 5:
+    # if current_page > last_page - 5:
+    if current_page > last_page - 4:
         end_page = last_page
+    elif current_page < 4:
+        end_page = 7
     else:
-        end_page = current_page + 4
+        # end_page = current_page + 4
+        end_page = current_page + 3
 
     page_list = range(start_page, end_page + 1)
 
@@ -174,6 +180,17 @@ def check_permission(request, board, current_board = None, mode = 'reading'):
     else:
         raise 'invalid argument'
 
+def get_board_list(board):
+
+    if board == 'taskforce':
+        board_list = TaskforceBoard.objects.filter(archive = False).order_by('-count_entry')
+    elif board == 'bulletin':
+        board_list = BulletinBoard.objects.all()
+    else:
+        board_list = None
+
+    return board_list
+
 def home(request):
 
     if 'user_id' not in request.session:
@@ -193,8 +210,8 @@ def home(request):
         return render(request, 'yighub/home_for_visitor.html', {'public_dict' : PublicBoardDict})
 
     memos = Memo.objects.all().order_by('-pk')[0:10]
-    bulletin_list = BulletinBoard.objects.all()
-    taskforce_list = TaskforceBoard.objects.filter(archive = False)
+    bulletin_list = get_board_list('bulletin')
+    taskforce_list = get_board_list('taskforce')
     # bulletin_news = BulletinEntry.objects.all().order_by('-time_created')[0:5]
     # for b in bulletin_news:
     #     b.range = range(b.depth)
@@ -295,7 +312,7 @@ def news(request, board, page):
         return render(request, 'yighub/error.html', )
 
     p = pagination(board, board_id = 0, current_page = page)
-    board_list = Board.objects.all()
+    board_list = get_board_list(board)
 
     return render(request, 'yighub/news.html',
         {'user': user, 'public_dict' : PublicBoardDict, 'board': board, 'board_list': board_list, 'page': p}
@@ -319,10 +336,7 @@ def listing(request, board, board_id, page = '0'):    # url : yig.in/yighub/boar
         p = pagination(board, board_id, current_page = page, page_size = 1)        
     else:
         p = pagination(board, board_id, current_page = page)
-    if board == 'taskforce':
-        board_list = Board.objects.filter(archive = False)
-    else:
-        board_list = Board.objects.all()
+    board_list = get_board_list(board)
     
     # 권한 검사
     permission = check_permission(request, board, current_board)
@@ -395,10 +409,10 @@ def create_taskforce(request):
         form = TaskforceBoardForm(request.POST)
         if form.is_valid():
 
-            b = form.save(commit = False)            
-            b.permission_reading = 'pre'
-            b.permission_writing = 'pre'
-            b.save()
+            t = form.save(commit = False)            
+            t.permission_reading = 'pre'
+            t.permission_writing = 'pre'
+            t.save()
 
             return redirect('yighub:news', board='taskforce', page=1 )
     else:
@@ -408,8 +422,58 @@ def create_taskforce(request):
 
     return render(request, 'yighub/create_taskforce.html', {'user' : u, 'public_dict' : PublicBoardDict, 'form' : form})
 
-def edit_taskforce(request):
-    pass # 여기서 archive로 넘기기도 처리. 삭제는 일단 구현 안함. 게시글이 하나도 없을 때만 가능.
+def edit_taskforce(request, taskforce_id): # 여기서 archive로 넘기기도 처리. 삭제는 일단 구현 안함. 게시글이 하나도 없을 때만 가능.
+
+    try:
+        t = TaskforceBoard.objects.get(pk = taskforce_id)
+    except TaskforceBoard.DoesNotExist:
+        return Http404
+
+    # 권한 검사
+    permission = check_permission(request, 'taskforce', current_board = t, mode = 'writing')
+    if permission[0] == False:
+        return permission[1]
+
+    if request.method == 'POST':
+        form = TaskforceBoardForm(request.POST, instance = t)
+        if form.is_valid():
+
+            t = form.save(commit = False)
+            if 'to_archive' in request.POST:
+                if request.POST['to_archive']:
+                    t.archive = True
+            if 'to_list' in request.POST:
+                if request.POST['to_list']:
+                    t.archive = False
+            t.save()
+
+            return redirect('yighub:news', board='taskforce', page=1 )
+    else:
+        form = TaskforceBoardForm(instance = t)
+
+    u = request.session['user']
+
+    return render(request, 'yighub/edit_taskforce.html', {'user' : u, 'public_dict' : PublicBoardDict, 'form' : form, 'current_taskforce' : t})
+
+def taskforce_archive(request):
+
+    # 권한 검사
+    permission = check_permission(request, 'taskforce', mode = 'writing')
+    if permission[0] == False:
+        return permission[1]
+
+    taskforce_list = TaskforceBoard.objects.filter(archive = True).order_by('-newest_time')
+
+    u = request.session['user']
+    board_list = get_board_list('taskforce')
+
+    return render(request, 'yighub/taskforce_archive.html', 
+        {'user' : u, 
+        'public_dict' : PublicBoardDict, 
+        'board' : 'taskforce', 
+        'board_list' : board_list,
+        'taskforce_list' : taskforce_list
+        })
 
 def read(request, board, entry_id,):
         
@@ -437,7 +501,7 @@ def read(request, board, entry_id,):
     recommendations = e.recommendation.all()
     comments = e.comments.order_by('arrangement')
     current_board = e.board
-    board_list = Board.objects.all()
+    board_list = get_board_list(board)
 
     return render(request, 'yighub/read.html',
       {'user' : u,
@@ -522,7 +586,7 @@ def create(request, board, board_id = None):
         else:
             form = EntryForm()
 
-    board_list = Board.objects.all()
+    board_list = get_board_list(board)
 
     return render(request, 'yighub/create.html', 
         {'user' : u, 
@@ -606,7 +670,7 @@ def edit(request, board, entry_id):
     
     thumbnails = e.thumbnails.all()
     files = e.files.all()
-    board_list = Board.objects.all()
+    board_list = get_board_list(board)
     current_board = e.board
 
     return render(request, 'yighub/edit.html', 
@@ -735,7 +799,7 @@ def reply(request, board, entry_id): # yig.in/entry/12345/reply
     else:
         form = EntryForm(initial = {'board' : parent.board}) # board 빼고 보내기
 
-    board_list = Board.objects.all()
+    board_list = get_board_list(board)
     b = parent.board
 
     return render(request, 'yighub/reply.html', 
@@ -1142,8 +1206,8 @@ def memo(request, page = 1):
         return permission[1] 
     u = request.session['user']
     
-    bulletin_list = BulletinBoard.objects.all()
-    taskforce_list = TaskforceBoard.objects.filter(archive = False)
+    bulletin_list = get_board_list('bulletin')
+    taskforce_list = get_board_list('taskforce')
 
     current_page = int(page)
     page_size = 20
@@ -1157,15 +1221,21 @@ def memo(request, page = 1):
     last_page = (count_entry - 1)/page_size + 1
 
     # 페이지 리스트 만들기
-    if current_page < 5:
+    # if current_page < 5:
+    if current_page < 4:
         start_page = 1
     else:
-        start_page = current_page - 4
+        # start_page = current_page - 4
+        start_page = current_page - 3
 
-    if current_page > last_page - 5:
+    # if current_page > last_page - 5:
+    if current_page > last_page - 4:
         end_page = last_page
+    elif current_page < 4:
+        end_page = 7
     else:
-        end_page = current_page + 4
+        # end_page = current_page + 4
+        end_page = current_page + 3
 
     page_list = range(start_page, end_page + 1)
 

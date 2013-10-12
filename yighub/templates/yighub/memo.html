@@ -66,10 +66,10 @@
 			<br />
 			<div class="pagination text-center">
 			  <ul>
-			  	{% if page.first_page %}
-			    <li><a href="{% url 'yighub:memo' page.first_page %}">&laquo;</a></li>
-			    <li><a href="{% url 'yighub:memo' page.prev_page %}">&lsaquo;</a></li>
-			    {% endif %}
+			  	<!-- {% if page.first_page %} -->
+			    <!-- <li><a href="{% url 'yighub:memo' page.first_page %}">&laquo;</a></li> -->
+			    <!-- <li><a href="{% url 'yighub:memo' page.prev_page %}">&lsaquo;</a></li> -->
+			    <!-- {% endif %} -->
 			    {% for p in page.page_list %}
 				    {% if p == page.current_page %}
 				    <li class="active">
@@ -79,10 +79,10 @@
 					    <a href="{% url 'yighub:memo' p %}">{{ p }}</a>
 					</li>
 			    {% endfor %}
-			    {% if page.last_page %}
-			    <li><a href="{% url 'yighub:memo' page.next_page %}">&rsaquo;</a></li>
-			    <li><a href="{% url 'yighub:memo' page.last_page %}">&raquo;</a></li>
-			    {% endif %}
+			    <!-- {% if page.last_page %} -->
+			    <!-- <li><a href="{% url 'yighub:memo' page.next_page %}">&rsaquo;</a></li> -->
+			    <!-- <li><a href="{% url 'yighub:memo' page.last_page %}">&raquo;</a></li> -->
+			    <!-- {% endif %} -->
 			  </ul>
 			</div>
 			{% else %}

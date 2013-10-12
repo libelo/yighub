@@ -1,0 +1,26 @@
+{% extends "yighub/simple.html" %}
+
+{% block contents %}
+    <div class="container">
+
+      <form class="form-signin" action="{% url 'yighub:edit_taskforce' current_taskforce.id %}", method = "post">
+      	{% csrf_token %}
+        <h2 class="form-signin-heading">Taskforce 수정하기</h2>
+        <br />
+        {{ form.name.errors }}
+        <input type="text" name="name" class="input-block-level" placeholder="새 테스크포스" value="{{ form.name.value }}" />
+        <label class="checkbox">
+        {% if current_taskforce.archive %}
+          아카이브에서 가져오기
+          <input type="checkbox" name="to_list" />
+        {% else %}
+          아카이브로 보내기
+          <input type="checkbox" name="to_archive" />
+        {% endif %}        
+        </label>
+        <br />
+        <button class="btn btn-large btn-primary" type="submit">수정하기</button>
+      </form>
+
+    </div> <!-- /container -->
+{% endblock %}

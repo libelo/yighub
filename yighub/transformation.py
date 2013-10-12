@@ -277,7 +277,7 @@ def transform_board(board_name, board_type = 'Bulletin'):
             e.save()
             b.count_entry += 1
             b.newest_entry = e.id
-            b.newest_time = e.time_last_modified
+            b.newest_time = e.time_created
             b.save()
             f1_03, f2_03 = None, None
             if row[24]:
@@ -336,32 +336,35 @@ def transform_board(board_name, board_type = 'Bulletin'):
 
             if recs and recs[0][0]:
                 for s_file in enumerate(recs[0][0].split(',')):
-                    s_f = None
-                    if path.isfile(filepath1 + s_file[1]):
-                        s_f = open(filepath1 + s_file[1])
-                    else:
-                        pass
+                    if s_file[1]:
 
-                    if s_f:
-                        if s_file[1].split('.')[-1] in image_extension:
-                            t3 = Thumbnail()
-                            t3.entry = e
-                            t3.name = reverse_escape(recs[0][1].split(',')[s_file[0]])
-                            t3.thumbnail = ImageFile(s_f)
-                            t3.save()
+                        s_f = None
+
+                        if path.isfile(filepath1 + s_file[1]):
+                            s_f = open(filepath1 + s_file[1])
                         else:
-                            f3 = File()
-                            f3.entry = e
-                            f3.name = reverse_escape(recs[0][1].split(',')[s_file[0]])
-                            f3.file = djangoFile(s_f)
-                            f3.save()
-                    else:
-                        null_ = open('/Users/libelo/documents/code/yig03/파일이_유실되었습니다..txt')
-                        null_file = File(entry = e, name = u'파일이 유실되었습니다. (%s)' % reverse_escape(row[26]), file = djangoFile(null_))
-                        null_file.save()
+                            pass
 
-                    if s_f:
-                        s_f.close()
+                        if s_f:
+                            if s_file[1].split('.')[-1] in image_extension:
+                                t3 = Thumbnail()
+                                t3.entry = e
+                                t3.name = reverse_escape(recs[0][1].split(',')[s_file[0]])
+                                t3.thumbnail = ImageFile(s_f)
+                                t3.save()
+                            else:
+                                f3 = File()
+                                f3.entry = e
+                                f3.name = reverse_escape(recs[0][1].split(',')[s_file[0]])
+                                f3.file = djangoFile(s_f)
+                                f3.save()
+                        else:
+                            null_ = open('/Users/libelo/documents/code/yig03/파일이_유실되었습니다..txt')
+                            null_file = File(entry = e, name = u'파일이 유실되었습니다. (%s)' % reverse_escape(recs[0][1].split(',')[s_file[0]]), file = djangoFile(null_))
+                            null_file.save()
+
+                        if s_f:
+                            s_f.close()
         cur.close()
 
 def transform_comment(board_name, board_type = 'Bulletin'):
@@ -518,7 +521,7 @@ def transform_photos():
 
                 p.save()
                 a.count_photo += 1
-                a.newest_time = p.time_last_modified
+                a.newest_time = p.time_created
                 a.save()
 
 
