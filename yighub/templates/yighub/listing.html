@@ -33,8 +33,8 @@
 				<tbody>
 					{% for entry in page.entry_list %}
 					<tr>
-						<td style="min-width: 50px;"> {{ entry.creator }} </td>
-						<td style="min-width: 400px;">
+						<td class="creator-column"> {{ entry.creator }} </td>
+						<td class="title-column">
 							{% for i in entry.range %} ↳ {% endfor %}
 							<a href="{% url 'yighub:read' board entry.id %}"> {{ entry.title|truncatechars:38 }}
 								{% if not entry.count_comment == 0 %}
@@ -42,16 +42,16 @@
 								{% endif %}
 							</a>
 						</td>
-						<td style="min-width: 150px;"> {{ entry.time_created }} </td>
+						<td class="time-column"> {{ entry.time_created|date:"Y-m-d" }} </td>
 					</tr>
 					{% endfor %}
 				</tbody>
 				</table>
 			<br />
-			<div class="pagination text-center">
+			<div class="pagination pagination-small text-center">
 			  <ul>
 			  	<!-- {% if page.first_page %} -->
-			    <!-- <li><a href="{% url 'yighub:listing' board current_board.id page.first_page %}">&laquo;</a></li> -->
+			    <!-- <li class="visible-desktop pull-left"><a href="{% url 'yighub:listing' board current_board.id page.first_page %}">&laquo;</a></li> -->
 			    <!-- <li><a href="{% url 'yighub:listing' board current_board.id page.prev_page %}">&lsaquo;</a></li> -->
 			    <!-- {% endif %} -->
 			    {% for p in page.page_list %}
@@ -63,10 +63,10 @@
 				    	<a href="{% url 'yighub:listing' board current_board.id p %}">{{ p }}</a>
 				    </li>
 			    {% endfor %}
-			    <!-- {% if page.last_page %} -->
+			    {% if page.last_page %}
 			    <!-- <li><a href="{% url 'yighub:listing' board current_board.id page.next_page %}">&rsaquo;</a></li> -->
-			    <!-- <li><a href="{% url 'yighub:listing' board current_board.id page.last_page %}">&raquo;</a></li> -->
-			    <!-- {% endif %} -->
+			    <li class="visible-desktop"><a href="{% url 'yighub:listing' board current_board.id page.last_page %}">&raquo;</a></li>
+			    {% endif %}
 			  </ul>
 			</div>
 			{% else %}

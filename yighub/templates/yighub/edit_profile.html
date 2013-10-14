@@ -25,13 +25,6 @@
           {% endfor %}
           </ul>
           {% endif %}
-          {{ form.user_id.errors }}
-          <div class="control-group">
-            <label class="control-label" for="{{ form.user_id.label }}">아이디</label>
-            <div class="controls">
-              <input type="text" name="user_id" maxlength="30" id="{{ form.user_id.label }}" placeholder="id" {% if form.user_id.value %} value="{{ form.user_id.value }}" {% endif %} />
-            </div>
-          </div>
 
           {{ form.password.errors }}
           {% if not first_login %}
@@ -39,8 +32,11 @@
             <label class="control-label" for="{{ form.password.label }}">기존 비밀번호</label>
             <div class="controls">
               <input type="password" name="password" maxlength="200" id="{{ form.password.label }}" placeholder="password" />
+              <br />
+              <span class="text-info">비밀번호를 한번 더 입력해주세요.</span>
             </div>
           </div>
+          <br />
           <div class="control-group">
             <label class="control-label" for="new_password">새 비밀번호</label>
             <div class="controls">
@@ -68,6 +64,13 @@
           </div>
           {% endif %}
 
+          {{ form.user_id.errors }}
+          <div class="control-group">
+            <label class="control-label" for="{{ form.user_id.label }}">아이디</label>
+            <div class="controls">
+              <input type="text" name="user_id" maxlength="30" id="{{ form.user_id.label }}" placeholder="id" {% if form.user_id.value %} value="{{ form.user_id.value }}" {% endif %} />
+            </div>
+          </div>
           {{ form.name.errors }}
           <div class="control-group">
             <label class="control-label" for="{{ form.name.label }}">이름</label>

@@ -105,8 +105,10 @@ def pagination(board, board_id, current_page, page_size = 20): # board_number가
         real_list.append(e) 
         """
     # if current_page < 5:
-    if current_page < 4:
+    if current_page <= 4:
         start_page = 1
+    elif current_page > last_page - 4:
+        start_page = last_page - 6        
     else:
         # start_page = current_page - 4
         start_page = current_page - 3
@@ -123,14 +125,14 @@ def pagination(board, board_id, current_page, page_size = 20): # board_number가
     page_list = range(start_page, end_page + 1)
 
     # 이전 페이지, 다음 페이지 설정
-    prev_page = current_page - 5
-    next_page = current_page + 5
+    prev_page = current_page - 4
+    next_page = current_page + 4
 
     # 맨 첫 페이지나 맨 끝 페이지일 때 고려
-    if current_page > last_page - 5:
+    if current_page > last_page - 4:
         next_page = 0
         last_page = 0
-    if current_page <= 5:
+    if current_page <= 4:
         prev_page = 0
         first_page = 0
 
@@ -207,7 +209,7 @@ def home(request):
     user.save()
     
     if user.level == 'non':
-        return render(request, 'yighub/home_for_visitor.html', {'public_dict' : PublicBoardDict})
+        return render(request, 'yighub/home_for_visitor.html', {'public_dict' : PublicBoardDict, 'user' : user})
 
     memos = Memo.objects.all().order_by('-pk')[0:10]
     bulletin_list = get_board_list('bulletin')
@@ -1015,7 +1017,7 @@ def join(request):
                         f.password = hashers.make_password(request.POST['password'])
                         f.date_joined = timezone.now()
                         f.last_login = timezone.now()
-                        f.level = 'pre'
+                        f.level = 'non'
                         
 
                         f.profile = request.FILES['profile'] if 'profile' in request.FILES else None
@@ -1081,11 +1083,12 @@ def edit_profile(request, first_login = False):
                 form = UserForm(request.POST, )
                 return render(request, 'yighub/edit_profile.html', {'user':u, 'public_dict' : PublicBoardDict, 'form' : form, 'first_login' : first_login}, )
 
-        regex = re.compile(r'\d{3}-\d{4}-\d{4}')
-        if not regex.match(request.POST['phone_number']):
-            messages.error(request, 'phone number must be a form of "010-1234-1234"')
-            form = UserForm(request.POST, )
-            return render(request, 'yighub/edit_profile.html', {'user':u, 'public_dict' : PublicBoardDict, 'form' : form, 'first_login' : first_login}, )
+        if request.POST['phone_number']:
+            regex = re.compile(r'\d{3}-\d{4}-\d{4}')
+            if not regex.match(request.POST['phone_number']):
+                messages.error(request, 'phone number must be a form of "010-1234-1234"')
+                form = UserForm(request.POST, )
+                return render(request, 'yighub/edit_profile.html', {'user':u, 'public_dict' : PublicBoardDict, 'form' : form, 'first_login' : first_login}, )
 
         form = UserForm(request.POST, request.FILES, instance = u)
         if form.is_valid():
@@ -1095,8 +1098,8 @@ def edit_profile(request, first_login = False):
             if not first_login:
                 if request.POST['new_password']:
                     f.password = hashers.make_password(request.POST['new_password'])
-                # else:
-                #     f.password = hashers.make_password(request.POST['password'])
+                else:
+                    f.password = hashers.make_password(request.POST['password'])
             else:
                 f.password = hashers.make_password(request.POST['password'])
             f.profile = request.FILES['profile'] if 'profile' in request.FILES else u.profile
@@ -1130,7 +1133,7 @@ def login_check(request):
 
     if request.session.test_cookie_worked():
 
-        if u.password == '':
+        if u.password == ' ':
             u.password = hashers.make_password(request.POST['password'])
             u.save()
             request.session['user_id'] = u.user_id      
@@ -1608,39 +1611,60 @@ def reply_comment_photo(request, album_id, photo_id, comment_id):
 def recommend_comment_photo(request, album_id, photo_id, comment_id):
     pass
 
-def transform(request,):
-
+def transform_user(request,):
     transformation.transform_user()
+    return HttpResponse("Success!")
 
+def transform_data(request,):
     transformation.transform_board('data', 'Bulletin')
     transformation.transform_comment('data', 'Bulletin')
+    return HttpResponse("Success!")
 
+def transform_column(request,):
     transformation.transform_board('column', 'Bulletin')
     transformation.transform_comment('column', 'Bulletin')
+    return HttpResponse("Success!")
 
+def transform_portfolio(request,):
     transformation.transform_board('portfolio', 'Bulletin')
     transformation.transform_comment('portfolio', 'Bulletin')
+    return HttpResponse("Success!")
 
+def transform_analysis(request,):
     transformation.transform_board('analysis', 'Bulletin')
     transformation.transform_comment('analysis', 'Bulletin')
+    return HttpResponse("Success!")
 
+def transform_notice(request,):
     transformation.transform_board('m_notice', 'Bulletin')
     transformation.transform_comment('m_notice', 'Bulletin')
+    return HttpResponse("Success!")
 
+def transform_board(request,):
     transformation.transform_board('board', 'Bulletin')
     transformation.transform_comment('board', 'Bulletin')
+    return HttpResponse("Success!")
 
+def transform_tf(request,):
     transformation.transform_board('tf', 'Taskforce')
     transformation.transform_comment('tf', 'Taskforce')
+    return HttpResponse("Success!")
 
+def transform_research(request,):
     transformation.transform_board('Research', 'Public')
     transformation.transform_comment('Research', 'Public')
+    return HttpResponse("Success!")
 
+def transform_fund(request,):
     transformation.transform_board('fund', 'Public')
     transformation.transform_comment('fund', 'Public')
+    return HttpResponse("Success!")
 
+def transform_photos(request,):
     transformation.transform_photos()
+    return HttpResponse("Success!")
 
+def transform_memo(request,):
     transformation.transform_memo()
     return HttpResponse("Success!")
 

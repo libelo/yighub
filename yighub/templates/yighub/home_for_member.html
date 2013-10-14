@@ -53,9 +53,9 @@ color:deepskyblue;
 			<tbody>
 				{% for entry in news %}
 				<tr>
-					<td style="min-width: 50px;"> {{ entry.creator }} </td>
-					<td style="min-width: 70px;"> {{ entry.board.name|truncatechars:8 }} </td>
-					<td>
+					<td class="creator-column"> {{ entry.creator }} </td>
+					<td class="board-column"> {{ entry.board.name|truncatechars:12 }} </td>
+					<td class="title-column">
 						{% for i in entry.range %} ↳ {% endfor %}
 						<a href="{% url 'yighub:read' entry.board_type entry.id %}">{{ entry.title|truncatechars:38 }}
 							{% if not entry.count_comment == 0 %}
@@ -63,7 +63,7 @@ color:deepskyblue;
 							{% endif %}
 						</a>
 					</td>
-					<td style="min-width: 150px;"> {{ entry.time_created }} </td>
+					<td class="time-column"> {{ entry.time_created|date:"Y-m-d" }} </td>
 				</tr>
 				{% endfor %}
 			</tbody>
@@ -107,16 +107,15 @@ color:deepskyblue;
 			<tbody>
 				{% for m in memos %}
 				<tr>
-					<td style="min-width: 50px;"> {{ m.creator }} </td>
-					<td> {{ m.memo }} </td>
-					<td style="min-width: 150px;"> {{ m.time_created }} </td>
-					{% if m.creator == user %}
-					<td class="pull-right"> 
+					<td class="creator-column"> {{ m.creator }} </td>
+					<td class="title-column"> {{ m.memo }} 
+						{% if m.creator == user %}
 						<a href = "{% url 'yighub:delete_memo' m.id %}"> 
 							<i class="icon-remove" style="opacity:0.25"></i> 
 						</a>
+						{% endif %}
 					</td>
-					{% endif %}
+					<td class="time-column"> {{ m.time_created|date:"Y-m-d" }} </td>
 				</tr>
 				{% endfor %}
 			</tbody>

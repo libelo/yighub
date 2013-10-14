@@ -13,11 +13,13 @@ MEMBER_LEVEL_CHOICES = (
 
 def upload_profile_path(instance, filename):
     name = instance.name
-    return 'yighub/profiles/%s/%s' % (name, filename)
+    f = filename.split('/')[-1]
+    return 'yighub/profiles/%s/%s' % (name, f)
 
 def upload_avatar_path(instance, filename):
     name = instance.name
-    return 'yighub/avatars/%s/%s' % (name, filename)
+    f = filename.split('/')[-1]
+    return 'yighub/avatars/%s/%s' % (name, f)
 
 class User(models.Model):
     user_id = models.CharField(max_length = 30)

@@ -91,7 +91,7 @@ class Letter(models.Model):
     read = models.BooleanField(default = False)
     time_created = models.DateTimeField()
     file = models.FileField(upload_to = 'letter_files/%Y/%m/%d', blank = True)
-    file_name = models.CharField(max_length = 200)
+    filename = models.CharField(max_length = 200)
     #file_hit ? no.
     # read 를 count_view처럼? No.
 
@@ -123,6 +123,8 @@ class Album(models.Model):
     permission_reading = models.CharField(max_length = 3, choices = MEMBER_LEVEL_CHOICES, default = 'pre')
     permission_writing = models.CharField(max_length = 3, choices = MEMBER_LEVEL_CHOICES, default = 'pre')
 
+    def __unicode__(self):
+        return self.name
 
 class AlbumForm(forms.ModelForm):
     class Meta:

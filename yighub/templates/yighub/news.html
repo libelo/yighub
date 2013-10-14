@@ -26,6 +26,7 @@
 				<thead>
 					<tr class="info">
 						<th> 글쓴이 </th>
+						<th> 게시판 </th>
 						<th> 제목 </th>
 						<th> 등록일 </th>
 					</tr>
@@ -34,8 +35,9 @@
 					{% for entry in page.entry_list %}
 					{# for i in entry.range #}
 					<tr>
-						<td style="min-width: 50px;"> {{ entry.creator }} </td>
-						<td style="min-width: 400px;">
+						<td class="creator-column"> {{ entry.creator }} </td>
+						<td class="board-column"> {{ entry.board.name|truncatechars:12 }} </td>
+						<td class="title-column">
 							{% for i in entry.range %} ↳ {% endfor %}
 							<a href="{% url 'yighub:read' board entry.id %}">{{ entry.title|truncatechars:38 }}
 								{% if not entry.count_comment == 0 %}
@@ -43,16 +45,16 @@
 								{% endif %}
 							</a>
 						</td>
-						<td style="min-width: 150px;"> {{ entry.time_created }} </td>
+						<td class="time-column"> {{ entry.time_created|date:"Y-m-d" }} </td>
 					</tr>
 					{% endfor %}
 				</tbody>
 			</table>
 			<br />
-			<div class="pagination text-center">
+			<div class="pagination pagination-small text-center">
 			  <ul>
 			  	<!-- {% if page.first_page %} -->
-			    <!-- <li><a href="{% url 'yighub:news' board page.first_page %}">&laquo;</a></li> -->
+			    <!-- <li class="visible-desktop pull-left"><a href="{% url 'yighub:news' board page.first_page %}">&laquo;</a></li> -->
 			    <!-- <li><a href="{% url 'yighub:news' board page.prev_page %}">&lsaquo;</a></li> -->
 			    <!-- {% endif %} -->
 			    {% for p in page.page_list %}
@@ -64,10 +66,10 @@
 				    	<a href="{% url 'yighub:news' board p %}">{{ p }}</a>
 				    </li>
 			    {% endfor %}
-			    <!-- {% if page.last_page %} -->
+			    {% if page.last_page %}
 			    <!-- <li><a href="{% url 'yighub:news' board page.next_page %}">&rsaquo;</a></li> -->
-			    <!-- <li><a href="{% url 'yighub:news' board page.last_page %}">&raquo;</a></li> -->
-			    <!-- {% endif %} -->
+			    <li class="visible-desktop"><a href="{% url 'yighub:news' board page.last_page %}">&raquo;</a></li>
+			    {% endif %}
 			  </ul>
 			</div>
 			{% else %}

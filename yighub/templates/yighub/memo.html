@@ -47,27 +47,25 @@
 				<tbody>
 					{% for m in page.memo_list %}
 					<tr>
-						<td> {{ m.creator }} </td>
-						<td>
+						<td class="creator-column"> {{ m.creator }} </td>
+						<td class="title-column">
 							{{ m.memo }}
-						</td>
-						<td> {{ m.time_created }} </td>
-						{% if m.creator == user %}
-						<td class="pull-right"> 
+							{% if m.creator == user %}
 							<a href = "{% url 'yighub:delete_memo' m.id %}"> 
 								<i class="icon-remove" style="opacity:0.25"></i> 
 							</a>
+							{% endif %}
 						</td>
-						{% endif %}
+						<td class="time-column"> {{ m.time_created|date:"Y-m-d" }} </td>
 					</tr>
 					{% endfor %}
 				</tbody>
 				</table>
 			<br />
-			<div class="pagination text-center">
+			<div class="pagination pagination-small text-center">
 			  <ul>
 			  	<!-- {% if page.first_page %} -->
-			    <!-- <li><a href="{% url 'yighub:memo' page.first_page %}">&laquo;</a></li> -->
+			    <!-- <li class="visible-desktop pull-left"><a href="{% url 'yighub:memo' page.first_page %}">&laquo;</a></li> -->
 			    <!-- <li><a href="{% url 'yighub:memo' page.prev_page %}">&lsaquo;</a></li> -->
 			    <!-- {% endif %} -->
 			    {% for p in page.page_list %}
@@ -79,10 +77,10 @@
 					    <a href="{% url 'yighub:memo' p %}">{{ p }}</a>
 					</li>
 			    {% endfor %}
-			    <!-- {% if page.last_page %} -->
+			    {% if page.last_page %}
 			    <!-- <li><a href="{% url 'yighub:memo' page.next_page %}">&rsaquo;</a></li> -->
-			    <!-- <li><a href="{% url 'yighub:memo' page.last_page %}">&raquo;</a></li> -->
-			    <!-- {% endif %} -->
+			    <li class="visible-desktop"><a href="{% url 'yighub:memo' page.last_page %}">&raquo;</a></li>
+			    {% endif %}
 			  </ul>
 			</div>
 			{% else %}

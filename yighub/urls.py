@@ -23,7 +23,18 @@ urlpatterns = patterns('yighub.views',
 
     url(r'^download/(?P<file_id>\d+)/$', 'download', name='download'),
 
-    url(r'^transform/$', 'transform'),
+    url(r'^transform/user/$', 'transform_user'),
+    url(r'^transform/data/$', 'transform_data'),
+    url(r'^transform/column/$', 'transform_column'),
+    url(r'^transform/portfolio/$', 'transform_portfolio'),
+    url(r'^transform/analysis/$', 'transform_analysis'),
+    url(r'^transform/notice/$', 'transform_notice'),
+    url(r'^transform/board/$', 'transform_board'),
+    url(r'^transform/tf/$', 'transform_tf'),
+    url(r'^transform/research/$', 'transform_research'),
+    url(r'^transform/fund/$', 'transform_fund'),
+    url(r'^transform/photos/$', 'transform_photos'),
+    url(r'^transform/memo/$', 'transform_memo'),
 
     url(r'^taskforce/create/$', 'create_taskforce', name='create_taskforce'), # can make taskforce board 
     url(r'^taskforce/(?P<taskforce_id>\d+)/edit/$', 'edit_taskforce', name='edit_taskforce'),    

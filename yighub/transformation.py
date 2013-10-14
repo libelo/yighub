@@ -87,7 +87,7 @@ def transform_user():
         u = User()
         u.id = row[0]
         u.user_id = row[2]
-        u.password = '' #row[3]
+        u.password = ' ' #row[3]
         u.name = row[5]
         if row[6] == 9:
             u.level = 'non'
@@ -366,6 +366,7 @@ def transform_board(board_name, board_type = 'Bulletin'):
                         if s_f:
                             s_f.close()
         cur.close()
+    db.close()
 
 def transform_comment(board_name, board_type = 'Bulletin'):
 
@@ -412,6 +413,8 @@ def transform_comment(board_name, board_type = 'Bulletin'):
             c.arrangement = current_arrangement
 
             c.save()
+        cur.close()
+    db.close()
 
 def transform_photos():
 
@@ -523,7 +526,7 @@ def transform_photos():
                 a.count_photo += 1
                 a.newest_time = p.time_created
                 a.save()
-
+    db.close()
 
 def transform_memo():
 
@@ -550,5 +553,5 @@ def transform_memo():
             m.time_created = datetime.datetime.fromtimestamp(row[30])
 
             m.save()
-
+    db.close()
 
