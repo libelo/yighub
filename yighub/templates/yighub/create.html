@@ -20,17 +20,51 @@
 					<textarea name="content" rows="20" class="span12" placeholder="여기에 내용을 입력하세요">{% if form.content.value %}{{ form.content.value }}{% endif %}</textarea>
 					<br />
 					<br />
+					<script>
+					function add_thumbnail() {
+						thumbnails = document.getElementById("upload_thumbnails");
+						new_thumbnail = document.createElement("input");
+						new_thumbnail.setAttribute("type", "file");
+						new_thumbnail.setAttribute("name", "thumbnails");
+						thumbnails.appendChild(new_thumbnail);
+
+						new_line = document.createElement("br");
+						thumbnails.appendChild(new_line);
+					}
+					function add_file() {
+						files = document.getElementById("upload_files");
+						new_file = document.createElement("input");
+						new_file.setAttribute("type", "file");
+						new_file.setAttribute("name", "files");
+						files.appendChild(new_file);
+
+						new_line = document.createElement("br");
+						files.appendChild(new_line);
+					}
+					</script>
+
 					<label>썸네일</label>
-					<input type = 'file' name = 'thumbnails' />
+					<div id="upload_thumbnails">
+						<input type = 'file' name = 'thumbnails' />
+						<br />
+					</div>
+					<br />
+					<a onclick="add_thumbnail()">썸네일 추가</a>
+
+					<br />
 					<br />
 					<br />
 					<label>파일 업로드</label>
-					<input type = 'file' name = 'files' />
+					<div id="upload_files">
+						<input type = 'file' name = 'files' />
+						<br />
+						<input type = 'file' name = 'files' />
+						<br />
+						<input type = 'file' name = 'files' />
+						<br />
+					</div>
 					<br />
-					<input type = 'file' name = 'files' />
-					<br />
-					<input type = 'file' name = 'files' />
-					<br />
+					<a onclick="add_file()">파일 추가</a>
 					<div class="form-actions text-center">
 						<button type="submit" class="btn btn-primary">올리기</button>
 						&nbsp;
@@ -40,6 +74,6 @@
 					</div>
 				</fieldset>
 			</form>
-
-		</div><!--/span-->	
+		</div>
+	</div><!--/span-->	
 {% endblock %}

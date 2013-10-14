@@ -110,7 +110,14 @@ color:deepskyblue;
 					<td class="creator-column"> {{ m.creator }} </td>
 					<td class="title-column"> {{ m.memo }} 
 						{% if m.creator == user %}
-						<a href = "{% url 'yighub:delete_memo' m.id %}"> 
+						<script>
+						function check_delete_memo() {
+							if (confirm("정말 삭제하시겠습니까?")){
+							window.open("{% url 'yighub:delete_memo' m.id %}", "_self")						
+							}
+						}
+						</script>
+						<a onclick="check_delete_memo()"> 
 							<i class="icon-remove" style="opacity:0.25"></i> 
 						</a>
 						{% endif %}

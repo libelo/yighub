@@ -68,7 +68,15 @@
 			<span class="pull-right">
 				<a href = "{% url 'yighub:edit' board entry.id %}">수정하기</a> 
 				&nbsp;&nbsp;
-				<a href = "{% url 'yighub:delete' board entry.id %}">삭제하기</a>
+
+				<script>
+				function check_delete() {
+					if (confirm("정말 삭제하시겠습니까?")){
+					window.open("{% url 'yighub:delete' board entry.id %}", "_self")						
+					}
+				}
+				</script>
+				<a onclick="check_delete()">삭제하기</a>
 			</span>
 			{% endif %}
 			<br />
@@ -83,7 +91,14 @@
 				<small class="muted"> {{ c.time_created }} </small>	
 				{% if c.creator == user %}
 				<span class="pull-right">
-					<a href = "{% url 'yighub:delete_comment' board entry.id c.id %}"> 
+					<script>
+					function check_delete_comment() {
+						if (confirm("정말 삭제하시겠습니까?")){
+						window.open("{% url 'yighub:delete_comment' board entry.id c.id %}", "_self")						
+						}
+					}
+					</script>
+					<a onclick="check_delete_comment()"> 
 						<i class="icon-remove" style="opacity:0.25"></i> 
 					</a>
 				</span>
