@@ -1,10 +1,18 @@
 {% extends "yighub/base.html" %}
 
+{% block style %}
+	.upload-photo {
+	max-width: 680px; 
+	margin-left: 200px; 
+	margin-right: 200px;
+}
+{% endblock %}
+
 {% block contents %}
 
 <div class="text-center" style="margin:25px auto 0px auto">
 	<h2>{{ album.name }}</h2>
-	<h3>사진 추가하기</h3>
+	<h3>사진 올리기</h3>
 </div>
 
 <div class="span2"></div>
@@ -14,21 +22,20 @@
 		<input id="size" type="hidden" name="size" value="3" />
 		<div id="upload_photos">
 			<hr />
-			<div class="container-fluid" style="max-width: 680px; margin-left: 200px; margin-right: 200px;">
+			<div class="container-fluid upload-photo">
 				
 				<label>사진</label>
-				{{ form.photo.errors }}
 				<input type="file" name="photo_0" />
 
 				<br />
 				<br />
 				<label>설명</label>
-				<textarea class="span12" name="description_0" rows="5" placeholder="사진 설명을 해주세요" {% if form.description.value %} value="{{ form.description.value }}" {% endif %} ></textarea>
+				<textarea class="span12" name="description_0" rows="5" placeholder="사진 설명을 해주세요"></textarea>
 				
 			</div>
 
 			<hr />
-			<div class="container-fluid" style="max-width: 680px; margin-left: 200px; margin-right: 200px;">
+			<div class="container-fluid upload-photo">
 				
 				<label>사진</label>
 				<input type="file" name="photo_1" />
@@ -36,13 +43,12 @@
 				<br />
 				<br />
 				<label>설명</label>
-				{{ form.description.errors }}
-				<textarea class="span12" name="description_1" rows="5" placeholder="사진 설명을 해주세요" {% if form.description.value %} value="{{ form.description.value }}" {% endif %} ></textarea>
+				<textarea class="span12" name="description_1" rows="5" placeholder="사진 설명을 해주세요"></textarea>
 				
 			</div>
 
 			<hr />
-			<div class="container-fluid" style="max-width: 680px; margin-left: 200px; margin-right: 200px;">
+			<div class="container-fluid upload-photo">
 				
 				<label>사진</label>
 				<input type="file" name="photo_2" />
@@ -50,22 +56,20 @@
 				<br />
 				<br />
 				<label>설명</label>
-				{{ form.description.errors }}
-				<textarea class="span12" name="description_2" rows="5" placeholder="사진 설명을 해주세요" {% if form.description.value %} value="{{ form.description.value }}" {% endif %} ></textarea>
+				<textarea class="span12" name="description_2" rows="5" placeholder="사진 설명을 해주세요"></textarea>
 				
 			</div>
 		</div>
 		<script>
 		function add_photos() {
 			photos = document.getElementById("upload_photos");
-			size = document.getElementById("size").value;
+			size = Number(document.getElementById("size").value);
 
 			hr = document.createElement("hr");
 			photos.appendChild(hr);
 
 			new_photo = document.createElement("div");
-			new_photo.setAttribute("class", "container-fluid");
-			new_photo.setAttribute("style", "max-width: 680px; margin-left: 200px; margin-right: 200px;");
+			new_photo.setAttribute("class", "container-fluid upload-photo");
 
 			photo_label = document.createElement("label");
 			photo_label.innerHTML = "사진";
@@ -73,7 +77,7 @@
 
 			input = document.createElement("input");
 			input.type = "file";
-			input.name = "photo_" + (size+1);
+			input.name = "photo_" + size;
 			new_photo.appendChild(input);
 
 			br1 = document.createElement("br");
@@ -88,21 +92,25 @@
 
 			textarea = document.createElement("textarea");
 			textarea.setAttribute("class", "span12");
-			textarea.name = "description_" + (int(size)+1);
+			textarea.name = "description_" + size;
 			textarea.rows = 5;
 			textarea.placeholder = "사진 설명을 해주세요";
-			{% if form.description.value %} textarea.value="{{ form.description.value }}"; {% endif %}
 			new_photo.appendChild(textarea);
 
 			photos.appendChild(new_photo);
 
-			size = int(document.getElementById("size").value) += 1;
+			document.getElementById("size").value = size + 1;
 		}
 		</script>
-		<a onclick="add_photos()">사진 추가</a>
+
+		<hr />
+		<div class="text-center">
+			<a onclick="add_photos()">사진 추가</a>
+		</div>
+		<br />
 
 		<div class="form-actions text-center">
-			<button type="submit" class="btn btn-primary">추가하기</button>
+			<button type="submit" class="btn btn-primary">올리기</button>
 			<button type="button" class="btn">취소</button>
 		</div>
 	</form>
