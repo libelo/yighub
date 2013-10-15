@@ -104,22 +104,22 @@ def pagination(board, board_id, current_page, page_size = 20): # board_number가
                     pass
         real_list.append(e) 
         """
-    # if current_page < 5:
-    if current_page <= 4:
+    if last_page <= 7:
+        start_page = 1
+    elif current_page <= 4:
         start_page = 1
     elif current_page > last_page - 4:
         start_page = last_page - 6        
     else:
-        # start_page = current_page - 4
         start_page = current_page - 3
 
-    # if current_page > last_page - 5:
-    if current_page > last_page - 4:
+    if last_page <= 7:
+        end_page = last_page
+    elif current_page > last_page - 4:
         end_page = last_page
     elif current_page < 4:
         end_page = 7
     else:
-        # end_page = current_page + 4
         end_page = current_page + 3
 
     page_list = range(start_page, end_page + 1)
@@ -1224,20 +1224,22 @@ def memo(request, page = 1):
     last_page = (count_entry - 1)/page_size + 1
 
     # 페이지 리스트 만들기
-    # if current_page < 5:
-    if current_page < 4:
+    if last_page <= 7:
         start_page = 1
+    elif current_page <= 4:
+        start_page = 1
+    elif current_page > last_page - 4:
+        start_page = last_page - 6        
     else:
-        # start_page = current_page - 4
         start_page = current_page - 3
 
-    # if current_page > last_page - 5:
-    if current_page > last_page - 4:
+    if last_page <= 7:
+        end_page = last_page
+    elif current_page > last_page - 4:
         end_page = last_page
     elif current_page < 4:
         end_page = 7
     else:
-        # end_page = current_page + 4
         end_page = current_page + 3
 
     page_list = range(start_page, end_page + 1)
@@ -1340,7 +1342,7 @@ def albums(request, page = 1):
         return permission[1]
     u = request.session['user']
     
-    page_size = 20
+    page_size = 12
     current_page = int(page) if page != '0' else 1
     no = (current_page - 1) * page_size # 그 앞 페이지 마지막 글까지 개수
 
@@ -1359,15 +1361,23 @@ def albums(request, page = 1):
     last_page = (count_album - 1)/page_size + 1
 
     # 페이지 리스트 만들기
-    if current_page < 5:
+    if last_page <= 7:
         start_page = 1
+    elif current_page <= 4:
+        start_page = 1
+    elif current_page > last_page - 4:
+        start_page = last_page - 6        
     else:
-        start_page = current_page - 4
+        start_page = current_page - 3
 
-    if current_page > last_page - 5:
+    if last_page <= 7:
         end_page = last_page
+    elif current_page > last_page - 4:
+        end_page = last_page
+    elif current_page < 4:
+        end_page = 7
     else:
-        end_page = current_page + 4
+        end_page = current_page + 3
 
     page_list = range(start_page, end_page + 1)
 
@@ -1376,10 +1386,10 @@ def albums(request, page = 1):
     next_page = current_page + 5
 
     # 맨 첫 페이지나 맨 끝 페이지일 때 고려
-    if current_page > last_page - 5:
+    if current_page > last_page - 4:
         next_page = 0
         last_page = 0
-    if current_page <= 5:
+    if current_page <= 4:
         prev_page = 0
         first_page = 0
 
