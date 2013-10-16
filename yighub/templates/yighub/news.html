@@ -39,7 +39,7 @@
 						<td class="board-column"> {{ entry.board.name|truncatechars:12 }} </td>
 						<td class="title-column">
 							{% for i in entry.range %} ↳ {% endfor %}
-							<a href="{% url 'yighub:read' board entry.id %}">{{ entry.title|truncatechars:38 }}
+							<a href="{% url 'yighub:read' board entry.id %}">{{ entry.title|truncatechars:30 }}
 								{% if not entry.count_comment == 0 %}
 								<span class="badge badge-info">{{ entry.count_comment }}</span>
 								{% endif %}

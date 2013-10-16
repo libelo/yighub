@@ -54,7 +54,7 @@ line-height: 180%;
 			</span>
 			{% if p.photographer == user %}
 			<span class="pull-right">
-				<a href = "{% url 'yighub:edit_photo' album.id p.id %}">수정하기</a> 
+				<!-- <a href = "{% url 'yighub:edit_photo' album.id p.id %}">수정하기</a>  -->
 				&nbsp;&nbsp;
 				<a href = "{% url 'yighub:delete_photo' album.id p.id %}">삭제하기</a>
 			</span>
