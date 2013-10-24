@@ -1693,6 +1693,9 @@ def reply_comment_photo(request, album_id, photo_id, comment_id):
 def recommend_comment_photo(request, album_id, photo_id, comment_id):
     pass
 
+def waiting(request):
+    return render(request, 'yighub/waiting.html')
+    
 def transform_user(request,):
     transformation.transform_user()
     return HttpResponse("Success!")
