@@ -27,6 +27,8 @@ line-height: 180%;
 	</div> 
 </div>
 
+{% if photos %}
+
 <div class="row-fluid">
 	<div class="span2"></div>
 	<div class="span8" style="margin-left:auto; margin-right:auto;">
@@ -56,7 +58,14 @@ line-height: 180%;
 			<span class="pull-right">
 				<!-- <a href = "{% url 'yighub:edit_photo' album.id p.id %}">수정하기</a>  -->
 				&nbsp;&nbsp;
-				<a href = "{% url 'yighub:delete_photo' album.id p.id %}">삭제하기</a>
+				<script>
+				function check_delete_photo() {
+					if (confirm("정말 삭제하시겠습니까?")){
+					window.open("{% url 'yighub:delete_photo' album.id p.id %}", "_self")
+					}
+				}
+				</script>
+				<a onclick="check_delete_photo()">삭제하기</a>
 			</span>
 			{% else %}
 			<span class="pull-right muted">
@@ -88,7 +97,14 @@ line-height: 180%;
 					<small class="muted"> {{ c.time_created }} </small>	
 					{% if c.creator == user %}
 					<span class="pull-right">
-						<a href = "{% url 'yighub:delete_comment_photo' album.id p.id c.id %}"> 
+						<script>
+						function check_delete_comment_photo() {
+							if (confirm("정말 삭제하시겠습니까?")){
+							window.open("{% url 'yighub:delete_comment_photo' album.id p.id c.id %}", "_self")						
+							}
+						}
+						</script>
+						<a onclick="check_delete_comment_photo()"> 
 							<i class="icon-remove" style="opacity:0.25"></i> 
 						</a>
 					</span>
@@ -128,6 +144,16 @@ line-height: 180%;
 	</div> 
 </div>
 
+{% else %}
+<div class="row-fluid">
+	<div class="container-fluid">
+		<br />
+		<p class="text-center">
+			아직 사진이 없습니다. 사진을 올려주세요.
+		</p>
+	</div> 
+</div>
+{% endif %}
 
 
 {% endblock %}

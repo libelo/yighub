@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /yighub/bulletin/
+Disallow: /yighub/taskforce/
+Disallow: /yighub/albums/
+Disallow: /yighub/memo/
+Disallow: /admin/
