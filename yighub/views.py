@@ -746,7 +746,7 @@ def delete(request, board, entry_id):
         b.count_entry -= 1
         b.save()
 
-        logger.info(u'%s(%d)님이 게시글을 삭제했습니다: "%s"(%d)' % (u.name, u.id, e.title, e.id))
+        logger.info(u'%s(%d)님이 게시글을 삭제했습니다: "%s"(%d)' % (request.session['user'].name, request.session['user'].id, e.title, e.id))
         e.delete()
     else:
         messages.error(request, 'invalid approach')
