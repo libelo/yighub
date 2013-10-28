@@ -31,11 +31,13 @@
 				{% if u.profile %}
 				<img class="pull-right img-rounded" src="{{ u.profile.url }}" style="height:100%; max-height:150px; float:right;"/>
 				{% endif %}
-				{% if u == user %}<span class="pull-right" style="margin-right:20px"><a href="{% url 'yighub:edit_profile' %}">수정하기</a></span>{% endif %}
 
-				<h4>{{ u.name }}</h4>
+				<span class="lead" style="font-weight: bold;">{{ u.name }}</span>
+				{% if u == user %}<span style="margin-left: 10px;"><a href="{% url 'yighub:edit_profile' %}">수정하기</a></span>{% endif %}
 
 				<br />
+				<br />
+
 				<ul>
 					{% if u.career1 %}<li>{{ u.career1 }}</li>{% endif %}
 					{% if u.career2 %}<li>{{ u.career2 }}</li>{% endif %}
@@ -43,6 +45,7 @@
 					{% if u.career4 %}<li>{{ u.career4 }}</li>{% endif %}
 					{% if u.career5 %}<li>{{ u.career5 }}</li>{% endif %}
 				</ul>
+
 			</div>
 			{% endfor %}
 

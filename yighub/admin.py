@@ -8,7 +8,9 @@ from yighub.models import Album, Photo, PhotoComment
 
 from django.contrib import admin
 
-admin.site.register(User)
+class UserAdmin(admin.ModelAdmin):
+	list_per_page = 500
+admin.site.register(User, UserAdmin)
 
 admin.site.register(BulletinBoard)
 admin.site.register(TaskforceBoard)

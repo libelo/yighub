@@ -27,9 +27,12 @@
 			<br />
 			<br />
 			{% endif %}
-			{{ entry.content|linebreaks }}
+			{% filter urlize|linebreaks %}
+			{{ entry.content|safe }}
+			{% endfilter %}
 			<br />
 			<hr />
+
 			{% if entry.files %}
 			<ul class="unstyled">
 				{% for f in entry.files.all %}

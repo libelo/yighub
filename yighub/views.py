@@ -35,7 +35,7 @@ PublicBoardDict = {}
 for public_board in PublicBoardList:
     PublicBoardDict[public_board.name[:4]] = public_board
 
-current_ordinal = 21
+current_ordinal = 22
 
 def classify(board):
     exist = True
@@ -370,7 +370,7 @@ def listing(request, board, board_id, page = '0'):    # url : yig.in/yighub/boar
             else:
                 p['display_ordinal'] = int(page)
 
-            p['user_list'] = User.objects.filter(ordinal = p['display_ordinal'])
+            p['user_list'] = User.objects.filter(ordinal = p['display_ordinal']).order_by('name')
             p['ordinal_range'] = range(1, current_ordinal+1)
 
         if current_board.name == 'History':

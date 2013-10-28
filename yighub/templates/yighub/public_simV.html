@@ -27,9 +27,22 @@
 			<br />
 			<br />
 			{% endif %}
-			{{ entry.content|linebreaks }}
+			{% filter urlize|linebreaks %}
+			{{ entry.content|safe }}
+			{% endfilter %}
 			<br />
 			<hr />
+
+			{% if entry.files %}
+			<ul class="unstyled">
+				{% for f in entry.files.all %}
+				<li><a href = "{% url 'yighub:download' f.id %}">{{ f.name }}&nbsp;</a><span class="badge badge-success">{{ f.hit }}</span></li>
+				{% endfor %}
+			</ul>
+			<br />
+			<hr />
+			{% endif %}
+
 			{% if entry.creator == user %}
 			<span class="pull-right">
 				<a href = "{% url 'yighub:edit' board entry.id %}">수정하기</a> 

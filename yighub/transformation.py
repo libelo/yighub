@@ -20,6 +20,7 @@ from os import path
 import HTMLParser as parser
 
 filepath1 = u'/Users/libelo/documents/code/yig03/yig03_20130204/public_html/zero/'
+filepath2 = u'/Users/libelo/documents/code/yig03/yig03_20131025/public_html/zero/'
 image_extension = ['jpg', 'JPG', 'png', 'PNG', 'jpeg', 'JPEG', 'bmp', 'BMP', 'gif', 'GIF']
 
 def extract_one(board_name, no):
@@ -283,6 +284,8 @@ def transform_board(board_name, board_type = 'Bulletin'):
             if row[24]:
                 if path.isfile(filepath1 + row[24]):
                     f1_03 = open(filepath1 + row[24])
+                elif path.isfile(filepath2 + row[24]):
+                    f1_03 = open(filepath2 + row[24])
                 else:
                     pass
 
@@ -307,6 +310,8 @@ def transform_board(board_name, board_type = 'Bulletin'):
             if row[25]:
                 if path.isfile(filepath1 + row[25]): 
                     f2_03 = open(filepath1 + row[25])
+                elif path.isfile(filepath2 + row[25]): 
+                    f2_03 = open(filepath2 + row[25])
                 else:
                     pass
 
@@ -342,6 +347,8 @@ def transform_board(board_name, board_type = 'Bulletin'):
 
                         if path.isfile(filepath1 + s_file[1]):
                             s_f = open(filepath1 + s_file[1])
+                        elif path.isfile(filepath2 + s_file[1]):
+                            s_f = open(filepath2 + s_file[1])
                         else:
                             pass
 
@@ -442,11 +449,15 @@ def transform_photos():
             if row[24]:
                 if path.isfile((filepath1 + row[24])):
                     photo_list.append(filepath1 + row[24])
+                elif path.isfile((filepath2 + row[24])):
+                    photo_list.append(filepath2 + row[24])
                 else:
                     photo_list.append(null_photo)
             if row[25]:
                 if path.isfile(filepath1 + row[25]): 
                     photo_list.append((filepath1 + row[25]))
+                elif path.isfile(filepath2 + row[25]): 
+                    photo_list.append((filepath2 + row[25]))
                 else:
                     photo_list.append(null_photo)
 
@@ -457,6 +468,8 @@ def transform_photos():
                 for s_file in enumerate(recs[0][0].split(',')):
                     if path.isfile(filepath1 + s_file[1]):
                         photo_list.append(filepath1 + s_file[1])
+                    elif path.isfile(filepath2 + s_file[1]):
+                        photo_list.append(filepath2 + s_file[1])
                     else:
                         photo_list.append(null_photo)
 
