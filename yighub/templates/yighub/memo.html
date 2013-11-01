@@ -1,5 +1,11 @@
 {% extends "yighub/base.html" %}
 
+{% block style %}
+.lead {
+color:deepskyblue;
+}
+{% endblock %}
+
 {% block sidebar %}
 	<div class="span3">
 		<div class="sidebar-nav">
@@ -51,7 +57,14 @@
 						<td class="title-column">
 							{{ m.memo }}
 							{% if m.creator == user %}
-							<a href = "{% url 'yighub:delete_memo' m.id %}"> 
+							<script>
+							function check_delete_memo_{{m.id}}() {
+								if (confirm("정말 삭제하시겠습니까?")){
+								window.open("{% url 'yighub:delete_memo' m.id %}", "_self")						
+								}
+							}
+							</script>
+							<a onclick="check_delete_memo_{{m.id}}()"> 
 								<i class="icon-remove" style="opacity:0.25"></i> 
 							</a>
 							{% endif %}

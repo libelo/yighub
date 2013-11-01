@@ -44,7 +44,14 @@
 			<span class="pull-right">
 				<a href = "{% url 'yighub:edit' board entry.id %}">수정하기</a> 
 				&nbsp;&nbsp;
-				<a href = "{% url 'yighub:delete' board entry.id %}">삭제하기</a>
+				<script>
+				function check_delete_{{entry.id}}() {
+					if (confirm("정말 삭제하시겠습니까?")){
+					window.open("{% url 'yighub:delete' board entry.id %}", "_self")						
+					}
+				}
+				</script>
+				<a onclick="check_delete_{{entry.id}}()">삭제하기</a>
 			</span>
 			{% endif %}
 			{% endfor %}

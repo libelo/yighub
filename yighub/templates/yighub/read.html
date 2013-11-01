@@ -92,13 +92,13 @@
 				{% if c.creator == user %}
 				<span class="pull-right">
 					<script>
-					function check_delete_comment() {
+					function check_delete_comment_{{c.id}}() {
 						if (confirm("정말 삭제하시겠습니까?")){
-						window.open("{% url 'yighub:delete_comment' board entry.id c.id %}", "_self")						
+							window.open("{% url 'yighub:delete_comment' board entry.id c.id %}", "_self")
 						}
 					}
 					</script>
-					<a onclick="check_delete_comment()"> 
+					<a onclick="check_delete_comment_{{c.id}}()"> 
 						<i class="icon-remove" style="opacity:0.25"></i> 
 					</a>
 				</span>

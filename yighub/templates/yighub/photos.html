@@ -59,13 +59,13 @@ line-height: 180%;
 				<!-- <a href = "{% url 'yighub:edit_photo' album.id p.id %}">수정하기</a>  -->
 				&nbsp;&nbsp;
 				<script>
-				function check_delete_photo() {
+				function check_delete_photo_{{p.id}}() {
 					if (confirm("정말 삭제하시겠습니까?")){
 					window.open("{% url 'yighub:delete_photo' album.id p.id %}", "_self")
 					}
 				}
 				</script>
-				<a onclick="check_delete_photo()">삭제하기</a>
+				<a onclick="check_delete_photo_{{p.id}}()">삭제하기</a>
 			</span>
 			{% else %}
 			<span class="pull-right muted">
@@ -98,13 +98,13 @@ line-height: 180%;
 					{% if c.creator == user %}
 					<span class="pull-right">
 						<script>
-						function check_delete_comment_photo() {
+						function check_delete_comment_photo_{{c.id}}() {
 							if (confirm("정말 삭제하시겠습니까?")){
 							window.open("{% url 'yighub:delete_comment_photo' album.id p.id c.id %}", "_self")						
 							}
 						}
 						</script>
-						<a onclick="check_delete_comment_photo()"> 
+						<a onclick="check_delete_comment_photo_{{c.id}}()"> 
 							<i class="icon-remove" style="opacity:0.25"></i> 
 						</a>
 					</span>
