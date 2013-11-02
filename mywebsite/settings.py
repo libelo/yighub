@@ -155,7 +155,7 @@ LOGGING = {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': 'yighub.log' #path.join(path.dirname(__file__), "../yighub.log"),
+            'filename': path.join(path.dirname(__file__), "../yighub.log"),
             'formatter': 'verbose'
         },
         'mail_admins': {
