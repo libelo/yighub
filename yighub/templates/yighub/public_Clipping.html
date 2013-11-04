@@ -22,9 +22,9 @@
 			<div class="row-fluid" style="margin-top: 70px">
 				<div class="container-fluid">
 					<span class="pull-right">
-					<a href="{% url 'yighub:create_in_board' board current_board.id %}">
-						<button type="button" class="btn btn-primary">추가하기</button>
-					</a>
+					<!-- <a href="{% url 'yighub:create_in_board' board current_board.id %}"> -->
+						<button type="button" class="btn btn-primary" onclick="location.href='{% url 'yighub:create_in_board' board current_board.id %}'">추가하기</button>
+					<!-- </a> -->
 					</span>
 				</div> 	
 				<br />

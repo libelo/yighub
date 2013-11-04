@@ -5,9 +5,9 @@
 <div class="text-center" style="margin:30px auto 50px auto">
 	<h2>Albums</h2>
 	<div class="container-fluid pull-right">
-		<a href="{% url 'yighub:create_album' %}">
-			<button type="button" class="btn btn-primary">새 앨범</button>
-		</a>
+		<!-- <a href="{% url 'yighub:create_album' %}"> -->
+			<button type="button" class="btn btn-primary" onclick="location.href = '{% url 'yighub:create_album' %}'">새 앨범</button>
+		<!-- </a> -->
 	</div> 
 </div>
 <br />

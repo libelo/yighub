@@ -123,15 +123,15 @@
 		<div class="row-fluid" style="margin-top: 70px">
 			<div class="container-fluid">
 				<span>
-				<a href="{% url 'yighub:listing' board current_board.id 1 %}">
-					<button type="button" class="btn">글 목록</button>
+				<!-- <a href="{% url 'yighub:listing' board current_board.id 1 %}"> -->
+					<button type="button" class="btn" onclick="location.href = '{% url 'yighub:listing' board current_board.id 1 %}'">글 목록</button>
 <!-- 					<button type="button" class="btn" onclick = 'history.back()'>글 목록</button>-->
-				</a>
+				<!-- </a> -->
 				</span>
 				<span class="pull-right">
-				<a href="{% url 'yighub:create_in_board' board current_board.id %}">
-					<button type="button" class="btn btn-primary">글쓰기</button>
-				</a>
+				<!-- <a href="{% url 'yighub:create_in_board' board current_board.id %}"> -->
+					<button type="button" class="btn btn-primary" onclick="location.href = '{% url 'yighub:create_in_board' board current_board.id %}'">글쓰기</button>
+				<!-- </a> -->
 				</span>
 			</div> 
 			

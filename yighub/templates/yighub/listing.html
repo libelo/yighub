@@ -11,13 +11,13 @@
 				<span class="muted">{{ current_board.count_entry }}</span>
 				<div class="container-fluid pull-right">
 					{% if board == 'taskforce' %}
-					<a href="{% url 'yighub:edit_taskforce' current_board.id %}">
-						<button type="button" class="btn">Taskforce 수정하기</button>
-					</a>
+					<!-- <a href="{% url 'yighub:edit_taskforce' current_board.id %}"> -->
+						<button type="button" class="btn" onclick="location.href = '{% url 'yighub:edit_taskforce' current_board.id %}'">Taskforce 수정하기</button>
+					<!-- </a> -->
 					{% endif %}
-					<a href="{% url 'yighub:create_in_board' board current_board.id %}">
-						<button type="button" class="btn btn-primary">글쓰기</button>
-					</a>
+					<!-- <a href="{% url 'yighub:create_in_board' board current_board.id %}"> -->
+						<button type="button" class="btn btn-primary" onclick="location.href = '{% url 'yighub:create_in_board' board current_board.id %}'">글쓰기</button>
+					<!-- </a> -->
 				</div> 
 			</div>
 			<br />

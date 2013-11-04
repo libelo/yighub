@@ -53,9 +53,9 @@
 				<div class="form-actions text-center">
 					<button type="submit" class="btn btn-primary">올리기</button>
 					&nbsp;
-					<a href="">
-						<button type="button" class="btn">취소</button>
-					</a>
+					<!-- <a href=""> -->
+						<button type="button" class="btn" onclick="location.href = '{% url 'yighub:read' board entry.id %}'">취소</button>
+					<!-- </a> -->
 				</div>
 			</fieldset>
 		</form>

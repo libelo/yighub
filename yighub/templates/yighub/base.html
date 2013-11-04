@@ -239,10 +239,13 @@
 					</ul>
 				</div><!--/.nav-collapse -->
 				<div class="container-fluid pull-right">
-					<a href="{% url 'yighub:login' %}">
-						<button type="button" class="btn btn-primary">로그인</button>
-					</a>
-					<a href="{% url 'yighub:join' %}"><button type="button" class="btn">회원가입</button></a>
+					<!-- to support IE -->
+					<!-- <a href="{% url 'yighub:login' %}"> --> 
+						<button type="button" class="btn btn-primary" onclick="location.href = '{% url 'yighub:login' %}'">로그인</button>
+					<!-- </a> -->
+					<!-- <a href="{% url 'yighub:join' %}"> -->
+						<button type="button" class="btn" onclick="location.href = '{% url 'yighub:join' %}'">회원가입</button>
+					<!-- </a> -->
 				</div>
 				{% endif %}
 			</div>

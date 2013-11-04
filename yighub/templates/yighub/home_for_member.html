@@ -79,15 +79,15 @@ color:deepskyblue;
 
 		<div class="row-fluid">
 			<div class="container-fluid pull-left">
-				<a href="{% url 'yighub:create' 'bulletin' %}">
-					<button type="button" class="btn btn-primary">Boards에 글쓰기</button>
-				</a>
+				<!-- <a href="{% url 'yighub:create' 'bulletin' %}"> -->
+					<button type="button" class="btn btn-primary" onclick="location.href = '{% url 'yighub:create' 'bulletin' %}'">Boards에 글쓰기</button>
+				<!-- </a> -->
 			</div>
 
 			<div class="container-fluid pull-right">
-				<a href="{% url 'yighub:create' 'taskforce' %}">
-					<button type="button" class="btn btn-primary">Taskforce에 글쓰기</button>
-				</a>
+				<!-- <a href="{% url 'yighub:create' 'taskforce' %}"> -->
+					<button type="button" class="btn btn-primary" onclick="location.href = '{% url 'yighub:create' 'taskforce' %}'">Taskforce에 글쓰기</button>
+				<!-- </a> -->
 			</div> 
 		</div>
 

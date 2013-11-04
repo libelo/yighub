@@ -21,9 +21,9 @@ color:deepskyblue;
 					{% endif %}
 				</span>
 				<div class="container-fluid pull-right">
-					<a href="{% url 'yighub:create' board %}">
-						<button type="button" class="btn btn-primary">글쓰기</button>
-					</a>
+					<!-- <a href="{% url 'yighub:create' board %}"> -->
+						<button type="button" class="btn btn-primary" onclick="location.href = '{% url 'yighub:create' board %}'">글쓰기</button>
+					<!-- </a> -->
 				</div> 
 			</div>
 			<br />
@@ -86,14 +86,14 @@ color:deepskyblue;
 			{% if board == 'taskforce' %}
 			<div class="row-fluid">
 				<div class="container-fluid pull-left">
-					<a href="{% url 'yighub:create_taskforce' %}">
-						<button type="button" class="btn">Taskforce 만들기</button>
-					</a>
+					<!-- <a href="{% url 'yighub:create_taskforce' %}"> -->
+						<button type="button" class="btn" onclick="location.href = '{% url 'yighub:create_taskforce' %}'">Taskforce 만들기</button>
+					<!-- </a> -->
 				</div> 
 				<div class="container-fluid pull-right">
-					<a href="{% url 'yighub:taskforce_archive' %}">
-						<button type="button" class="btn">Taskforce 아카이브</button>
-					</a>
+					<!-- <a href="{% url 'yighub:taskforce_archive' %}"> -->
+						<button type="button" class="btn" onclick="location.href = '{% url 'yighub:taskforce_archive' %}'">Taskforce 아카이브</button>
+					<!-- </a> -->
 				</div> 
 
 			</div>
