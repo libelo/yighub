@@ -69,7 +69,11 @@
 						<button type="submit" class="btn btn-primary">올리기</button>
 						&nbsp;
 						<!-- <a href=""> -->
-							<button type="button" class="btn" onclick="location.href = '{% url 'yighub:listing' board current_board 0 %}'">취소</button>
+						{% if current_board %}
+							<button type="button" class="btn" onclick="location.href = '{% url 'yighub:listing' board current_board.id 0 %}'">취소</button>
+						{% else %}
+							<button type="button" class="btn" onclick="location.href = '{% url 'yighub:home' %}'">취소</button>
+						{% endif %}
 						<!-- </a> -->
 					</div>
 				</fieldset>
