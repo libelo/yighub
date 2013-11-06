@@ -68,6 +68,8 @@ color:deepskyblue;
 				{% endfor %}
 			</tbody>
 		</table>
+		<p class="text-center"><a href="{% url 'yighub:all_news' 1 %}">뉴스 더보기</a></p>
+
 		{% else %}
 		<div class="container-fruid text-center">
 			<p> 아직 글이 존재하지 않습니다. </p>
@@ -136,7 +138,7 @@ color:deepskyblue;
 			</tbody>
 			{% endif %}
 		</table>
-		<a href="{% url 'yighub:memo' 1 %}" class="pull-right">메모 더보기</a>
+		<p class="text-center"><a href="{% url 'yighub:memo' 1 %}">메모 더보기</a></p>
 	</div>
 
 </div><!--/span-->	

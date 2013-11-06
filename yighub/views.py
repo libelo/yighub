@@ -374,7 +374,7 @@ def all_news(request, page):
             }
 
     return render(request, 'yighub/all_news.html', 
-        { 'user' : user,
+        { 'user' : u,
           'public_dict' : PublicBoardDict,
           'bulletin_list' : bulletin_list,
           'taskforce_list' : taskforce_list,
