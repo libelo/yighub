@@ -423,7 +423,7 @@ def listing(request, board, board_id, page = '0'):    # url : yig.in/yighub/boar
 
     if current_board.name in ('Research',):
         p = pagination(board, board_id, current_page = page, page_size = 3)
-    elif current_board.name in ('simA', 'simB', 'simV', 'Universe'):
+    elif current_board.name in ('simA', 'simB', 'simV', 'simH', 'Universe'):
         p = pagination(board, board_id, current_page = page, page_size = 1)        
     else:
         p = pagination(board, board_id, current_page = page)
