@@ -21,6 +21,8 @@ urlpatterns = patterns('yighub.views',
     url(r'^memo/(?P<memo_id>\d+)/delete/$', 'delete_memo', name='delete_memo'),
     url(r'^memo/(?P<page>\d+)/$', 'memo', name='memo'),
 
+    url(r'^news/(?P<page>\d+)/$', 'all_news', name='all_news'),    
+
     url(r'^download/(?P<file_id>\d+)/$', 'download', name='download'),
 
     url(r'^transform/user/$', 'transform_user'),

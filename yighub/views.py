@@ -300,6 +300,88 @@ def home(request):
                                    },   
                                   ) 
 
+def all_news(request, page):
+
+    permission = check_permission(request, 'memo')
+    if permission[0] == False:
+        return permission[1] 
+    u = request.session['user']
+    
+    bulletin_list = get_board_list('bulletin')
+    taskforce_list = get_board_list('taskforce')
+
+    current_page = int(page)
+    page_size = 20
+    no = (current_page - 1) * page_size # 그 앞 페이지 마지막 글까지 개수
+
+    count_entry = TaskforceEntry.objects.count() + BulletinEntry.objects.count()
+    news = []
+    bulletin_news = BulletinEntry.objects.all().order_by('-time_created')[ :(no + page_size)]
+    for b in bulletin_news:
+        b.board_type = 'bulletin'
+    news += bulletin_news
+    taskforce_news = TaskforceEntry.objects.all().order_by('-time_created')[ :(no + page_size)]
+    for t in taskforce_news:
+        t.board_type = 'taskforce'
+    news += taskforce_news
+    news = sorted(news, key = lambda news: news.time_created, reverse = True)
+    news = news[no : (no + page_size)]
+
+    # 첫 페이지와 끝 페이지 설정
+    first_page = 1
+    last_page = (count_entry - 1)/page_size + 1
+
+    # 페이지 리스트 만들기
+    if last_page <= 7:
+        start_page = 1
+    elif current_page <= 4:
+        start_page = 1
+    elif current_page > last_page - 4:
+        start_page = last_page - 6        
+    else:
+        start_page = current_page - 3
+
+    if last_page <= 7:
+        end_page = last_page
+    elif current_page > last_page - 4:
+        end_page = last_page
+    elif current_page < 4:
+        end_page = 7
+    else:
+        end_page = current_page + 3
+
+    page_list = range(start_page, end_page + 1)
+
+    # 이전 페이지, 다음 페이지 설정
+    prev_page = current_page - 5
+    next_page = current_page + 5
+
+    # 맨 첫 페이지나 맨 끝 페이지일 때 고려
+    if current_page > last_page - 5:
+        next_page = 0
+        last_page = 0
+    if current_page <= 5:
+        prev_page = 0
+        first_page = 0
+
+    p = {'entry_list' : news,
+            'current_page' : current_page,
+            'page_list' : page_list,
+            'first_page' : first_page,
+            'last_page' : last_page,
+            'prev_page' : prev_page,
+            'next_page' : next_page,
+            }
+
+    return render(request, 'yighub/all_news.html', 
+        { 'user' : user,
+          'public_dict' : PublicBoardDict,
+          'bulletin_list' : bulletin_list,
+          'taskforce_list' : taskforce_list,
+          'page' : p,
+          }
+    )
+
 def news(request, board, page):
 
     # board 분류
