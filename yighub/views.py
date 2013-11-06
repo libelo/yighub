@@ -602,6 +602,7 @@ def read(request, board, entry_id,):
     thumbnails = e.thumbnails.all()
     files = e.files.all() #File.objects.filter(entry = e)
     recommendations = e.recommendation.all()
+    count_recommendation = e.recommendation.count()
     comments = e.comments.order_by('arrangement')
     current_board = e.board
     board_list = get_board_list(board)
@@ -617,6 +618,7 @@ def read(request, board, entry_id,):
       'thumbnails' : thumbnails,
       'files' : files,
       'recommendations' : recommendations,
+      'count_recommendation' : count_recommendation,
       'comments' : comments,
       },
       )

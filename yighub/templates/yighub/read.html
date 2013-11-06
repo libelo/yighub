@@ -41,17 +41,6 @@
 				<li><a href = "{% url 'yighub:download' f.id %}">{{ f.name }}&nbsp;</a><span class="badge badge-success">{{ f.hit }}</span></li>
 				{% endfor %}
 			</ul>
-			<br />
-			<hr />
-			{% endif %}
-			{% if recommendations %}
-			<p class="lead"><strong>추천하신 분들</strong></p>
-			<ul style="margin-left: 15px;" class="inline">
-				{% for r in recommendations %}
-				<li><strong>{{ r }}, </strong></li> 
-				{% endfor %}
-			</ul>
-			<br />
 			<hr />
 			{% endif %}
 
@@ -79,6 +68,21 @@
 				<a onclick="check_delete()">삭제하기</a>
 			</span>
 			{% endif %}
+
+			{% if recommendations %}
+			<br />
+			<br />
+			<span class="muted">{{ count_recommendation }}명이 추천합니다 -</span>
+			{% for r in recommendations %}
+			<strong>
+				{% if forloop.counter > 1 %}
+				,
+				{% endif %}
+				&nbsp;{{ r }}
+			</strong> 
+			{% endfor %}
+			{% endif %}
+
 			<br />
 			<br />
 
