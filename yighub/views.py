@@ -662,7 +662,7 @@ def create(request, board, board_id = None):
             e = form.save(commit = False)
             e.creator = request.session['user']
             e.time_created = timezone.now()
-            e.time_last_modified = timezone.now()
+            e.time_last_modified = e.time_created # 둘 다 timezone.now()로 했을 시 수정 안한 글에서도 마지막 수정한 날짜가 뜬다.
             e.arrangement = arrangement
             e.save()
 
