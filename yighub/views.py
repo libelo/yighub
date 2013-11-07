@@ -1415,7 +1415,7 @@ def create_memo(request):
         
         logger.info(u'%s(%d)님이 메모를 남겼습니다: "%s"(%d)' % (request.session['user'].name, request.session['user'].id, m.memo, m.id))
 
-        return redirect('yighub:home', ) # HttpResponseRedirect(reverse('yighub.views.read', args = (entry_id)))
+        return HttpResponseRedirect(request.POST['path']) # 왔던 곳으로 되돌리기 위해 # redirect('yighub:home', ) 
     else:
         messages.error(request, 'invalid approach')
         return render(request, 'yighub/error.html', context_instance = RequestContext(request))
