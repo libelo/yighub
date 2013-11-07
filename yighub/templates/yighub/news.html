@@ -27,6 +27,23 @@ color:deepskyblue;
 				</div> 
 			</div>
 			<br />
+			{% if board == 'taskforce' %}
+			<div class="row-fluid">
+				<div class="pull-left">
+					<!-- <a href="{% url 'yighub:create_taskforce' %}"> -->
+						<button type="button" class="btn" onclick="location.href = '{% url 'yighub:create_taskforce' %}'">Taskforce 만들기</button>
+					<!-- </a> -->
+				</div> 
+				<div class="pull-right">
+					<!-- <a href="{% url 'yighub:taskforce_archive' %}"> -->
+						<button type="button" class="btn" onclick="location.href = '{% url 'yighub:taskforce_archive' %}'">Taskforce 아카이브</button>
+					<!-- </a> -->
+				</div> 
+
+			</div>
+			<br />
+			{% endif %}
+
 			{% if page.entry_list %}
 			<table class="table">
 				<thead>
@@ -81,21 +98,6 @@ color:deepskyblue;
 			{% else %}
 			<div class="container-fruid text-center">
 				<p> 아직 글이 존재하지 않습니다. </p>
-			</div>
-			{% endif %}
-			{% if board == 'taskforce' %}
-			<div class="row-fluid">
-				<div class="container-fluid pull-left">
-					<!-- <a href="{% url 'yighub:create_taskforce' %}"> -->
-						<button type="button" class="btn" onclick="location.href = '{% url 'yighub:create_taskforce' %}'">Taskforce 만들기</button>
-					<!-- </a> -->
-				</div> 
-				<div class="container-fluid pull-right">
-					<!-- <a href="{% url 'yighub:taskforce_archive' %}"> -->
-						<button type="button" class="btn" onclick="location.href = '{% url 'yighub:taskforce_archive' %}'">Taskforce 아카이브</button>
-					<!-- </a> -->
-				</div> 
-
 			</div>
 			{% endif %}
 
