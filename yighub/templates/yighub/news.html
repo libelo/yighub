@@ -12,6 +12,24 @@ color:deepskyblue;
 		<br />
 
 		<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
+
+			{% if board == 'taskforce' %}
+			<div class="row-fluid">
+				<div class="container-fluid pull-right">
+					<!-- <a href="{% url 'yighub:taskforce_archive' %}"> -->
+						<button type="button" class="btn" onclick="location.href = '{% url 'yighub:taskforce_archive' %}'">Taskforce 아카이브</button>
+					<!-- </a> -->
+				</div> 
+
+				<div class="pull-right">
+					<!-- <a href="{% url 'yighub:create_taskforce' %}"> -->
+						<button type="button" class="btn" onclick="location.href = '{% url 'yighub:create_taskforce' %}'">Taskforce 만들기</button>
+					<!-- </a> -->
+				</div> 
+			</div>
+			<br />
+			{% endif %}
+
 			<div class="row-fluid">
 				<span class="lead">
 					{% if board == 'bulletin' %}
@@ -27,22 +45,6 @@ color:deepskyblue;
 				</div> 
 			</div>
 			<br />
-			{% if board == 'taskforce' %}
-			<div class="row-fluid">
-				<div class="pull-left">
-					<!-- <a href="{% url 'yighub:create_taskforce' %}"> -->
-						<button type="button" class="btn" onclick="location.href = '{% url 'yighub:create_taskforce' %}'">Taskforce 만들기</button>
-					<!-- </a> -->
-				</div> 
-				<div class="pull-right">
-					<!-- <a href="{% url 'yighub:taskforce_archive' %}"> -->
-						<button type="button" class="btn" onclick="location.href = '{% url 'yighub:taskforce_archive' %}'">Taskforce 아카이브</button>
-					<!-- </a> -->
-				</div> 
-
-			</div>
-			<br />
-			{% endif %}
 
 			{% if page.entry_list %}
 			<table class="table">
