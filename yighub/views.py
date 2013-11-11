@@ -236,6 +236,13 @@ def home(request):
         t.board_type = 'taskforce'
     news += taskforce_news
     news = sorted(news, key = lambda news: news.time_created, reverse = True)[:10]
+
+    birthday_list = []
+    for member in User.objects.all():
+        if member.level != 'non':
+            if member.birthday:
+                if member.birthday.month == timezone.now().month and member.birthday.day == timezone.now().day:
+                    birthday_list.append(member)
     """ 메모를 위한 거였구만.
 
     # 최신글 목록 가져오기
@@ -297,6 +304,7 @@ def home(request):
                                     # 'taskforce_news' : taskforce_news,
                                     'news' : news,
                                     'memos' : memos,
+                                    'birthday' : birthday_list
                                    },   
                                   ) 
 

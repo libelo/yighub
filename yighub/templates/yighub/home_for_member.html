@@ -95,6 +95,14 @@ color:deepskyblue;
 
 		<br />
 		<br />
+		{% if birthday %}
+		{% for member in birthday %}
+		<div class="alert alert-success">
+		  <button type="button" class="close" data-dismiss="alert">&times;</button>
+		  오늘은 {{ member.ordinal }}기 <strong>{{ member.name }}</strong>님의 생일입니다. <strong>{{ member.name }}</strong>님의 생일을 축하해 주세요!
+		</div>
+		{% endfor %}
+		{% endif %}
 
 		<form class="form-inline" action="{% url 'yighub:create_memo' %}" method="post">
 			{% csrf_token %}
