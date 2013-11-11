@@ -237,11 +237,12 @@ def home(request):
     news += taskforce_news
     news = sorted(news, key = lambda news: news.time_created, reverse = True)[:10]
 
+    today = datetime.datetime.now()
     birthday_list = []
     for member in User.objects.all():
         if member.level != 'non':
             if member.birthday:
-                if member.birthday.month == timezone.now().month and member.birthday.day == timezone.now().day:
+                if member.birthday.month == today.month and member.birthday.day == today.day:
                     birthday_list.append(member)
     """ 메모를 위한 거였구만.
 
@@ -304,7 +305,7 @@ def home(request):
                                     # 'taskforce_news' : taskforce_news,
                                     'news' : news,
                                     'memos' : memos,
-                                    'birthday' : birthday_list
+                                    'birthday' : birthday_list,
                                    },   
                                   ) 
 
