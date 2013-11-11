@@ -15,7 +15,7 @@
 			<h3>{{ entry.title }}</h3>
 			<div class="media">
    			{% if entry.creator.avatar %}
-			  <a class="pull-left">
+			  <a class="pull-left" style="float:left;">
 			    <img src="{{ entry.creator.avatar.url }}" style="height:50px;" class="media-object">
 			  </a>
 			  {% endif %}
@@ -26,7 +26,7 @@
 		    	{% if entry.time_last_modified != entry.time_created %}
 		    	<span class="muted"> / 마지막 수정 {{ entry.time_last_modified }} </span>
 		    	{% endif %}
-		    	<span class="pull-right">조회수 {{ entry.count_view }} / 추천수 {{ entry.count_recommendation }} </span>
+		    	<span class="pull-right" style="float:right;">조회수 {{ entry.count_view }} / 추천수 {{ entry.count_recommendation }} </span>
 			  </div>
 			</div>
 			<hr />
@@ -103,7 +103,7 @@
 				<div style="padding: 15px 20px 5px 20px; border-bottom-style: solid; border-width: 2px; border-color: white;">
 					<div class="media">
 						{% if c.creator.avatar %}
-						<a class="pull-left">
+						<a class="pull-left" style="float:left;">
 							<img src="{{ c.creator.avatar.url }}" style="width:50px;" class="media-object">
 						</a>
 						{% endif %}
@@ -112,7 +112,7 @@
 							<small class="muted"> {{ c.time_created }} </small>	
 
 							{% if c.creator == user %}
-							<span class="pull-right">
+							<span class="pull-right" style="float:right">
 								<script>
 								function check_delete_comment_{{c.id}}() {
 									if (confirm("정말 삭제하시겠습니까?")){
