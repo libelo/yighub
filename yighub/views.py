@@ -1285,7 +1285,7 @@ def login_check(request):
             return HttpResponseRedirect(reverse('yighub:home'))
         else:
             messages.error(request, 'password does not correct') # send message 
-            logger.info(u'%s(%d)님이 로그인 도중 비밀번호를 잘못 입력했습니다.' % u.name, u.id)
+            logger.info(u'%s(%d)님이 로그인 도중 비밀번호를 잘못 입력했습니다.' % (u.name, u.id))
             return render(request, 'yighub/login.html', {'public_dict' : PublicBoardDict})
     else:
         # send message about cookie
