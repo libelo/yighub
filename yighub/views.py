@@ -1447,7 +1447,7 @@ def delete_memo(request, memo_id):
     return HttpResponseRedirect(reverse('yighub:home', ))
 
 from django.core.files import File as FileWrapper
-from django.utils.encoding import smart_text
+from django.utils.encoding import smart_str
 import os
 def download(request, file_id):
     
@@ -1461,7 +1461,7 @@ def download(request, file_id):
     response['Content-Type'] = filetype
     response['Content-Encoding'] = encoding
     response['Content-Length'] = os.path.getsize(path)
-    response['Content-Disposition'] = 'attachment; filename=%s' % smart_text(os.path.basename(path))
+    response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(os.path.basename(path))
     
     f.hit += 1
     f.save()
