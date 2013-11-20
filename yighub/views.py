@@ -796,6 +796,8 @@ def edit(request, board, entry_id):
     
     thumbnails = e.thumbnails.all()
     files = e.files.all()
+    for f in files:
+        f.filename = urlquote(f.name)
     board_list = get_board_list(board)
     current_board = e.board
 
@@ -1456,7 +1458,6 @@ def delete_memo(request, memo_id):
     return HttpResponseRedirect(reverse('yighub:home', ))
 
 from django.core.files import File as FileWrapper
-# from django.utils.encoding import smart_str
 import os
 def download(request, file_id, file_name):
     
@@ -1470,7 +1471,7 @@ def download(request, file_id, file_name):
     response['Content-Type'] = filetype
     response['Content-Encoding'] = encoding
     response['Content-Length'] = os.path.getsize(path)
-    response['Content-Disposition'] = 'attachment;' # 'attachment; filename=%s' % smart_str(os.path.basename(path))
+    response['Content-Disposition'] = "attachment; filename*=UTF-8''%s" % urlquote(os.path.basename(path))
     
     f.hit += 1
     f.save()
