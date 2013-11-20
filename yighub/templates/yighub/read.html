@@ -49,7 +49,7 @@
 			<!--<p class="lead">파일 다운로드</p>-->
 			<ul class="unstyled">
 				{% for f in files %}
-				<li><a href = "{% url 'yighub:download' f.id %}">{{ f.name }}&nbsp;</a><span class="badge badge-success">{{ f.hit }}</span></li>
+				<li><a href = "{% url 'yighub:download' f.id f.filename %}">{{ f.name }}&nbsp;</a><span class="badge badge-success">{{ f.hit }}</span></li>
 				{% endfor %}
 			</ul>
 			<hr />

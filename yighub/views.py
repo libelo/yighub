@@ -22,6 +22,7 @@ import mimetypes
 import datetime
 from django.utils import timezone
 from django.contrib.auth import hashers
+from django.utils.http import urlquote
 
 import logging
 logger = logging.getLogger(__name__)
@@ -473,6 +474,12 @@ def listing(request, board, board_id, page = '0'):    # url : yig.in/yighub/boar
                     events = m.split('-')[1].split(', ')
                     e.history.append({'month': month, 'events': events})
 
+        for e in p['entry_list']:
+            e.downloads = []
+            for f in e.files.all():
+                f.filename = urlquote(f.name)
+                e.downloads.append(f)
+
         return render(request, 'yighub/public_' + current_board.name + '.html', 
             {'user': u, 'public_dict' : PublicBoardDict, 'board': board, 'board_list': board_list, 'current_board': current_board, 'page': p}
             )
@@ -610,6 +617,8 @@ def read(request, board, entry_id,):
 
     thumbnails = e.thumbnails.all()
     files = e.files.all() #File.objects.filter(entry = e)
+    for f in files:
+        f.filename = urlquote(f.name)
     recommendations = e.recommendation.all()
     count_recommendation = e.recommendation.count()
     comments = e.comments.order_by('arrangement')
@@ -1447,9 +1456,9 @@ def delete_memo(request, memo_id):
     return HttpResponseRedirect(reverse('yighub:home', ))
 
 from django.core.files import File as FileWrapper
-from django.utils.encoding import smart_str
+# from django.utils.encoding import smart_str
 import os
-def download(request, file_id):
+def download(request, file_id, file_name):
     
     f = File.objects.get(pk = file_id)
     
@@ -1461,7 +1470,7 @@ def download(request, file_id):
     response['Content-Type'] = filetype
     response['Content-Encoding'] = encoding
     response['Content-Length'] = os.path.getsize(path)
-    response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(os.path.basename(path))
+    response['Content-Disposition'] = 'attachment;' # 'attachment; filename=%s' % smart_str(os.path.basename(path))
     
     f.hit += 1
     f.save()

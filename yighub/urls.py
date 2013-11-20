@@ -23,7 +23,7 @@ urlpatterns = patterns('yighub.views',
 
     url(r'^news/(?P<page>\d+)/$', 'all_news', name='all_news'),    
 
-    url(r'^download/(?P<file_id>\d+)/$', 'download', name='download'),
+    url(r'^download/(?P<file_id>\d+)/(?P<file_name>.+)/$', 'download', name='download'),
 
     url(r'^transform/user/$', 'transform_user'),
     url(r'^transform/data/$', 'transform_data'),

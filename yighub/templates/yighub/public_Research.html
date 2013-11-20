@@ -30,10 +30,10 @@
 			<br />
 			<hr />
 
-			{% if entry.files %}
+			{% if entry.downloads %}
 			<ul class="unstyled">
-				{% for f in entry.files.all %}
-				<li><a href = "{% url 'yighub:download' f.id %}">{{ f.name }}&nbsp;</a><span class="badge badge-success">{{ f.hit }}</span></li>
+				{% for f in entry.downloads %}
+				<li><a href = "{% url 'yighub:download' f.id f.filename %}">{{ f.name }}&nbsp;</a><span class="badge badge-success">{{ f.hit }}</span></li>
 				{% endfor %}
 			</ul>
 			<br />
