@@ -20,6 +20,7 @@ from django.core.urlresolvers import reverse
 from django.contrib import messages
 import mimetypes
 import datetime
+from urllib2 import quote
 from django.utils import timezone
 from django.contrib.auth import hashers
 from django.utils.http import urlquote
@@ -1476,7 +1477,7 @@ def download(request, file_id, file_name):
     if u'MSIE' in request.META['HTTP_USER_AGENT']:
         # IE does not support internationalized filename at all.
         # It can only recognize internationalized URL, so we do the trick via routing rules.
-        filename_header = ""
+        filename_header = "attachment; filename=%s" % quote(f.name)
     else:
         # For others like Firefox, we follow RFC2231 (encoding extension in HTTP headers).
         filename_header = "attachment; filename*=UTF-8''%s" % urlquote(f.name)
