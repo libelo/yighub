@@ -147,6 +147,9 @@
 				<div class="nav-collapse collapse">
 					<p class="navbar-text pull-right">
 						Logged in as <a href="{% url 'yighub:edit_profile' %}" class="navbar-link">{{ user.name }}</a>
+						{% if user.level = 'mgr' %}
+						<a href="/admin">&nbsp;Admin</a>
+						{% endif %}
 						<a href="{% url 'yighub:logout' %}">&nbsp;Logout</a>
 					</p>
 					<ul class="nav">
