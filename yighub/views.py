@@ -1668,7 +1668,7 @@ def create_photos(request, album_id):
                 a.newest_time = p.time_created # 정렬은 만들어진 시간 순서 대로.
                 a.save()
 
-        logger.info(u'%s(%d)님이 %s 앨범(%d)에 사진(%d+)을 올렸습니다.' % (u.name, u.id, a.name, a.id, p.id))
+                logger.info(u'%s(%d)님이 %s 앨범(%d)에 사진(%d)을 올렸습니다.' % (u.name, u.id, a.name, a.id, p.id))
         return redirect('yighub:photos', album_id = album_id)
     else:
         form = PhotoForm()
