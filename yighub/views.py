@@ -316,7 +316,7 @@ def all_news(request, page):
     permission = check_permission(request, 'memo')
     if permission[0] == False:
         return permission[1] 
-    u = request.session['user']
+    u = User.objects.get(user_id = request.session['user_id'])
     
     bulletin_list = get_board_list('bulletin')
     taskforce_list = get_board_list('taskforce')
@@ -445,7 +445,7 @@ def listing(request, board, board_id, page = '0'):    # url : yig.in/yighub/boar
     if permission[0] == False:
         return permission[1] 
     try:
-        u = request.session['user']
+        u = User.objects.get(user_id = request.session['user_id'])
     except:
         u = None
 
@@ -518,6 +518,8 @@ def create_taskforce(request):
     if permission[0] == False:
         return permission[1]
 
+    u = User.objects.get(user_id = request.session['user_id'])
+
     if request.method == 'POST':
         form = TaskforceBoardForm(request.POST)
         if form.is_valid():
@@ -527,13 +529,11 @@ def create_taskforce(request):
             t.permission_writing = 'pre'
             t.save()
 
-            logger.info(u'%s(%d)님이 새 taskforce를 만들었습니다: "%s"(%d)' % (request.session['user'].name, request.session['user'].id, t.name, t.id))
+            logger.info(u'%s(%d)님이 새 taskforce를 만들었습니다: "%s"(%d)' % (u.name, u.id, t.name, t.id))
 
             return redirect('yighub:news', board='taskforce', page=1 )
     else:
         form = TaskforceBoardForm()
-
-    u = request.session['user']
 
     logger.info(u'%s(%d)님이 taskforce 만들기 페이지를 열었습니다.' % (u.name, u.id))
     return render(request, 'yighub/create_taskforce.html', {'user' : u, 'public_dict' : PublicBoardDict, 'form' : form})
@@ -550,6 +550,8 @@ def edit_taskforce(request, taskforce_id): # 여기서 archive로 넘기기도 �
     if permission[0] == False:
         return permission[1]
 
+    u = User.objects.get(user_id = request.session['user_id'])
+
     if request.method == 'POST':
         form = TaskforceBoardForm(request.POST, instance = t)
         if form.is_valid():
@@ -563,12 +565,10 @@ def edit_taskforce(request, taskforce_id): # 여기서 archive로 넘기기도 �
                     t.archive = False
             t.save()
 
-            logger.info(u'%s(%d)님이 %s taskforce(%d)를 수정했습니다.' % (request.session['user'].name, request.session['user'].id, t.name, t.id))
+            logger.info(u'%s(%d)님이 %s taskforce(%d)를 수정했습니다.' % (u.name, u.id, t.name, t.id))
             return redirect('yighub:news', board='taskforce', page=1 )
     else:
         form = TaskforceBoardForm(instance = t)
-
-    u = request.session['user']
 
     logger.info(u'%s(%d)님이 %s taskforce(%d) 수정하기 페이지를 열었습니다.' % (u.name, u.id, t.name, t.id))
     return render(request, 'yighub/edit_taskforce.html', {'user' : u, 'public_dict' : PublicBoardDict, 'form' : form, 'current_taskforce' : t})
@@ -582,7 +582,7 @@ def taskforce_archive(request):
 
     taskforce_list = TaskforceBoard.objects.filter(archive = True).order_by('-newest_time')
 
-    u = request.session['user']
+    u = User.objects.get(user_id = request.session['user_id'])
     board_list = get_board_list('taskforce')
 
     logger.info(u'%s(%d)님이 taskforce 아카이브를 열었습니다.' % (u.name, u.id))
@@ -611,7 +611,7 @@ def read(request, board, entry_id,):
     permission = check_permission(request, board, e.board)
     if permission[0] == False:
         return permission[1]
-    u = request.session['user']
+    u = User.objects.get(user_id = request.session['user_id'])
     
     e.count_view += 1
     e.save()
@@ -661,7 +661,7 @@ def create(request, board, board_id = None):
     permission = check_permission(request, board, current_board, mode = 'writing')
     if permission[0] == False:
         return permission[1]
-    u = request.session['user']
+    u = User.objects.get(user_id = request.session['user_id'])
 
     if request.method == 'POST':
         form = EntryForm(request.POST, request.FILES)
@@ -679,7 +679,7 @@ def create(request, board, board_id = None):
 
             # 글을 저장한다.
             e = form.save(commit = False)
-            e.creator = request.session['user']
+            e.creator = User.objects.get(user_id = request.session['user_id'])
             e.time_created = timezone.now()
             e.time_last_modified = e.time_created # 둘 다 timezone.now()로 했을 시 수정 안한 글에서도 마지막 수정한 날짜가 뜬다.
             e.arrangement = arrangement
@@ -742,7 +742,7 @@ def edit(request, board, entry_id):
     permission = check_permission(request, board, e.board, mode = 'writing')
     if permission[0] == False:
         return permission[1]
-    u = request.session['user']
+    u = User.objects.get(user_id = request.session['user_id'])
 
     if request.method == 'POST':
         form = EntryForm(request.POST, instance = e)
@@ -829,7 +829,9 @@ def delete(request, board, entry_id):
     if permission[0] == False:
         return permission[1]
 
-    if request.session['user'] == e.creator:
+    u = User.objects.get(user_id = request.session['user_id'])
+
+    if u == e.creator:
         thumbnails = e.thumbnails.all()
         for t in thumbnails:
             t.thumbnail.delete()
@@ -851,7 +853,7 @@ def delete(request, board, entry_id):
         b.count_entry -= 1
         b.save()
 
-        logger.info(u'%s(%d)님이 게시글을 삭제했습니다: "%s"(%d)' % (request.session['user'].name, request.session['user'].id, e.title, e.id))
+        logger.info(u'%s(%d)님이 게시글을 삭제했습니다: "%s"(%d)' % (u.name, u.id, e.title, e.id))
         e.delete()
     else:
         messages.error(request, 'invalid approach')
@@ -875,7 +877,7 @@ def reply(request, board, entry_id): # yig.in/entry/12345/reply
     permission = check_permission(request, board, parent.board, mode = 'writing')
     if permission[0] == False:
         return permission[1]
-    u = request.session['user']
+    u = User.objects.get(user_id = request.session['user_id'])
 
     if request.method == 'POST':
         form = EntryForm(request.POST, request.FILES)
@@ -904,7 +906,7 @@ def reply(request, board, entry_id): # yig.in/entry/12345/reply
             reply.arrangement = current_arrangement
             reply.depth = current_depth
             reply.parent = entry_id
-            reply.creator = request.session['user']
+            reply.creator = User.objects.get(user_id = request.session['user_id'])
             reply.time_created = timezone.now()
             reply.time_last_modified = timezone.now()
             reply.save()
@@ -961,7 +963,7 @@ def recommend(request, board, entry_id):
     if permission[0] == False:
         return permission[1]
 
-    u = request.session['user']
+    u = User.objects.get(user_id = request.session['user_id'])
     if u in e.recommendation.all():
         messages.error(request, 'You already recommend this')
         return render(request, 'yighub/error.html', )
@@ -989,7 +991,7 @@ def delete_recommend(request, board, entry_id):
     if permission[0] == False:
         return permission[1]
     
-    u = request.session['user']
+    u = User.objects.get(user_id = request.session['user_id'])
     if u in e.recommendation.all():
         e.count_recommendation -= 1
         e.recommendation.remove(u)
@@ -1008,6 +1010,8 @@ def comment(request, board, entry_id):
     if exist == False:
         raise Http404
 
+    u = User.objects.get(user_id = request.session['user_id'])
+
     if request.method == 'POST':
         e = Entry.objects.get(pk = entry_id)
         try:
@@ -1018,7 +1022,7 @@ def comment(request, board, entry_id):
             arrangement = (newest_comment.arrangement/1000 + 1) * 1000
         c = Comment(entry = e,
                     content = request.POST['content'],
-                    creator = request.session['user'],
+                    creator = u,
                     time_created = timezone.now(),
                     arrangement = arrangement,
                     )
@@ -1026,7 +1030,7 @@ def comment(request, board, entry_id):
         e.count_comment += 1
         e.save()
 
-        logger.info(u'%s(%d)님이 게시글(%d)에 댓글을 달았습니다: "%s"(%d)' % (request.session['user'].name, request.session['user'].id, e.id, c.content, c.id))
+        logger.info(u'%s(%d)님이 게시글(%d)에 댓글을 달았습니다: "%s"(%d)' % (u.name, u.id, e.id, c.content, c.id))
         return redirect('yighub:read', board = board, entry_id = entry_id) # HttpResponseRedirect(reverse('yighub.views.read', args = (entry_id)))
     else:
         messages.error(request, 'invalid approach')
@@ -1041,7 +1045,7 @@ def reply_comment(request, board, entry_id):
 
     if request.method == 'POST':
         e = Entry.objects.get(pk = entry_id)
-        u = request.session['user']
+        u = User.objects.get(user_id = request.session['user_id'])
 
         parent = Comment.objects.get(pk = int(request.POST['comment_id'])) # int error ?
         current_depth = parent.depth + 1
@@ -1097,7 +1101,7 @@ def recommend_comment(request, board, entry_id, comment_id):
     if permission[0] == False:
         return permission[1]
 
-    u = request.session['user']
+    u = User.objects.get(user_id = request.session['user_id'])
     if u in c.recommendation.all():
         messages.error(request, 'You already recommend this')
         return render(request, 'yighub/error.html', context_instance = RequestContext(request))
@@ -1126,11 +1130,13 @@ def delete_comment(request, board, entry_id, comment_id):
     if permission[0] == False:
         return permission[1]
 
-    if request.session['user'] == c.creator:
+    u = User.objects.get(user_id = request.session['user_id'])
+
+    if u == c.creator:
         e.count_comment -= 1
         e.save()
 
-        logger.info(u'%s(%d)님이 게시글(%d)에서 댓글을 삭제했습니다: "%s"(%d)' % (request.session['user'].name, request.session['user'].id, e.id, c.content, c.id))
+        logger.info(u'%s(%d)님이 게시글(%d)에서 댓글을 삭제했습니다: "%s"(%d)' % (u.name, u.id, e.id, c.content, c.id))
 
         c.delete()
 
@@ -1166,7 +1172,6 @@ def join(request):
 
                         u = User.objects.get(user_id = request.POST['user_id'])
                         request.session['user_id'] = u.user_id
-                        request.session['user'] = u
 
                         logger.info(u'%s(%d)님이 가입했습니다.' % (u.name, u.id))
 
@@ -1250,7 +1255,6 @@ def edit_profile(request, first_login = False):
 
             u = User.objects.get(user_id = request.POST['user_id'])
             request.session['user_id'] = u.user_id
-            request.session['user'] = u
 
             logger.info(u'%s(%d)님이 프로필을 수정했습니다.' % (u.name, u.id))
             return redirect('yighub:home', )
@@ -1282,7 +1286,6 @@ def login_check(request):
             u.password = hashers.make_password(request.POST['password'])
             u.save()
             request.session['user_id'] = u.user_id
-            request.session['user'] = u
 
             logger.info(u'%s(%d)님이 처음 로그인했습니다.' % (u.name, u.id))
 
@@ -1290,7 +1293,6 @@ def login_check(request):
 
         if hashers.check_password(request.POST['password'], u.password):
             request.session['user_id'] = u.user_id
-            request.session['user'] = u
 
             logger.info(u'%s(%d)님이 로그인했습니다.' % (u.name, u.id))
 
@@ -1305,7 +1307,8 @@ def login_check(request):
         return render(request, 'yighub/login.html', {'public_dict' : PublicBoardDict})
 
 def logout(request):
-    logger.info(u'%s(%d)님이 로그아웃했습니다.' % (request.session['user'].name, request.session['user'].id))
+    u = User.objects.get(user_id = request.session['user_id'])
+    logger.info(u'%s(%d)님이 로그아웃했습니다.' % (u.name, u.id))
     request.session.flush() # exact functionality of flush method? after flush, home_for_visitor is presenting?
     return HttpResponseRedirect(reverse('yighub:home'))
 
@@ -1315,7 +1318,7 @@ def send(request):
         if form.is_valid():
 
             s = form.save(commit = False)
-            s.sender = request.session['user']
+            s.sender = User.objects.get(user_id = request.session['user_id'])
             s.file_name = request.FILES['file'].name
             s.save()
 
@@ -1359,7 +1362,7 @@ def memo(request, page = 1):
     permission = check_permission(request, 'memo')
     if permission[0] == False:
         return permission[1] 
-    u = request.session['user']
+    u = User.objects.get(user_id = request.session['user_id'])
     
     bulletin_list = get_board_list('bulletin')
     taskforce_list = get_board_list('taskforce')
@@ -1428,13 +1431,16 @@ def memo(request, page = 1):
 
 def create_memo(request):
     if request.method == 'POST':
+
+        u = User.objects.get(user_id = request.session['user_id'])
+
         m = Memo(memo = request.POST['memo'],
-                 creator = request.session['user'],
+                 creator = u,
                  time_created = timezone.now(),
                 )
         m.save()
         
-        logger.info(u'%s(%d)님이 메모를 남겼습니다: "%s"(%d)' % (request.session['user'].name, request.session['user'].id, m.memo, m.id))
+        logger.info(u'%s(%d)님이 메모를 남겼습니다: "%s"(%d)' % (u.name, u.id, m.memo, m.id))
 
         return HttpResponseRedirect(request.POST['path']) # 왔던 곳으로 되돌리기 위해 # redirect('yighub:home', ) 
     else:
@@ -1448,8 +1454,10 @@ def delete_memo(request, memo_id):
     except Memo.DoesNotExist:
         raise Http404
 
-    if request.session['user'] == m.creator:
-        logger.info(u'%s(%d)님이 메모를 삭제했습니다: "%s"(%d)' % (request.session['user'].name, request.session['user'].id, m.memo, m.id))
+    u = User.objects.get(user_id = request.session['user_id'])
+
+    if u == m.creator:
+        logger.info(u'%s(%d)님이 메모를 삭제했습니다: "%s"(%d)' % (u.name, u.id, m.memo, m.id))
         m.delete()
 
     else:
@@ -1492,8 +1500,9 @@ def download(request, file_id, file_name):
      #response['Content-Encoding'] = encoding
 #    encoded_name = f.file.name.encode(encoding = 'UTF-8')
     #fp.close를 하면 안된다?
-    if 'user' in request.session:
-        logger.info(u'%s(%d)님이 파일을 다운로드 했습니다: "%s"(%d)' % (request.session['user'].name, request.session['user'].id, f.name, f.id))
+    if 'user_id' in request.session:
+        u = User.objects.get(user_id = request.session['user_id'])
+        logger.info(u'%s(%d)님이 파일을 다운로드 했습니다: "%s"(%d)' % (u.name, u.id, f.name, f.id))
     else:
         logger.info(u'방문자가 파일을 다운로드 했습니다: "%s"(%d)' % (f.name, f.id))
 
@@ -1510,7 +1519,7 @@ def albums(request, page = 1):
     permission = check_permission(request, board, )
     if permission[0] == False:
         return permission[1]
-    u = request.session['user']
+    u = User.objects.get(user_id = request.session['user_id'])
     
     page_size = 12
     current_page = int(page) if page != '0' else 1
@@ -1583,7 +1592,7 @@ def photos(request, album_id):
     permission = check_permission(request, board, )
     if permission[0] == False:
         return permission[1]
-    u = request.session['user']
+    u = User.objects.get(user_id = request.session['user_id'])
     
     album = Album.objects.get(pk = album_id)
     album.count_view += 1
@@ -1604,6 +1613,8 @@ def create_album(request,):
     if permission[0] == False:
         return permission[1]
 
+    u = User.objects.get(user_id = request.session['user_id'])
+
     if request.method == 'POST':
         form = AlbumForm(request.POST)
         if form.is_valid():
@@ -1614,13 +1625,11 @@ def create_album(request,):
             a.permission_writing = 'pre'
             a.save()
 
-            logger.info(u'%s(%d)님이 새 앨범을 만들었습니다: "%s"(%d)' % (request.session['user'].name, request.session['user'].id, a.name, a.id))
+            logger.info(u'%s(%d)님이 새 앨범을 만들었습니다: "%s"(%d)' % (u.name, u.id, a.name, a.id))
 
             return redirect('yighub:photos', album_id = a.id)
     else:
         form = AlbumForm()
-
-    u = request.session['user']
 
     logger.info(u'%s(%d)님이 앨범 만들기 페이지를 열었습니다.' % (u.name, u.id))
     return render(request, 'yighub/create_album.html', {'user' : u, 'public_dict' : PublicBoardDict, 'form' : form})
@@ -1639,7 +1648,7 @@ def create_photos(request, album_id):
     permission = check_permission(request, 'albums', a, mode = 'writing')
     if permission[0] == False:
         return permission[1]
-    u = request.session['user']
+    u = User.objects.get(user_id = request.session['user_id'])
 
     if request.method == 'POST':
             
@@ -1650,7 +1659,7 @@ def create_photos(request, album_id):
                 p.album = a
                 p.photo = request.FILES['photo_'+str(k)]
                 p.description = request.POST['description_'+str(k)]
-                p.photographer = request.session['user']
+                p.photographer = u
                 p.time_created = timezone.now()
                 p.time_last_modified = p.time_created # timezone.now()를 하면 time_created와 미묘하게 달라진다.
                 p.save()
@@ -1682,7 +1691,9 @@ def delete_photo(request, album_id, photo_id):
     if permission[0] == False:
         return permission[1]
 
-    if request.session['user'] == p.photographer:
+    u = User.objects.get(user_id = request.session['user_id'])
+
+    if u == p.photographer:
         
         # 게시판 정보를 업데이트한다.
         a = p.album
@@ -1696,7 +1707,7 @@ def delete_photo(request, album_id, photo_id):
 
         a.save()
 
-        logger.info(u'%s(%d)님이 %s 앨범(%d)에서 사진(%d)을 삭제했습니다.' % (request.session['user'].name, request.session['user'].id, a.name, a.id, p.id))
+        logger.info(u'%s(%d)님이 %s 앨범(%d)에서 사진(%d)을 삭제했습니다.' % (u.name, u.id, a.name, a.id, p.id))
 
         p.delete()
     else:
@@ -1718,7 +1729,7 @@ def recommend_photo(request, album_id, photo_id):
     except Photo.DoesNotExist:
         raise Http404
 
-    u = request.session['user']
+    u = User.objects.get(user_id = request.session['user_id'])
     if u in p.recommendation.all():
         messages.error(request, 'You already recommend this')
         return render(request, 'yighub/error.html', )
@@ -1741,7 +1752,7 @@ def delete_recommend_photo(request, album_id, photo_id):
     except Photo.DoesNotExist:
         raise Http404
 
-    u = request.session['user']
+    u = User.objects.get(user_id = request.session['user_id'])
     if u in p.recommendation.all():
         p.count_recommendation -= 1
         p.recommendation.remove(u)
@@ -1764,15 +1775,18 @@ def comment_photo(request, album_id, photo_id):
             arrangement = 0
         else:
             arrangement = (newest_comment.arrangement/1000 + 1) * 1000
+
+        u = User.objects.get(user_id = request.session['user_id'])
+
         c = PhotoComment(photo = p,
                     content = request.POST['content'],
-                    creator = request.session['user'],
+                    creator = u,
                     time_created = timezone.now(),
                     arrangement = arrangement,
                     )
         c.save()
 
-        logger.info(u'%s(%d)님이 사진(%d)에 댓글을 달았습니다: "%s"(%d)' % (request.session['user'].name, request.session['user'].id, p.id, c.content, c.id))
+        logger.info(u'%s(%d)님이 사진(%d)에 댓글을 달았습니다: "%s"(%d)' % (u.name, u.id, p.id, c.content, c.id))
         return redirect('yighub:photos', album_id = album_id) 
     else:
         messages.error(request, 'invalid approach')
@@ -1791,9 +1805,11 @@ def delete_comment_photo(request, album_id, photo_id, comment_id):
     if permission[0] == False:
         return permission[1]
 
-    if request.session['user'] == c.creator:
+    u = User.objects.get(user_id = request.session['user_id'])
 
-        logger.info(u'%s(%d)님이 사진(%d)에서 댓글을 삭제했습니다: "%s"(%d)' % (request.session['user'].name, request.session['user'].id, p.id, c.content, c.id))
+    if u == c.creator:
+
+        logger.info(u'%s(%d)님이 사진(%d)에서 댓글을 삭제했습니다: "%s"(%d)' % (u.name, u.id, p.id, c.content, c.id))
         c.delete()
         return redirect('yighub:photos', album_id = album_id)
 
