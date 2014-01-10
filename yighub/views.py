@@ -30,7 +30,7 @@ logger = logging.getLogger(__name__)
 
 import re
 
-import transformation
+# import transformation
 
 PublicBoardList = PublicBoard.objects.all()
 PublicBoardDict = {}
@@ -1822,63 +1822,171 @@ def reply_comment_photo(request, album_id, photo_id, comment_id):
 def recommend_comment_photo(request, album_id, photo_id, comment_id):
     pass
 
+def search(request):
+
+    if request.method == 'POST':
+
+        keyword = request.POST['keyword'].strip()
+        result_list = []
+
+        all_entry = []
+        for p in PublicEntry.objects.all():
+            p.board_type = 'public'
+            all_entry.append(p)
+        for b in BulletinEntry.objects.all():
+            b.board_type = 'bulletin'
+            all_entry.append(b)
+        for t in TaskforceEntry.objects.all():
+            t.board_type = 'taskforce'
+            all_entry.append(t)
+
+        for e in all_entry:
+            if len(result_list) > 20:
+                break
+            if keyword == e.creator:
+                result_list.append(e)
+                continue
+            if keyword in e.title:
+                result_list.append(e)
+                continue
+            if keyword in e.content:
+                result_list.append(e)
+                continue
+
+        current_page = 1 #int(page)
+        page_size = 20
+        no = (current_page - 1) * page_size # 그 앞 페이지 마지막 글까지 개수
+
+        entry_list = sorted(result_list, key = lambda r: r.time_created, reverse = True)[no : (no + page_size)] 
+        count_entry = len(entry_list)
+
+        u = User.objects.get(user_id = request.session['user_id'])
+
+        bulletin_list = get_board_list('bulletin')
+        taskforce_list = get_board_list('taskforce')
+
+        # 첫 페이지와 끝 페이지 설정
+        first_page = 1
+        last_page = (count_entry - 1)/page_size + 1
+
+        # 페이지 리스트 만들기
+        if last_page <= 7:
+            start_page = 1
+        elif current_page <= 4:
+            start_page = 1
+        elif current_page > last_page - 4:
+            start_page = last_page - 6        
+        else:
+            start_page = current_page - 3
+
+        if last_page <= 7:
+            end_page = last_page
+        elif current_page > last_page - 4:
+            end_page = last_page
+        elif current_page < 4:
+            end_page = 7
+        else:
+            end_page = current_page + 3
+
+        page_list = range(start_page, end_page + 1)
+
+        # 이전 페이지, 다음 페이지 설정
+        prev_page = current_page - 5
+        next_page = current_page + 5
+
+        # 맨 첫 페이지나 맨 끝 페이지일 때 고려
+        if current_page > last_page - 5:
+            next_page = 0
+            last_page = 0
+        if current_page <= 5:
+            prev_page = 0
+            first_page = 0
+
+        p = {'entry_list' : entry_list,
+                'current_page' : current_page,
+                'page_list' : page_list,
+                'first_page' : first_page,
+                'last_page' : last_page,
+                'prev_page' : prev_page,
+                'next_page' : next_page,
+                }
+
+        # logger.info(u'%s(%d)님이 메모 게시판 %s 페이지를 열었습니다.' % (u.name, u.id, page))
+
+        return render(request, 'yighub/search.html',
+            {'user': u, 'public_dict' : PublicBoardDict, 
+            'bulletin_list' : bulletin_list, 
+            'taskforce_list' : taskforce_list, 'page': p})
+
+
+
+
+
+
+    else:
+        messages.error(request, 'invalid approach')
+        return render(request, 'yighub/error.html', )
+
+
+
+
 def waiting(request):
     return render(request, 'yighub/waiting.html')
     
-def transform_user(request,):
-    transformation.transform_user()
-    return HttpResponse("Success!")
+# def transform_user(request,):
+#     transformation.transform_user()
+#     return HttpResponse("Success!")
 
-def transform_data(request,):
-    transformation.transform_board('data', 'Bulletin')
-    transformation.transform_comment('data', 'Bulletin')
-    return HttpResponse("Success!")
+# def transform_data(request,):
+#     transformation.transform_board('data', 'Bulletin')
+#     transformation.transform_comment('data', 'Bulletin')
+#     return HttpResponse("Success!")
 
-def transform_column(request,):
-    transformation.transform_board('column', 'Bulletin')
-    transformation.transform_comment('column', 'Bulletin')
-    return HttpResponse("Success!")
+# def transform_column(request,):
+#     transformation.transform_board('column', 'Bulletin')
+#     transformation.transform_comment('column', 'Bulletin')
+#     return HttpResponse("Success!")
 
-def transform_portfolio(request,):
-    transformation.transform_board('portfolio', 'Bulletin')
-    transformation.transform_comment('portfolio', 'Bulletin')
-    return HttpResponse("Success!")
+# def transform_portfolio(request,):
+#     transformation.transform_board('portfolio', 'Bulletin')
+#     transformation.transform_comment('portfolio', 'Bulletin')
+#     return HttpResponse("Success!")
 
-def transform_analysis(request,):
-    transformation.transform_board('analysis', 'Bulletin')
-    transformation.transform_comment('analysis', 'Bulletin')
-    return HttpResponse("Success!")
+# def transform_analysis(request,):
+#     transformation.transform_board('analysis', 'Bulletin')
+#     transformation.transform_comment('analysis', 'Bulletin')
+#     return HttpResponse("Success!")
 
-def transform_notice(request,):
-    transformation.transform_board('m_notice', 'Bulletin')
-    transformation.transform_comment('m_notice', 'Bulletin')
-    return HttpResponse("Success!")
+# def transform_notice(request,):
+#     transformation.transform_board('m_notice', 'Bulletin')
+#     transformation.transform_comment('m_notice', 'Bulletin')
+#     return HttpResponse("Success!")
 
-def transform_board(request,):
-    transformation.transform_board('board', 'Bulletin')
-    transformation.transform_comment('board', 'Bulletin')
-    return HttpResponse("Success!")
+# def transform_board(request,):
+#     transformation.transform_board('board', 'Bulletin')
+#     transformation.transform_comment('board', 'Bulletin')
+#     return HttpResponse("Success!")
 
-def transform_tf(request,):
-    transformation.transform_board('tf', 'Taskforce')
-    transformation.transform_comment('tf', 'Taskforce')
-    return HttpResponse("Success!")
+# def transform_tf(request,):
+#     transformation.transform_board('tf', 'Taskforce')
+#     transformation.transform_comment('tf', 'Taskforce')
+#     return HttpResponse("Success!")
 
-def transform_research(request,):
-    transformation.transform_board('Research', 'Public')
-    transformation.transform_comment('Research', 'Public')
-    return HttpResponse("Success!")
+# def transform_research(request,):
+#     transformation.transform_board('Research', 'Public')
+#     transformation.transform_comment('Research', 'Public')
+#     return HttpResponse("Success!")
 
-def transform_fund(request,):
-    transformation.transform_board('fund', 'Public')
-    transformation.transform_comment('fund', 'Public')
-    return HttpResponse("Success!")
+# def transform_fund(request,):
+#     transformation.transform_board('fund', 'Public')
+#     transformation.transform_comment('fund', 'Public')
+#     return HttpResponse("Success!")
 
-def transform_photos(request,):
-    transformation.transform_photos()
-    return HttpResponse("Success!")
+# def transform_photos(request,):
+#     transformation.transform_photos()
+#     return HttpResponse("Success!")
 
-def transform_memo(request,):
-    transformation.transform_memo()
-    return HttpResponse("Success!")
+# def transform_memo(request,):
+#     transformation.transform_memo()
+#     return HttpResponse("Success!")
 

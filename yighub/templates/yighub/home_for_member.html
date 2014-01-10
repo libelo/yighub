@@ -85,6 +85,11 @@ color:deepskyblue;
 					<button type="button" class="btn btn-primary" onclick="location.href = '{% url 'yighub:create' 'bulletin' %}'">Boards에 글쓰기</button>
 				<!-- </a> -->
 			</div>
+			<form action="{% url 'yighub:search' %}" method="post" class="form-search" >
+				{% csrf_token %}
+			  <input type="text" name="keyword" class="input-medium search-query">
+			  <button type="submit" class="btn">Search</button>
+			</form>
 
 			<div class="container-fluid pull-right">
 				<!-- <a href="{% url 'yighub:create' 'taskforce' %}"> -->
