@@ -1827,37 +1827,48 @@ def search(request):
     if request.method == 'POST':
 
         keyword = request.POST['keyword'].strip()
-        result_list = []
+        result_entry = set()
 
-        all_entry = []
-        for p in PublicEntry.objects.all():
+        try:
+            keyuser = User.objects.filter(name = keyword)
+        except:
+            pass
+        else:
+            for p in PublicEntry.objects.filter(creator = keyuser):
+                p.board_type = 'public'
+                result_entry.add(p)
+            for p in BulletinEntry.objects.filter(creator = keyuser):
+                p.board_type = 'bulletin'
+                result_entry.add(p)
+            for p in TaskforceEntry.objects.filter(creator = keyuser):
+                p.board_type = 'taskforce'
+                result_entry.add(p)
+
+        for p in PublicEntry.objects.filter(title__contains = keyword):
             p.board_type = 'public'
-            all_entry.append(p)
-        for b in BulletinEntry.objects.all():
-            b.board_type = 'bulletin'
-            all_entry.append(b)
-        for t in TaskforceEntry.objects.all():
-            t.board_type = 'taskforce'
-            all_entry.append(t)
-
-        for e in all_entry:
-            if len(result_list) > 20:
-                break
-            if keyword == e.creator:
-                result_list.append(e)
-                continue
-            if keyword in e.title:
-                result_list.append(e)
-                continue
-            if keyword in e.content:
-                result_list.append(e)
-                continue
+            result_entry.add(p)
+        for p in PublicEntry.objects.filter(content__contains = keyword):
+            p.board_type = 'public'
+            result_entry.add(p)
+        for p in BulletinEntry.objects.filter(title__contains = keyword):
+            p.board_type = 'bulletin'
+            result_entry.add(p)
+        for p in BulletinEntry.objects.filter(content__contains = keyword):
+            p.board_type = 'bulletin'
+            result_entry.add(p)
+        for p in TaskforceEntry.objects.filter(title__contains = keyword):
+            p.board_type = 'taskforce'
+            result_entry.add(p)
+        for p in TaskforceEntry.objects.filter(content__contains = keyword):
+            p.board_type = 'taskforce'
+            result_entry.add(p)
 
         current_page = 1 #int(page)
         page_size = 20
         no = (current_page - 1) * page_size # 그 앞 페이지 마지막 글까지 개수
 
-        entry_list = sorted(result_list, key = lambda r: r.time_created, reverse = True)[no : (no + page_size)] 
+        result_entry = list(result_entry)
+        entry_list = sorted(result_entry, key = lambda r: r.time_created, reverse = True)[no : (no + page_size)] 
         count_entry = len(entry_list)
 
         u = User.objects.get(user_id = request.session['user_id'])
