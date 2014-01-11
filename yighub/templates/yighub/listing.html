@@ -46,8 +46,9 @@
 					</tr>
 					{% endfor %}
 				</tbody>
-				</table>
+			</table>
 			<br />
+
 			<div class="pagination pagination-small text-center">
 			  <ul>
 			  	<!-- {% if page.first_page %} -->
@@ -69,6 +70,15 @@
 			    {% endif %}
 			  </ul>
 			</div>
+
+			<div class="container-fluid pull-right">
+				<form action="{% url 'yighub:search' current_board.id 'keyword' 0 %}" method="post" class="form-search" >
+					{% csrf_token %}
+				  <input type="text" name="keyword" class="input-medium search-query" />
+				  <button type="submit" class="btn">Search</button>
+				</form>
+			</div>
+
 			{% else %}
 			<div class="container-fruid text-center">
 				<p> 아직 글이 존재하지 않습니다. </p>

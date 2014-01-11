@@ -29,11 +29,14 @@
 	<div class="span9">
 		<br />	
 		<br />
-
 		<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
 			<div class="row-fluid">
-				<span class="lead"></span>
-				<span class="muted"></span>
+				{% if current_board %}
+				<span class="lead">{{ current_board.name }}에서 '{{ keyword }}'검색결과</span>
+				{% else %}
+				<span class="lead">모든 게시물에서 '{{ keyword }}'검색결과</span>
+				{% endif %}
+				<span class="muted">{{ count }}개</span>
 			</div>
 			<br />
 			{% if page.entry_list %}
@@ -63,6 +66,23 @@
 				</tbody>
 				</table>
 			<br />
+			<div class="pagination pagination-small text-center">
+			  <ul>
+			    {% for p in page.page_list %}
+				    {% if p == page.current_page %}
+				    <li class="active">
+				    {% else %}
+				    <li>
+				    {% endif %}
+				    	<a href="{% url 'yighub:search' board_id keyword p %}">{{ p }}</a>
+				    </li>
+			    {% endfor %}
+			    {% if page.last_page %}
+			    <li class="visible-desktop"><a href="{% url 'yighub:search' board_id keyword page.last_page %}">&raquo;</a></li>
+			    {% endif %}
+			  </ul>
+			</div>
+
 			{% else %}
 			<div class="container-fruid text-center">
 				<p> 아직 글이 존재하지 않습니다. </p>

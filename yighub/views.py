@@ -3,6 +3,7 @@
 from django.template import Context, loader
 
 from yighub.models import User, Letter, Memo, UserForm
+from yighub.models import Board
 from yighub.models import BulletinBoard, TaskforceBoard, PublicBoard
 from yighub.models import BulletinEntry, TaskforceEntry, PublicEntry
 from yighub.models import BulletinComment, TaskforceComment, PublicComment
@@ -20,10 +21,12 @@ from django.core.urlresolvers import reverse
 from django.contrib import messages
 import mimetypes
 import datetime
+from urllib import unquote
 from urllib2 import quote
 from django.utils import timezone
 from django.contrib.auth import hashers
 from django.utils.http import urlquote
+from django.utils.encoding import iri_to_uri
 
 import logging
 logger = logging.getLogger(__name__)
@@ -1822,123 +1825,128 @@ def reply_comment_photo(request, album_id, photo_id, comment_id):
 def recommend_comment_photo(request, album_id, photo_id, comment_id):
     pass
 
-def search(request):
+def search(request, board_id, keyword, page):
 
     if request.method == 'POST':
 
-        keyword = request.POST['keyword'].strip()
-        result_entry = set()
+        keyword = iri_to_uri(urlquote(request.POST['keyword'], safe='')) # iri_to_uri가 필요한지는 의문. urlquote_plus가 더 나을지도. urlquote_plus는 safe도 필요없음.
 
-        try:
-            keyuser = User.objects.filter(name = keyword)
-        except:
-            pass
-        else:
-            for p in PublicEntry.objects.filter(creator = keyuser):
-                p.board_type = 'public'
-                result_entry.add(p)
-            for p in BulletinEntry.objects.filter(creator = keyuser):
-                p.board_type = 'bulletin'
-                result_entry.add(p)
-            for p in TaskforceEntry.objects.filter(creator = keyuser):
-                p.board_type = 'taskforce'
-                result_entry.add(p)
+        return redirect('yighub:search', board_id=board_id, keyword=keyword, page=1)
 
-        for p in PublicEntry.objects.filter(title__contains = keyword):
-            p.board_type = 'public'
-            result_entry.add(p)
-        for p in PublicEntry.objects.filter(content__contains = keyword):
-            p.board_type = 'public'
-            result_entry.add(p)
-        for p in BulletinEntry.objects.filter(title__contains = keyword):
-            p.board_type = 'bulletin'
-            result_entry.add(p)
-        for p in BulletinEntry.objects.filter(content__contains = keyword):
-            p.board_type = 'bulletin'
-            result_entry.add(p)
-        for p in TaskforceEntry.objects.filter(title__contains = keyword):
-            p.board_type = 'taskforce'
-            result_entry.add(p)
-        for p in TaskforceEntry.objects.filter(content__contains = keyword):
-            p.board_type = 'taskforce'
-            result_entry.add(p)
+    keyword = unquote(keyword)
+    # keywords = keyword.strip().split()
+    result_entry = set()
+    board_id = int(board_id)
 
-        current_page = 1 #int(page)
-        page_size = 20
-        no = (current_page - 1) * page_size # 그 앞 페이지 마지막 글까지 개수
-
-        result_entry = list(result_entry)
-        entry_list = sorted(result_entry, key = lambda r: r.time_created, reverse = True)[no : (no + page_size)] 
-        count_entry = len(entry_list)
-
-        u = User.objects.get(user_id = request.session['user_id'])
-
-        bulletin_list = get_board_list('bulletin')
-        taskforce_list = get_board_list('taskforce')
-
-        # 첫 페이지와 끝 페이지 설정
-        first_page = 1
-        last_page = (count_entry - 1)/page_size + 1
-
-        # 페이지 리스트 만들기
-        if last_page <= 7:
-            start_page = 1
-        elif current_page <= 4:
-            start_page = 1
-        elif current_page > last_page - 4:
-            start_page = last_page - 6        
-        else:
-            start_page = current_page - 3
-
-        if last_page <= 7:
-            end_page = last_page
-        elif current_page > last_page - 4:
-            end_page = last_page
-        elif current_page < 4:
-            end_page = 7
-        else:
-            end_page = current_page + 3
-
-        page_list = range(start_page, end_page + 1)
-
-        # 이전 페이지, 다음 페이지 설정
-        prev_page = current_page - 5
-        next_page = current_page + 5
-
-        # 맨 첫 페이지나 맨 끝 페이지일 때 고려
-        if current_page > last_page - 5:
-            next_page = 0
-            last_page = 0
-        if current_page <= 5:
-            prev_page = 0
-            first_page = 0
-
-        p = {'entry_list' : entry_list,
-                'current_page' : current_page,
-                'page_list' : page_list,
-                'first_page' : first_page,
-                'last_page' : last_page,
-                'prev_page' : prev_page,
-                'next_page' : next_page,
-                }
-
-        # logger.info(u'%s(%d)님이 메모 게시판 %s 페이지를 열었습니다.' % (u.name, u.id, page))
-
-        return render(request, 'yighub/search.html',
-            {'user': u, 'public_dict' : PublicBoardDict, 
-            'bulletin_list' : bulletin_list, 
-            'taskforce_list' : taskforce_list, 'page': p})
-
-
-
-
-
-
+    try: # 게시판 내 검색인지 검사
+        b = Board.objects.get(pk = board_id)
+    except:
+        public_entrys = PublicEntry.objects.all()
+        bulletin_entrys = BulletinEntry.objects.all()
+        taskforce_entrys = TaskforceEntry.objects.all()
+        b = None
     else:
-        messages.error(request, 'invalid approach')
-        return render(request, 'yighub/error.html', )
+        public_entrys = PublicEntry.objects.filter(board__id = b.id)
+        bulletin_entrys = BulletinEntry.objects.filter(board__id = b.id)
+        taskforce_entrys = TaskforceEntry.objects.filter(board__id = b.id)
 
+    # for keyword in keywords:
+    for e in public_entrys.filter(creator__name__contains = keyword):
+        e.board_type = 'public'
+        result_entry.add(e)
+    for e in bulletin_entrys.filter(creator__name__contains = keyword):
+        e.board_type = 'bulletin'
+        result_entry.add(e)
+    for e in taskforce_entrys.filter(creator__name__contains = keyword):
+        e.board_type = 'taskforce'
+        result_entry.add(e)
 
+    for e in public_entrys.filter(title__contains = keyword):
+        e.board_type = 'public'
+        result_entry.add(e)
+    for e in public_entrys.filter(content__contains = keyword):
+        e.board_type = 'public'
+        result_entry.add(e)
+    for e in bulletin_entrys.filter(title__contains = keyword):
+        e.board_type = 'bulletin'
+        result_entry.add(e)
+    for e in bulletin_entrys.filter(content__contains = keyword):
+        e.board_type = 'bulletin'
+        result_entry.add(e)
+    for e in taskforce_entrys.filter(title__contains = keyword):
+        e.board_type = 'taskforce'
+        result_entry.add(e)
+    for e in taskforce_entrys.filter(content__contains = keyword):
+        e.board_type = 'taskforce'
+        result_entry.add(e)
+
+    current_page = int(page)
+    page_size = 20
+    no = (current_page - 1) * page_size # 그 앞 페이지 마지막 글까지 개수
+
+    result_entry = list(result_entry)
+    count_entry = len(result_entry)
+    entry_list = sorted(result_entry, key = lambda r: r.time_created, reverse = True)[no : (no + page_size)] 
+
+    u = User.objects.get(user_id = request.session['user_id'])
+
+    bulletin_list = get_board_list('bulletin')
+    taskforce_list = get_board_list('taskforce')
+
+    # 첫 페이지와 끝 페이지 설정
+    first_page = 1
+    last_page = (count_entry - 1)/page_size + 1
+
+    # 페이지 리스트 만들기
+    if last_page <= 7:
+        start_page = 1
+    elif current_page <= 4:
+        start_page = 1
+    elif current_page > last_page - 4:
+        start_page = last_page - 6        
+    else:
+        start_page = current_page - 3
+
+    if last_page <= 7:
+        end_page = last_page
+    elif current_page > last_page - 4:
+        end_page = last_page
+    elif current_page < 4:
+        end_page = 7
+    else:
+        end_page = current_page + 3
+
+    page_list = range(start_page, end_page + 1)
+
+    # 이전 페이지, 다음 페이지 설정
+    prev_page = current_page - 5
+    next_page = current_page + 5
+
+    # 맨 첫 페이지나 맨 끝 페이지일 때 고려
+    if current_page > last_page - 5:
+        next_page = 0
+        last_page = 0
+    if current_page <= 5:
+        prev_page = 0
+        first_page = 0
+
+    p = {'entry_list' : entry_list,
+            'current_page' : current_page,
+            'page_list' : page_list,
+            'first_page' : first_page,
+            'last_page' : last_page,
+            'prev_page' : prev_page,
+            'next_page' : next_page,
+            }
+
+    # logger.info(u'%s(%d)님이 메모 게시판 %s 페이지를 열었습니다.' % (u.name, u.id, page))
+
+    return render(request, 'yighub/search.html',
+        {'user': u, 'public_dict' : PublicBoardDict, 
+        'bulletin_list' : bulletin_list, 
+        'taskforce_list' : taskforce_list, 'page' : p, 
+        'board_id' : board_id, 'keyword' : keyword, 
+        'current_board' : b, 'count' : count_entry})
 
 
 def waiting(request):
