@@ -717,7 +717,11 @@ def create(request, board, board_id = None):
 
     board_list = get_board_list(board)
 
-    logger.info(u'%s(%d)님이 글쓰기 페이지를 열었습니다.' % (u.name, u.id))
+    if current_board:
+        logger.info(u'%s(%d)님이 %s 게시판 글쓰기 페이지를 열었습니다.' % (u.name, u.id, current_board.name))
+    else:
+        logger.info(u'%s(%d)님이 %s 글쓰기 페이지를 열었습니다.' % (u.name, u.id, board))
+
     return render(request, 'yighub/create.html', 
         {'user' : u, 
         'public_dict' : PublicBoardDict, 
@@ -1827,9 +1831,18 @@ def recommend_comment_photo(request, album_id, photo_id, comment_id):
 
 def search(request, board_id, keyword, page):
 
+    u = User.objects.get(user_id = request.session['user_id'])
+
     if request.method == 'POST':
 
         keyword = iri_to_uri(urlquote(request.POST['keyword'], safe='')) # iri_to_uri가 필요한지는 의문. urlquote_plus가 더 나을지도. urlquote_plus는 safe도 필요없음.
+
+        try:
+            b = Board.objects.get(pk = board_id)
+        except:
+            logger.info(u'%s(%d)님이 모든 게시물에서 "%s" 키워드로 검색했습니다.' % (u.name, u.id, request.POST['keyword']))
+        else:
+            logger.info(u'%s(%d)님이 %s 게시판에서 "%s" 키워드로 검색했습니다.' % (u.name, u.id, b.name, request.POST['keyword']))
 
         return redirect('yighub:search', board_id=board_id, keyword=keyword, page=1)
 
@@ -1888,8 +1901,6 @@ def search(request, board_id, keyword, page):
     count_entry = len(result_entry)
     entry_list = sorted(result_entry, key = lambda r: r.time_created, reverse = True)[no : (no + page_size)] 
 
-    u = User.objects.get(user_id = request.session['user_id'])
-
     bulletin_list = get_board_list('bulletin')
     taskforce_list = get_board_list('taskforce')
 
@@ -1939,7 +1950,11 @@ def search(request, board_id, keyword, page):
             'next_page' : next_page,
             }
 
-    # logger.info(u'%s(%d)님이 메모 게시판 %s 페이지를 열었습니다.' % (u.name, u.id, page))
+    if b:
+        logger.info(u'%s(%d)님이 %s 게시판 "%s" 키워드 검색 %s 페이지를 열었습니다.' % (u.name, u.id, b.name, keyword, page))
+    else:
+        logger.info(u'%s(%d)님이 모든 게시물 "%s" 키워드 검색 %s 페이지를 열었습니다.' % (u.name, u.id, keyword, page))
+
 
     return render(request, 'yighub/search.html',
         {'user': u, 'public_dict' : PublicBoardDict, 

@@ -72,7 +72,7 @@
 			</div>
 
 			<div class="container-fluid pull-right">
-				<form action="{% url 'yighub:search' current_board.id 'keyword' 0 %}" method="post" class="form-search" >
+				<form action="{% url 'yighub:search' current_board.id 'keyword' 1 %}" method="post" class="form-search" >
 					{% csrf_token %}
 				  <input type="text" name="keyword" class="input-medium search-query" />
 				  <button type="submit" class="btn">Search</button>
