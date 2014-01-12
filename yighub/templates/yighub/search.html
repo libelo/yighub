@@ -32,11 +32,24 @@
 		<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
 			<div class="row-fluid">
 				{% if current_board %}
-				<span class="lead">{{ current_board.name }}에서 '{{ keyword }}'검색결과</span>
+				<span class="lead">{{ current_board.name }}에서 '{{ keyword }}' 검색결과</span>
 				{% else %}
-				<span class="lead">모든 게시물에서 '{{ keyword }}'검색결과</span>
+				<span class="lead">모든 게시물에서 '{{ keyword }}' 검색결과</span>
 				{% endif %}
 				<span class="muted">{{ count }}개</span>
+
+				<div class="container-fluid pull-right">
+					{% if current_board %}
+					<form action="{% url 'yighub:search' current_board.id 'keyword' 1 %}" method="post" class="form-search" />
+					{% else %}
+					<form action="{% url 'yighub:search' 0 'keyword' 1 %}" method="post" class="form-search" />
+					{% endif %}
+						{% csrf_token %}
+					  <input type="text" name="keyword" class="input-medium search-query" />
+					  <button type="submit" class="btn">Search</button>
+					</form>
+				</div>
+
 			</div>
 			<br />
 			{% if page.entry_list %}

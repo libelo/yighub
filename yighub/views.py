@@ -1844,7 +1844,10 @@ def search(request, board_id, keyword, page):
         else:
             logger.info(u'%s(%d)님이 %s 게시판에서 "%s" 키워드로 검색했습니다.' % (u.name, u.id, b.name, request.POST['keyword']))
 
-        return redirect('yighub:search', board_id=board_id, keyword=keyword, page=1)
+        if keyword:
+            return redirect('yighub:search', board_id=board_id, keyword=keyword, page=1)
+        else:
+            return redirect('yighub:home')
 
     keyword = unquote(keyword)
     # keywords = keyword.strip().split()
