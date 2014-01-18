@@ -1481,7 +1481,12 @@ def download(request, file_id, file_name):
     
     path = f.file.path
     filetype, encoding = mimetypes.guess_type(path)
-    fw = FileWrapper(open(path,'r'))
+
+    try:
+        fw = FileWrapper(open(path,'r'))
+    except:
+        messages.error(request, u'죄송합니다. 파일이 존재하지 않습니다.')
+        return render(request, 'yighub/error.html', )
 
     response = HttpResponse(fw)
     response['Content-Type'] = filetype
@@ -1966,6 +1971,8 @@ def search(request, board_id, keyword, page):
         'board_id' : board_id, 'keyword' : keyword, 
         'current_board' : b, 'count' : count_entry})
 
+# def album_search:
+#     pass
 
 def waiting(request):
     return render(request, 'yighub/waiting.html')
