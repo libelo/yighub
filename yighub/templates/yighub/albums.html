@@ -26,10 +26,10 @@
 				{% endif %}
 			</div>
 			<h4 class="text-center">{{ a.album.name }}</h4>
-			{% if a.album.event_time %}
-			<span>{{ a.album.event_time }}</span>
-			{% endif %}
 		</a>
+		{% if a.album.event_time %}
+		<span>{{ a.album.event_time }}</span>
+		{% endif %}
 	</div>
 {% cycle '' '' '' '</div>' %}
 {% endfor %}
