@@ -36,6 +36,15 @@ color:deepskyblue;
 	<br />
 
 	<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
+		{% if birthday %}
+		{% for member in birthday %}
+		<div class="alert alert-success">
+		  <button type="button" class="close" data-dismiss="alert">&times;</button>
+		  오늘은 {% if member.ordinal %}{{ member.ordinal }}기{% endif %} <strong>{{ member.name }}</strong>님의 생일입니다. <strong>{{ member.name }}</strong>님의 생일을 축하해 주세요!
+		</div>
+		{% endfor %}
+		{% endif %}
+
 		<div class="row-fluid">
 			<span class="lead">News</span>
 		</div>
@@ -74,8 +83,30 @@ color:deepskyblue;
 		<div class="container-fruid text-center">
 			<p> 아직 글이 존재하지 않습니다. </p>
 		</div>
-
 		{% endif %}
+
+		<br />
+		<div class="row-fluid">
+		{% for a in album_news %}
+			<div class="span6 text-center" style="padding-left:6px; padding-right:6px;">
+				<a href="{% url 'yighub:photos' a.id %}">
+					
+					<div style="height:160px;">
+						{% if a.thumbnail %}
+						<img src="{{ a.thumbnail.photo.url }}" style="max-width:200px; max-height:150px;" />
+						{% else %}
+						<img src="/static/yighub/images/main.jpg" style="max-width:200px; max-height:150px;" />
+						{% endif %}
+					</div>
+					<h4 class="text-center">{{ a.name }}</h4>
+					{% if a.event_time %}
+					<span>{{ a.event_time }}</span>
+					{% endif %}
+				</a>
+			</div>
+		{% endfor %}
+		</div>
+		<p class="text-center"><a href="{% url 'yighub:albums' 1 %}">앨범 더보기</a></p>
 
 		<br />
 
@@ -100,16 +131,6 @@ color:deepskyblue;
 		</div>
 
 		<br />
-		<br />
-		{% if birthday %}
-		{% for member in birthday %}
-		<div class="alert alert-success">
-		  <button type="button" class="close" data-dismiss="alert">&times;</button>
-		  오늘은 {% if member.ordinal %}{{ member.ordinal }}기{% endif %} <strong>{{ member.name }}</strong>님의 생일입니다. <strong>{{ member.name }}</strong>님의 생일을 축하해 주세요!
-		</div>
-		{% endfor %}
-		{% endif %}
-
 		<form class="form-inline" action="{% url 'yighub:create_memo' %}" method="post">
 			{% csrf_token %}
 			<span class="lead">Memo</span>

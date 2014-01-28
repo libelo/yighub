@@ -242,6 +242,13 @@ def home(request):
     news += taskforce_news
     news = sorted(news, key = lambda news: news.time_created, reverse = True)[:10]
 
+    album_news = Album.objects.order_by('-newest_time')[:2]
+    for album in album_news:
+        try:
+            album.thumbnail = album.photos.all()[0]
+        except:
+            album.thumbnail = None
+
     today = datetime.datetime.now()
     birthday_list = []
     for member in User.objects.all():
@@ -309,6 +316,7 @@ def home(request):
                                     # 'bulletin_news' : bulletin_news,
                                     # 'taskforce_news' : taskforce_news,
                                     'news' : news,
+                                    'album_news' : album_news,
                                     'memos' : memos,
                                     'birthday' : birthday_list,
                                    },   
