@@ -1972,8 +1972,102 @@ def search(request, board_id, keyword, page):
         'board_id' : board_id, 'keyword' : keyword, 
         'current_board' : b, 'count' : count_entry})
 
-# def album_search:
-#     pass
+def search_albums(request, keyword, page):
+
+    board = 'albums'
+
+    # 권한 검사
+    permission = check_permission(request, board, )
+    if permission[0] == False:
+        return permission[1]
+    u = User.objects.get(user_id = request.session['user_id'])
+
+    if request.method == 'POST':
+
+        keyword = iri_to_uri(urlquote(request.POST['keyword'], safe='')) # iri_to_uri가 필요한지는 의문. urlquote_plus가 더 나을지도. urlquote_plus는 safe도 필요없음.
+
+        logger.info(u'%s(%d)님이 앨범에서 "%s" 키워드로 검색했습니다.' % (u.name, u.id, request.POST['keyword']))
+
+        if keyword:
+            return redirect('yighub:search_albums', keyword=keyword, page=1)
+        else:
+            return redirect('yighub:home')
+
+    keyword = unquote(keyword)
+    # keywords = keyword.strip().split()
+    results = set()
+
+    # for keyword in keywords:
+    for a in Album.objects.all():
+        if keyword in a.name:
+            results.add(a)
+        if a.photos.filter(photographer__name__contains = keyword):
+            results.add(a)
+        if a.photos.filter(description__contains = keyword):
+            results.add(a)
+        
+    page_size = 12
+    current_page = int(page) if page != '0' else 1
+    no = (current_page - 1) * page_size # 그 앞 페이지 마지막 글까지 개수
+
+    count_album = len(results)
+    album_list = sorted(list(results), key = lambda r: r.newest_time, reverse = True)[no : (no + page_size)] 
+
+    albums = []
+    for album in album_list:
+        try:
+            albums += [{'album':album, 'thumbnail':album.photos.all()[0]}]
+        except:
+            albums += [{'album':album, 'thumbnail':None}]
+
+    # 첫 페이지와 끝 페이지 설정
+    first_page = 1
+    last_page = (count_album - 1)/page_size + 1
+
+    # 페이지 리스트 만들기
+    if last_page <= 7:
+        start_page = 1
+    elif current_page <= 4:
+        start_page = 1
+    elif current_page > last_page - 4:
+        start_page = last_page - 6        
+    else:
+        start_page = current_page - 3
+
+    if last_page <= 7:
+        end_page = last_page
+    elif current_page > last_page - 4:
+        end_page = last_page
+    elif current_page < 4:
+        end_page = 7
+    else:
+        end_page = current_page + 3
+
+    page_list = range(start_page, end_page + 1)
+
+    # 이전 페이지, 다음 페이지 설정
+    prev_page = current_page - 5
+    next_page = current_page + 5
+
+    # 맨 첫 페이지나 맨 끝 페이지일 때 고려
+    if current_page > last_page - 4:
+        next_page = 0
+        last_page = 0
+    if current_page <= 4:
+        prev_page = 0
+        first_page = 0
+
+    p = {'album_list' : album_list,
+            'current_page' : current_page,
+            'page_list' : page_list,
+            'first_page' : first_page,
+            'last_page' : last_page,
+            'prev_page' : prev_page,
+            'next_page' : next_page,
+            }
+
+    logger.info(u'%s(%d)님이 앨범에서 "%s" 키워드 검색 %s 페이지를 열었습니다.' % (u.name, u.id, keyword, page))
+    return render(request, 'yighub/search_albums.html', {'user':u, 'public_dict' : PublicBoardDict, 'albums':albums, 'page':p, 'keyword':keyword})
 
 def waiting(request):
     return render(request, 'yighub/waiting.html')

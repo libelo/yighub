@@ -3,7 +3,7 @@
 {% block contents %}
 
 <div class="text-center" style="margin:30px auto 50px auto">
-	<h2>Albums</h2>
+	<h2>Albums에서 '{{ keyword }}' 검색결과</h2>
 	<div class="container-fluid pull-right">
 		<!-- <a href="{% url 'yighub:create_album' %}"> -->
 			<button type="button" class="btn btn-primary" onclick="location.href = '{% url 'yighub:create_album' %}'">새 앨범</button>
@@ -36,25 +36,25 @@
 </div>
 
 <div class="pagination text-center">
-  <ul>
-  	<!-- {% if page.first_page %} -->
-    <!-- <li><a href="{% url 'yighub:albums' page.first_page %}">&laquo;</a></li> -->
-    <!-- <li><a href="{% url 'yighub:albums' page.prev_page %}">&lsaquo;</a></li> -->
-    <!-- {% endif %} -->
-    {% for p in page.page_list %}
-	    {% if p == page.current_page %}
-	    <li class="active">
-	    {% else %}
-	    <li>
-	    {% endif %}
-	    	<a href="{% url 'yighub:albums' p %}">{{ p }}</a>
-	    </li>
-    {% endfor %}
-    {% if page.last_page %}
-    <!-- <li><a href="{% url 'yighub:albums' page.next_page %}">&rsaquo;</a></li> -->
-    <li class="visible-desktop"><a href="{% url 'yighub:albums' page.last_page %}">&raquo;</a></li>
-    {% endif %}
-  </ul>
+	<ul>
+	<!-- {% if page.first_page %} -->
+	<!-- <li><a href="{% url 'yighub:albums' page.first_page %}">&laquo;</a></li> -->
+	<!-- <li><a href="{% url 'yighub:albums' page.prev_page %}">&lsaquo;</a></li> -->
+	<!-- {% endif %} -->
+	{% for p in page.page_list %}
+		{% if p == page.current_page %}
+		<li class="active">
+		{% else %}
+		<li>
+		{% endif %}
+			<a href="{% url 'yighub:search_albums' keyword p %}">{{ p }}</a>
+		</li>
+	{% endfor %}
+	{% if page.last_page %}
+	<!-- <li><a href="{% url 'yighub:albums' page.next_page %}">&rsaquo;</a></li> -->
+	<li class="visible-desktop"><a href="{% url 'yighub:search_albums' keyword page.last_page %}">&raquo;</a></li>
+	{% endif %}
+	</ul>
 </div>
 
 <div class="container-fluid pull-right">

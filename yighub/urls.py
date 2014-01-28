@@ -26,6 +26,7 @@ urlpatterns = patterns('yighub.views',
     url(r'^download/(?P<file_id>\d+)/(?P<file_name>.+)/$', 'download', name='download'),
 
     url(r'^search/(?P<board_id>\d+)/(?P<keyword>.+)/(?P<page>\d+)$', 'search', name='search'),
+    url(r'^search_albums/(?P<keyword>.+)/(?P<page>\d+)$', 'search_albums', name='search_albums'),
 
     # url(r'^transform/user/$', 'transform_user'),
     # url(r'^transform/data/$', 'transform_data'),
