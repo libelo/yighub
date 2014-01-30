@@ -125,8 +125,8 @@
 								</a>
 							</span>
 							{% endif %}
-							{% filter urlize %}
-							{{ c.content|linebreaks }}
+							{% filter urlize|linebreaks %}
+							{{ c.content }}
 							{% endfilter %}
 
 							<!-- Nested media object -->
