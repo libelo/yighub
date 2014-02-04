@@ -36,7 +36,7 @@ def betting_list_now():
 			['Monkeys', 'Monkey7', '동아엘텍', '088130', 'kosdaq', 6840],
 		]	
 
-	reg = re.compile(u'<span class=(?:up|down)color>([\d]+),?([\d]*),?([\d]*)</span>') # 괄호를 쓰지만 결과에 표시하고 싶지 않을 때는 (?:...)을 쓴다.
+	reg = re.compile(u'<span class=(?:up|down|hold)color>([\d]+),?([\d]*),?([\d]*)</span>') # 괄호를 쓰지만 결과에 표시하고 싶지 않을 때는 (?:...)을 쓴다.
 
 	for row in betting_list:
 		stock_code = row[3]
@@ -50,7 +50,7 @@ def betting_list_now():
 		rate = (Decimal(float(current_price)/float(row[5]))-1) * 100 # Decimal은 float로 계산이 완료된 후에 덮이는 게 좋다. 그렇지 않으면 끝이 잘려서 계산이 제대로 되지 않는다.
 		row.append(rate)
 		# print row[1], row[2], row[4], current_price, rate, url
-	
+
 	betting_list = sorted(betting_list, key = lambda row: row[7], reverse = True)
 
 	return betting_list
