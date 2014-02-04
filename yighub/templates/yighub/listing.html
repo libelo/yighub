@@ -9,6 +9,11 @@
 			<div class="row-fluid">
 				<span class="lead">{{ current_board.name }}</span>
 				<span class="muted">{{ current_board.count_entry }}</span>
+
+				{% if current_board.name == '만!원!빵!' %}
+				<button type="button" class="btn btn-danger" style="margin-bottom: 10px; margin-left: 15px;" onclick="location.href = '{% url 'yighub:man_won_bbang' %}'">만!원!빵! LIVE</button>
+				{% endif %}
+
 				<div class="container-fluid pull-right">
 					{% if board == 'taskforce' %}
 					<!-- <a href="{% url 'yighub:edit_taskforce' current_board.id %}"> -->

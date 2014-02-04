@@ -1,0 +1,103 @@
+{% extends "yighub/base.html" %}
+
+{% block style %}
+.up {
+	color:red;
+	font-weight:bold;
+}
+.down {
+	color:blue;
+	font-weight:bold;
+}
+.zero {
+	font-weight:bold;
+}
+{% endblock %}
+
+{% block sidebar %}
+	<div class="span3">
+		<div class="sidebar-nav">
+			<ul class="nav nav-list sidebar">
+				<li class="nav-header">Boards</li>
+				{% for b in bulletin_list %}
+				<li>
+					<a href="{% url 'yighub:listing' 'bulletin' b.id 1 %}">{{ b.name }}
+						<i class="icon-chevron-right"></i>
+					</a>
+				</li>
+				{% endfor %}
+				<li class="nav-header">Taskforce</li>
+				{% for t in taskforce_list %}
+				<li>
+					<a href="{% url 'yighub:listing' 'taskforce' t.id 1 %}">{{ t.name }}
+						<i class="icon-chevron-right"></i>
+					</a>
+				</li>
+				{% endfor %}
+			</ul>
+		</div><!--/.well -->
+	</div><!--/span-->
+{% endblock %}
+
+{% block contents %}
+	<div class="span9">
+		<br />	
+		<br />
+
+		<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
+
+			<h1 class="text-center">만!원!빵! LIVE</h1>
+			<br />
+			<h4>2월 종목 실시간 현황</h4>
+			<span class="muted pull-right">20분 지연 시세입니다</span>
+			<br />
+			<br />
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th></th>
+						<th></th>
+						<th> 이름 </th>
+						<th> 종목 </th>
+						<th> 시작 주가 </th>
+						<th> 현재 주가 </th>
+						<th> 수익률 </th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for b in betting_list %}
+					{% if forloop.counter == 1 %}
+					<tr class="error">
+					{% elif forloop.counter == 2 %}
+					<tr class="warning">
+					{% elif forloop.counter == 3 %}
+					<tr class="success">
+					{% elif forloop.counter == 21 %}
+					<tr class="info">
+					{% else %}
+					<tr>
+					{% endif %}
+						<td> {{ forloop.counter }}등 </td>
+						<td> {{ b.0 }} </td>
+						<td> {{ b.1 }} </td>
+						<td> {{ b.2 }} </td>
+						<td><div class="text-right"> {{ b.5 }} </div></td>
+						<td><div class="text-right"> {{ b.6 }} </div></td>
+						{% if b.7 > 0 %}
+						<td class="up">
+						{% elif b.7 < 0 %}
+						<td class="down">
+						{% else %}
+						<td class="zero">
+						{% endif %}
+						<div class="text-right">{{ b.7 }}% </div></td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			<br />
+			<span class="muted pull-right">주가 정보 : <a href="http://www.stock.koscom.co.kr/">코스콤</a></span>
+		</div>
+	</div><!--/span-->	
+
+{% endblock %}
