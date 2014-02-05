@@ -40,9 +40,7 @@
 			<br />
 			<br />
 			{% endif %}
-			{% filter urlize|linebreaks %}
-			{{ entry.content }}
-			{% endfilter %}
+			{{ entry.content|urlize|linebreaks }}
 			<br />
 			<hr />
 			{% if files %}
@@ -125,9 +123,7 @@
 								</a>
 							</span>
 							{% endif %}
-							{% filter urlize|linebreaks %}
-							{{ c.content }}
-							{% endfilter %}
+							{{ c.content|urlize|linebreaks }}
 
 							<!-- Nested media object -->
 							<div class="media">
