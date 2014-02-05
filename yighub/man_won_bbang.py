@@ -37,6 +37,7 @@ def betting_list_now():
 		]	
 
 	reg = re.compile(u'<span class=(?:up|down|hold)color>([\d]+),?([\d]*),?([\d]*)</span>') # 괄호를 쓰지만 결과에 표시하고 싶지 않을 때는 (?:...)을 쓴다.
+	averages = {'Senior': 1, 'Acting': 1, 'YIG': 1, 'Monkeys': 1}
 
 	for row in betting_list:
 		stock_code = row[3]
@@ -47,10 +48,27 @@ def betting_list_now():
 		# print result
 		current_price = int(result[0][0] + result[0][1] + result[0][2])
 		row.append(current_price)
-		rate = (Decimal(float(current_price)/float(row[5]))-1) * 100 # Decimal은 float로 계산이 완료된 후에 덮이는 게 좋다. 그렇지 않으면 끝이 잘려서 계산이 제대로 되지 않는다.
+		raw_rate = float(current_price)/float(row[5])-1
+		averages[row[0]] *= raw_rate + 1
+		# print row[0], averages[row[0]]
+		if row[0] == 'Senior' or 'Acting':
+			averages['YIG'] *= raw_rate + 1
+
+		rate = Decimal(raw_rate) * 100  # Decimal은 float로 계산이 완료된 후에 덮이는 게 좋다. 그렇지 않으면 끝이 잘려서 계산이 제대로 되지 않는다.
 		row.append(rate)
 		# print row[1], row[2], row[4], current_price, rate, url
 
+	averages['Senior'] = Decimal(averages['Senior']**(1.0/7.0) - 1) * 100 # 곱하기 100을 하고 Decimal을 씌우면 소수점 몇십째자리까지 표시됨.
+	averages['Acting'] = Decimal(averages['Acting']**(1.0/7.0) - 1) * 100 # 분수를 제곱할 때는 반드시 괄호 치기
+	averages['YIG'] = Decimal(averages['YIG']**(1.0/14.0) - 1) * 100 # 1/14 == 0 이기 때문에 소수점을 빼면 0제곱과 같음.
+	averages['Monkeys'] = Decimal(averages['Monkeys']**(1.0/7.0) - 1) * 100
+	averages = [('Senior', averages['Senior']), ('Acting', averages['Acting']), 
+				('YIG', averages['YIG']), ('Monkeys', averages['Monkeys'])]
+
 	betting_list = sorted(betting_list, key = lambda row: row[7], reverse = True)
 
-	return betting_list
+	return betting_list, averages
+
+if __name__ == "__main__":
+	betting_list, averages = betting_list_now()
+	print averages

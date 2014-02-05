@@ -96,6 +96,25 @@
 				</tbody>
 			</table>
 			<br />
+			<h4>평균 수익률</h4>
+			<table class="table table-striped">
+				<tbody>
+					{% for a in averages %}
+					<tr>
+						<td> {{ a.0 }} </td>
+						{% if a.1 > 0 %}
+						<td class="up">
+						{% elif a.1 < 0 %}
+						<td class="down">
+						{% else %}
+						<td class="zero">
+						{% endif %}
+						<div class="text-right">{{ a.1 }}% </div></td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			<br />
 			<span class="muted pull-right">주가 정보 : <a href="http://stock.koscom.co.kr/">코스콤</a></span>
 		</div>
 	</div><!--/span-->	

@@ -2092,7 +2092,7 @@ def man_won_bbang(request):
     bulletin_list = get_board_list('bulletin')
     taskforce_list = get_board_list('taskforce')
 
-    betting_list = betting_list_now()
+    betting_list, averages = betting_list_now()
 
     logger.info(u'%s(%d)님이 만원빵 페이지를 열었습니다.' % (u.name, u.id))
 
@@ -2100,7 +2100,8 @@ def man_won_bbang(request):
         {'user': u, 'public_dict' : PublicBoardDict, 
         'bulletin_list' : bulletin_list, 
         'taskforce_list' : taskforce_list, 
-        'betting_list' : betting_list
+        'betting_list' : betting_list,
+        'averages' : averages,
         })
 
 
