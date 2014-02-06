@@ -36,7 +36,8 @@ def betting_list_now():
 			['Monkeys', 'Monkey7', '동아엘텍', '088130', 'kosdaq', 6840],
 		]	
 
-	reg = re.compile(u'<span class=(?:up|down|hold)color>([\d]+),?([\d]*),?([\d]*)</span>') # 괄호를 쓰지만 결과에 표시하고 싶지 않을 때는 (?:...)을 쓴다.
+	price_reg = re.compile(u'<span class=(?:up|down|hold)color>([\d]+),?([\d]*),?([\d]*)</span>') # 괄호를 쓰지만 결과에 표시하고 싶지 않을 때는 (?:...)을 쓴다.
+	diff_reg = re.compile(u'<span class=(?:up|down|hold)color>(.+?)</span>')
 	averages = {'Senior': 1, 'Acting': 1, 'YIG': 1, 'Monkeys': 1}
 
 	for row in betting_list:
@@ -44,10 +45,14 @@ def betting_list_now():
 		param = (row[4], row[4], stock_code, ('A' if row[4]=='kse' else 'B'))
 		url = 'http://stock.koscom.co.kr/%s_sise/%s_hyun.jsp?code=A%s&market=%s' % param
 		r = requests.get(url)
-		result = reg.findall(r.text)
+		result = price_reg.findall(r.text)
+		diff = diff_reg.findall(r.text)
 		# print result
 		current_price = int(result[0][0] + result[0][1] + result[0][2])
+		difference = (diff[1] if diff[1] != '&nbsp;' else '') + diff[2] + diff[3]
+		print diff, difference, difference.strip()
 		row.append(current_price)
+		row.append(difference.strip())
 		raw_rate = float(current_price)/float(row[5])-1
 		averages[row[0]] *= raw_rate + 1
 		# print row[0], averages[row[0]]
@@ -65,7 +70,7 @@ def betting_list_now():
 	averages = [('Senior', averages['Senior']), ('Acting', averages['Acting']), 
 				('YIG', averages['YIG']), ('Monkeys', averages['Monkeys'])]
 
-	betting_list = sorted(betting_list, key = lambda row: row[7], reverse = True)
+	betting_list = sorted(betting_list, key = lambda row: row[8], reverse = True)
 
 	return betting_list, averages
 

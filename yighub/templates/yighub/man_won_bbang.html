@@ -49,6 +49,7 @@
 			<h1 class="text-center">만!원!빵! LIVE</h1>
 			<br />
 			<h4>2월 종목 실시간 현황</h4>
+			<span class="pull-left">시작 주가 : 1월 29일 종가</span>
 			<span class="muted pull-right">20분 지연 시세입니다</span>
 			<br />
 			<br />
@@ -56,11 +57,12 @@
 				<thead>
 					<tr>
 						<th></th>
-						<th></th>
+						<th class="hidden-phone"></th>
 						<th> 이름 </th>
 						<th> 종목 </th>
-						<th> 1/29 종가 </th>
-						<th> 현재 주가 </th>
+						<th class="hidden-phone"> 시작 주가 </th>
+						<th class="hidden-phone"> 현재 주가 </th>
+						<th> 전일 대비 </th>
 						<th> 수익률 </th>
 					</tr>
 				</thead>
@@ -78,19 +80,28 @@
 					<tr>
 					{% endif %}
 						<td> {{ forloop.counter }}등 </td>
-						<td> {{ b.0 }} </td>
+						<td class="hidden-phone"> {{ b.0 }} </td>
 						<td> {{ b.1 }} </td>
 						<td> {{ b.2 }} </td>
-						<td><div class="text-right"> {{ b.5 }} </div></td>
-						<td><div class="text-right"> {{ b.6 }} </div></td>
-						{% if b.7 > 0 %}
+						<td class="hidden-phone"><div class="text-right"> {{ b.5 }} </div></td>
+						<td class="hidden-phone"><div class="text-right"> {{ b.6 }} </div></td>
+						{% if '▲' in b.7 %}
+						<td style="color:red;">
+						{% elif '▼' in b.7 %}
+						<td style="color:blue;">
+						{% else %}
+						<td>
+						{% endif %}
+						<div class="text-right"> {{ b.7 }} </div></td>
+
+						{% if b.8 > 0 %}
 						<td class="up">
-						{% elif b.7 < 0 %}
+						{% elif b.8 < 0 %}
 						<td class="down">
 						{% else %}
 						<td class="zero">
 						{% endif %}
-						<div class="text-right">{{ b.7 }}% </div></td>
+						<div class="text-right"> {{ b.8 }}% </div></td>
 					</tr>
 					{% endfor %}
 				</tbody>
@@ -115,7 +126,7 @@
 				</tbody>
 			</table>
 			<br />
-			<span class="muted pull-right">주가 정보 : <a href="http://stock.koscom.co.kr/">코스콤</a></span>
+			<span class="muted pull-right">주가 정보 : <a href="http://stock.koscom.co.kr/" target="_blank">코스콤</a></span>
 		</div>
 	</div><!--/span-->	
 
