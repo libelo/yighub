@@ -50,16 +50,15 @@ def betting_list_now():
 		# print result
 		current_price = int(result[0][0] + result[0][1] + result[0][2])
 		difference = (diff[1] if diff[1] != '&nbsp;' else '') + diff[2] + diff[3]
-		print diff, difference, difference.strip()
-		row.append(current_price)
-		row.append(difference.strip())
 		raw_rate = float(current_price)/float(row[5])-1
 		averages[row[0]] *= raw_rate + 1
 		# print row[0], averages[row[0]]
 		if row[0] == 'Senior' or 'Acting':
 			averages['YIG'] *= raw_rate + 1
-
 		rate = Decimal(raw_rate) * 100  # Decimal은 float로 계산이 완료된 후에 덮이는 게 좋다. 그렇지 않으면 끝이 잘려서 계산이 제대로 되지 않는다.
+
+		row.append(current_price)
+		row.append(difference)
 		row.append(rate)
 		# print row[1], row[2], row[4], current_price, rate, url
 
