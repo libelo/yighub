@@ -85,9 +85,9 @@
 						<td> {{ b.2 }} </td>
 						<td class="hidden-phone"><div class="text-right"> {{ b.5 }} </div></td>
 						<td class="hidden-phone"><div class="text-right"> {{ b.6 }} </div></td>
-						{% if '▲' in b.7 %}
+						{% if '▲' in b.7 or '↑' in b.7 %}
 						<td style="color:red;">
-						{% elif '▼' in b.7 %}
+						{% elif '▼' in b.7 or '↓' in b.7 %}
 						<td style="color:blue;">
 						{% else %}
 						<td>
