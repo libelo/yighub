@@ -13,7 +13,7 @@
 		<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
 			<a href="{% url 'yighub:listing' board current_board.id 1 %}">{{ entry.board }}</a>
 			{% if current_board.name == '만!원!빵!' %}
-			<button type="button" class="btn btn-danger" style="margin-bottom: 10px; margin-left: 15px;" onclick="location.href = '{% url 'yighub:man_won_bbang' %}'">만!원!빵! LIVE</button>
+			<button type="button" class="btn btn-danger pull-right" style="margin-bottom: 10px; margin-left: 15px;" onclick="location.href = '{% url 'yighub:man_won_bbang' %}'">만!원!빵! LIVE</button>
 			{% endif %}
 			<h3>{{ entry.title }}</h3>
 			<div class="media">
