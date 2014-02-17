@@ -158,6 +158,47 @@ class PhotoForm(forms.ModelForm):
 class PhotoComment(Comment):
     photo = models.ForeignKey(Photo, related_name = 'comments')
 
+
+# def upload_applicant_picture_path(instance, filename):
+#     name = instance.name
+#     f = filename.split('/')[-1]
+#     return 'yighub/applicants/%s/%s' % (name, f)
+
+# class Applicant(Models.Model):
+#     picture = models.ImageField(upload_to = upload_applicant_picture_path, blank = True, )
+#     name = models.CharField(max_length = 30)
+#     major = models.CharField(max_length = 50)
+#     class_of = models.CharField(max_length = 50)
+#     birthday = models.DateField(blank = True, null = True)
+#     completed_semesters = models.CharField(max_length = 50)
+#     acting_semesters = models.CharField(max_length = 50)
+#     studied = models.TextField(blank = True)
+#     email = models.EmailField(blank = True)
+#     phone_number = models.CharField(max_length = 20, blank = True)
+#     address = models.CharField(max_length = 200, blank = True)
+#     hobby = 
+#     certificate
+#     activity
+#     plan
+#     interview_time
+#     route
+
+#     motivation
+#     expectation
+#     group_experience
+#     investment_experience
+
+#     investment_report
+
+#     time_created = models.DateTimeField()
+#     count_comment = models.PositiveIntegerField(default = 0)
+#     recommendation = models.ManyToManyField(User, related_name = 'entry_recommendations', blank = True, null = True)
+#     count_view = models.PositiveIntegerField(default = 0)
+#     count_recommendation = models.PositiveIntegerField(default = 0)
+
+# class ApplicantComment(Comment):
+#     applicant = models.ForeignKey(Applicant, related_name = 'comments')
+
 """
 class Image(models.Model):
     #...

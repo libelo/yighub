@@ -53,7 +53,7 @@ def betting_list_now():
 		raw_rate = float(current_price)/float(row[5])-1
 		averages[row[0]] *= raw_rate + 1
 		# print row[0], averages[row[0]]
-		if row[0] == 'Senior' or 'Acting':
+		if row[0] == 'Senior' or row[0] == 'Acting': # row[0] == 'Senior' or 'Acting' 이 실수를 조심하자.
 			averages['YIG'] *= raw_rate + 1
 		rate = Decimal(raw_rate) * 100  # Decimal은 float로 계산이 완료된 후에 덮이는 게 좋다. 그렇지 않으면 끝이 잘려서 계산이 제대로 되지 않는다.
 
