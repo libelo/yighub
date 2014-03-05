@@ -11,29 +11,34 @@ def betting_list_now():
 	getcontext().prec = 3
 
 	betting_list = [ # 이름을 지정하는 명확성을 잃는 대신 간결성을 얻었다. 다른 사람이 처음 보고 이해하기는 좀 더 어렵지만 정보를 더 깔끔하게 제시할 수 있다.
-			['Senior', '박종욱', '기아차', '000270', 'kse', 54000],
-			['Senior', '조용래', 'SK하이닉스', '000660', 'kse', 37850],
-			['Senior', '김영길', '삼진제약', '005500', 'kse', 16400],
-			['Senior', '윤을정', '한스바이오메드', '042520', 'kosdaq', 17900],
-			['Senior', '여준영', '윈스테크넷', '136540', 'kosdaq', 15200],
-			['Senior', '조상현', 'KC코트렐', '119650', 'kse', 9220],
-			['Senior', '이희건', 'KT', '030200', 'kse', 30800],
+			['Senior', '허재성', '오스템임플란트', '048260', 'kosdaq', 21850],
+			['Senior', '이충재', '키움증권', '039490', 'kse', 53400],
+			['Senior', '이무진(북산안선생)', '네오위즈인터넷', '104200', 'kosdaq', 11250],
+			['Senior', '권용현', '크리스탈지노믹스', '083790', 'kosdaq', 12600],
+			['Senior', '박세라', '이마트', '139480', 'kse', 254000],
+			['Senior', '박종욱', '동원산업', '006040', 'kse', 337500],
+			['Senior', '김영길', '지엠비코리아', '013870', 'kse', 7610],
+			['Senior', '하태열', '안국약품', '001540', 'kosdaq', 12500],
+			['Senior', '조용래', '대한화섬', '003830', 'kse', 71000],
 
-			['Acting', '노경탁', '대덕GDS', '004130', 'kse', 16050],
-			['Acting', '박진한', '한진칼', '180640', 'kse', 23250],
-			['Acting', '김선경', 'LG패션', '093050', 'kse', 29300],
-			['Acting', '장육유', '웅진씽크빅', '095720', 'kse', 6950],
-			['Acting', '이원기', 'LG생활건강우', '051905', 'kse', 208000],
-			['Acting', '정소라', '코나아이', '052400', 'kosdaq', 37600],
-			['Acting', '윤태현', '삼성전자', '005930', 'kse', 1280000],
+			['Acting', '김지은', '한샘', '009240', 'kse', 64800],
+			['Acting', '박진한', '루트로닉', '085370', 'kosdaq', 13550],
+			['Acting', '노경탁', '잉크테크', '049550', 'kosdaq', 19100],
+			['Acting', '장육유', '아이센스', '099190', 'kosdaq', 48150],
+			['Acting', '이원기', '한국토지신탁', '034830', 'kosdaq', 1755],
+			['Acting', '윤태현', '아세아시멘트', '183190', 'kse', 96800],
+			['Acting', '김선경', '제이콘텐트리', '036420', 'kosdaq', 3300],
+			['Acting', '정소라', 'CJ E&M', '130960', 'kosdaq', 38750],
 
-			['Monkeys', 'Monkey1', '디지탈아리아', '115450', 'kosdaq', 2320],
-			['Monkeys', 'Monkey2', 'SBI인베스트먼트', '019550', 'kosdaq', 366],
-			['Monkeys', 'Monkey3', '내츄럴엔도텍', '168330', 'kosdaq', 59100],
-			['Monkeys', 'Monkey4', 'AK홀딩스', '006840', 'kse', 39400],
-			['Monkeys', 'Monkey5', 'JW홀딩스', '096760', 'kse', 2475],
-			['Monkeys', 'Monkey6', '대상홀딩스', '084690', 'kse', 8070],
-			['Monkeys', 'Monkey7', '동아엘텍', '088130', 'kosdaq', 6840],
+			['Monkeys', 'Monkey1', '텍셀네트컴', '038540', 'kosdaq', 1265],
+			['Monkeys', 'Monkey2', '이니텍', '053350', 'kosdaq', 4200],
+			['Monkeys', 'Monkey3', '네패스', '033640', 'kosdaq', 7270],
+			['Monkeys', 'Monkey4', '멜파스', '096640', 'kosdaq', 10850],
+			['Monkeys', 'Monkey5', '이코리아리츠', '138440', 'kse', 2925],
+			['Monkeys', 'Monkey6', '우신시스템', '017370', 'kse', 2515],
+			['Monkeys', 'Monkey7', '이필름', '093230', 'kse', 2270],
+			['Monkeys', 'Monkey8', '성신양회', '004980', 'kse', 10150],
+			['Monkeys', 'Monkey9', '한독', '002390', 'kse', 17000],
 		]	
 
 	price_reg = re.compile(u'<span class=(?:up|down|hold)color>([\d]+),?([\d]*),?([\d]*)</span>') # 괄호를 쓰지만 결과에 표시하고 싶지 않을 때는 (?:...)을 쓴다.
@@ -62,10 +67,10 @@ def betting_list_now():
 		row.append(rate)
 		# print row[1], row[2], row[4], current_price, rate, url
 
-	averages['Senior'] = Decimal(averages['Senior']**(1.0/7.0) - 1) * 100 # 곱하기 100을 하고 Decimal을 씌우면 소수점 몇십째자리까지 표시됨.
-	averages['Acting'] = Decimal(averages['Acting']**(1.0/7.0) - 1) * 100 # 분수를 제곱할 때는 반드시 괄호 치기
-	averages['YIG'] = Decimal(averages['YIG']**(1.0/14.0) - 1) * 100 # 1/14 == 0 이기 때문에 소수점을 빼면 0제곱과 같음.
-	averages['Monkeys'] = Decimal(averages['Monkeys']**(1.0/7.0) - 1) * 100
+	averages['Senior'] = Decimal(averages['Senior']**(1.0/9.0) - 1) * 100 # 곱하기 100을 하고 Decimal을 씌우면 소수점 몇십째자리까지 표시됨.
+	averages['Acting'] = Decimal(averages['Acting']**(1.0/8.0) - 1) * 100 # 분수를 제곱할 때는 반드시 괄호 치기
+	averages['YIG'] = Decimal(averages['YIG']**(1.0/17.0) - 1) * 100 # 1/14 == 0 이기 때문에 소수점을 빼면 0제곱과 같음.
+	averages['Monkeys'] = Decimal(averages['Monkeys']**(1.0/9.0) - 1) * 100
 	averages = [('Senior', averages['Senior']), ('Acting', averages['Acting']), 
 				('YIG', averages['YIG']), ('Monkeys', averages['Monkeys'])]
 
