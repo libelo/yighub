@@ -42,7 +42,7 @@ PublicBoardDict = {}
 for public_board in PublicBoardList:
     PublicBoardDict[public_board.name[:4]] = public_board
 
-current_ordinal = 22
+current_ordinal = 23
 
 def classify(board):
     exist = True
