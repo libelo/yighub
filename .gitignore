@@ -9,4 +9,9 @@
 mydatabase.db
 *.pyc
 yighub.log
-settings.py
+
+/media/
+/static/
+
+*.sublime-project
+*.sublime-workspace
