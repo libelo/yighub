@@ -1,14 +1,11 @@
-
-*.db
-*.sql
-*.sqlite
-/backup/
-/yighub/media/
 *.DS_Store
-*.tar.gz
-mydatabase.db
 *.pyc
+
+/backup/
+
+yighub.sqlite
 yighub.log
+/mywebsite/settings.py
 
 /media/
 /static/
