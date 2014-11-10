@@ -1,6 +1,6 @@
 # Django settings for mywebsite project.
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -24,7 +24,7 @@ DATABASES = {
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'www.yig.in', 'yig.in', '54.250.185.109', 'ip-172-31-19-152.ap-northeast-1.compute.internal']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'www.yig.website', 'yig.website', '54.69.240.24', 'ec2-54-69-240-24.us-west-2.compute.amazonaws.com']
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
