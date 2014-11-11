@@ -1494,10 +1494,10 @@ def download(request, file_id, file_name):
     filetype, encoding = mimetypes.guess_type(path)
 
     try:
-    fw = FileWrapper(open(path,'r'))
+        fw = FileWrapper(open(path,'r'))
     except Exception as e:
         p = e
-        # logger.info(u'파일을 다운로드하는 중 오류가 발생했습니다: "%s"(%d)' % (f.name, f.id))
+        logger.info(u'파일을 다운로드하는 중 오류가 발생했습니다: "%s"(%d)' % (e, f.id))
         # messages.error(request, u'파일이 존재하지 않습니다. 웹마스터에게 문의해보세요.')
         # return render(request, 'yighub/error.html', )
 
