@@ -54,8 +54,7 @@
 
 				<li class="nav-header">Fund</li>
 				<li {% if current_board.name == 'simA' %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.simA.id 0 %}">심봤다 A형<i class="icon-chevron-right"></i></a></li>
-				<li {% if current_board.name == 'simB' %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.simB.id 0 %}">심봤다 B형<i class="icon-chevron-right"></i></a></li>
-				<li {% if current_board.name == 'simV' %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.simV.id 0 %}">심봤다 V형<i class="icon-chevron-right"></i></a></li>
+				<li {% if current_board.name == 'simV' %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.simJ.id 0 %}">심봤다 JS형<i class="icon-chevron-right"></i></a></li>
 				<li {% if current_board.name == 'simH' %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.simH.id 0 %}">심봤다 H형<i class="icon-chevron-right"></i></a></li>
 				<li {% if current_board.name == 'Universe' %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Univ.id 0 %}">YIG Universe<i class="icon-chevron-right"></i></a></li>
 
