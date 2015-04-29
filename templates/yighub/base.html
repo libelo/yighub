@@ -9,8 +9,9 @@
 
 	<!-- Le styles -->
 	<link href="/static/yighub/bootstrap/css/bootstrap.css" rel="stylesheet">
-	<link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css' rel='stylesheet' type='text/css" />
+	<link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet" type="text/css" />
 	<link rel="shortcut icon" href="/static/yighub/images/yiglogo.png" />
+	<link rel="stylesheet" href="/static/yighub/colorbox-master/colorbox.css">
 	<style type="text/css">
 	body {
 		padding-top: 60px;
@@ -281,6 +282,20 @@
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script src="http://code.jquery.com/jquery.js"></script>
 	<script src="/static/yighub/bootstrap/js/bootstrap.min.js"></script>
+	<script src="/static/yighub/colorbox-master/jquery.colorbox-min.js"></script>
+	<div style='display:none'>
+		<div id='inline_content' style='padding:10px; background:#fff;'>
+		<a href="https://gaps.dongbu.com/">
+			<img src="/static/yighub/images/popup.jpeg" />
+		</a>
+		</div>
+	</div>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$('a.inline').colorbox({inline:true});
+		$('a.inline').click();
+	});
+	</script>
 
 </body>
 </html>

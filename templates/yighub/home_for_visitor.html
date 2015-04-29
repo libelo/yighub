@@ -10,15 +10,6 @@ div.container-fluid {
 {% endblock %}
 
 {% block contents %}
-		<script type="text/javascript">
-
-		function popupOpen(){
-			var popUrl = "/yighub/popup";	//팝업창에 출력될 페이지 URL
-			var popOption = "width=370, height=360, resizable=no, scrollbars=no, status=no;";    //팝업창 옵션(optoin)
-				window.open(popUrl,"",popOption);
-			}
-		popupOpen()
-		</script>
 
       <!-- Begin page content -->
       <img src="/static/yighub/images/main.jpg" style="height:30%; width:100%;" />
@@ -28,4 +19,5 @@ div.container-fluid {
 	      <h4>2015YIG@gmail.com 으로 제출</h4>
 	  </div>
 	  
+	<a class='inline' href="#inline_content"></a>
 {% endblock %}
