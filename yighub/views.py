@@ -2104,9 +2104,6 @@ def man_won_bbang(request):
         'averages' : averages,
         })
 
-def popup(request):
-    return render(request, 'yighub/popup.html')
-
 # def transform_user(request,):
 #     transformation.transform_user()
 #     return HttpResponse("Success!")

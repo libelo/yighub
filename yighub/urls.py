@@ -30,8 +30,6 @@ urlpatterns = patterns('yighub.views',
 
     url(r'^man_won_bbang/$', 'man_won_bbang', name='man_won_bbang'),
 
-    url(r'^popup/$', 'popup', name='popup'),
-
     # url(r'^transform/user/$', 'transform_user'),
     # url(r'^transform/data/$', 'transform_data'),
     # url(r'^transform/column/$', 'transform_column'),
