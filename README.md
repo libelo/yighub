@@ -1,3 +1,5 @@
-# yighub : Website for Yonsei Investment Group
+# yighub
+
+Website for Yonsei Investment Group
 
 
