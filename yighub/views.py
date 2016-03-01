@@ -42,7 +42,7 @@ PublicBoardDict = {}
 for public_board in PublicBoardList:
     PublicBoardDict[public_board.name[:4]] = public_board
 
-current_ordinal = 24
+current_ordinal = User.objects.all().order_by('-ordinal')[0].ordinal
 
 def classify(board):
     exist = True
