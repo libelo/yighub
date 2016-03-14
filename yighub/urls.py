@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns('yighub.views',
     url(r'^$', 'waiting'),
-    url(r'^home/$', 'home', name='home'),
+    url(r'^home/$', 'waiting', name='home'),
 
     url(r'^join/$', 'join', name='join'),
     url(r'^login/$', 'login', name='login'),
