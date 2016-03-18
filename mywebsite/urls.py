@@ -10,8 +10,8 @@ from django.conf.urls.static import static
 
 
 urlpatterns = patterns('',
-    # url(r'^$', 'yighub.views.home'),
-    url(r'^$', 'yighub.views.waiting'),
+    url(r'^$', 'yighub.views.home'),
+    # url(r'^$', 'yighub.views.waiting'),
     url(r'^yighub/', include('yighub.urls', namespace='yighub')),
     # Examples:
     # url(r'^$', 'new_YIG_website.views.home', name='home'),
