@@ -33,7 +33,7 @@
 			{% if entry.downloads %}
 			<ul class="unstyled">
 				{% for f in entry.downloads %}
-				<li><a href = "{% url 'yighub:download' f.id f.filename %}">{{ f.name }}&nbsp;</a><span class="badge badge-success">{{ f.hit }}</span></li>
+				<li><a href = "{{ f.file.url }}">{{ f.name }}&nbsp;</a><span class="badge badge-success">{{ f.hit }}</span></li>
 				{% endfor %}
 			</ul>
 			<br />

@@ -1476,6 +1476,7 @@ def delete_memo(request, memo_id):
         #return render(request, 'yighub/error.html', {'error' : 'invalid approach'})
     return HttpResponseRedirect(reverse('yighub:home', ))
 
+""" replaced download view to simple a link
 from django.core.files import File as FileWrapper
 import os
 def download(request, file_id, file_name):
@@ -1523,6 +1524,7 @@ def download(request, file_id, file_name):
         logger.info('방문자가 파일을 다운로드 했습니다: "%s"(%d)' % (f.name, f.id))
 
     return response
+"""
 
 def download_letter(request, letter_id):
     pass
