@@ -23,7 +23,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
 	url(r'^$', views.home),
-	# url(r'^$', 'yighub.views.waiting'),
+	# url(r'^$', views.waiting),
 	url(r'^yighub/', include('yighub.urls')),
     url(r'^admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # for development

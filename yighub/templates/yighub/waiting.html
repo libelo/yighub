@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,9 +9,9 @@
 	<meta name="author" content="">
 
 	<!-- Le styles -->
-	<link href="/static/yighub/bootstrap/css/bootstrap.css" rel="stylesheet">
+	<link href="{% static 'yighub/bootstrap/css/bootstrap.css' %}" rel="stylesheet">
 	<link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css' rel='stylesheet' type='text/css" />
-	<link rel="shortcut icon" href="/static/yighub/images/yiglogo.png" />
+	<link rel="shortcut icon" href="{% static 'yighub/images/yiglogo.png' %}" />
 	<style type="text/css">
 	body {
 		padding-top: 60px;
@@ -137,7 +138,7 @@
 	{% endblock %}
 
 	</style>
-	<link href="/static/yighub/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+	<link href="{% static 'yighub/bootstrap/css/bootstrap-responsive.css' %}" rel="stylesheet">
 
 	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
@@ -182,7 +183,7 @@
 	================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script src="http://code.jquery.com/jquery.js"></script>
-	<script src="/static/yighub/bootstrap/js/bootstrap.min.js"></script>
+	<script src="{% static 'yighub/bootstrap/js/bootstrap.min.js' %}"></script>
 
 </body>
 </html>
