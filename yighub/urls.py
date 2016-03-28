@@ -31,7 +31,7 @@ urlpatterns = [
     url(r'^search/(?P<board_id>\d+)/(?P<keyword>.+)/(?P<page>\d+)$', views.search, name='search'),
     url(r'^search_albums/(?P<keyword>.+)/(?P<page>\d+)/$', views.search_albums, name='search_albums'),
 
-    url(r'^man_won_bbang/$', views.man_won_bbang, name='man_won_bbang'),
+    # url(r'^man_won_bbang/$', views.man_won_bbang, name='man_won_bbang'),
 
     # url(r'^transform/user/$', 'transform_user'),
     # url(r'^transform/data/$', 'transform_data'),

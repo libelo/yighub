@@ -23,7 +23,7 @@ from .models import TaskforceBoardForm
 from .models import Album, Photo, PhotoComment
 from .models import AlbumForm, PhotoForm
 
-from .man_won_bbang import betting_list_now
+# from .man_won_bbang import betting_list_now
 
 import logging
 logger = logging.getLogger(__name__)
@@ -2075,27 +2075,28 @@ def search_albums(request, keyword, page):
 def waiting(request):
     return render(request, 'yighub/waiting.html')
 
-def man_won_bbang(request):
+# not used anymore
+# def man_won_bbang(request):
 
-    permission = check_permission(request, 'memo')
-    if permission[0] == False:
-        return permission[1] 
-    u = User.objects.get(user_id = request.session['user_id'])
+#     permission = check_permission(request, 'memo')
+#     if permission[0] == False:
+#         return permission[1] 
+#     u = User.objects.get(user_id = request.session['user_id'])
     
-    bulletin_list = get_board_list('bulletin')
-    taskforce_list = get_board_list('taskforce')
+#     bulletin_list = get_board_list('bulletin')
+#     taskforce_list = get_board_list('taskforce')
 
-    betting_list, averages = betting_list_now()
+#     betting_list, averages = betting_list_now()
 
-    logger.info('%s(%d)님이 만원빵 페이지를 열었습니다.' % (u.name, u.id))
+#     logger.info('%s(%d)님이 만원빵 페이지를 열었습니다.' % (u.name, u.id))
 
-    return render(request, 'yighub/man_won_bbang.html',
-        {'user': u, 'public_dict' : PublicBoardDict, 
-        'bulletin_list' : bulletin_list, 
-        'taskforce_list' : taskforce_list, 
-        'betting_list' : betting_list,
-        'averages' : averages,
-        })
+#     return render(request, 'yighub/man_won_bbang.html',
+#         {'user': u, 'public_dict' : PublicBoardDict, 
+#         'bulletin_list' : bulletin_list, 
+#         'taskforce_list' : taskforce_list, 
+#         'betting_list' : betting_list,
+#         'averages' : averages,
+#         })
 
 # def transform_user(request,):
 #     transformation.transform_user()
