@@ -5,8 +5,7 @@ from django.core.urlresolvers import reverse
 from django.contrib import messages
 import mimetypes
 import datetime
-from urllib import unquote
-from urllib2 import quote
+from urllib.parse import quote, unquote
 from django.utils import timezone
 from django.contrib.auth import hashers
 from django.utils.http import urlquote
@@ -24,7 +23,7 @@ from .models import TaskforceBoardForm
 from .models import Album, Photo, PhotoComment
 from .models import AlbumForm, PhotoForm
 
-from man_won_bbang import betting_list_now
+from .man_won_bbang import betting_list_now
 
 import logging
 logger = logging.getLogger(__name__)
@@ -89,7 +88,7 @@ def pagination(board, board_id, current_page, page_size = 20): # board_number가
 
     # 첫 페이지와 끝 페이지 설정
     first_page = 1
-    last_page = (count_entry - 1)/page_size + 1
+    last_page = (count_entry - 1)//page_size + 1
 
     # 페이지 리스트 만들기
 #    real_list = []
@@ -1104,7 +1103,7 @@ def recommend_comment(request, board, entry_id, comment_id):
     try:
         e = Entry.objects.get(pk = entry_id) 
         c = Comment.objects.get(pk = comment_id)
-    except Entry.DoesNotExist, Comment.DoesNotExist: # comma로 묶는게 어떤 의미인가?
+    except (Entry.DoesNotExist, Comment.DoesNotExist): # comma로 묶는게 어떤 의미인가?
         raise Http404    
 
     # 권한 검사
@@ -1133,7 +1132,7 @@ def delete_comment(request, board, entry_id, comment_id):
     try:
         e = Entry.objects.get(pk = entry_id)
         c = Comment.objects.get(pk = comment_id)
-    except Entry.DoesNotExist, Comment.DoesNotExist:
+    except (Entry.DoesNotExist, Comment.DoesNotExist):
         raise Http404
 
     # 권한 검사
@@ -1814,7 +1813,7 @@ def delete_comment_photo(request, album_id, photo_id, comment_id):
     try:
         p = Photo.objects.get(pk = photo_id)
         c = PhotoComment.objects.get(pk = comment_id)
-    except Photo.DoesNotExist, PhotoComment.DoesNotExist:
+    except (Photo.DoesNotExist, PhotoComment.DoesNotExist):
         raise Http404
 
     # 권한 검사

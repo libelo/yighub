@@ -26,4 +26,4 @@ urlpatterns = [
 	# url(r'^$', 'yighub.views.waiting'),
 	url(r'^yighub/', include('yighub.urls')),
     url(r'^admin/', admin.site.urls),
-] # + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # for development
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # for development
