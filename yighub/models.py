@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
-
 from django.db import models
 from django import forms
-from models_base import User, Board, Entry, Comment, File, Thumbnail, Tag
-from models_base import MEMBER_LEVEL_CHOICES
+from .models_base import User, Board, Entry, Comment, File, Thumbnail, Tag
+from .models_base import MEMBER_LEVEL_CHOICES
 
 
 class UserForm(forms.ModelForm):
@@ -16,7 +14,7 @@ class BulletinBoard(Board):
     pass
 
 class TaskforceBoard(Board):
-    participant = models.ManyToManyField(User, null = True, blank = True)
+    participant = models.ManyToManyField(User, blank = True)
     archive = models.BooleanField(default = False) 
 
 class PublicBoard(Board):
@@ -95,7 +93,7 @@ class Letter(models.Model):
     #file_hit ? no.
     # read 를 count_view처럼? No.
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
 class LetterForm(forms.ModelForm):
@@ -108,7 +106,7 @@ class Memo(models.Model):
     creator = models.ForeignKey(User, related_name = 'memo_creators')
     time_created = models.DateTimeField()
 
-    def __unicode__(self):
+    def __str__(self):
         return self.memo
 
 class Album(models.Model):
@@ -123,7 +121,7 @@ class Album(models.Model):
     permission_reading = models.CharField(max_length = 3, choices = MEMBER_LEVEL_CHOICES, default = 'pre')
     permission_writing = models.CharField(max_length = 3, choices = MEMBER_LEVEL_CHOICES, default = 'pre')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 class AlbumForm(forms.ModelForm):
@@ -138,17 +136,17 @@ class Photo(models.Model):
     photographer = models.ForeignKey(User, related_name = 'photographers')
     time_created = models.DateTimeField()
     time_last_modified = models.DateTimeField()
-    recommendation = models.ManyToManyField(User, related_name = 'photo_recommendations', blank = True, null = True)
+    recommendation = models.ManyToManyField(User, related_name = 'photo_recommendations', blank = True)
     count_recommendation = models.PositiveIntegerField(default = 0)
     count_comment = models.PositiveIntegerField(default = 0)
     #arrangement는 필요없다. 그냥 id 순서로 늘어놓으면 될 듯.
-    tag = models.ManyToManyField(Tag, related_name = 'photos', blank = True, null = True)
+    tag = models.ManyToManyField(Tag, related_name = 'photos', blank = True)
 
-    def __unicode__(self):
+    def __str__(self):
         if self.description:
             return self.description
         else:
-            return self.photographer.name + u'의 사진'
+            return self.photographer.name + '의 사진'
 
 class PhotoForm(forms.ModelForm):
     class Meta:
@@ -192,7 +190,7 @@ class PhotoComment(Comment):
 
 #     time_created = models.DateTimeField()
 #     count_comment = models.PositiveIntegerField(default = 0)
-#     recommendation = models.ManyToManyField(User, related_name = 'entry_recommendations', blank = True, null = True)
+#     recommendation = models.ManyToManyField(User, related_name = 'entry_recommendations', blank = True)
 #     count_view = models.PositiveIntegerField(default = 0)
 #     count_recommendation = models.PositiveIntegerField(default = 0)
 

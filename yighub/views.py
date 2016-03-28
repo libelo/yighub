@@ -1,19 +1,3 @@
-# -*- coding: utf-8 -*-
-
-from django.template import Context, loader
-
-from yighub.models import User, Letter, Memo, UserForm
-from yighub.models import Board
-from yighub.models import BulletinBoard, TaskforceBoard, PublicBoard
-from yighub.models import BulletinEntry, TaskforceEntry, PublicEntry
-from yighub.models import BulletinComment, TaskforceComment, PublicComment
-from yighub.models import BulletinThumbnail, TaskforceThumbnail, PublicThumbnail 
-from yighub.models import BulletinFile, TaskforceFile, PublicFile, File
-from yighub.models import BulletinEntryForm, TaskforceEntryForm, PublicEntryForm
-from yighub.models import TaskforceBoardForm
-from yighub.models import Album, Photo, PhotoComment
-from yighub.models import AlbumForm, PhotoForm
-
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render_to_response, get_object_or_404, render, redirect
 from django.template import RequestContext
@@ -27,6 +11,18 @@ from django.utils import timezone
 from django.contrib.auth import hashers
 from django.utils.http import urlquote
 from django.utils.encoding import iri_to_uri
+
+from .models import User, Letter, Memo, UserForm
+from .models import Board
+from .models import BulletinBoard, TaskforceBoard, PublicBoard
+from .models import BulletinEntry, TaskforceEntry, PublicEntry
+from .models import BulletinComment, TaskforceComment, PublicComment
+from .models import BulletinThumbnail, TaskforceThumbnail, PublicThumbnail 
+from .models import BulletinFile, TaskforceFile, PublicFile, File
+from .models import BulletinEntryForm, TaskforceEntryForm, PublicEntryForm
+from .models import TaskforceBoardForm
+from .models import Album, Photo, PhotoComment
+from .models import AlbumForm, PhotoForm
 
 from man_won_bbang import betting_list_now
 
@@ -204,14 +200,14 @@ def get_board_list(board):
 def home(request):
 
     if 'user_id' not in request.session:
-        logger.info(u'방문자가 홈페이지를 열었습니다.')
+        logger.info('방문자가 홈페이지를 열었습니다.')
         return render(request, 'yighub/home_for_visitor.html', {'public_dict' : PublicBoardDict})
     else:
         u = request.session['user_id']
     try:
         user = User.objects.get(user_id = u)
     except User.DoesNotExist:
-        logger.info(u'세션의 회원정보(%d)가 데이터베이스에 존재하지 않아 로그아웃 됩니다.' % u)
+        logger.info('세션의 회원정보(%d)가 데이터베이스에 존재하지 않아 로그아웃 됩니다.' % u)
         return redirect(reverse('yighub:logout'))
 
     # 홈페이지를 열 때마다 마지막 방문날짜를 업데이트한다.
@@ -219,7 +215,7 @@ def home(request):
     user.save()
     
     if user.level == 'non':
-        logger.info(u'비회원 %s(%d)님이 홈페이지를 열었습니다.' % (user.name, user.id))
+        logger.info('비회원 %s(%d)님이 홈페이지를 열었습니다.' % (user.name, user.id))
         return render(request, 'yighub/home_for_visitor.html', {'public_dict' : PublicBoardDict, 'user' : user})
 
     memos = Memo.objects.all().order_by('-pk')[0:10]
@@ -307,7 +303,7 @@ def home(request):
     #         'prev_page' : prev_page,
     #         'next_page' : next_page,
     #        }
-    logger.info(u'%s(%d)님이 홈페이지를 열었습니다.' % (user.name, user.id))
+    logger.info('%s(%d)님이 홈페이지를 열었습니다.' % (user.name, user.id))
     return render(request, 'yighub/home_for_member.html', # 아직까지는 페이지 넘기기 지원하지 않음.
                                   { 'user' : user,
                                     'public_dict' : PublicBoardDict,
@@ -426,7 +422,7 @@ def news(request, board, page):
     p = pagination(board, board_id = 0, current_page = page)
     board_list = get_board_list(board)
 
-    logger.info(u'%s(%d)님이 %s news를 열었습니다.' % (user.name, user.id, board))
+    logger.info('%s(%d)님이 %s news를 열었습니다.' % (user.name, user.id, board))
     return render(request, 'yighub/news.html',
         {'user': user, 'public_dict' : PublicBoardDict, 'board': board, 'board_list': board_list, 'page': p}
         )
@@ -461,9 +457,9 @@ def listing(request, board, board_id, page = '0'):    # url : yig.in/yighub/boar
         u = None
 
     if u:
-        logger.info(u'%s(%d)님이 %s 게시판 %s 페이지를 열었습니다.' % (u.name, u.id, current_board.name, page))
+        logger.info('%s(%d)님이 %s 게시판 %s 페이지를 열었습니다.' % (u.name, u.id, current_board.name, page))
     else:
-        logger.info(u'방문자가 %s 게시판 %s 페이지를 열었습니다.' % (current_board.name, page))        
+        logger.info('방문자가 %s 게시판 %s 페이지를 열었습니다.' % (current_board.name, page))        
 
     if board == 'public':
 
@@ -540,13 +536,13 @@ def create_taskforce(request):
             t.permission_writing = 'pre'
             t.save()
 
-            logger.info(u'%s(%d)님이 새 taskforce를 만들었습니다: "%s"(%d)' % (u.name, u.id, t.name, t.id))
+            logger.info('%s(%d)님이 새 taskforce를 만들었습니다: "%s"(%d)' % (u.name, u.id, t.name, t.id))
 
             return redirect('yighub:news', board='taskforce', page=1 )
     else:
         form = TaskforceBoardForm()
 
-    logger.info(u'%s(%d)님이 taskforce 만들기 페이지를 열었습니다.' % (u.name, u.id))
+    logger.info('%s(%d)님이 taskforce 만들기 페이지를 열었습니다.' % (u.name, u.id))
     return render(request, 'yighub/create_taskforce.html', {'user' : u, 'public_dict' : PublicBoardDict, 'form' : form})
 
 def edit_taskforce(request, taskforce_id): # 여기서 archive로 넘기기도 처리. 삭제는 일단 구현 안함. 게시글이 하나도 없을 때만 가능.
@@ -576,12 +572,12 @@ def edit_taskforce(request, taskforce_id): # 여기서 archive로 넘기기도 �
                     t.archive = False
             t.save()
 
-            logger.info(u'%s(%d)님이 %s taskforce(%d)를 수정했습니다.' % (u.name, u.id, t.name, t.id))
+            logger.info('%s(%d)님이 %s taskforce(%d)를 수정했습니다.' % (u.name, u.id, t.name, t.id))
             return redirect('yighub:news', board='taskforce', page=1 )
     else:
         form = TaskforceBoardForm(instance = t)
 
-    logger.info(u'%s(%d)님이 %s taskforce(%d) 수정하기 페이지를 열었습니다.' % (u.name, u.id, t.name, t.id))
+    logger.info('%s(%d)님이 %s taskforce(%d) 수정하기 페이지를 열었습니다.' % (u.name, u.id, t.name, t.id))
     return render(request, 'yighub/edit_taskforce.html', {'user' : u, 'public_dict' : PublicBoardDict, 'form' : form, 'current_taskforce' : t})
 
 def taskforce_archive(request):
@@ -596,7 +592,7 @@ def taskforce_archive(request):
     u = User.objects.get(user_id = request.session['user_id'])
     board_list = get_board_list('taskforce')
 
-    logger.info(u'%s(%d)님이 taskforce 아카이브를 열었습니다.' % (u.name, u.id))
+    logger.info('%s(%d)님이 taskforce 아카이브를 열었습니다.' % (u.name, u.id))
 
     return render(request, 'yighub/taskforce_archive.html', 
         {'user' : u, 
@@ -637,7 +633,7 @@ def read(request, board, entry_id,):
     current_board = e.board
     board_list = get_board_list(board)
 
-    logger.info(u'%s(%d)님이 게시글을 읽었습니다: "%s"(%d)' % (u.name, u.id, e.title, e.id))
+    logger.info('%s(%d)님이 게시글을 읽었습니다: "%s"(%d)' % (u.name, u.id, e.title, e.id))
     return render(request, 'yighub/read.html',
       {'user' : u,
       'public_dict' : PublicBoardDict, 
@@ -715,7 +711,7 @@ def create(request, board, board_id = None):
             b.newest_time = e.time_last_modified
             b.save()
 
-            logger.info(u'%s(%d)님이 %s 게시판(%d)에 게시글을 작성했습니다: "%s"(%d)' % (u.name, u.id, current_board.name, current_board.id, e.title, e.id))
+            logger.info('%s(%d)님이 %s 게시판(%d)에 게시글을 작성했습니다: "%s"(%d)' % (u.name, u.id, current_board.name, current_board.id, e.title, e.id))
             return redirect('yighub:listing', board=board, board_id=b.id, page=1)
     else:
         if board_id:
@@ -726,9 +722,9 @@ def create(request, board, board_id = None):
     board_list = get_board_list(board)
 
     if current_board:
-        logger.info(u'%s(%d)님이 %s 게시판 글쓰기 페이지를 열었습니다.' % (u.name, u.id, current_board.name))
+        logger.info('%s(%d)님이 %s 게시판 글쓰기 페이지를 열었습니다.' % (u.name, u.id, current_board.name))
     else:
-        logger.info(u'%s(%d)님이 %s 글쓰기 페이지를 열었습니다.' % (u.name, u.id, board))
+        logger.info('%s(%d)님이 %s 글쓰기 페이지를 열었습니다.' % (u.name, u.id, board))
 
     return render(request, 'yighub/create.html', 
         {'user' : u, 
@@ -801,7 +797,7 @@ def edit(request, board, entry_id):
             ##b = e.board
             ##b.newest_entry
             ##b.newest_time
-            logger.info(u'%s(%d)님이 게시글을 수정했습니다: "%s"(%d)' % (u.name, u.id, e.title, e.id))
+            logger.info('%s(%d)님이 게시글을 수정했습니다: "%s"(%d)' % (u.name, u.id, e.title, e.id))
             return redirect('yighub:read', board=board, entry_id = entry_id) #HttpResponseRedirect(reverse('yighub.views.read', args = (entry_id, )))
             
     else:
@@ -817,7 +813,7 @@ def edit(request, board, entry_id):
     board_list = get_board_list(board)
     current_board = e.board
 
-    logger.info(u'%s(%d)님이 게시글 수정 페이지를 열었습니다.' % (u.name, u.id))
+    logger.info('%s(%d)님이 게시글 수정 페이지를 열었습니다.' % (u.name, u.id))
     return render(request, 'yighub/edit.html', 
         {'user' : u, 
         'public_dict' : PublicBoardDict, 
@@ -868,7 +864,7 @@ def delete(request, board, entry_id):
         b.count_entry -= 1
         b.save()
 
-        logger.info(u'%s(%d)님이 게시글을 삭제했습니다: "%s"(%d)' % (u.name, u.id, e.title, e.id))
+        logger.info('%s(%d)님이 게시글을 삭제했습니다: "%s"(%d)' % (u.name, u.id, e.title, e.id))
         e.delete()
     else:
         messages.error(request, 'invalid approach')
@@ -943,7 +939,7 @@ def reply(request, board, entry_id): # yig.in/entry/12345/reply
             b.count_entry += 1
             b.save()
 
-            logger.info(u'%s(%d)님이 게시글(%d)에 답글을 달았습니다: "%s"(%d)' % (u.name, u.id, parent.id, reply.title, reply.id))
+            logger.info('%s(%d)님이 게시글(%d)에 답글을 달았습니다: "%s"(%d)' % (u.name, u.id, parent.id, reply.title, reply.id))
             return HttpResponseRedirect(reverse('yighub:home'))
     else:
         form = EntryForm(initial = {'board' : parent.board}) # board 빼고 보내기
@@ -951,7 +947,7 @@ def reply(request, board, entry_id): # yig.in/entry/12345/reply
     board_list = get_board_list(board)
     b = parent.board
 
-    logger.info(u'%s(%d)님이 게시글(%d)에 답글 달기 페이지를 열었습니다.' % (u.name, u.id, parent.id))
+    logger.info('%s(%d)님이 게시글(%d)에 답글 달기 페이지를 열었습니다.' % (u.name, u.id, parent.id))
     return render(request, 'yighub/reply.html', 
         {'user' : u,
         'public_dict' : PublicBoardDict, 
@@ -986,7 +982,7 @@ def recommend(request, board, entry_id):
     e.count_recommendation += 1
     e.save()
 
-    logger.info(u'%s(%d)님이 게시글을 추천했습니다: "%s"(%d)' % (u.name, u.id, e.title, e.id))
+    logger.info('%s(%d)님이 게시글을 추천했습니다: "%s"(%d)' % (u.name, u.id, e.title, e.id))
     return redirect('yighub:read', board = board, entry_id = entry_id)
 
 def delete_recommend(request, board, entry_id):
@@ -1012,7 +1008,7 @@ def delete_recommend(request, board, entry_id):
         e.recommendation.remove(u)
         e.save()
 
-        logger.info(u'%s(%d)님이 게시글 추천을 취소했습니다: "%s"(%d)' % (u.name, u.id, e.title, e.id))
+        logger.info('%s(%d)님이 게시글 추천을 취소했습니다: "%s"(%d)' % (u.name, u.id, e.title, e.id))
         return redirect('yighub:read', board = board, entry_id = entry_id)
     else:
         messages.error(request, 'You have not recommended this')
@@ -1045,7 +1041,7 @@ def comment(request, board, entry_id):
         e.count_comment += 1
         e.save()
 
-        logger.info(u'%s(%d)님이 게시글(%d)에 댓글을 달았습니다: "%s"(%d)' % (u.name, u.id, e.id, c.content, c.id))
+        logger.info('%s(%d)님이 게시글(%d)에 댓글을 달았습니다: "%s"(%d)' % (u.name, u.id, e.id, c.content, c.id))
         return redirect('yighub:read', board = board, entry_id = entry_id) # HttpResponseRedirect(reverse('yighub.views.read', args = (entry_id)))
     else:
         messages.error(request, 'invalid approach')
@@ -1124,7 +1120,7 @@ def recommend_comment(request, board, entry_id, comment_id):
     c.count_recommendation += 1
     c.save()
 
-    logger.info(u'%s(%d)님이 댓글을 추천했습니다: "%s"(%d)' % (u.name, u.id, c.content, c.id))
+    logger.info('%s(%d)님이 댓글을 추천했습니다: "%s"(%d)' % (u.name, u.id, c.content, c.id))
     return redirect('yighub:read', board = board, entry_id = entry_id)
 
 def delete_comment(request, board, entry_id, comment_id):
@@ -1151,7 +1147,7 @@ def delete_comment(request, board, entry_id, comment_id):
         e.count_comment -= 1
         e.save()
 
-        logger.info(u'%s(%d)님이 게시글(%d)에서 댓글을 삭제했습니다: "%s"(%d)' % (u.name, u.id, e.id, c.content, c.id))
+        logger.info('%s(%d)님이 게시글(%d)에서 댓글을 삭제했습니다: "%s"(%d)' % (u.name, u.id, e.id, c.content, c.id))
 
         c.delete()
 
@@ -1188,7 +1184,7 @@ def join(request):
                         u = User.objects.get(user_id = request.POST['user_id'])
                         request.session['user_id'] = u.user_id
 
-                        logger.info(u'%s(%d)님이 가입했습니다.' % (u.name, u.id))
+                        logger.info('%s(%d)님이 가입했습니다.' % (u.name, u.id))
 
                         return redirect('yighub:home', )
                     else:
@@ -1271,12 +1267,12 @@ def edit_profile(request, first_login = False):
             u = User.objects.get(user_id = request.POST['user_id'])
             request.session['user_id'] = u.user_id
 
-            logger.info(u'%s(%d)님이 프로필을 수정했습니다.' % (u.name, u.id))
+            logger.info('%s(%d)님이 프로필을 수정했습니다.' % (u.name, u.id))
             return redirect('yighub:home', )
     else:
         form = UserForm(instance = u, )
 
-    logger.info(u'%s(%d)님이 프로필 수정 페이지를 열었습니다.' % (u.name, u.id))
+    logger.info('%s(%d)님이 프로필 수정 페이지를 열었습니다.' % (u.name, u.id))
     return render(request, 'yighub/edit_profile.html', {'user':u, 'public_dict' : PublicBoardDict, 'form' : form, 'first_login' : first_login}, )
 
 def delete_profile(request):
@@ -1302,19 +1298,19 @@ def login_check(request):
             u.save()
             request.session['user_id'] = u.user_id
 
-            logger.info(u'%s(%d)님이 처음 로그인했습니다.' % (u.name, u.id))
+            logger.info('%s(%d)님이 처음 로그인했습니다.' % (u.name, u.id))
 
             return redirect('yighub:first_login',)
 
         if hashers.check_password(request.POST['password'], u.password):
             request.session['user_id'] = u.user_id
 
-            logger.info(u'%s(%d)님이 로그인했습니다.' % (u.name, u.id))
+            logger.info('%s(%d)님이 로그인했습니다.' % (u.name, u.id))
 
             return HttpResponseRedirect(reverse('yighub:home'))
         else:
             messages.error(request, 'password does not correct') # send message 
-            logger.info(u'%s(%d)님이 로그인 도중 비밀번호를 잘못 입력했습니다.' % (u.name, u.id))
+            logger.info('%s(%d)님이 로그인 도중 비밀번호를 잘못 입력했습니다.' % (u.name, u.id))
             return render(request, 'yighub/login.html', {'public_dict' : PublicBoardDict})
     else:
         # send message about cookie
@@ -1323,7 +1319,7 @@ def login_check(request):
 
 def logout(request):
     u = User.objects.get(user_id = request.session['user_id'])
-    logger.info(u'%s(%d)님이 로그아웃했습니다.' % (u.name, u.id))
+    logger.info('%s(%d)님이 로그아웃했습니다.' % (u.name, u.id))
     request.session.flush() # exact functionality of flush method? after flush, home_for_visitor is presenting?
     return HttpResponseRedirect(reverse('yighub:home'))
 
@@ -1369,7 +1365,7 @@ def receive(request, letter_id):
         l.save()
         return render(request, 'yighub/receive.html', {'letter' : l})
     else:
-        messages.error(request, 'Not You')
+        messages.error(request, 'Not Yo')
         return render(request, 'yighub/error.html', context_instance = RequestContext(request))
 
 def memo(request, page = 1):
@@ -1435,7 +1431,7 @@ def memo(request, page = 1):
             'next_page' : next_page,
             }
 
-    logger.info(u'%s(%d)님이 메모 게시판 %s 페이지를 열었습니다.' % (u.name, u.id, page))
+    logger.info('%s(%d)님이 메모 게시판 %s 페이지를 열었습니다.' % (u.name, u.id, page))
 
     return render(request, 'yighub/memo.html',
         {'user': u, 'public_dict' : PublicBoardDict, 
@@ -1455,7 +1451,7 @@ def create_memo(request):
                 )
         m.save()
         
-        logger.info(u'%s(%d)님이 메모를 남겼습니다: "%s"(%d)' % (u.name, u.id, m.memo, m.id))
+        logger.info('%s(%d)님이 메모를 남겼습니다: "%s"(%d)' % (u.name, u.id, m.memo, m.id))
 
         return HttpResponseRedirect(request.POST['path']) # 왔던 곳으로 되돌리기 위해 # redirect('yighub:home', ) 
     else:
@@ -1472,7 +1468,7 @@ def delete_memo(request, memo_id):
     u = User.objects.get(user_id = request.session['user_id'])
 
     if u == m.creator:
-        logger.info(u'%s(%d)님이 메모를 삭제했습니다: "%s"(%d)' % (u.name, u.id, m.memo, m.id))
+        logger.info('%s(%d)님이 메모를 삭제했습니다: "%s"(%d)' % (u.name, u.id, m.memo, m.id))
         m.delete()
 
     else:
@@ -1493,8 +1489,8 @@ def download(request, file_id, file_name):
     try:
         fw = FileWrapper(open(path,'r'))
     except:
-        logger.info(u'파일을 다운로드하는 중 오류가 발생했습니다: "%s"(%d)' % (f.name, f.id))
-        messages.error(request, u'파일이 존재하지 않습니다. 웹마스터에게 문의해보세요.')
+        logger.info('파일을 다운로드하는 중 오류가 발생했습니다: "%s"(%d)' % (f.name, f.id))
+        messages.error(request, '파일이 존재하지 않습니다. 웹마스터에게 문의해보세요.')
         return render(request, 'yighub/error.html', )
 
     response = HttpResponse(fw)
@@ -1503,7 +1499,7 @@ def download(request, file_id, file_name):
     response['Content-Length'] = os.path.getsize(path)
 
     # To inspect details for the below code, see http://greenbytes.de/tech/tc2231/
-    if u'MSIE' in request.META['HTTP_USER_AGENT']:
+    if 'MSIE' in request.META['HTTP_USER_AGENT']:
         # IE does not support internationalized filename at all.
         # It can only recognize internationalized URL, so we do the trick via routing rules.
         filename_header = "attachment; filename=%s" % quote(f.name.encode("utf8"))
@@ -1523,9 +1519,9 @@ def download(request, file_id, file_name):
     #fp.close를 하면 안된다?
     if 'user_id' in request.session:
         u = User.objects.get(user_id = request.session['user_id'])
-        logger.info(u'%s(%d)님이 파일을 다운로드 했습니다: "%s"(%d)' % (u.name, u.id, f.name, f.id))
+        logger.info('%s(%d)님이 파일을 다운로드 했습니다: "%s"(%d)' % (u.name, u.id, f.name, f.id))
     else:
-        logger.info(u'방문자가 파일을 다운로드 했습니다: "%s"(%d)' % (f.name, f.id))
+        logger.info('방문자가 파일을 다운로드 했습니다: "%s"(%d)' % (f.name, f.id))
 
     return response
 
@@ -1602,7 +1598,7 @@ def albums(request, page = 1):
             'next_page' : next_page,
             }
 
-    logger.info(u'%s(%d)님이 앨범 목록 %s 페이지를 열었습니다.' % (u.name, u.id, page))
+    logger.info('%s(%d)님이 앨범 목록 %s 페이지를 열었습니다.' % (u.name, u.id, page))
     return render(request, 'yighub/albums.html', {'user':u, 'public_dict' : PublicBoardDict, 'albums':albums, 'page':p})
 
 def photos(request, album_id):
@@ -1624,7 +1620,7 @@ def photos(request, album_id):
     #    p.recommendations = p.recommendation.all()
     #    p.comment_list = p.comments.all()
 
-    logger.info(u'%s(%d)님이 %s 앨범(%d)을 열었습니다.' % (u.name, u.id, album.name, album.id))
+    logger.info('%s(%d)님이 %s 앨범(%d)을 열었습니다.' % (u.name, u.id, album.name, album.id))
     return render(request, 'yighub/photos.html', {'user':u, 'public_dict' : PublicBoardDict, 'album':album, 'photos':photos, })
 
 def create_album(request,):
@@ -1646,13 +1642,13 @@ def create_album(request,):
             a.permission_writing = 'pre'
             a.save()
 
-            logger.info(u'%s(%d)님이 새 앨범을 만들었습니다: "%s"(%d)' % (u.name, u.id, a.name, a.id))
+            logger.info('%s(%d)님이 새 앨범을 만들었습니다: "%s"(%d)' % (u.name, u.id, a.name, a.id))
 
             return redirect('yighub:photos', album_id = a.id)
     else:
         form = AlbumForm()
 
-    logger.info(u'%s(%d)님이 앨범 만들기 페이지를 열었습니다.' % (u.name, u.id))
+    logger.info('%s(%d)님이 앨범 만들기 페이지를 열었습니다.' % (u.name, u.id))
     return render(request, 'yighub/create_album.html', {'user' : u, 'public_dict' : PublicBoardDict, 'form' : form})
 
 def edit_album(request,):
@@ -1689,12 +1685,12 @@ def create_photos(request, album_id):
                 a.newest_time = p.time_created # 정렬은 만들어진 시간 순서 대로.
                 a.save()
 
-                logger.info(u'%s(%d)님이 %s 앨범(%d)에 사진(%d)을 올렸습니다.' % (u.name, u.id, a.name, a.id, p.id))
+                logger.info('%s(%d)님이 %s 앨범(%d)에 사진(%d)을 올렸습니다.' % (u.name, u.id, a.name, a.id, p.id))
         return redirect('yighub:photos', album_id = album_id)
     else:
         form = PhotoForm()
 
-    logger.info(u'%s(%d)님이 %s 앨범(%d)에 사진 올리기 페이지를 열었습니다.' % (u.name, u.id, a.name, a.id))
+    logger.info('%s(%d)님이 %s 앨범(%d)에 사진 올리기 페이지를 열었습니다.' % (u.name, u.id, a.name, a.id))
     return render(request, 'yighub/create_photos.html', 
         {'user' : u, 'public_dict' : PublicBoardDict, 'album' : a, 'form' : form, })
 
@@ -1728,7 +1724,7 @@ def delete_photo(request, album_id, photo_id):
 
         a.save()
 
-        logger.info(u'%s(%d)님이 %s 앨범(%d)에서 사진(%d)을 삭제했습니다.' % (u.name, u.id, a.name, a.id, p.id))
+        logger.info('%s(%d)님이 %s 앨범(%d)에서 사진(%d)을 삭제했습니다.' % (u.name, u.id, a.name, a.id, p.id))
 
         p.delete()
     else:
@@ -1758,7 +1754,7 @@ def recommend_photo(request, album_id, photo_id):
     p.count_recommendation += 1
     p.save()
 
-    logger.info(u'%s(%d)님이 사진(%d)을 추천했습니다.' % (u.name, u.id, p.id))
+    logger.info('%s(%d)님이 사진(%d)을 추천했습니다.' % (u.name, u.id, p.id))
     return redirect('yighub:photos', album_id = album_id)
 
 def delete_recommend_photo(request, album_id, photo_id):
@@ -1779,7 +1775,7 @@ def delete_recommend_photo(request, album_id, photo_id):
         p.recommendation.remove(u)
         p.save()
 
-        logger.info(u'%s(%d)님이 사진(%d) 추천을 취소했습니다.' % (u.name, u.id, p.id))
+        logger.info('%s(%d)님이 사진(%d) 추천을 취소했습니다.' % (u.name, u.id, p.id))
         return redirect('yighub:photos', album_id = album_id)
     else:
         messages.error(request, 'You have not recommended this')
@@ -1807,7 +1803,7 @@ def comment_photo(request, album_id, photo_id):
                     )
         c.save()
 
-        logger.info(u'%s(%d)님이 사진(%d)에 댓글을 달았습니다: "%s"(%d)' % (u.name, u.id, p.id, c.content, c.id))
+        logger.info('%s(%d)님이 사진(%d)에 댓글을 달았습니다: "%s"(%d)' % (u.name, u.id, p.id, c.content, c.id))
         return redirect('yighub:photos', album_id = album_id) 
     else:
         messages.error(request, 'invalid approach')
@@ -1830,7 +1826,7 @@ def delete_comment_photo(request, album_id, photo_id, comment_id):
 
     if u == c.creator:
 
-        logger.info(u'%s(%d)님이 사진(%d)에서 댓글을 삭제했습니다: "%s"(%d)' % (u.name, u.id, p.id, c.content, c.id))
+        logger.info('%s(%d)님이 사진(%d)에서 댓글을 삭제했습니다: "%s"(%d)' % (u.name, u.id, p.id, c.content, c.id))
         c.delete()
         return redirect('yighub:photos', album_id = album_id)
 
@@ -1854,9 +1850,9 @@ def search(request, board_id, keyword, page):
         try:
             b = Board.objects.get(pk = board_id)
         except:
-            logger.info(u'%s(%d)님이 모든 게시물에서 "%s" 키워드로 검색했습니다.' % (u.name, u.id, request.POST['keyword']))
+            logger.info('%s(%d)님이 모든 게시물에서 "%s" 키워드로 검색했습니다.' % (u.name, u.id, request.POST['keyword']))
         else:
-            logger.info(u'%s(%d)님이 %s 게시판에서 "%s" 키워드로 검색했습니다.' % (u.name, u.id, b.name, request.POST['keyword']))
+            logger.info('%s(%d)님이 %s 게시판에서 "%s" 키워드로 검색했습니다.' % (u.name, u.id, b.name, request.POST['keyword']))
 
         if keyword:
             return redirect('yighub:search', board_id=board_id, keyword=keyword, page=1)
@@ -1968,9 +1964,9 @@ def search(request, board_id, keyword, page):
             }
 
     if b:
-        logger.info(u'%s(%d)님이 %s 게시판 "%s" 키워드 검색 %s 페이지를 열었습니다.' % (u.name, u.id, b.name, keyword, page))
+        logger.info('%s(%d)님이 %s 게시판 "%s" 키워드 검색 %s 페이지를 열었습니다.' % (u.name, u.id, b.name, keyword, page))
     else:
-        logger.info(u'%s(%d)님이 모든 게시물 "%s" 키워드 검색 %s 페이지를 열었습니다.' % (u.name, u.id, keyword, page))
+        logger.info('%s(%d)님이 모든 게시물 "%s" 키워드 검색 %s 페이지를 열었습니다.' % (u.name, u.id, keyword, page))
 
 
     return render(request, 'yighub/search.html',
@@ -1994,7 +1990,7 @@ def search_albums(request, keyword, page):
 
         keyword = iri_to_uri(urlquote(request.POST['keyword'], safe='')) # iri_to_uri가 필요한지는 의문. urlquote_plus가 더 나을지도. urlquote_plus는 safe도 필요없음.
 
-        logger.info(u'%s(%d)님이 앨범에서 "%s" 키워드로 검색했습니다.' % (u.name, u.id, request.POST['keyword']))
+        logger.info('%s(%d)님이 앨범에서 "%s" 키워드로 검색했습니다.' % (u.name, u.id, request.POST['keyword']))
 
         if keyword:
             return redirect('yighub:search_albums', keyword=keyword, page=1)
@@ -2074,7 +2070,7 @@ def search_albums(request, keyword, page):
             'next_page' : next_page,
             }
 
-    logger.info(u'%s(%d)님이 앨범에서 "%s" 키워드 검색 %s 페이지를 열었습니다.' % (u.name, u.id, keyword, page))
+    logger.info('%s(%d)님이 앨범에서 "%s" 키워드 검색 %s 페이지를 열었습니다.' % (u.name, u.id, keyword, page))
     return render(request, 'yighub/search_albums.html', {'user':u, 'public_dict' : PublicBoardDict, 'albums':albums, 'page':p, 'keyword':keyword})
 
 def waiting(request):
@@ -2092,7 +2088,7 @@ def man_won_bbang(request):
 
     betting_list, averages = betting_list_now()
 
-    logger.info(u'%s(%d)님이 만원빵 페이지를 열었습니다.' % (u.name, u.id))
+    logger.info('%s(%d)님이 만원빵 페이지를 열었습니다.' % (u.name, u.id))
 
     return render(request, 'yighub/man_won_bbang.html',
         {'user': u, 'public_dict' : PublicBoardDict, 

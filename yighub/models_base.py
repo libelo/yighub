@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from django.db import models
 
 MEMBER_LEVEL_CHOICES = (
@@ -47,7 +45,7 @@ class User(models.Model):
     profile = models.ImageField(upload_to = upload_profile_path, blank = True, ) # 외부용 null = True 
     avatar = models.ImageField(upload_to = upload_avatar_path, blank = True, ) # 내부용 null = True
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 class Board(models.Model):
@@ -60,7 +58,7 @@ class Board(models.Model):
     permission_reading = models.CharField(max_length = 3, choices = MEMBER_LEVEL_CHOICES, default = 'non')
     permission_writing = models.CharField(max_length = 3, choices = MEMBER_LEVEL_CHOICES, default = 'non')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 class Tag(models.Model):
@@ -73,7 +71,7 @@ class Entry(models.Model):
     time_created = models.DateTimeField()
     time_last_modified = models.DateTimeField()
     count_comment = models.PositiveIntegerField(default = 0)
-    recommendation = models.ManyToManyField(User, related_name = 'entry_recommendations', blank = True, null = True)
+    recommendation = models.ManyToManyField(User, related_name = 'entry_recommendations', blank = True)
     count_view = models.PositiveIntegerField(default = 0)
     count_recommendation = models.PositiveIntegerField(default = 0)
     notice = models.BooleanField(default = False)
@@ -83,16 +81,16 @@ class Entry(models.Model):
     depth = models.PositiveSmallIntegerField(default = 0)
     parent = models.PositiveIntegerField(null = True, blank = True) # must be pk
     
-    tag = models.ManyToManyField(Tag, related_name = 'entrys', blank = True, null = True)
+    tag = models.ManyToManyField(Tag, related_name = 'entrys', blank = True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
 class Comment(models.Model):
     content = models.TextField()
     creator = models.ForeignKey(User, related_name='comment_creators')
     time_created = models.DateTimeField()
-    recommendation = models.ManyToManyField(User, related_name = 'comment_recommendations', blank = True, null = True)
+    recommendation = models.ManyToManyField(User, related_name = 'comment_recommendations', blank = True)
     count_recommendation = models.PositiveIntegerField(default = 0)
 
     # hierarchy functionality
@@ -100,7 +98,7 @@ class Comment(models.Model):
     depth = models.PositiveSmallIntegerField(default = 0)
     parent = models.PositiveIntegerField(null = True, blank = True)
     
-    def __unicode__(self):
+    def __str__(self):
         return self.content
 
 def upload_thumbnail_path(instance, filename):
@@ -112,7 +110,7 @@ class Thumbnail(models.Model):
     name = models.CharField(max_length = 200)
     thumbnail = models.ImageField(upload_to = upload_thumbnail_path)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 def upload_file_path(instance, filename):
@@ -125,5 +123,5 @@ class File(models.Model):
     file = models.FileField(upload_to = upload_file_path)
     hit = models.PositiveIntegerField(default = 0)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
