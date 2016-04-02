@@ -37,7 +37,7 @@
 				{% for f in files %}
 				<p>
 					<label class="checkbox">
-						<a href = "{% url 'yighub:download' f.id f.filename %}">{{ f.name }}</a>
+						<a href = "{{ f.file.url }}">{{ f.name }}</a>
 						삭제하기
 						<input type = 'checkbox' name = 'delete_file_{{ f.id }}' />
 					</label>
