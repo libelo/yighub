@@ -18,7 +18,6 @@ urlpatterns = [
     url(r'^letter/list/$', views.letters),
     url(r'^letter/send/$', views.send),
     url(r'^letter/receive/(?P<letter_id>\d+)/$', views.receive),
-    url(r'^letter/receive/(?P<letter_id>\d+)/download/$', views.download_letter),
 
     url(r'^memo/create/$', views.create_memo, name='create_memo'),
     url(r'^memo/(?P<memo_id>\d+)/delete/$', views.delete_memo, name='delete_memo'),
