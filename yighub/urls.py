@@ -26,8 +26,6 @@ urlpatterns = [
 
     url(r'^news/(?P<page>\d+)/$', views.all_news, name='all_news'),    
 
-    # url(r'^download/(?P<file_id>\d+)/(?P<file_name>.+)/$', views.download, name='download'),
-
     url(r'^search/(?P<board_id>\d+)/(?P<keyword>.+)/(?P<page>\d+)$', views.search, name='search'),
     url(r'^search_albums/(?P<keyword>.+)/(?P<page>\d+)/$', views.search_albums, name='search_albums'),
 

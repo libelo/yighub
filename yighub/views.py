@@ -1476,59 +1476,6 @@ def delete_memo(request, memo_id):
         #return render(request, 'yighub/error.html', {'error' : 'invalid approach'})
     return HttpResponseRedirect(reverse('yighub:home', ))
 
-""" replaced download view to simple a link
-from django.core.files import File as FileWrapper
-import os
-def download(request, file_id, file_name):
-    
-    f = File.objects.get(pk = file_id)
-    
-    path = f.file.path
-    filetype, encoding = mimetypes.guess_type(path)
-
-    try:
-        fw = FileWrapper(open(path,'r'))
-    except:
-        logger.info('파일을 다운로드하는 중 오류가 발생했습니다: "%s"(%d)' % (f.name, f.id))
-        messages.error(request, '파일이 존재하지 않습니다. 웹마스터에게 문의해보세요.')
-        return render(request, 'yighub/error.html', )
-
-    response = HttpResponse(fw)
-    response['Content-Type'] = filetype
-    response['Content-Encoding'] = encoding
-    response['Content-Length'] = os.path.getsize(path)
-
-    # To inspect details for the below code, see http://greenbytes.de/tech/tc2231/
-    if 'MSIE' in request.META['HTTP_USER_AGENT']:
-        # IE does not support internationalized filename at all.
-        # It can only recognize internationalized URL, so we do the trick via routing rules.
-        filename_header = "attachment; filename=%s" % quote(f.name.encode("utf8"))
-    else:
-        # For others like Firefox, we follow RFC2231 (encoding extension in HTTP headers).
-        filename_header = "attachment; filename*=UTF-8''%s" % urlquote(f.name)
-    response['Content-Disposition'] = filename_header
-
-    f.hit += 1
-    f.save()
-    
-    #if type is None:
-    #    type = 'application/octet-stream'
-     #response['Content-Type'] = filetype
-     #response['Content-Encoding'] = encoding
-#    encoded_name = f.file.name.encode(encoding = 'UTF-8')
-    #fp.close를 하면 안된다?
-    if 'user_id' in request.session:
-        u = User.objects.get(user_id = request.session['user_id'])
-        logger.info('%s(%d)님이 파일을 다운로드 했습니다: "%s"(%d)' % (u.name, u.id, f.name, f.id))
-    else:
-        logger.info('방문자가 파일을 다운로드 했습니다: "%s"(%d)' % (f.name, f.id))
-
-    return response
-"""
-
-def download_letter(request, letter_id):
-    pass
-
 def albums(request, page = 1):
     
     board = 'albums'
