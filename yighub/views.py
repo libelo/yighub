@@ -266,7 +266,7 @@ def home(request):
 
     # 첫 페이지와 끝 페이지 설정
     first_page = 1
-    last_page = (count_entry - 1)/page_size + 1
+    last_page = (count_entry - 1)//page_size + 1
     
     # 페이지 리스트 만들기
     if current_page < 5:
@@ -346,7 +346,7 @@ def all_news(request, page):
 
     # 첫 페이지와 끝 페이지 설정
     first_page = 1
-    last_page = (count_entry - 1)/page_size + 1
+    last_page = (count_entry - 1)//page_size + 1
 
     # 페이지 리스트 만들기
     if last_page <= 7:
@@ -681,7 +681,7 @@ def create(request, board, board_id = None):
             except IndexError:
                 arrangement = 1000
             else:
-                arrangement = (last_entry.arrangement/1000 + 1) * 1000
+                arrangement = (last_entry.arrangement//1000 + 1) * 1000
 
             # 글을 저장한다.
             e = form.save(commit = False)
@@ -896,7 +896,7 @@ def reply(request, board, entry_id): # yig.in/entry/12345/reply
             current_depth = parent.depth + 1
             current_arrangement = parent.arrangement - 1
             p = entry_id
-            scope = Entry.objects.filter(board = parent.board).filter(arrangement__gt = (current_arrangement/1000) * 1000).filter(arrangement__lte = current_arrangement)
+            scope = Entry.objects.filter(board = parent.board).filter(arrangement__gt = (current_arrangement//1000) * 1000).filter(arrangement__lte = current_arrangement)
             
             while True:
                 try:
@@ -907,7 +907,7 @@ def reply(request, board, entry_id): # yig.in/entry/12345/reply
                     current_arrangement = q.arrangement - 1
                     p = q.id
             
-            to_update = Entry.objects.filter(board = parent.board).filter(arrangement__gt = (current_arrangement/1000) * 1000 ).filter(arrangement__lte = current_arrangement)
+            to_update = Entry.objects.filter(board = parent.board).filter(arrangement__gt = (current_arrangement//1000) * 1000 ).filter(arrangement__lte = current_arrangement)
             for e in to_update:
                 e.arrangement -= 1
                 e.save()
@@ -1029,7 +1029,7 @@ def comment(request, board, entry_id):
         except IndexError:
             arrangement = 0
         else:
-            arrangement = (newest_comment.arrangement/1000 + 1) * 1000
+            arrangement = (newest_comment.arrangement//1000 + 1) * 1000
         c = Comment(entry = e,
                     content = request.POST['content'],
                     creator = u,
@@ -1062,7 +1062,7 @@ def reply_comment(request, board, entry_id):
         current_arrangement = parent.arrangement + 1
 
         p = request.POST['comment_id']
-        scope = Comment.objects.filter(entry = e).filter(arrangement__gte = current_arrangement).filter(arrangement__lt = (parent.arrangement/1000 + 1) * 1000)
+        scope = Comment.objects.filter(entry = e).filter(arrangement__gte = current_arrangement).filter(arrangement__lt = (parent.arrangement//1000 + 1) * 1000)
 
         while True:
             try:
@@ -1073,7 +1073,7 @@ def reply_comment(request, board, entry_id):
                 current_arrangement = q.arrangement + 1
                 p = q.pk
 
-        to_update = Comment.objects.filter(arrangement__gte = current_arrangement).filter(arrangement__lt = (current_arrangement/1000 + 1) * 1000 )
+        to_update = Comment.objects.filter(arrangement__gte = current_arrangement).filter(arrangement__lt = (current_arrangement//1000 + 1) * 1000 )
         for c in to_update:
             c.arrangement += 1
             c.save()
@@ -1386,7 +1386,7 @@ def memo(request, page = 1):
 
     # 첫 페이지와 끝 페이지 설정
     first_page = 1
-    last_page = (count_entry - 1)/page_size + 1
+    last_page = (count_entry - 1)//page_size + 1
 
     # 페이지 리스트 만들기
     if last_page <= 7:
@@ -1555,7 +1555,7 @@ def albums(request, page = 1):
 
     # 첫 페이지와 끝 페이지 설정
     first_page = 1
-    last_page = (count_album - 1)/page_size + 1
+    last_page = (count_album - 1)//page_size + 1
 
     # 페이지 리스트 만들기
     if last_page <= 7:
@@ -1792,7 +1792,7 @@ def comment_photo(request, album_id, photo_id):
         except IndexError:
             arrangement = 0
         else:
-            arrangement = (newest_comment.arrangement/1000 + 1) * 1000
+            arrangement = (newest_comment.arrangement//1000 + 1) * 1000
 
         u = User.objects.get(user_id = request.session['user_id'])
 
@@ -1920,7 +1920,7 @@ def search(request, board_id, keyword, page):
 
     # 첫 페이지와 끝 페이지 설정
     first_page = 1
-    last_page = (count_entry - 1)/page_size + 1
+    last_page = (count_entry - 1)//page_size + 1
 
     # 페이지 리스트 만들기
     if last_page <= 7:
@@ -2027,7 +2027,7 @@ def search_albums(request, keyword, page):
 
     # 첫 페이지와 끝 페이지 설정
     first_page = 1
-    last_page = (count_album - 1)/page_size + 1
+    last_page = (count_album - 1)//page_size + 1
 
     # 페이지 리스트 만들기
     if last_page <= 7:
