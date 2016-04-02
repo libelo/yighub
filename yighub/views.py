@@ -2077,6 +2077,8 @@ def search_albums(request, keyword, page):
 def waiting(request):
     return render(request, 'yighub/waiting.html')
 
+def error500(request):
+    return render(request, 'yighub/500.html')
 # not used anymore
 # def man_won_bbang(request):
 
