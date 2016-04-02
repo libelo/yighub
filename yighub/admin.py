@@ -1,12 +1,13 @@
-from yighub.models import User, Letter, Memo
-from yighub.models import BulletinBoard, TaskforceBoard, PublicBoard
-from yighub.models import BulletinEntry, TaskforceEntry, PublicEntry
-from yighub.models import BulletinComment, TaskforceComment, PublicComment
-from yighub.models import BulletinThumbnail, TaskforceThumbnail, PublicThumbnail
-from yighub.models import BulletinFile, TaskforceFile, PublicFile
-from yighub.models import Album, Photo, PhotoComment
-
 from django.contrib import admin
+
+# Register your models here.
+from .models import User, Letter, Memo
+from .models import BulletinBoard, TaskforceBoard, PublicBoard
+from .models import BulletinEntry, TaskforceEntry, PublicEntry
+from .models import BulletinComment, TaskforceComment, PublicComment
+from .models import BulletinThumbnail, TaskforceThumbnail, PublicThumbnail
+from .models import BulletinFile, TaskforceFile, PublicFile
+from .models import Album, Photo, PhotoComment
 
 class UserAdmin(admin.ModelAdmin):
 	list_per_page = 500

@@ -1,5 +1,3 @@
-# -*- coding:utf-8 -*-
-
 # 처음으로 인터넷 크롤링을 시도하였으며, 정규식을 좀 더 알게 되었다.
 
 import requests
@@ -80,4 +78,4 @@ def betting_list_now():
 
 if __name__ == "__main__":
 	betting_list, averages = betting_list_now()
-	print averages
+	print(averages)

@@ -1,4 +1,5 @@
 {% extends "yighub/sidebar.html" %}
+{% load staticfiles %}
 
 {% block style %}
 .wrap {
@@ -27,7 +28,7 @@
 			<span class="label label-info">2</span>
 			<strong>지원서 제출</strong>
 			<p class="wrap">
-이메일 접수 : 지원서(<a href="{% url 'yighub:download' 6495 'YIG 입회 지원서.doc' %}">Download</a>)를 다운 받아 2016YIG@gmail.com으로 제출 (3월 9일 수요일 23시 마감) 
+이메일 접수 : 지원서(<a href="{% static 'yighub/YIG 입회 지원서.doc' %}">Download</a>)를 다운 받아 2016YIG@gmail.com으로 제출 (3월 9일 수요일 23시 마감) 
 
 투자기업 선정 보고서에 일정한 양식은 없습니다. 해당 기업에 대한 투자 이유, 참신한 아이디어와 논리성 위주로 작성해주세요.
 			</p>
