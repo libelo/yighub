@@ -1,4 +1,5 @@
 {% extends "yighub/sidebar.html" %}
+{% load staticfiles %}
 
 {% block style %}
 .wrap {
@@ -17,7 +18,7 @@
 			</div>
 			<br />
 			<br />
-			<img src="/static/yighub/images/contacts.png" style="height:30%; width:100%;" />
+			<img src="{% static 'yighub/images/contacts.png' %}" style="height:30%; width:100%;" />
 
 <!-- 			<div class="well">
 				<strong class="text-info">회 장</strong>
