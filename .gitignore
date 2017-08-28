@@ -12,3 +12,4 @@ yighub.log
 
 *.sublime-project
 *.sublime-workspace
+*.sqlite
