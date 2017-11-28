@@ -4,5 +4,3 @@ Django==1.9
 django-storages==1.6.5
 olefile==0.44
 Pillow==4.3.0
-Theano==0.9.0rc2
--e git+https://github.com/dmlc/xgboost@fd19b7a188a8b048f372827650b1111d4f8b1fa5#egg=xgboost&subdirectory=python-package
