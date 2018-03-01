@@ -13,12 +13,20 @@ div.container-fluid {
 {% block contents %}
 
       <!-- Begin page content -->
-      <img src="{% static 'yighub/images/main.jpg' %}" style="height:30%; width:100%;" />
 
-      <div class="text-center" style="margin-top:50px;">
-		<h3><a href="{% static 'yighub/YIG Application Form.doc' %}">지원서 다운로드</a></h3>
+      <div align="center">
+	      <iframe allowFullScreen frameborder="0" height="564" mozallowfullscreen src="https://player.vimeo.com/video/256381664" webkitAllowFullScreen width="640"></iframe>
+	  </div>
+	  <div align="center">
+		<h3><a href="{% static 'yighub/YIG Application Form.docx' %}">지원서 다운로드</a></h3>
 		<h4>yig.recruiting@gmail.com 으로 제출</h4>
 	  </div>
+      <br />
+      <div align="center">
+      	<img src="{% static 'yighub/images/main.jpg' %}" style="height:30%; width:60%;" />
+      </div>
+
+      
 	  
 	<!-- <a class='inline' href="#inline_content"></a> -->
 {% endblock %}

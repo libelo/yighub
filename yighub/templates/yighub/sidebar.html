@@ -54,8 +54,9 @@
 
 				<li class="nav-header">Fund</li>
 				<li {% if current_board.name == 'simA' %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.simA.id 0 %}">SIM-A FUND<i class="icon-chevron-right"></i></a></li>
-				<li {% if current_board.name == 'simV' %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.simJ.id 0 %}">심봤다 JS형<i class="icon-chevron-right"></i></a></li>
+				<li {% if current_board.name == 'simJ' %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.simJ.id 0 %}">SIM-JS FUND<i class="icon-chevron-right"></i></a></li>
 				<li {% if current_board.name == 'GFun' %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.GFun.id 0 %}">G FUND<i class="icon-chevron-right"></i></a></li>
+				<li {% if current_board.name == 'SFun' %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.SFun.id 0 %}">S FUND<i class="icon-chevron-right"></i></a></li>
 				<li {% if current_board.name == 'Universe' %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Univ.id 0 %}">YIG Universe<i class="icon-chevron-right"></i></a></li>
 
 				<li class="nav-header">Research</li>
