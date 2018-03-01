@@ -33,10 +33,11 @@
 			<br />
 			<hr />
 
-			{% if entry.downloads %}
+			{% if files %}
+			<!--<p class="lead">파일 다운로드</p>-->
 			<ul class="unstyled">
-				{% for f in entry.downloads %}
-				<li><a href = "{% url 'yighub:download' f.id f.filename %}">{{ f.name }}&nbsp;</a><span class="badge badge-success">{{ f.hit }}</span></li>
+				{% for f in files %}
+				<li><a href="{{ f.file.url }}">{{ f.name }}&nbsp;</a><span class="badge badge-success">{{ f.hit }}</span></li>
 				{% endfor %}
 			</ul>
 			<br />
