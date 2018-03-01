@@ -13,3 +13,9 @@ yighub.log
 *.sublime-project
 *.sublime-workspace
 *.sqlite
+deploy.json
+fabfile.py
+mywebsite/mywebsite_nginx.conf
+mywebsite/mywebsite_uwsgi.ini
+mywebsite/settings-deploy.py
+mywebsite/uwsgi_params
