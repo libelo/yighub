@@ -1,0 +1,57 @@
+body {
+ background-image: url("https://i.pinimg.com/originals/e8/1e/f9/e81ef94eae77568adfd02e18a17775ab.jpg");
+ padding-top: 40px;
+ background-size: 1500px 600px;
+ height: 100%;
+}
+
+div.container-fluid {
+	padding: 0px
+}
+
+.Hello_YIG{
+    margin-top: 45px;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    color: #F5FBEF;
+    font-family: 'Montserrat', sans-serif;
+    }
+
+.lst_nav/*소개하기*/{
+    margin-top: 240px;
+    width: 100%;
+    text-align: center;
+}
+
+.lst_nav li{
+    display: inline-block;
+    margin: 0 75px;
+}
+
+.lst_nav li a{
+    display: inline-block;
+    color: white;
+    font-size: 30px;
+    font-weight: 400;
+    min-width: 110px;
+    text-align: center;
+}
+
+.lst_nav li .ico{
+    display: table;
+    margin-bottom: 10px;
+    width: 150px;
+    height: 150px;
+    border-radius: 15px;
+    background-color: rgba(38, 97, 155, 0.6);
+    transition: all 0.3s;
+}
+
+.lst_nav li .ico em{
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+
+img{
+    vertical-align: middle;
+}

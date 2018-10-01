@@ -1,32 +1,51 @@
-﻿{% extends "yighub/base.html" %}
+﻿<html>
+{% extends "yighub/base.html" %}
 {% load staticfiles %}
+{% load static %}
 
 {% block style %}
-body {
-	padding-top: 40px
-}
-div.container-fluid {
-	padding: 0px
-}
+    <link rel="stylesheet" href="{% static "yighub/CSS/home_for_visitor.css" %}"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
 {% endblock %}
-
 {% block contents %}
-
       <!-- Begin page content -->
-
-      <div align="center">
-	      <iframe allowFullScreen frameborder="0" height="564" mozallowfullscreen src="https://player.vimeo.com/video/256381664" webkitAllowFullScreen width="640"></iframe>
-	  </div>
-	  <div align="center">
-		<h3><a href="{% static 'yighub/YIG Application Form.docx' %}">지원서 다운로드</a></h3>
-		<h4>yigyonsei@gmail.com 으로 제출</h4>
-	  </div>
-      <br />
-      <div align="center">
-      	<img src="{% static 'yighub/images/main.jpg' %}" style="height:30%; width:60%;" />
-      </div>
-
-      
-	  
+    <div class="Intro">
+        <div class="Hello_YIG" style="text-align: center; font-family: 'Montserrat', sans-serif;">
+         <h1>YIG에 오신 것을 환영합니다.</h1>
+        </div>
+        <ul class="lst_nav">
+            <li class="nav1">
+                <a href="yighub/public/1/page/0/">
+                   <span class="ico">
+                      <em>
+                        <img src="{% static "yighub/images/Introduction.png" %}"/>
+                      </em>
+                   </span>
+                    YIG 소개
+                </a>
+            </li>
+            <li class="nav2">
+                <a href="yighub/public/1/page/0/">
+                    <span class="ico">
+                        <em>
+                            <img src="{% static "yighub/images/applyIcon.png"%}"/>
+                        </em>
+                    </span>
+                     지원하기
+                </a>
+            </li>
+            <li class="nav3">
+                <a href="yighub/public/1/page/0/">
+                    <span class="ico">
+                        <em>
+                            <img src="{% static "yighub/images/Contact.png"%}"/>
+                        </em>
+                    </span>
+                     연락처
+                </a>
+            </li>
+        </ul>
+    </div>
 	<!-- <a class='inline' href="#inline_content"></a> -->
 {% endblock %}
+</html>

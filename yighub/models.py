@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django.db import models
 from django import forms
 from .models_base import User, Board, Entry, Comment, File, Thumbnail, Tag
@@ -90,8 +92,6 @@ class Letter(models.Model):
     time_created = models.DateTimeField()
     file = models.FileField(upload_to = 'letter_files/%Y/%m/%d', blank = True)
     filename = models.CharField(max_length = 200)
-    #file_hit ? no.
-    # read 를 count_view처럼? No.
 
     def __str__(self):
         return self.title
@@ -110,7 +110,6 @@ class Memo(models.Model):
         return self.memo
 
 class Album(models.Model):
-    #썸네일은 필요없다. 그냥 첫번째 사진을 썸네일로 한다.
     name = models.CharField(max_length = 50)
     event_time = models.DateField(blank = True, null = True)
     count_view = models.PositiveIntegerField(default = 0)

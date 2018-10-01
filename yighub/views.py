@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render_to_response, get_object_or_404, render, redirect
 from django.template import RequestContext
@@ -10,7 +12,6 @@ from django.utils import timezone
 from django.contrib.auth import hashers
 from django.utils.http import urlquote
 from django.utils.encoding import iri_to_uri
-
 from .models import User, Letter, Memo, UserForm
 from .models import Board
 from .models import BulletinBoard, TaskforceBoard, PublicBoard
@@ -195,6 +196,7 @@ def get_board_list(board):
         board_list = None
 
     return board_list
+
 
 def home(request):
 
