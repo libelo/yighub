@@ -40,148 +40,48 @@
 </head>
 
 <body>
-
-	<!-- Fixed navbar -->
-	<div id="top_navbar" class="navbar navbar-inverse navbar-fixed-top">
-		<div id="navbar_inner"  class="navbar-inner">
-			<div class="container">
-				<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<img src="{% static 'yighub/images/yiglogo.png' %}" class="pull-left" style="height:30px; width:30px; margin:5px 5px 0px 0px"/>
-				<a class="brand" href="/">YIG</a>
-				{% if user.name %}
-				<div class="nav-collapse collapse">
-					<p class="navbar-text pull-right">
-						Logged in as <a href="{% url 'yighub:edit_profile' %}" class="navbar-link">{{ user.name }}</a>
-						{% if user.level = 'mgr' %}
-						<a href="/admin">&nbsp;Admin</a>
-						{% endif %}
-						<a href="{% url 'yighub:logout' %}">&nbsp;Logout</a>
-					</p>
-					<ul class="nav">
-						<li class="dropdown visible-desktop">
-							<a href="{% url 'yighub:listing' 'public' public_dict.Intr.id 0 %}" class="dropdown-toggle" data-toggle="dropdown">
-								Menu
-								<b class="caret"></b>
-							</a>
-							<ul class="dropdown-menu menubar">
-								<li><a id="top_nav_yig" href="{% url 'yighub:listing' 'public' public_dict.Intr.id 0 %}"><strong>About YIG</strong><i class="icon-chevron-right"></i></a></li>
-								<li><a class="top_nav_yig" href="{% url 'yighub:listing' 'public' public_dict.Recr.id 0 %}"><strong>Recruiting</strong><i class="icon-chevron-right"></i></a></li>
-								<li><a class="top_nav_yig" href="{% url 'yighub:listing' 'public' public_dict.Memb.id 0 %}"><strong>Member Profile</strong><i class="icon-chevron-right"></i></a></li>
-								<li><a class="top_nav_yig" href="{% url 'yighub:listing' 'public' public_dict.simA.id 0 %}"><strong>Fund</strong><i class="icon-chevron-right"></i></a></li>
-								<li><a class="top_nav_yig" href="{% url 'yighub:listing' 'public' public_dict.Rese.id 0 %}"><strong>Research</strong><i class="icon-chevron-right"></i></a></li>
-								<li><a class="top_nav_yig" href="{% url 'yighub:listing' 'public' public_dict.Cont.id 0 %}"><strong>Contact Us</strong><i class="icon-chevron-right"></i></a></li>
-							</ul>
-						</li>
-						<li class="hidden-desktop"><a href="{% url 'yighub:listing' 'public' public_dict.Intr.id 0 %}">About YIG</a></li>
-						<li class="hidden-desktop"><a href="{% url 'yighub:listing' 'public' public_dict.Recr.id 0 %}">Recruiting</a></li>
-						<li class="hidden-desktop"><a href="{% url 'yighub:listing' 'public' public_dict.Memb.id 0 %}">Member Profile</a></li>
-						<li class="hidden-desktop"><a href="{% url 'yighub:listing' 'public' public_dict.simA.id 0 %}">Fund</a></li>
-						<li class="hidden-desktop"><a href="{% url 'yighub:listing' 'public' public_dict.Rese.id 0 %}">Research</a></li>
-						<li class="hidden-desktop"><a href="{% url 'yighub:listing' 'public' public_dict.Cont.id 0 %}">Contact Us</a></li>
-
-						<li><a href="{% url 'yighub:news' 'bulletin' 0 %}">Boards</a></li>
-						<li><a href="{% url 'yighub:news' 'taskforce' 0 %}">Taskforce</a></li>
-						<li><a href="{% url 'yighub:albums' 0 %}">Albums</a></li>
-					</ul>
-				</div><!--/.nav-collapse -->
+<div class="Fixed_Top_Nav">
 
 
-				{% else %}
-				<div class="nav-collapse collapse">
-					<ul class="nav">
-						<li class="dropdown visible-desktop">
-							<a class="dropdown-toggle" data-toggle="dropdown">
-								About YIG
-								<b class="caret"></b>
-							</a>
-							<ul class="dropdown-menu menubar">
-								<li><a href="{% url 'yighub:listing' 'public' public_dict.Intr.id 0 %}"><strong>Introduction</strong><i class="icon-chevron-right"></i></a></li>
-								<li><a href="{% url 'yighub:listing' 'public' public_dict.Visi.id 0 %}"><strong>Vision</strong><i class="icon-chevron-right"></i></a></li>
-								<li><a href="{% url 'yighub:listing' 'public' public_dict.Acti.id 0 %}"><strong>Activity</strong><i class="icon-chevron-right"></i></a></li>
-								<li><a href="{% url 'yighub:listing' 'public' public_dict.Hist.id 0 %}"><strong>History</strong><i class="icon-chevron-right"></i></a></li>
-								<li><a href="{% url 'yighub:listing' 'public' public_dict.Clip.id 0 %}"><strong>Clipping</strong><i class="icon-chevron-right"></i></a></li>
-							</ul>
-						</li>
-						<li class="hidden-desktop"><a href="{% url 'yighub:listing' 'public' public_dict.Intr.id 0 %}">About YIG</a></li>
+    {% if user.name %}
+     OKOK
 
-						<li class="dropdown visible-desktop">
-							<a class="dropdown-toggle" data-toggle="dropdown">
-								Recruiting
-								<b class="caret"></b>
-							</a>
-							<ul class="dropdown-menu menubar">
-								<li><a href="{% url 'yighub:listing' 'public' public_dict.Recr.id 0 %}"><strong>Recruiting</strong><i class="icon-chevron-right"></i></a></li>
-								<li><a href="{% url 'yighub:listing' 'public' public_dict.Appl.id 0 %}"><strong>Apply</strong><i class="icon-chevron-right"></i></a></li>
-								<li><a href="{% url 'yighub:listing' 'public' public_dict.Sche.id 0 %}"><strong>Schedule</strong><i class="icon-chevron-right"></i></a></li>
-								<li><a href="{% url 'yighub:listing' 'public' public_dict.FAQ.id 0 %}"><strong>FAQ</strong><i class="icon-chevron-right"></i></a></li>
-							</ul>
-						</li>
-						<li class="hidden-desktop"><a href="{% url 'yighub:listing' 'public' public_dict.Recr.id 0 %}">Recruiting</a></li>
+    {% else %}
+    <!-- 고정 Main Nav Bar-->
+    <header class="top_header">
+        <div class="header-nav">
+            <h1>
+                <img src="{% static "yighub/images/yiglogo.png" %}" height="50px" width="50px"/>
+                <a href="#" title="YIG 메인페이지로 이동">YIG</a>
+            </h1>
+            <nav class="Visitors_Top_Nav_Main">
+                <a href="yighub/public/1/page/0/">About YIG</a>
+                <a href="yighub/public/6/page/0/">Recruiting</a>
+                <a href="yighub/public/10/page/0/">Member Profile</a>
+                <a href="yighub/public/11/page/0/">Fund</a>
+                <a href="yighub/public/15/page/0/">Resarch</a>
+                <a href="yighub/public/16/page/0">Contact Us</a>
+            </nav>
+            <div class="Account">
+                <a href="yighub/login/">LogIn</a>
+                <a href="yighub/join/">Become a YIGIAN</a>
+            </div>
+            <div class="line"></div>
+        </div>
+    </header>
+    <!--고정 Sub Nav Bar-->
+    {% endif %}
+</div>
 
-						<li><a href="{% url 'yighub:listing' 'public' public_dict.Memb.id 0 %}">Member Profile</a></li>
+<div class="container-fluid">
+    <div class="row-fluid">
+        {% block sidebar %}
+        {% endblock %}
 
-
-						<li class="dropdown visible-desktop">
-							<a class="dropdown-toggle" data-toggle="dropdown">
-								Fund
-								<b class="caret"></b>
-							</a>
-							<ul class="dropdown-menu menubar">
-								<li><a href="{% url 'yighub:listing' 'public' public_dict.simA.id 0 %}"><strong>심봤다 A형</strong><i class="icon-chevron-right"></i></a></li>
-								<li><a href="{% url 'yighub:listing' 'public' public_dict.simJ.id 0 %}"><strong>심봤다 JS형</strong><i class="icon-chevron-right"></i></a></li>
-								<li><a href="{% url 'yighub:listing' 'public' public_dict.simH.id 0 %}"><strong>심봤다 H형</strong><i class="icon-chevron-right"></i></a></li>
-								<li><a href="{% url 'yighub:listing' 'public' public_dict.Univ.id 0 %}"><strong>YIG Universe</strong><i class="icon-chevron-right"></i></a></li>
-							</ul>
-						</li>
-						<li class="hidden-desktop"><a href="{% url 'yighub:listing' 'public' public_dict.simA.id 0 %}">Fund</a></li>
-						<li><a href="{% url 'yighub:listing' 'public' public_dict.Rese.id 0 %}">Research</a></li>
-						<li class="dropdown visible-desktop">
-							<a class="dropdown-toggle" data-toggle="dropdown">
-								Contact Us
-								<b class="caret"></b>
-							</a>
-							<ul class="dropdown-menu menubar">
-								<li><a href="{% url 'yighub:listing' 'public' public_dict.Cont.id 0 %}"><strong>Contact Us</strong><i class="icon-chevron-right"></i></a></li>
-								<li><a href="{% url 'yighub:listing' 'public' public_dict.QnA.id 0 %}"><strong>Q/A</strong><i class="icon-chevron-right"></i></a></li>
-							</ul>
-						</li>
-						<li class="hidden-desktop"><a href="{% url 'yighub:listing' 'public' public_dict.Cont.id 0 %}">Contact Us</a></li>
-
-					</ul>
-				</div><!--/.nav-collapse -->
-				<div class="container-fluid pull-right">
-					<!-- to support IE -->
-					<!-- <a href="{% url 'yighub:login' %}"> -->
-						<button type="button" class="btn btn-primary" onclick="location.href = '{% url 'yighub:login' %}'">로그인</button>
-					<!-- </a> -->
-					<!-- <a href="{% url 'yighub:join' %}"> -->
-						<button type="button" class="btn" onclick="location.href = '{% url 'yighub:join' %}'">회원가입</button>
-					<!-- </a> -->
-				</div>
-				{% endif %}
-			</div>
-		</div>
-	</div>
-
-	<div class="container-fluid">
-		<div class="row-fluid">
-			{% block sidebar %}
-			{% endblock %}
-
-			{% block contents %}
-			{% endblock %}
-		</div><!--/.row-->
-		<footer>
-			<div class="container">
-				<p class="text-center muted">Yonsei Investment Group</p>
-			</div>
-		</footer>
-
-	</div><!--/.fluid-container-->
+        {% block contents %}
+        {% endblock %}
+    </div><!--/.row-->
+</div><!--/.fluid-container-->
 
 
 <!-- Le javascript

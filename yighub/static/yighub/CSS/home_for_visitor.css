@@ -1,7 +1,8 @@
 body {
  background-image: url("https://i.pinimg.com/originals/e8/1e/f9/e81ef94eae77568adfd02e18a17775ab.jpg");
  padding-top: 40px;
- background-size: 1500px 600px;
+ background-size: 100% 100%;
+ background-repeat: no-repeat;
  height: 100%;
 }
 
@@ -17,7 +18,7 @@ div.container-fluid {
     }
 
 .lst_nav/*소개하기*/{
-    margin-top: 240px;
+    margin-top: 50vh;
     width: 100%;
     text-align: center;
 }
@@ -42,7 +43,7 @@ div.container-fluid {
     width: 150px;
     height: 150px;
     border-radius: 15px;
-    background-color: rgba(38, 97, 155, 0.6);
+    background-color: rgba(239, 224, 170, 0.6);
     transition: all 0.3s;
 }
 
