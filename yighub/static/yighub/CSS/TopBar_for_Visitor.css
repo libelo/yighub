@@ -1,0 +1,93 @@
+.Fixed_Top_Nav{
+    background-color: black;
+}
+
+.top_header{
+	width: 100%;
+	position: fixed;
+	z-index: 999;
+    background-color: black;
+}
+
+.top_header .header-nav{
+    background-color: rgba(0,0,0,.8);
+	float: left;
+	width: 100%;
+	height: 80px;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+	z-index: 9999;
+	top: 30px;
+	position: fixed;
+}
+
+/* YIG 로고 및 글씨 */
+.header-nav h1{
+	float: left;
+	margin-top: 0px;
+	margin-left: 2.3vh;
+	vertical-align: middle;
+	top: 2.3vh;
+	position: fixed;
+}
+
+.header-nav h1 a{
+	color: red;
+	font-size: 4.5vh;
+	vertical-align: middle;
+}
+
+.Visitors_Top_Nav_Main{
+	margin-left: 200px;
+	vertical-align: middle;
+	float: left;
+}
+
+.Visitors_Top_Nav_Main a:first-child{
+	margin-left: 0;
+}
+
+.Visitors_Top_Nav_Main a {
+    float: left;
+	height: 80px;
+	display: block;
+	color: #f2f2f2;
+    text-align: center;
+    padding: 0px 20px;
+	font-size: 3vh;
+	width: auto;
+	vertical-align: middle;
+	box-sizing: border-box;
+}
+
+.Account a:first-child{
+	color: white;
+	font-size: 2.5vh;
+	position: fixed;
+	right: 35vh;
+}
+
+.Account a:nth-child(2){
+	color: red;
+	font-size: 2.5vh;
+	position: fixed;
+	top: 4vh;
+	right: 9vh;
+	padding: 0.5vh 1vh;
+	border-style: solid;
+	border-color: white;
+	border-width: 0.1vh;
+	border-radius: 15px;
+	box-sizing: inherit;
+}
+
+
+.line{
+	top: 79px;
+	position: fixed;
+	left: 0;
+	width: 100%;
+	height: 1px;
+	background-color: rgba(255,255,255, 0.8);
+}

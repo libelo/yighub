@@ -112,9 +112,11 @@ p {
 	width: 100%;
 	position: fixed;
 	z-index: 999;
+	background-color: black;
 }
 
 .top_header .header-nav{
+	background-color: black;
 	float: left;
 	width: 100%;
 	height: 80px;

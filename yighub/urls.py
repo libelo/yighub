@@ -1,5 +1,4 @@
 from django.conf.urls import url
-
 from . import views
 
 app_name = 'yighub'
@@ -75,5 +74,9 @@ urlpatterns = [
     url(r'^(?P<board>\w+)/entry/(?P<entry_id>\d+)/comment/(?P<comment_id>\d+)/delete/$', views.delete_comment, name='delete_comment'),    
     url(r'^(?P<board>\w+)/entry/(?P<entry_id>\d+)/comment/(?P<comment_id>\d+)/reply/$', views.reply_comment, name='reply_comment'),
     url(r'^(?P<board>\w+)/entry/(?P<entry_id>\d+)/comment/(?P<comment_id>\d+)/recommend/$', views.recommend_comment, name='recommend_comment'),
-    #url(r'^(?P<board>\w+)/entry/(?P<entry_id>\d+)/comment/(?P<comment_id>\d+)/recommend/delete/$', views.recommend_comment, name='recommend_comment'),
+    #url(r'^(?P<board>\w+)/entry/(?P<entry_id>\d+)/comment/(?P<comment_id>\d+)/recommend/delete/$', views.recommend_comment, name='recommend_comment')
+
+    #도메인 이름 변경
+    url(r'^Introduction/$', views.Introduction.as_view(), name="Public_Introduction"),
+    url(r'^TopBar/$', views.TopBar_for_Visitor.as_view(), name="TopBar_for_Visitor")
 ]

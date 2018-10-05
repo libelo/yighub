@@ -5,7 +5,9 @@ from django.shortcuts import render_to_response, get_object_or_404, render, redi
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.contrib import messages
+from django.views.generic import TemplateView
 import mimetypes
+import pdb
 import datetime
 from urllib.parse import quote, unquote
 from django.utils import timezone
@@ -23,6 +25,7 @@ from .models import BulletinEntryForm, TaskforceEntryForm, PublicEntryForm
 from .models import TaskforceBoardForm
 from .models import Album, Photo, PhotoComment
 from .models import AlbumForm, PhotoForm
+
 
 # from .man_won_bbang import betting_list_now
 
@@ -196,6 +199,14 @@ def get_board_list(board):
         board_list = None
 
     return board_list
+
+
+class Introduction(TemplateView):
+    template_name = "yighub/public_Introduction.html"
+
+
+class TopBar_for_Visitor(TemplateView):
+    template_name = "yighub/TopBar_for_Visitor.html"
 
 
 def home(request):
@@ -462,8 +473,8 @@ def listing(request, board, board_id, page = '0'):    # url : yig.in/yighub/boar
     else:
         logger.info('방문자가 %s 게시판 %s 페이지를 열었습니다.' % (current_board.name, page))        
 
-    if board == 'public':
-
+    if board == 'public' and current_board.name!="Introduction":
+        pdb.set_trace()
         if current_board.name == 'Member Profile':
             current_ordinal = User.objects.all().order_by('-ordinal')[0].ordinal
             if page == '0':
