@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TopBar for Visitor</title>
+    <link rel="stylesheet" href="{% static "yighub/CSS/TopBar_for_Visitor.css" %}"/>
+    {% block style %}
+    {% endblock %}
+</head>
+<body>
+<header class="top_header">
+    <nav class="Main_nav">
+        <img src="{% static "yighub/images/yiglogo.png" %}" height="50px" width="50px"/>    
+        <a id="YIG" href="#" title="YIG 메인페이지로 이동">YIG</a>
+        <a href="yighub/public/1/page/0/">About YIG</a>
+        <a href="yighub/public/6/page/0/">Recruiting</a>
+        <a href="yighub/public/10/page/0/">Member Profile</a>
+        <a href="yighub/public/11/page/0/">Fund</a>
+        <a href="yighub/public/15/page/0/">Resarch</a>
+        <a href="yighub/public/16/page/0">Contact Us</a>  
+        <a id="LogIn" href="yighub/login/">LogIn</a>
+        <a id="SignUp" href="yighub/join/">Become a YIGIAN</a>            
+    </nav>
+</header>
+{% block Sub_TopBar_For_Visitor %}
+{% endblock %}
+{% block contents %}
+{% endblock %}
+</body>
+</html>

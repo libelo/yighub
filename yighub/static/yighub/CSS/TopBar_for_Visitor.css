@@ -4,12 +4,15 @@ a{
 	background: transparent;
 }
 
+body{
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 .top_header{
+    position: relative;
     width: 100%;
     height: 80px;
-    left: 0;
-    top: 0;
-    position: fixed;
     display: inline-block
 }
 
@@ -19,47 +22,44 @@ a{
 
 .Main_nav img{
     position: relative;
-    top: 2vh;
-    left: 2vh;
+    top: 1vh;
+    left: 1vh;
 }
 
 .Main_nav a{
-    color: red;
-    font-size: 4vh;
     position: relative;
-    left: 2.5vh;
-}
-
-.Others_nav a{
-    position: relative;
-    font-size: 3.5vh;
-    left: 5vh;
+    left: 2vh;
+    bottom: 1.3vh;
+    font-size: 3vh;
     padding: 0 3vh;
     color: rgba(0, 0, 0, 0.75);
+    z-index: 99;
 }
 
-.Account_nav a{
+#YIG{
+   position: relative; 
+   left: -1vh;
+   color: red;
+   font-size: 4.5vh;  
+}
+
+#LogIn{
     font-size: 2.5vh;
+    position: relative;
+    left: 15vh;
 }
 
-.Account_nav a:first-child{
+#SignUp{
+    font-size: 2.5vh;
     position: relative;
     left: 20vh;
-    color: rgba(0, 0, 0, 0.75);
-}
-
-.Account_nav a:nth-child(2){
-    position: relative;
-    left: 23vh;
     color: red;
     border-style: solid;
     padding: 0.5vh 1vh;
 	border-color: rgba(0,0,0,.75);
 	border-width: 0.1vh;
 	border-radius: 15px;
-	
 }
-
 
 .line{
 	top: 79px;

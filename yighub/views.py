@@ -205,8 +205,36 @@ class Introduction(TemplateView):
     template_name = "yighub/public_Introduction.html"
 
 
+class Vision(TemplateView):
+    template_name = "yighub/public_Vision.html"
+
+
+class Activity(TemplateView):
+    template_name = "yighub/public_Activity.html"
+
+
+class History(TemplateView):
+    template_name = "yighub/public_History.html"
+
+    def get_context_data(self, **kwargs):
+        context=super(TemplateView, self).get_context_data()
+        p = pagination("public", '4', current_page='0')
+        for e in p['entry_list']:
+            e.history = []
+            months = e.content.split('\n')
+            for m in months:
+                month = m.split('-')[0][:-1]
+                events = m.split('-')[1].split(', ')
+                e.history.append({'month': month, 'events': events})
+        context['page']=p
+        return context
+
+
 class TopBar_for_Visitor(TemplateView):
-    template_name = "yighub/TopBar_for_Visitor.html"
+    template_name = "yighub/extends/TopBar_for_Visitor.html"
+
+class SubTopBar_for_Visitor(TemplateView):
+    template_name="yighub/extends/Sub_TopBar_For_Visitor.html"
 
 
 def home(request):
@@ -474,7 +502,6 @@ def listing(request, board, board_id, page = '0'):    # url : yig.in/yighub/boar
         logger.info('방문자가 %s 게시판 %s 페이지를 열었습니다.' % (current_board.name, page))        
 
     if board == 'public' and current_board.name!="Introduction":
-        pdb.set_trace()
         if current_board.name == 'Member Profile':
             current_ordinal = User.objects.all().order_by('-ordinal')[0].ordinal
             if page == '0':
@@ -486,8 +513,8 @@ def listing(request, board, board_id, page = '0'):    # url : yig.in/yighub/boar
             p['ordinal_range'] = range(1, current_ordinal+1)
 
         if current_board.name == 'History':
-            for e in p['entry_list']:                
-                e.history = [] 
+            for e in p['entry_list']:
+                e.history = []
                 months = e.content.split('\n')
                 for m in months:
                     month = m.split('-')[0][:-1]
@@ -501,12 +528,12 @@ def listing(request, board, board_id, page = '0'):    # url : yig.in/yighub/boar
                 e.downloads.append(f)
 
         return render(request, 'yighub/public_' + current_board.name + '.html', 
-            {'user': u, 'public_dict' : PublicBoardDict, 'board': board, 'board_list': board_list, 'current_board': current_board, 'page': p}
-            )
+            {'user': u, 'public_dict' : PublicBoardDict, 'board': board, 'board_list': board_list,
+             'current_board': current_board, 'page': p})
 
     return render(request, 'yighub/listing.html',
-        {'user': u, 'public_dict' : PublicBoardDict, 'board': board, 'board_list': board_list, 'current_board': current_board, 'page': p}
-        )
+        {'user': u, 'public_dict' : PublicBoardDict, 'board': board, 'board_list': board_list,
+         'current_board': current_board, 'page': p})
 
     # if board_id:
     #     b = Board.objects.get(pk = board_id)

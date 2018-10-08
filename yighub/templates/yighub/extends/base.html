@@ -1,0 +1,106 @@
+{% load staticfiles %}
+{% load static  %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>YIG &middot; Yonsei Investment Group</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Yonsei Investment Group">
+	<meta name="author" content="">
+
+	<!-- Le styles -->
+	<link href="{% static 'yighub/bootstrap/css/bootstrap.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static "yighub/CSS/base.css" %}"/>
+	<link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet" type="text/css" />
+	<link rel="shortcut icon" href="{% static 'yighub/images/yiglogo.png' %}" />
+	<link rel="stylesheet" href="{% static 'yighub/colorbox-master/colorbox.css' %}">
+	<link href="{% static 'yighub/bootstrap/css/bootstrap-responsive.css' %}" rel="stylesheet">
+
+    {% block style %}
+    {% endblock %}
+
+	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+	<!--[if lt IE 9]>
+	<script src="../assets/js/html5shiv.js"></script>
+	<![endif]-->
+
+	<!-- Google Analystics 추적 코드 -->
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	  ga('create', 'UA-45163537-1', 'yig.in');
+	  ga('require', 'linkid', 'linkid.js');
+	  ga('send', 'pageview');
+
+	</script>
+</head>
+
+<body>
+<div class="Fixed_Top_Nav">
+
+    {% if user.name %}
+     OKOK
+
+    {% else %}
+    <!-- 고정 Main Nav Bar-->
+    <header class="top_header">
+        <div class="header-nav">
+            <h1>
+                <img src="{% static "yighub/images/yiglogo.png" %}" height="50px" width="50px"/>
+                <a href="#" title="YIG 메인페이지로 이동">YIG</a>
+            </h1>
+            <nav class="Visitors_Top_Nav_Main">
+                <a href="yighub/public/1/page/0/">About YIG</a>
+                <a href="yighub/public/6/page/0/">Recruiting</a>
+                <a href="yighub/public/10/page/0/">Member Profile</a>
+                <a href="yighub/public/11/page/0/">Fund</a>
+                <a href="yighub/public/15/page/0/">Resarch</a>
+                <a href="yighub/public/16/page/0">Contact Us</a>
+            </nav>
+            <div class="Account">
+                <a href="yighub/login/">LogIn</a>
+                <a href="yighub/join/">Become a YIGIAN</a>
+            </div>
+            <div class="line"></div>
+        </div>
+    </header>
+    <!--고정 Sub Nav Bar-->
+    {% endif %}
+</div>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        {% block sidebar %}
+        {% endblock %}
+
+        {% block contents %}
+        {% endblock %}
+    </div><!--/.row-->
+</div><!--/.fluid-container-->
+
+<!-- Le javascript
+	================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="http://code.jquery.com/jquery.js"></script>
+	<script src="{% static 'yighub/bootstrap/js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'yighub/colorbox-master/jquery.colorbox-min.js' %}"></script>
+	<div style='display:none'>
+		<div id='inline_content' style='padding:10px; background:#fff;'>
+		<a href="https://gaps.dongbu.com/">
+			<img src="{% static 'yighub/images/popup.jpeg' %}" />
+		</a>
+		</div>
+	</div>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$('a.inline').colorbox({inline:true});
+		$('a.inline').click();
+	});
+	</script>
+
+</body>
+</html>

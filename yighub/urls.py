@@ -77,6 +77,14 @@ urlpatterns = [
     #url(r'^(?P<board>\w+)/entry/(?P<entry_id>\d+)/comment/(?P<comment_id>\d+)/recommend/delete/$', views.recommend_comment, name='recommend_comment')
 
     #도메인 이름 변경
-    url(r'^Introduction/$', views.Introduction.as_view(), name="Public_Introduction"),
-    url(r'^TopBar/$', views.TopBar_for_Visitor.as_view(), name="TopBar_for_Visitor")
+    ##About YIG
+    url(r'^AboutYIG/Introduction/$', views.Introduction.as_view(), name="Public_Introduction"),
+    url(r'^AboutYIG/Vision/$', views.Vision.as_view(), name="Public_Vision"),
+    url(r'^AboutYIG/Activity/$', views.Activity.as_view(), name="Public_Activity"),
+    url(r'^AboutYIG/History/$', views.History.as_view(), name="Public_History"),
+    url(r'^AboutYIG/Clipping/$', views.Introduction.as_view(), name="Public_Clipping"),
+
+    #Test 임시 URL(완성 후 즉각 삭제 요망)
+    url(r'^TopBar/$', views.TopBar_for_Visitor.as_view(), name="TopBar_for_Visitor"),
+    url(r'^SubTopBar/$', views.SubTopBar_for_Visitor.as_view(), name="SubTopBar"),
 ]
