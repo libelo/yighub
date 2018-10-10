@@ -1,4 +1,4 @@
-{% extends "yighub/sidebar.html" %}
+{% extends "yighub/extends/TopBar_Fund.html" %}
 
 {% block contents %}
 	<div class="span9">
@@ -64,8 +64,8 @@
 			<div class="pagination pagination-small text-center">
 			  <ul>
 			  	<!-- {% if page.first_page %} -->
-			    <!-- <li class="visible-desktop pull-left"><a href="{% url 'yighub:listing' board current_board.id page.first_page %}">&laquo;</a></li> -->
-			    <!-- <li><a href="{% url 'yighub:listing' board current_board.id page.prev_page %}">&lsaquo;</a></li> -->
+			    <!-- <li class="visible-desktop pull-left"><a href="{% url 'yighub:Public_SIM_JS' page.first_page %}">&laquo;</a></li> -->
+			    <!-- <li><a href="{% url 'yighub:Public_SIM_JS' page.prev_page %}">&lsaquo;</a></li> -->
 			    <!-- {% endif %} -->
 			    {% for p in page.page_list %}
 				    {% if p == page.current_page %}
@@ -73,12 +73,12 @@
 				    {% else %}
 				    <li>
 				    {% endif %}
-					    <a href="{% url 'yighub:listing' board current_board.id p %}">{{ p }}</a>
+					    <a href="{% url 'yighub:Public_SIM_JS' p %}">{{ p }}</a>
 					</li>
 			    {% endfor %}
 			    {% if page.last_page %}
-			    <!-- <li><a href="{% url 'yighub:listing' board current_board.id page.next_page %}">&rsaquo;</a></li> -->
-			    <li class="visible-desktop"><a href="{% url 'yighub:listing' board current_board.id page.last_page %}">&raquo;</a></li>
+			    <!-- <li><a href="{% url 'yighub:Public_SIM_JS' page.next_page %}">&rsaquo;</a></li> -->
+			    <li class="visible-desktop"><a href="{% url 'yighub:Public_SIM_JS' page.last_page %}">&raquo;</a></li>
 			    {% endif %}
 			  </ul>
 			</div>
@@ -89,8 +89,8 @@
 		<div class="row-fluid" style="margin-top: 70px">
 			<div class="container-fluid">
 				<span class="pull-right">
-				<!-- <a href="{% url 'yighub:create_in_board' board current_board.id %}"> -->
-					<button type="button" class="btn btn-primary" onclick="location.href = '{% url 'yighub:create_in_board' board current_board.id %}'">글쓰기</button>
+				<!-- <a href="{% url 'yighub:create_in_board' board board_id %}"> -->
+					<button type="button" class="btn btn-primary" onclick="location.href = '{% url 'yighub:create_in_board' board board_id %}'">글쓰기</button>
 				<!-- </a> -->
 				</span>
 			</div> 			

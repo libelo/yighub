@@ -1,10 +1,4 @@
-{% extends "yighub/sidebar.html" %}
-
-{% block style %}
-.wrap {
-	white-space: pre-wrap;
-}
-{% endblock %}
+{% extends "yighub/extends/TopBar_Recruiting.html" %}
 
 {% block contents %}
 	<div class="span9">
@@ -59,7 +53,7 @@ YIG is waiting for you!`
 			<p class="wrap">
 문의사항은 다음 연락처로 보내주세요.
 
-<a href="{% url 'yighub:listing' 'public' public_dict.Cont.id 0 %}">Contact Us</a>
+<a>Contact Us</a>
 			</p>
 			<br />
 			<br />

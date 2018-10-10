@@ -1,11 +1,8 @@
-{% extends "yighub/sidebar.html" %}
-
-{% block style %}
-.wrap {
-	white-space: pre-wrap;
-}
+{% extends 'yighub/extends/TopBar_MemberProfile.html'%}
+{% load static %}
+{% block customstyle %}
+    <link rel="stylesheet" href="{% static "yighub/CSS/MemberProfile.css" %}"/>
 {% endblock %}
-
 {% block contents %}
 	<div class="span9">
 		<br />	
@@ -18,7 +15,7 @@
 			<br />
 			<ul class="breadcrumb">
 				{% for o in page.ordinal_range %}
-				<li {% if o == page.display_ordinal %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Memb.id o %}">{{ o }}기</a> {% if not forloop.last %}<span class="divider">/</span>{% endif %}</li>
+				<li {% if o == page.display_ordinal %} class="active" {% endif %}><a>{{ o }}기</a> {% if not forlosop.last %}<span class="divider">/</span>{% endif %}</li>
 				{% endfor %}
 			</ul>
 			<br />

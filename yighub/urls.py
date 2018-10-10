@@ -84,6 +84,28 @@ urlpatterns = [
     url(r'^AboutYIG/History/$', views.History.as_view(), name="Public_History"),
     url(r'^AboutYIG/Clipping/$', views.Introduction.as_view(), name="Public_Clipping"),
 
+    ##Recruiting
+    url(r'^Recruiting/$', views.Recruiting.as_view(), name="Public_Recruiting"),
+    url(r'^Recruiting/Apply/$', views.Apply.as_view(), name="Public_Apply"),
+    url(r'^Recruiting/Schedule/$', views.Schedule.as_view(), name="Public_Schedule"),
+    url(r'^Recruiting/FAQ/$', views.FAQ.as_view(), name="Public_FAQ"),
+
+    #MemberProfile
+    url(r'^MemberProfile/(?P<page>\d+)/$', views.MemberProfile.as_view(), name="Public_Member_Profile"),
+
+    #Fund
+    url(r'^Fund/SIM-A/(?P<page>\d+)/$', views.SIM_A.as_view(), name="Public_SIM_A"),
+    url(r'^Fund/SIM-JS/(?P<page>\d+)/$', views.SIM_JS.as_view(), name="Public_SIM_JS"),
+    url(r'^Fund/G/(?P<page>\d+)/$', views.Gfund.as_view(), name="Public_Gfund"),
+    url(r'^Fund/S/(?P<page>\d+)/$', views.Sfund.as_view(), name="Public_Sfund"),
+    url(r'^Fund/YIG_Universe/(?P<page>\d+)/$', views.YIG_Universe.as_view(), name="Public_YIG_Universe"),
+
+    #Research
+    url(r'^Research/(?P<page>\d+)/$', views.Research.as_view(), name="Public_Research"),
+
+    #Cotact
+    url(r'^Contact/$', views.Contact.as_view(), name="Public_Contact"),
+
     #Test 임시 URL(완성 후 즉각 삭제 요망)
     url(r'^TopBar/$', views.TopBar_for_Visitor.as_view(), name="TopBar_for_Visitor"),
     url(r'^SubTopBar/$', views.SubTopBar_for_Visitor.as_view(), name="SubTopBar"),

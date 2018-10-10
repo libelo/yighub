@@ -4,17 +4,6 @@ body{
     font-family: "KoPub바탕체";
 }
 
-*:lang(en){
-    font-family: Arial;
-}
-
-*:lang(ko){
-    font-family: KoPub바탕체;
-}
-
-.wrap {
-	white-space: pre-wrap;
-}
 
 .lead{
     font-size: 3vh;

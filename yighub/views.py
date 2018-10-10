@@ -230,8 +230,151 @@ class History(TemplateView):
         return context
 
 
+class Recruiting(TemplateView):
+    template_name = "yighub/public_Recruiting.html"
+
+
+class Apply(TemplateView):
+    template_name="yighub/public_Apply.html"
+
+
+class Schedule(TemplateView):
+    template_name = "yighub/public_Schedule.html"
+
+
+class FAQ(TemplateView):
+    template_name = "yighub/public_FAQ.html"
+
+
+class MemberProfile(TemplateView):
+    template_name = "yighub/public_Member Profile.html"
+
+    def get_context_data(self, page):
+        context=super(TemplateView, self).get_context_data()
+        current_ordinal = User.objects.all().order_by('-ordinal')[0].ordinal
+        p=pagination("public", "10", current_page=page)
+
+        if page == '0':
+            p['display_ordinal'] = current_ordinal
+        else:
+            p['display_ordinal'] = int(page)
+
+        p['user_list'] = User.objects.filter(ordinal=p['display_ordinal']).order_by('name')
+        p['ordinal_range'] = range(1, current_ordinal + 1)
+        context['page']=p
+
+        return context
+
+
+class SIM_A(TemplateView):
+    template_name = "yighub/public_simA.html"
+
+    def get_context_data(self, page):
+        context=super(TemplateView, self).get_context_data()
+        p=pagination("public", "11", current_page=page, page_size=1)
+
+        for e in p['entry_list']:
+            e.downloads = []
+            for f in e.files.all():
+                f.filename = urlquote(f.name)
+                e.downloads.append(f)
+        context.update({'page':p, 'board_id': 11, "board": "public"})
+
+        return context
+
+
+class SIM_JS(TemplateView):
+    template_name = "yighub/public_simJ.html"
+
+    def get_context_data(self, page):
+        context=super(TemplateView, self).get_context_data()
+        p=pagination("public", "71", current_page=page, page_size=1)
+
+        for e in p['entry_list']:
+            e.downloads = []
+            for f in e.files.all():
+                f.filename = urlquote(f.name)
+                e.downloads.append(f)
+        context.update({'page':p, 'board_id': 71, "board": "public"})
+
+        return context
+
+
+class Gfund(TemplateView):
+    template_name = "yighub/public_GFun.html"
+
+    def get_context_data(self, page):
+        context=super(TemplateView, self).get_context_data()
+        p=pagination("public", "92", current_page=page, page_size=1)
+
+        for e in p['entry_list']:
+            e.downloads = []
+            for f in e.files.all():
+                f.filename = urlquote(f.name)
+                e.downloads.append(f)
+        context.update({'page':p, 'board_id': 92, "board": "public"})
+
+        return context
+
+
+class Sfund(TemplateView):
+    template_name = "yighub/public_SFun.html"
+
+    def get_context_data(self, page):
+        context=super(TemplateView, self).get_context_data()
+        p=pagination("public", "98", current_page=page, page_size=1)
+
+        for e in p['entry_list']:
+            e.downloads = []
+            for f in e.files.all():
+                f.filename = urlquote(f.name)
+                e.downloads.append(f)
+        context.update({'page':p, 'board_id': 98, "board": "public"})
+
+        return context
+
+
+class YIG_Universe(TemplateView):
+    template_name = "yighub/public_Universe.html"
+
+    def get_context_data(self, page):
+        context=super(TemplateView, self).get_context_data()
+        p=pagination("public", "14", current_page=page, page_size=1)
+
+        for e in p['entry_list']:
+            e.downloads = []
+            for f in e.files.all():
+                f.filename = urlquote(f.name)
+                e.downloads.append(f)
+        context.update({'page':p, 'board_id': 14, "board": "public"})
+
+        return context
+
+
+class Research(TemplateView):
+    template_name = "yighub/public_Research.html"
+
+    def get_context_data(self, page):
+        context = super(TemplateView, self).get_context_data()
+        p = pagination("public", "15", current_page=page, page_size=1)
+
+        for e in p['entry_list']:
+            e.downloads = []
+            for f in e.files.all():
+                f.filename = urlquote(f.name)
+                e.downloads.append(f)
+        context.update({'page': p, 'board_id': 15, "board": "public"})
+
+        return context
+
+
+class Contact(TemplateView):
+    template_name = "yighub/public_Contact Us.html"
+
+
 class TopBar_for_Visitor(TemplateView):
     template_name = "yighub/extends/TopBar_for_Visitor.html"
+
 
 class SubTopBar_for_Visitor(TemplateView):
     template_name="yighub/extends/Sub_TopBar_For_Visitor.html"
@@ -511,15 +654,6 @@ def listing(request, board, board_id, page = '0'):    # url : yig.in/yighub/boar
 
             p['user_list'] = User.objects.filter(ordinal = p['display_ordinal']).order_by('name')
             p['ordinal_range'] = range(1, current_ordinal+1)
-
-        if current_board.name == 'History':
-            for e in p['entry_list']:
-                e.history = []
-                months = e.content.split('\n')
-                for m in months:
-                    month = m.split('-')[0][:-1]
-                    events = m.split('-')[1].split(', ')
-                    e.history.append({'month': month, 'events': events})
 
         for e in p['entry_list']:
             e.downloads = []

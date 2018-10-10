@@ -12,13 +12,13 @@
     <section class="sub_nav">
         <nav>
             <ul class="sub_depth1">
-                <li><a href="#" onclick="sub_depth1_drop()">About YIG</a></li>
+                <li><a href="#" onclick="sub_depth1_drop()">Contact</a></li>
                 <ul id="sub_depth1_drop">
-                    <li><a href="{% url 'yighub:Public_Recruiting' %}">Recruiting</a></li>
+                    <li><a href="{% url 'yighub:Public_Introduction' %}">AboutYIG</a></li>
+                    <li><a href="{% url 'yighub:Public_Recruiting'  %}">Recruiting</a></li>
                     <li><a href="{% url 'yighub:Public_Member_Profile' 0 %}">Member Profile</a></li>
-                    <li><a href="{% url 'yighub:Public_SIM_A' 0 %}">Fund</a></li>
                     <li><a href="{% url 'yighub:Public_Research' 0 %}">Research</a></li>
-                    <li><a href="{% url 'yighub:Public_Contact' %}">Contact Us</a></li>
+                    <li><a href="{% url 'yighub:Public_SIM_A' 0 %}">Fund</a></li>
                 </ul>
             </ul>
         </nav>
@@ -45,7 +45,7 @@
             sub_one.style.display="none";
         }
     }
-    
+
     function sub_depth2_drop(){
         console.log(2);
         var sub_one=document.getElementById("sub_depth2_drop");
