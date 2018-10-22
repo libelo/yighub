@@ -1,5 +1,17 @@
-{% extends "yighub/extends/TopBar_AboutYIG.html" %}
+{% extends "yighub/extends/TopBar_Recruiting.html" %}
 {% load staticfiles %}
+{% block sup_depth2 %}
+    <nav>
+        <ul class="sub_depth2">
+            <li><a href="#" onclick="sub_depth2_drop()">Apply</a></li>
+            <ul id="sub_depth2_drop">
+                <li><a href="{% url 'yighub:Public_Recruiting' %}">Recruiting</a></li>
+                <li><a href="{% url 'yighub:Public_Schedule' %}">Schedule</a></li>
+                <li><a href="{% url 'yighub:Public_FAQ' %}">FAQ</a></li>
+            </ul>
+        </ul>
+    </nav>
+{% endblock %}
 
 {% block contents %}
 	<div class="span9">
@@ -8,26 +20,23 @@
 
 		<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
 			<div class="row-fluid">
-				<span class="lead">Apply</span> 
+				<span class="lead">Apply</span>
 			</div>
 			<br />
 			<br />
-			<span class="label label-info">1</span>
-			<strong>설명회 및 스터디 참여</strong>
+			<strong class="sub_lead">1. 설명회 및 스터디 참여</strong>
 			<p class="wrap">
 2018년 9월 5일 수요일 7시 경영관 B226호에서 진행됩니다.
 
 설명회는 학회 소개 및 활동 내역, 현업에 종사 중인 선배회원의 강의로 구성됩니다.
 			</p>
-			<span class="label label-info">2</span>
-			<strong>지원서 제출</strong>
+			<strong class="sub_lead">2. 지원서 제출</strong>
 			<p class="wrap">
 이메일 접수 : 지원서(<a href="{% static 'yighub/YIG Application Form.docx' %}">Download</a>)를 다운 받아 yig.recruiting@gmail.com으로 제출 (9월 9일 일요일 24시 마감)
 
 투자기업 선정 보고서에 일정한 양식은 없습니다. 해당 기업에 대한 투자 이유, 참신한 아이디어와 논리성 위주로 작성해주세요.
 			</p>
-			<span class="label label-info">3</span>
-			<strong>면접 참가</strong>
+			<strong class="sub_lead">3. 면접 참가</strong>
 			<p class="wrap">
 면접 일정은 지원서 합격자에 한하여 개별적으로 공지됩니다. (2018년 9월 10일, 11일 면접)
 
@@ -35,8 +44,7 @@
 
 면접은 개별 면접으로 학술 & 인성으로 나뉘어 진행될 예정이며, 지원자 상황에 따라 면접 일자가 차이가 날 수 있습니다.
 			</p>
-			<span class="label label-info">4</span>
-			<strong>합격자 발표 및 MT</strong>
+			<strong class="sub_lead">4. 합격자 발표 및 MT</strong>
 			<p class="wrap">
 2018년 9월 13일 개별 합격자 발표
 2018년 9월 15일 MT

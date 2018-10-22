@@ -15,10 +15,6 @@ li{
     padding: 0;
 }
 
-ul li a{
-    background-color: rgba(19,24,86,0.4);
-}
-
 nav{
     margin: 0;
     padding: 0;
@@ -27,7 +23,7 @@ nav{
 
 .sub_visual{
     width: 100%;
-    height: 25vh;
+    height: 180px;
     background-image: url("https://yighub-bucket.s3.amazonaws.com/media/yighub/albums/2018/01/30/KakaoTalk_20180130_205853818.jpg");
     background-position: center center;
     background-size: cover;
@@ -35,7 +31,7 @@ nav{
 }
 
 .sub_nav{
-    height: 8vh;
+    height: 50px;
     background-color: rgba(0, 0, 0, 0.9);
     font-size: 0;
 }
@@ -45,7 +41,7 @@ nav{
     width: 25vh;
     margin: 0;
     padding: 0;
-    height: 8vh;
+    height: 50px;
 }
 
 .sub_depth1{
@@ -83,11 +79,16 @@ nav{
 }
 
 #sub_depth1_drop{
-    display: none;
+    /*display: none;*/
     float:none;
     height: auto;
     border: none;
     border-bottom: 1px solid white;
+    background-color: rgba(19,24,86,0.4);
+}
+
+#sub_depth1_drop li a{
+    background-color: rgba(19,24,86,0.4);
 }
 
 #sub_depth2_drop{
@@ -97,3 +98,8 @@ nav{
     border: none;
     border-bottom: 1px solid white;
 }
+
+#sub_depth2_drop li a{
+    background-color: rgba(19,24,86,0.4);
+}
+

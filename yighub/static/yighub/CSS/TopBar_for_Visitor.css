@@ -1,68 +1,154 @@
 @import url(http://fonts.googleapis.com/earlyaccess/kopubbatang.css);
 
+/*기본 설정 시작*/
+
 *:lang(en){
     font-family: Arial;
 }
 
 *:lang(ko){
-    font-family: KoPub바탕체;
+    font-family: "맑은 고딕 Semilight", "sans-serif";
+}
+
+section{
+    margin: 0;
+    padding: 0;
 }
 
 a{
 	/*margin:0;*/
 	text-decoration: None;
-	background: transparent;
 }
 
 body{
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: "맑은 고딕 Semilight", "sans-serif";
+    font-size: 1.1em;
 }
+
+nav{
+    margin: 0;
+    padding: 0;
+
+}
+
+ul{
+    margin: 0;
+    list-style: none;
+    padding-left: 1.2em;
+    list-style-position: inside;
+}
+
+li{
+    list-style: none;
+    padding-left: 0;
+}
+
+
+div{
+    margin: 0;
+    padding: 0;
+}
+
+.wrap {
+	white-space: pre-wrap;
+}
+
+.lead{
+    font-size: 2em;
+    color: rgba(214, 40, 40, .8);
+}
+
+.sub_lead{
+    font-size: 1.2em;
+}
+
+/* -------------기본 설정 끝------------------*/
+
+/*Whole Header 손질 시작*/
+.whole_header{
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+}
+
+/*--------------top_header 레이아웃 시작---------------*/
 
 .top_header{
+    margin: 0;
+    padding: 0;
     position: relative;
     width: 100%;
-    height: 80px;
-    display: inline-block
+    height: 70px;
+    /*overflow;*/
 }
 
-.Main_nav{  
-    display: inline-block;
+.top_header nav{
+    float: left;
 }
 
-.Main_nav img{
+/*로고 및 YIG*/
+.Home{
+    width: 120px;
+    height: 70px;
+    overflow: auto;
+}
+
+.Home img{
     position: relative;
-    top: 1vh;
-    left: 1vh;
-}
-
-.Main_nav a{
-    position: relative;
-    left: 2vh;
-    bottom: 1.3vh;
-    font-size: 3vh;
-    padding: 0 3vh;
-    color: rgba(0, 0, 0, 0.75);
-    z-index: 99;
+    left: 5px;
+    top:5px;
 }
 
 #YIG{
-   position: relative; 
-   left: -1vh;
-   color: red;
-   font-size: 4.5vh;  
+    display: inline-block;
+    position: absolute;
+    height: 100%;
+    left: 60px;
+    color: red;
+    font-size: 3.5vh;
+    box-sizing: border-box;
+    padding-top: 20px;
+    width: 30px;
+}
+/*로고 및 YIG 끝*/
+/*Main_nav 시작*/
+.Main_nav{
+    width: 900px;
+    height: 100%;
+    margin-left: 20px;
+}
+
+.Main_nav a{
+    display: inline-block;
+    position: relative;
+    margin: 0;
+    top: -5px;
+    height: 70px;
+    font-size: 3vh;
+    padding: 0 20px;
+    color: rgba(0, 0, 0, 0.75);
+    vertical-align: center;
+    line-height: 75px;
+}
+
+/*Main_nav 끝*/
+/*Account 시작*/
+.Account{
+    display: inline-block;
+    position: relative;
+    height: 70px;
+    margin-left: 100px;
+    line-height: 68px;
 }
 
 #LogIn{
     font-size: 2.5vh;
-    position: relative;
-    left: 15vh;
+    padding-right: 15px;
 }
 
 #SignUp{
     font-size: 2.5vh;
-    position: relative;
-    left: 20vh;
     color: royalblue;
     border-style: solid;
     padding: 0.5vh 1vh;
@@ -71,15 +157,51 @@ body{
 	border-radius: 15px;
 }
 
-.line{
-	top: 79px;
-	position: fixed;
-	left: 0;
-	width: 100%;
-	height: 1px;
-	background-color: rgba(255,255,255, 0.8);
+/*Account끝*/
+/**/
+
+.Sub_nav{
+    width: 900px;
+    height: 0px;
+    margin-left: 130px;
+    overflow: hidden;
+    transition: all 1s ease-in-out;
 }
 
-.wrap {
-	white-space: pre-wrap;
+
+.Sub_nav ul{
+    float: left;
+    height: 100%;
+    width: 150px;
+    text-align: center;
+    box-sizing: border-box;
+    background-color: white;
 }
+
+.Sub_nav ul li{
+    font-size: 15px;
+    text-align: center;
+}
+
+.Sub_nav ul li a{
+    display: inline-block;
+    width: 100%;
+    font-size: 18px;
+    color: rgba(0,0,0,.75);
+}
+
+.Sub_nav ul:nth-child(2){
+    padding-right: 25px;
+}
+
+.Sub_nav ul:nth-child(4){
+    padding-right: 25px;
+}
+
+
+
+
+
+
+
+

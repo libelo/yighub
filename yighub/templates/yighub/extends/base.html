@@ -54,12 +54,30 @@
                 <a href="#" title="YIG 메인페이지로 이동">YIG</a>
             </h1>
             <nav class="Visitors_Top_Nav_Main">
-                <a href="yighub/public/1/page/0/">About YIG</a>
-                <a href="yighub/public/6/page/0/">Recruiting</a>
-                <a href="yighub/public/10/page/0/">Member Profile</a>
-                <a href="yighub/public/11/page/0/">Fund</a>
-                <a href="yighub/public/15/page/0/">Resarch</a>
-                <a href="yighub/public/16/page/0">Contact Us</a>
+                <a href="{% url 'yighub:Public_Introduction' %}">About YIG</a>
+                    <ul>
+                        <li><a href="{% url "yighub:Public_Introduction" %}">Introduction</a></li>
+                        <li><a href="{% url "yighub:Public_Vision" %}">Vision</a></li>
+                        <li><a href="{% url "yighub:Public_Activity" %}">Activity</a></li>
+                        <li><a href="{% url "yighub:Public_History" %}">History</a></li>
+                    </ul>
+                <a href="{% url 'yighub:Public_Recruiting' %}">Recruiting</a>
+                    <ul>
+                        <li><a href="{% url "yighub:Public_Recruiting" %}">Recruiting</a></li>
+                        <li><a href="{% url "yighub:Public_Apply" %}">Apply</a></li>
+                        <li><a href="{% url "yighub:Public_Schedule" %}">Schedule</a></li>
+                        <li><a href="{% url "yighub:Public_FAQ" %}">FAQ</a></li>
+                    </ul>
+                <a href="{% url 'yighub:Public_Member_Profile' 0 %}">Member Profile</a>
+                <a href="{% url 'yighub:Public_SIM_A' 0 %}">Fund</a>
+                    <ul>
+                        <li><a href="{% url "yighub:Public_SIM_A" 0 %}">SIM-A Fund</a></li>
+                        <li><a href="{% url "yighub:Public_SIM_JS" 0 %}">SIM-JS Fund</a></li>
+                        <li><a href="{% url "yighub:Public_Gfund" 0 %}">G Fund </a></li>
+                        <li><a href="{% url "yighub:Public_Sfund" 0 %}">S Fund</a></li>
+                    </ul>
+                <a href="{% url 'yighub:Public_YIG_Universe' 0 %}">Research</a>
+                <a href="{% url 'yighub:Public_Contact' %}">Contact Us</a>
             </nav>
             <div class="Account">
                 <a href="yighub/login/">LogIn</a>

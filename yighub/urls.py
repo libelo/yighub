@@ -27,21 +27,6 @@ urlpatterns = [
     url(r'^search/(?P<board_id>\d+)/(?P<keyword>.+)/(?P<page>\d+)$', views.search, name='search'),
     url(r'^search_albums/(?P<keyword>.+)/(?P<page>\d+)/$', views.search_albums, name='search_albums'),
 
-    # url(r'^man_won_bbang/$', views.man_won_bbang, name='man_won_bbang'),
-
-    # url(r'^transform/user/$', 'transform_user'),
-    # url(r'^transform/data/$', 'transform_data'),
-    # url(r'^transform/column/$', 'transform_column'),
-    # url(r'^transform/portfolio/$', 'transform_portfolio'),
-    # url(r'^transform/analysis/$', 'transform_analysis'),
-    # url(r'^transform/notice/$', 'transform_notice'),
-    # url(r'^transform/board/$', 'transform_board'),
-    # url(r'^transform/tf/$', 'transform_tf'),
-    # url(r'^transform/research/$', 'transform_research'),
-    # url(r'^transform/fund/$', 'transform_fund'),
-    # url(r'^transform/photos/$', 'transform_photos'),
-    # url(r'^transform/memo/$', 'transform_memo'),
-
     url(r'^taskforce/create/$', views.create_taskforce, name='create_taskforce'), # can make taskforce board 
     url(r'^taskforce/(?P<taskforce_id>\d+)/edit/$', views.edit_taskforce, name='edit_taskforce'),    
     url(r'^taskforce/archive/$', views.taskforce_archive, name='taskforce_archive'),

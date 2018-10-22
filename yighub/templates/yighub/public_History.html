@@ -1,5 +1,16 @@
 {% extends "yighub/extends/TopBar_AboutYIG.html" %}
-
+{% block sub_depth2 %}
+    <nav>
+        <ul class="sub_depth2">
+            <li><a href="#" onclick="sub_depth2_drop()">History</a></li>
+            <ul id="sub_depth2_drop">
+                <li><a href="{% url 'yighub:Public_Introduction' %}">Introduction</a></li>
+                <li><a href="{% url 'yighub:Public_Vision' %}">Vision</a></li>
+                <li><a href="{% url 'yighub:Public_Activity' %}">Activity</a></li>
+            </ul>
+        </ul>
+    </nav>
+{% endblock %}
 {% block contents %}
 <div class="span9">
 	<br />	
@@ -12,7 +23,7 @@
 		<br />
 		<br />
 		{% for e in page.entry_list %}
-		<strong>{{ e.title }}</strong>
+		<strong class="sub_lead">{{ e.title }}</strong>
 
 		<dl class="dl-horizontal">
 			{% for h in e.history %}

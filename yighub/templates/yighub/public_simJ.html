@@ -1,5 +1,17 @@
 {% extends "yighub/extends/TopBar_Fund.html" %}
-
+{% block sub_depth2 %}
+    <nav>
+        <ul class="sub_depth2">
+            <li><a href="#" onclick="sub_depth2_drop()">SIM-JS Fund</a></li>
+            <ul id="sub_depth2_drop">
+                <li><a href="{% url 'yighub:Public_SIM_A' 0 %}">SIM-A Fund</a></li>
+                <li><a href="{% url 'yighub:Public_Gfund' 0 %}">G Fund</a></li>
+                <li><a href="{% url 'yighub:Public_Sfund' 0 %}">S Fund</a></li>
+                <li><a href="{% url 'yighub:Public_YIG_Universe' 0 %}">YIG Universe</a></li>
+            </ul>
+        </ul>
+    </nav>
+{% endblock %}
 {% block contents %}
 	<div class="span9">
 		<br />	

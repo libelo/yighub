@@ -1,5 +1,16 @@
 {% extends "yighub/extends/TopBar_AboutYIG.html" %}
-
+{% block sub_depth2 %}
+    <nav>
+        <ul class="sub_depth2">
+            <li><a href="#" onclick="sub_depth2_drop()">Activity</a></li>
+            <ul id="sub_depth2_drop">
+                <li><a href="{% url 'yighub:Public_Introduction' %}">Introduction</a></li>
+                <li><a href="{% url 'yighub:Public_Vision' %}">Vision</a></li>
+                <li><a href="{% url 'yighub:Public_History' %}">History</a></li>
+            </ul>
+        </ul>
+    </nav>
+{% endblock %}
 {% block contents %}
 	<div class="span9">
 		<br />	
@@ -7,15 +18,15 @@
 
 		<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
 			<div class="row-fluid">
-				<span class="lead">Activity</span> 
+				<span class="lead">Activity</span>
 			</div>
 			<br />
 			<br />
-			<strong>기업 분석</strong>
+			<strong class="sub_lead">1. 기업 분석</strong>
 			<p class="wrap">
 YIG는 주기적으로 투자 목적의 기업 분석 보고서를 작성합니다. 이는 선정 기업의 사업내용, 영위하는 산업분석, 투자 대상으로서 부각되는 가치, 가치 발현을 막는 리스크, 기업 가치 평가가 주된 내용입니다. 보고서 작성, 발표, Q&A를 통해 YIG Universe 편입 여부가 결정됩니다.
 			</p>
-			<strong>펀드 운용</strong>
+			<strong class="sub_lead">2. 펀드 운용</strong>
 			<p class="wrap">
 현재 A, JS, G, 3개의 펀드를 운용 중에 있고 S 펀드를 3월초 런칭할 예정입니다. 3학기 이상 학회 활동에 참여하는 인원에 한하여 직접 펀드를 운용할 수 있는 기회가 주어집니다. 해당 학회원들은 각 펀드 성격에 맞는 투자대상에 투자하며, 매주 개별 기업 분석을 통해 투자의견을 제시하는 펀드레터 작성, 투자대상 기업의 이슈 tracking 등을 통해 정보와 투자의견을 공유합니다. 이를 통해 YIG가 시장을 이길 수 있는 원동력을 키웁니다.
 		
@@ -27,18 +38,14 @@ G Fund는 YIG 최초 외부 출자 사모펀드로 투자 플랫폼인 지니스
 
 S펀드는 YIG 최초의 글로벌 자산배분형 펀드로서, 주식뿐만아니라 채권, 그리고 나아가 통화나 대체투자까지 아우르는 멀티-애셋 유니버스(Multi-Asset Universe)를 가지고 있습니다. 각 투자 자산 군의 내재적 특징을 올바르게 이해한 뒤, 거시 경제적 환경을 분석하여 자산간(Cross-Asset) 전략 및 전술을 실행합니다.
 			</p>
-			<strong>타 대학 투자학회와의 교류</strong>
+			<strong class="sub_lead">3. 타 대학 투자학회와의 교류</strong>
 			<p class="wrap">
 YIG는 매 학기 2개의 리서치 대회에 참여하며 서울대, 고려대, 서강대, 이화여대, 성균관대, 카이스트 등 타 학교의 투자학회와 선의의 경쟁 및 교류 중입니다. 이는 장기적으로 훌륭한 금융인으로 성장하기 위한 사회적 네트워크 구축을 가능케 합니다.
 			</p>
-			<strong>현업자 강의, MT 및 홈커밍데이</strong>
+			<strong class="sub_lead">4. 현업자 강의, MT 및 홈커밍데이</strong>
 			<p class="wrap">
 학회원과 현업 선배님들과의 활발한 교류를 통해 재미와 진로 상담 등 다양한 성취가 가능합니다.
 			</p>
-
-
-			<br />
-			<br />
 		</div>
 	</div><!--/span-->	
 

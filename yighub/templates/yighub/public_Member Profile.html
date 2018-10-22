@@ -2,6 +2,7 @@
 {% load static %}
 {% block customstyle %}
     <link rel="stylesheet" href="{% static "yighub/CSS/MemberProfile.css" %}"/>
+
 {% endblock %}
 {% block contents %}
 	<div class="span9">
@@ -15,11 +16,11 @@
 			<br />
 			<ul class="breadcrumb">
 				{% for o in page.ordinal_range %}
-				<li {% if o == page.display_ordinal %} class="active" {% endif %}><a>{{ o }}기</a> {% if not forlosop.last %}<span class="divider">/</span>{% endif %}</li>
+				<li {% if o == page.display_ordinal %} class="active" {% endif %}><a href="{% url "yighub:Public_Member_Profile"  o %}">{{ o }}기</a> {% if not forlosop.last %}<span class="divider">|</span>{% endif %}</li>
 				{% endfor %}
 			</ul>
 			<br />
-			<strong class="muted">{{ page.display_ordinal }}기</strong>
+			<strong class="muted" style="font-size: 1.3em ">{{ page.display_ordinal }}기</strong>
 			<br />
 			<br />
 			{% for u in page.user_list %}
@@ -29,13 +30,13 @@
 				<img class="pull-right img-rounded" src="{{ u.profile.url }}" style="height:100%; max-height:150px; float:right;"/>
 				{% endif %}
 
-				<span class="lead" style="font-weight: bold;">{{ u.name }}</span>
+				<span class="sub_lead" style="font-weight: bold;">{{ u.name }}</span>
 				{% if u == user %}<span style="margin-left: 10px;"><a href="{% url 'yighub:edit_profile' %}">수정하기</a></span>{% endif %}
 
 				<br />
 				<br />
 
-				<ul>
+				<ul style="font-size: 0.9em;">
 					{% if u.career1 %}<li>{{ u.career1 }}</li>{% endif %}
 					{% if u.career2 %}<li>{{ u.career2 }}</li>{% endif %}
 					{% if u.career3 %}<li>{{ u.career3 }}</li>{% endif %}

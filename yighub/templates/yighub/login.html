@@ -1,5 +1,8 @@
-﻿{% extends "yighub/simple.html" %}
-
+﻿{% extends "yighub/extends/TopBar_AboutYIG.html" %}
+{% load static %}
+{% block customstyle %}
+    <link rel="stylesheet" href="{% static "yighub/CSS/login.css" %}"/>
+{% endblock %}
 {% block contents %}
     <div class="container">
 
