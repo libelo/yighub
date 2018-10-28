@@ -4,6 +4,8 @@ body {
  background-size: 100% 100%;
  background-repeat: no-repeat;
  height: 100%;
+ font-family: "맑은 고딕 Semilight", "sans-serif";
+ font-size: 1.1em;
 }
 
 div.container-fluid {

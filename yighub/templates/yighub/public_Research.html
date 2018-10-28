@@ -9,13 +9,12 @@ hr{
 </style>
 {% endblock %}
 {% block contents %}
-	<div class="span9">
-		<br />	
+		<br />
 		<br />
 
 		<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
 			<div class="row-fluid">
-				<span class="lead">Research</span> 
+				<span class="lead">Research</span>
 			</div>
 			<br />
 			{% for entry in page.entry_list %}
@@ -84,22 +83,14 @@ hr{
 			    <li class="visible-desktop"><a href="{% url 'yighub:Public_Research' page.last_page %}">&raquo;</a></li>
 			    {% endif %}
 			  </ul>
+                {% if user and user.level != 'non' %}
+                 <span class="pull-left">
+                        <!-- <a href="{% url 'yighub:create_in_board' board board_id %}"> -->
+                            <button type="button" class="btn btn-primary" onclick="location.href = '{% url 'yighub:create_in_board' board board_id %}'">글쓰기</button>
+                        <!-- </a> -->
+                </span>
 			</div>
-
-		</div>
-
-		{% if user and user.level != 'non' %}
-		<div class="row-fluid" style="margin-top: 70px">
-			<div class="container-fluid">
-				<span class="pull-right">
-				<!-- <a href="{% url 'yighub:create_in_board' board board_id %}"> -->
-					<button type="button" class="btn btn-primary" onclick="location.href = '{% url 'yighub:create_in_board' board board_id %}'">글쓰기</button>
-				<!-- </a> -->
-				</span>
-			</div> 			
-		</div>
+                    </div>
 		{% endif %}
-
-	</div><!--/span-->	
 
 {% endblock %}

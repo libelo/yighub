@@ -1,10 +1,5 @@
 @import url(http://fonts.googleapis.com/earlyaccess/kopubbatang.css);
 
-body{
-    font-family: "맑은 고딕 Semilight", "sans-serif";
-    font-size: 1.1em;
-}
-
 .text-right{
     text-align: right;
 }

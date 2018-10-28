@@ -17,7 +17,6 @@
     </nav>
 {% endblock %}
 {% block contents %}
-	<div class="span9">
 		<br />
 		<br />
 
@@ -97,21 +96,13 @@
 			    <li class="visible-desktop"><a href="{% url 'yighub:Public_SIM_JS' page.last_page %}">&raquo;</a></li>
 			    {% endif %}
 			  </ul>
-			</div>
-
-		{% if user and user.level != 'non' %}
-		<div class="row-fluid" style="margin-top: 70px">
-			<div class="container-fluid">
-				<span class="pull-right">
-				<!-- <a href="{% url 'yighub:create_in_board' board board_id %}"> -->
-					<button type="button" class="btn btn-primary" onclick="location.href = '{% url 'yighub:create_in_board' board board_id %}'">글쓰기</button>
-				<!-- </a> -->
-				</span>
+                {% if user and user.level != 'non' %}
+                 <span class="pull-left">
+                        <!-- <a href="{% url 'yighub:create_in_board' board board_id %}"> -->
+                            <button type="button" class="btn btn-primary" onclick="location.href = '{% url 'yighub:create_in_board' board board_id %}'">글쓰기</button>
+                        <!-- </a> -->
+                </span>
+		        {% endif %}
 			</div>
 		</div>
-		{% endif %}
-
-		</div>
-	</div><!--/span-->
-c
 {% endblock %}
