@@ -1,5 +1,18 @@
 {% extends "yighub/extends/TopBar_Contact.html" %}
 {% load staticfiles %}
+{% block customstyle %}
+<style>
+.name{
+    font-size: 1.3em;
+}
+
+.phone{
+    font-size: 1em;
+    color: rgba(0,0,0,.8);
+    margin-top: 15px;
+}
+</style>
+{% endblock %}
 
 {% block contents %}
 	<div class="span9">
@@ -15,34 +28,26 @@
 			<!-- <img src="{% static 'yighub/images/contacts.png' %}" style="height:30%; width:100%;" /> -->
 
 			<div class="well">
-				<strong class="text-info">회 장</strong>
-				<strong>김민석</strong>
+				<strong class="name">회 장 김민석</strong>
 				<br />
-				<span class="text-info">- PHONE</span>
-				<span>010.7548.6879</span>
-				<br />
+				<div class="phone">전화번호: 010-7548-6879</div>
 				<br />
 
-				<strong class="text-info">부회장</strong>
-				<strong>권경호</strong>
+				<strong class="name">부회장 정승원</strong>
 				<br />
-				<span class="text-info">- PHONE</span>
-				<span>010.4050.0878</span>
-				<br />
+				<div class="phone">전화번호: 010-3450-2093</div>
 				<br />
 				
-				<strong class="text-info">HR 매니저</strong>
-				<strong>정승원</strong>
+				<strong class="name">부회장 정승원</strong>
 				<br />
-				<span class="text-info">- PHONE</span>
-				<span>010.3450.2093</span>
-				<br />
+				<div class="phone">전화번호: 010-4050-0878</div>
 				<br />
 
-				<strong class="text-info">카카오톡 플러스친구</strong>
+				<strong style="font-size: 1.1em;">카카오톡 플러스친구: </strong>
 				<strong>“YIG”</strong>
 				<br />
-				<strong class="text-info">E.mail</strong>
+                <br/>
+				<strong style="margin-top: 15px; font-size: 1.1em;">Email: </strong>
 				<strong>yigyonsei@gmail.com</strong>
 				<br />
 				<br />

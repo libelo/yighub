@@ -1,0 +1,23 @@
+table, th, td{
+    border-bottom: 1px solid #ddd;
+}
+
+table{
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+tr th:nth-child(3){
+    width: 140px;
+    padding: 0;
+}
+
+td{
+    padding: 5px 0;
+}
+
+body{
+    font-size: 1.2em;
+}
+

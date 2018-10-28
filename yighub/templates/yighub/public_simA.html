@@ -1,4 +1,8 @@
 {% extends "yighub/extends/TopBar_Fund.html" %}
+{% load static %}
+{% block customstyle %}
+    <link rel="stylesheet" href="{% static "yighub/CSS/public_fund.css" %}"/>
+{% endblock %}
 {% block sub_depth2 %}
     <nav>
         <ul class="sub_depth2">
@@ -25,25 +29,25 @@
 			<br />
 			<strong>SIM-A FUND</strong>
 			<br />
-			{% for entry in page.entry_list %}
-			<h3>{{ entry.title }}</h3>
-			<span> {{ entry.time_created }} </span>
-			<hr />
-			{% if entry.thumbnails %}
-			{% for t in entry.thumbnails.all %}
-			<div class="text-center">
-				<img src="{{ t.thumbnail.url }}" style="width:100%; max-width:650px;"/>
-			</div>
-			<br />
-			{% endfor %}
-			<br />
-			<br />
-			{% endif %}
-			{% filter urlize|linebreaks %}
-			{{ entry.content|safe }}
-			{% endfilter %}
-			<br />
-			<hr />
+            <br />
+        <table class="fund_table">
+            <thead>
+                <tr>
+                    <th>글쓴이</th>
+                    <th>제목</th>
+                    <th>등록일</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in page.entry_list %}
+                    <tr>
+                        <td>{{ entry.creator }}</td>
+                        <td class="fund_title"><a href="{% url "yighub:Public_SIM_A_detail" entry.id  %}">{{ entry.title }}</a></td>
+                        <td>{{ entry.time_created|date:"Y-m-d" }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
 			{% if files %}
 			<!--<p class="lead">파일 다운로드</p>-->
@@ -70,7 +74,7 @@
 				<a onclick="check_delete_{{entry.id}}()">삭제하기</a>
 			</span>
 			{% endif %}
-			{% endfor %}
+
 			<br />
 			<br />
 			<div class="pagination pagination-small text-center">

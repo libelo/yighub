@@ -1,0 +1,79 @@
+{% extends "yighub/extends/TopBar_Fund.html" %}
+{% load static %}
+{% block customstyle %}
+    <link rel="stylesheet" href="{% static "yighub/CSS/public_fund.css" %}" xmlns="http://www.w3.org/1999/html"/>
+{% endblock %}
+{% block sub_depth2 %}
+    <nav>
+        <ul class="sub_depth2">
+            <li><a href="#" onclick="sub_depth2_drop()">SIM-A Fund</a></li>
+            <ul id="sub_depth2_drop">
+                <li><a href="{% url 'yighub:Public_SIM_JS' 0 %}">SIM-JS Fund</a></li>
+                <li><a href="{% url 'yighub:Public_Gfund' 0 %}">G Fund</a></li>
+                <li><a href="{% url 'yighub:Public_Sfund' 0 %}">S Fund</a></li>
+                <li><a href="{% url 'yighub:Public_YIG_Universe' 0 %}">YIG Universe</a></li>
+            </ul>
+        </ul>
+    </nav>
+{% endblock %}
+{% block contents %}
+    <article style="max-width: 50%; margin-left:auto; margin-right: auto;">
+    <br/>
+    <div class="lead">{{ Fund_name }}</div>
+        <br/>
+        <br/>
+        <strong class="sub_lead">{{ object.title }}</strong>
+        <br/>
+        <br/>
+    <div style="font-size: 0.9em;">{{ object.time_created}}</div>
+    <hr/>
+        {% if object.thumbnails %}
+        {% for t in object.thumbnails.all %}
+        <div class="text-center">
+            <img src="{{ t.thumbnail.url }}" style="width:100%; max-width:650px;"/>
+        </div>
+        <br />
+        {% endfor %}
+        <br />
+        <br />
+        {% endif %}
+        {% filter urlize|linebreaks %}
+        {{ object.content|safe }}
+        {% endfilter %}
+        <br />
+        <hr />
+
+        {% if files %}
+        <!--<p class="lead">파일 다운로드</p>-->
+        <ul class="unstyled">
+            {% for f in files %}
+            <li><a href="{{ f.file.url }}">{{ f.name }}&nbsp;</a><span class="badge badge-success">{{ f.hit }}</span></li>
+            {% endfor %}
+        </ul>
+        <br />
+        <hr />
+        {% endif %}
+
+        <div class="ui">
+            <button type="button" onclick="history.back()">글목록</button>
+        </div>
+
+        <br/>
+        <br/>
+
+        {% if object.creator == user %}
+        <span class="pull-right">
+            <a href = "{% url 'yighub:edit' board entry.id %}">수정하기</a>
+            &nbsp;&nbsp;
+            <script>
+            function check_delete_{{entry.id}}() {
+                if (confirm("정말 삭제하시겠습니까?")){
+                window.open("{% url 'yighub:delete' board entry.id %}", "_self")
+                }
+            }
+            </script>
+            <a onclick="check_delete_{{entry.id}}()">삭제하기</a>
+        </span>
+        {% endif %}
+    </article>
+{% endblock %}

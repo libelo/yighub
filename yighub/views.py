@@ -5,7 +5,7 @@ from django.shortcuts import render_to_response, get_object_or_404, render, redi
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.contrib import messages
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, DetailView
 import mimetypes
 import pdb
 import datetime
@@ -25,10 +25,9 @@ from .models import BulletinEntryForm, TaskforceEntryForm, PublicEntryForm
 from .models import TaskforceBoardForm
 from .models import Album, Photo, PhotoComment
 from .models import AlbumForm, PhotoForm
-
+from .models_base import Entry
 
 # from .man_won_bbang import betting_list_now
-
 import logging
 logger = logging.getLogger(__name__)
 
@@ -98,19 +97,7 @@ def pagination(board, board_id, current_page, page_size = 20): # board_number가
 #    real_list = []
     for e in entry_list:
         e.range = range(e.depth)
-        """
-        if e.depth:
-            try:
-                p = Entry.objects.get(pk = e.parent)
-            except Entry.DoesNotExist:
-                real_list.append("원본 글이 삭제되었습니다.")
-            else:
-                if p.board.pk != board_number:
-                    real_list.append("원본 글이 이동되었습니다.")
-                else:
-                    pass
-        real_list.append(e) 
-        """
+
     if last_page <= 7:
         start_page = 1
     elif current_page <= 4:
@@ -143,14 +130,9 @@ def pagination(board, board_id, current_page, page_size = 20): # board_number가
         prev_page = 0
         first_page = 0
 
-    return {'entry_list' : entry_list,
-            'current_page' : current_page,
-            'page_list' : page_list,
-            'first_page' : first_page,
-            'last_page' : last_page,
-            'prev_page' : prev_page,
-            'next_page' : next_page,
-            }
+    return {'entry_list' : entry_list, 'current_page' : current_page, 'page_list' : page_list,
+            'first_page' : first_page, 'last_page' : last_page, 'prev_page' : prev_page,
+            'next_page' : next_page,}
 
 def check_permission(request, board, current_board = None, mode = 'reading'):
     
@@ -271,13 +253,7 @@ class SIM_A(TemplateView):
 
     def get_context_data(self, page):
         context=super(TemplateView, self).get_context_data()
-        p=pagination("public", "11", current_page=page, page_size=1)
-
-        for e in p['entry_list']:
-            e.downloads = []
-            for f in e.files.all():
-                f.filename = urlquote(f.name)
-                e.downloads.append(f)
+        p=pagination("public", "11", current_page=page, page_size=10)
         context.update({'page':p, 'board_id': 11, "board": "public"})
 
         return context
@@ -288,13 +264,7 @@ class SIM_JS(TemplateView):
 
     def get_context_data(self, page):
         context=super(TemplateView, self).get_context_data()
-        p=pagination("public", "71", current_page=page, page_size=1)
-
-        for e in p['entry_list']:
-            e.downloads = []
-            for f in e.files.all():
-                f.filename = urlquote(f.name)
-                e.downloads.append(f)
+        p=pagination("public", "71", current_page=page, page_size=10)
         context.update({'page':p, 'board_id': 71, "board": "public"})
 
         return context
@@ -305,14 +275,8 @@ class Gfund(TemplateView):
 
     def get_context_data(self, page):
         context=super(TemplateView, self).get_context_data()
-        p=pagination("public", "92", current_page=page, page_size=1)
-
-        for e in p['entry_list']:
-            e.downloads = []
-            for f in e.files.all():
-                f.filename = urlquote(f.name)
-                e.downloads.append(f)
-        context.update({'page':p, 'board_id': 92, "board": "public"})
+        p=pagination("public", "92", current_page=page, page_size=10)
+        context.update({'page':p, 'board_id': 71, "board": "public"})
 
         return context
 
@@ -322,16 +286,49 @@ class Sfund(TemplateView):
 
     def get_context_data(self, page):
         context=super(TemplateView, self).get_context_data()
-        p=pagination("public", "98", current_page=page, page_size=1)
-
-        for e in p['entry_list']:
-            e.downloads = []
-            for f in e.files.all():
-                f.filename = urlquote(f.name)
-                e.downloads.append(f)
-        context.update({'page':p, 'board_id': 98, "board": "public"})
+        try:
+            p=pagination("public", "98", current_page=page, page_size=10)
+        except:
+            context.update({'board_id': 98, "board": "public"})
+        else:
+            context.update({'page':p, 'board_id': 98, "board": "public"})
 
         return context
+
+
+class Fund_detail(DetailView):
+    template_name = "yighub/public_fund_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context=super(DetailView, self).get_context_data()
+        try:
+            user=User.objects.get(id=self.request.user.pk)
+        except:
+            context['user']=None
+        else:
+            context['user']=user
+        if "SIMA" in self.request.path:
+            context['Fund_name']="SIM-A Fund"
+        elif "SIMJS" in self.request.path:
+            context['Fund_name']="SIM-JS Fund"
+        elif "GFund" in self.request.path:
+            context['Fund_name']="G Fund"
+        elif "Universe" in self.request.path:
+            context['Fund_name']="YIG Universe"
+        else:
+            context['Fund_name']="S Fund"
+
+        return context
+
+    def get_object(self):
+        object = PublicEntry.objects.get(id=self.kwargs['pk'])
+        object.downloads = []
+
+        for f in object.files.all():
+            f.filename = urlquote(f.name)
+            object.downloads.append(f)
+
+        return object
 
 
 class YIG_Universe(TemplateView):
@@ -339,13 +336,7 @@ class YIG_Universe(TemplateView):
 
     def get_context_data(self, page):
         context=super(TemplateView, self).get_context_data()
-        p=pagination("public", "14", current_page=page, page_size=1)
-
-        for e in p['entry_list']:
-            e.downloads = []
-            for f in e.files.all():
-                f.filename = urlquote(f.name)
-                e.downloads.append(f)
+        p=pagination("public", "14", current_page=page, page_size=10)
         context.update({'page':p, 'board_id': 14, "board": "public"})
 
         return context
@@ -356,7 +347,7 @@ class Research(TemplateView):
 
     def get_context_data(self, page):
         context = super(TemplateView, self).get_context_data()
-        p = pagination("public", "15", current_page=page, page_size=1)
+        p = pagination("public", "15", current_page=page, page_size=2)
 
         for e in p['entry_list']:
             e.downloads = []

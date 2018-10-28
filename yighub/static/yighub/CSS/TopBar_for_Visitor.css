@@ -114,7 +114,7 @@ div{
 /*로고 및 YIG 끝*/
 /*Main_nav 시작*/
 .Main_nav{
-    width: 900px;
+    width: 1000px;
     height: 100%;
     margin-left: 20px;
 }
@@ -126,7 +126,7 @@ div{
     top: -5px;
     height: 70px;
     font-size: 3vh;
-    padding: 0 20px;
+    padding: 0 25px;
     color: rgba(0, 0, 0, 0.75);
     vertical-align: center;
     line-height: 75px;
@@ -163,7 +163,7 @@ div{
 .Sub_nav{
     width: 900px;
     height: 0px;
-    margin-left: 130px;
+    margin-left: 140px;
     overflow: hidden;
     transition: all 1s ease-in-out;
 }
@@ -173,6 +173,7 @@ div{
     float: left;
     height: 100%;
     width: 150px;
+    padding: 0 10px;
     text-align: center;
     box-sizing: border-box;
     background-color: white;
@@ -191,7 +192,12 @@ div{
 }
 
 .Sub_nav ul:nth-child(2){
+    padding-left: 40px;
     padding-right: 25px;
+}
+
+.Sub_nav ul:nth-child(3){
+    margin-right: 60px;
 }
 
 .Sub_nav ul:nth-child(4){
