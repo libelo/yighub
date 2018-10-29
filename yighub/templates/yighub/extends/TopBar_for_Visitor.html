@@ -22,7 +22,7 @@
 <header class="top_header" onmouseover="showup()">
     <nav class="Home">
         <img src="{% static "yighub/images/yiglogo.png" %}" height="50px" width="50px"/>
-        <a id="YIG" href="#" title="YIG 메인페이지로 이동">YIG</a>
+        <a id="YIG" href="{% url 'yighub:home' %}" title="YIG 메인페이지로 이동">YIG</a>
     </nav>
     <nav class="Main_nav">
         <a href="{% url 'yighub:Public_Introduction' %}">About YIG</a>

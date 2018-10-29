@@ -3,7 +3,7 @@ from . import views
 
 app_name = 'yighub'
 urlpatterns = [
-    url(r'^$', views.home),
+    url(r'^memberhome$', views.Member_Home, name="member_home"),
     url(r'^home/$', views.home, name='home'),
 
     url(r'^join/$', views.join, name='join'),

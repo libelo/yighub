@@ -371,6 +371,10 @@ class SubTopBar_for_Visitor(TemplateView):
     template_name="yighub/extends/Sub_TopBar_For_Visitor.html"
 
 
+class Member_Home(TemplateView):
+    template_name = "yighub/home_for_member.html"
+
+
 def home(request):
 
     if 'user_id' not in request.session:
@@ -478,19 +482,9 @@ def home(request):
     #         'next_page' : next_page,
     #        }
     logger.info('%s(%d)님이 홈페이지를 열었습니다.' % (user.name, user.id))
-    return render(request, 'yighub/home_for_member.html', # 아직까지는 페이지 넘기기 지원하지 않음.
-                                  { 'user' : user,
-                                    'public_dict' : PublicBoardDict,
-                                    'bulletin_list' : bulletin_list,
-                                    'taskforce_list' : taskforce_list,
-                                    # 'bulletin_news' : bulletin_news,
-                                    # 'taskforce_news' : taskforce_news,
-                                    'news' : news,
-                                    'album_news' : album_news,
-                                    'memos' : memos,
-                                    'birthday' : birthday_list,
-                                   },   
-                                  ) 
+    return render(request, 'yighub/Introduction', { 'user' : user, 'public_dict' : PublicBoardDict,
+    'bulletin_list' : bulletin_list, 'taskforce_list' : taskforce_list, 'news' : news,
+    'album_news' : album_news, 'memos' : memos, 'birthday' : birthday_list,},)
 
 def all_news(request, page):
 
@@ -1471,7 +1465,7 @@ def login_check(request):
 
             logger.info('%s(%d)님이 로그인했습니다.' % (u.name, u.id))
 
-            return HttpResponseRedirect(reverse('yighub:home'))
+            return render(request, "yighub/home_for_member.html")
         else:
             messages.error(request, 'password does not correct') # send message 
             logger.info('%s(%d)님이 로그인 도중 비밀번호를 잘못 입력했습니다.' % (u.name, u.id))

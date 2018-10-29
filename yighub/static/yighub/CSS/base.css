@@ -1,61 +1,23 @@
+/*전체 설정*/
+nav, li, ul, header{
+    margin: 0;
+	padding: 0;
+}
+
 body {
-    padding-top: 60px;
-    /* padding-bottom: 40px; */
+ background-image: url("https://i.pinimg.com/originals/e8/1e/f9/e81ef94eae77568adfd02e18a17775ab.jpg");
+ background-size: 100% 100%;
+ background-repeat: no-repeat;
+ height: 100%;
+ font-family: "맑은 고딕 Semilight", "sans-serif";
+ font-size: 1.1em;
 }
 
 a{
 	/*margin:0;*/
 	text-decoration: None;
 	background: transparent;
-}
-
-.sidebar-nav {
-    padding: 9px 0;
-}
-
-footer {margin-top: 120px;
-
-}
-
-sidebar > li > a {
-		disply:block;
-		padding: 8px 14px;
-		border: 1px solid #e5e5e5;}
-
-.sidebar > li:first-child > a {
-		border-radius: 6px 6px 0px 0px;
-}
-
-.sidebar > li:last-child > a {
-		border-radius: 0px 0px 6px 6px;
-}
-
-.sidebar > li > a > i {
-		float: right;
-		opacity: 0.25;
-}
-
-.menubar > li > a {
-		disply:block;
-		padding: 8px 14px;
-		border: 1px solid #e5e5e5;
-}
-
-.menubar > li:first-child > a {
-		border-top-style: none;
-}
-
-.menubar > li:last-child > a {
-		border-bottom-style: none;
-}
-
-.menubar > li > a > i {
-		float: right;
-		opacity: 0.25;
-}
-
-p {
-		line-height: 25px;
+	color: white;
 }
 
 @media (max-width: 980px) {
@@ -100,100 +62,94 @@ p {
     }
 }
 
-.top_nav_yig{
-	font-size: 100px;
-}
+/*TopHeader 전체 설정*/
 
-#top_nav_yig{
-	font-size: 100px;
-}
-
-.top_header{
+.YIG_top_header {
 	width: 100%;
-	position: fixed;
-	z-index: 999;
-	background-color: black;
+	height: auto;
+	margin: 0;
+	padding: 0;
 }
 
-.top_header .header-nav{
+.YIG_top_header nav{
 	float: left;
-	width: 100%;
+	padding-top: 25px;
+}
+
+/*YIG*/
+.YIG{
 	height: 80px;
-	margin-left: auto;
-	margin-right: auto;
-	position: relative;
-	z-index: 9999;
-	top: 30px;
-	position: fixed;
-}
-
-/* YIG 로고 및 글씨 */
-.header-nav h1{
-	float: left;
-	margin-top: 0px;
-	margin-left: 2.3vh;
-	vertical-align: middle;
-	top: 2.3vh;
-	position: fixed;
-}
-
-.header-nav h1 a{
-	color: red;
-	font-size: 4.5vh;
-	vertical-align: middle;
-}
-
-.Visitors_Top_Nav_Main{
-	margin-left: 200px;
-	vertical-align: middle;
-	float: left;
-}
-
-.Visitors_Top_Nav_Main a:first-child{
-	margin-left: 0;
-}
-
-.Visitors_Top_Nav_Main a {
-    float: left;
-	height: 80px;
-	display: block;
-	color: #f2f2f2;
-    text-align: center;
-    padding: 0px 20px;
-	font-size: 3vh;
-	width: auto;
-	vertical-align: middle;
 	box-sizing: border-box;
+	width: 120px;
 }
 
-.Account a:first-child{
-	color: white;
-	font-size: 2.5vh;
-	position: fixed;
-	right: 35vh;
+#YIG{
+	line-height: 40px;
+	color: rgb(214, 40, 40);
+	font-size: 1.5em;
+}
+
+/*Main_nav*/
+.Main_nav{
+	box-sizing: border-box;
+	width:1080px;
+	font-size: 1.3em;
+}
+
+
+
+.Main_nav ul{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+}
+
+.Main_nav ul li{
+	float: left;
+	width: 180px;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+}
+
+.Main_nav ul li a{
+	display: block;
+}
+
+.Main_nav ul li ul li{
+	display: none;
+}
+
+.Main_nav ul li:hover 	ul li{
+	display: block;
+}
+
+
+/*Account*/
+.Account{
+	height: 80px;
+	width: auto;
+	box-sizing: border-box;
+	font-size: 1.1em;
+	margin-left: 60px;
+}
+
+.Account a{
+	line-height: 40px;
 }
 
 .Account a:nth-child(2){
-	color: red;
-	font-size: 2.5vh;
-	position: fixed;
-	top: 4vh;
-	right: 9vh;
-	padding: 0.5vh 1vh;
-	border-style: solid;
-	border-color: white;
-	border-width: 0.1vh;
+	line-height: 40px;
+	padding: 5 10px;
+	margin-left: 20px;
+	border: 1px solid rgb(214, 40, 40);
 	border-radius: 15px;
-	box-sizing: inherit;
 }
 
+/*header 끝*/
 
-.line{
-	top: 79px;
-	position: fixed;
-	left: 0;
-	width: 100%;
-	height: 1px;
-	background-color: rgba(255,255,255, 0.8);
+.horizon{
+	margin: 0;
+	border: 1px solid white;
 }
-

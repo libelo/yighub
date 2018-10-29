@@ -12,10 +12,6 @@
 	<!-- Le styles -->
 	<link href="{% static 'yighub/bootstrap/css/bootstrap.css' %}" rel="stylesheet" />
     <link rel="stylesheet" href="{% static "yighub/CSS/base.css" %}"/>
-	<link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet" type="text/css" />
-	<link rel="shortcut icon" href="{% static 'yighub/images/yiglogo.png' %}" />
-	<link rel="stylesheet" href="{% static 'yighub/colorbox-master/colorbox.css' %}">
-	<link href="{% static 'yighub/bootstrap/css/bootstrap-responsive.css' %}" rel="stylesheet">
 
     {% block style %}
     {% endblock %}
@@ -38,87 +34,50 @@
 
 	</script>
 </head>
-
 <body>
-<div class="Fixed_Top_Nav">
-
-    {% if user.name %}
-     OKOK
-
-    {% else %}
-    <!-- 고정 Main Nav Bar-->
-    <header class="top_header">
-        <div class="header-nav">
-            <h1>
-                <img src="{% static "yighub/images/yiglogo.png" %}" height="50px" width="50px"/>
-                <a href="#" title="YIG 메인페이지로 이동">YIG</a>
-            </h1>
-            <nav class="Visitors_Top_Nav_Main">
-                <a href="{% url 'yighub:Public_Introduction' %}">About YIG</a>
-                    <ul>
-                        <li><a href="{% url "yighub:Public_Introduction" %}">Introduction</a></li>
-                        <li><a href="{% url "yighub:Public_Vision" %}">Vision</a></li>
-                        <li><a href="{% url "yighub:Public_Activity" %}">Activity</a></li>
-                        <li><a href="{% url "yighub:Public_History" %}">History</a></li>
-                    </ul>
-                <a href="{% url 'yighub:Public_Recruiting' %}">Recruiting</a>
-                    <ul>
-                        <li><a href="{% url "yighub:Public_Recruiting" %}">Recruiting</a></li>
-                        <li><a href="{% url "yighub:Public_Apply" %}">Apply</a></li>
-                        <li><a href="{% url "yighub:Public_Schedule" %}">Schedule</a></li>
-                        <li><a href="{% url "yighub:Public_FAQ" %}">FAQ</a></li>
-                    </ul>
-                <a href="{% url 'yighub:Public_Member_Profile' 0 %}">Member Profile</a>
-                <a href="{% url 'yighub:Public_SIM_A' 0 %}">Fund</a>
-                    <ul>
-                        <li><a href="{% url "yighub:Public_SIM_A" 0 %}">SIM-A Fund</a></li>
-                        <li><a href="{% url "yighub:Public_SIM_JS" 0 %}">SIM-JS Fund</a></li>
-                        <li><a href="{% url "yighub:Public_Gfund" 0 %}">G Fund </a></li>
-                        <li><a href="{% url "yighub:Public_Sfund" 0 %}">S Fund</a></li>
-                    </ul>
-                <a href="{% url 'yighub:Public_YIG_Universe' 0 %}">Research</a>
-                <a href="{% url 'yighub:Public_Contact' %}">Contact Us</a>
-            </nav>
-            <div class="Account">
-                <a href="yighub/login/">LogIn</a>
-                <a href="yighub/join/">Become a YIGIAN</a>
-            </div>
-            <div class="line"></div>
-        </div>
-    </header>
-    <!--고정 Sub Nav Bar-->
-    {% endif %}
-</div>
-
-<div class="container-fluid">
-    <div class="row-fluid">
-        {% block sidebar %}
-        {% endblock %}
-
-        {% block contents %}
-        {% endblock %}
-    </div><!--/.row-->
-</div><!--/.fluid-container-->
-
-<!-- Le javascript
-	================================================== -->
-	<!-- Placed at the end of the document so the pages load faster -->
-	<script src="http://code.jquery.com/jquery.js"></script>
-	<script src="{% static 'yighub/bootstrap/js/bootstrap.min.js' %}"></script>
-	<script src="{% static 'yighub/colorbox-master/jquery.colorbox-min.js' %}"></script>
-	<div style='display:none'>
-		<div id='inline_content' style='padding:10px; background:#fff;'>
-		<a href="https://gaps.dongbu.com/">
-			<img src="{% static 'yighub/images/popup.jpeg' %}" />
-		</a>
-		</div>
-	</div>
-	<script type="text/javascript">
-	$(document).ready(function(){
-		$('a.inline').colorbox({inline:true});
-		$('a.inline').click();
-	});
-	</script>
-
+<header class="YIG_top_header">
+    <nav class="YIG">
+        <img src="{% static "yighub/images/yiglogo.png" %}" height="50px" width="50px"/>
+        <a  id="YIG" href="#" title="YIG 메인페이지로 이동">YIG</a>
+    </nav>
+    <nav class="Main_nav">
+        <ul>
+            <li><a href="{% url 'yighub:Public_Introduction' %}">About YIG</a>
+                <ul>
+                    <li><a href="{% url "yighub:Public_Introduction" %}">Introduction</a></li>
+                    <li><a href="{% url "yighub:Public_Vision" %}">Vision</a></li>
+                    <li><a href="{% url "yighub:Public_Activity" %}">Activity</a></li>
+                    <li><a href="{% url "yighub:Public_History" %}">History</a></li>
+                </ul>
+            </li>
+            <li><a href="{% url 'yighub:Public_Recruiting' %}">Recruiting</a>
+                <ul>
+                    <li><a href="{% url "yighub:Public_Recruiting" %}">Recruiting</a></li>
+                    <li><a href="{% url "yighub:Public_Apply" %}">Apply</a></li>
+                    <li><a href="{% url "yighub:Public_Schedule" %}">Schedule</a></li>
+                    <li><a href="{% url "yighub:Public_FAQ" %}">FAQ</a></li>
+                </ul>
+            </li>
+            <li><a href="{% url 'yighub:Public_Member_Profile' 0 %}">Member Profile</a></li>
+            <li><a href="{% url 'yighub:Public_SIM_A' 0 %}">Fund</a>
+                <ul>
+                    <li><a href="{% url "yighub:Public_SIM_A" 0 %}">SIM-A Fund</a></li>
+                    <li><a href="{% url "yighub:Public_SIM_JS" 0 %}">SIM-JS Fund</a></li>
+                    <li><a href="{% url "yighub:Public_Gfund" 0 %}">G Fund </a></li>
+                    <li><a href="{% url "yighub:Public_Sfund" 0 %}">S Fund</a></li>
+                </ul>
+            </li>
+            <li><a href="{% url 'yighub:Public_YIG_Universe' 0 %}">Research</a></li>
+            <li><a href="{% url 'yighub:Public_Contact' %}">Contact Us</a></li>
+        </ul>
+    </nav>
+    <nav class="Account">
+        <a href="{% url "yighub:login" %}">LogIn</a>
+        <a href="{% url "yighub:join" %}">Become a YIGIAN</a>
+    </nav>
+</header>
+<div class="horizon"></div>
+{% block contents %}
+{% endblock %}
 </body>
 </html>
