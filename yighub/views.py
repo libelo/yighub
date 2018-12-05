@@ -371,10 +371,6 @@ class SubTopBar_for_Visitor(TemplateView):
     template_name="yighub/extends/Sub_TopBar_For_Visitor.html"
 
 
-class Member_Home(TemplateView):
-    template_name = "yighub/home_for_member.html"
-
-
 def home(request):
 
     if 'user_id' not in request.session:

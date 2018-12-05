@@ -100,36 +100,19 @@ html {
   display: none;
 }
 
-/*배경화면 설정*/
-html {
-  background: url("https://i.pinimg.com/originals/e8/1e/f9/e81ef94eae77568adfd02e18a17775ab.jpg") no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
-
-a {
-  color: white;
-}
-
-ul li {
-  text-align: center;
-}
-
+/*기본설정*/
 /*container 기본*/
 .container {
   width: 1200px;
   margin: 0 auto;
 }
 
-/*상위 header 기본*/
+/*header*/
 #header {
-  height: 165px;
+  height: 60px;
 }
-#header .nav {
-  /*YIG 로고 및 글씨*/
-  /*main nav*/
+#header .nav div {
+  float: left;
 }
 #header .nav .YIG {
   position: relative;
@@ -146,24 +129,19 @@ ul li {
   top: 12px;
   color: #e50914;
 }
+#header .nav .YIG button {
+  display: none;
+}
 #header .nav .Main_nav {
-  font-size: 16px;
   width: 70%;
+  text-align: center;
+  font-size: 16px;
   margin-top: 15px;
 }
 #header .nav .Main_nav ul li {
+  float: left;
   width: 16.6666666667%;
   white-space: nowrap;
-}
-#header .nav .Main_nav ul li ul li {
-  width: 100%;
-  float: none;
-  padding: 5px 0;
-  display: none;
-  transition: all 1s ease;
-}
-#header .nav .Main_nav ul li .show li {
-  display: block;
 }
 #header .nav .account {
   white-space: nowrap;
@@ -178,66 +156,96 @@ ul li {
   border: 1px solid #e50914;
   border-radius: 15px;
 }
-#header .nav div {
-  float: left;
-}
-#header .nav div ul li {
-  float: left;
-}
 
-/*body*/
-html {
+/*sub_visual*/
+.sub_visual {
+  height: 160px;
+}
+.sub_visual .container {
   height: 100%;
-}
-html body {
-  min-height: 100%;
-}
-
-.body {
-  height: calc(100vh - 60px);
-}
-.body .container {
-  height: 100%;
-}
-.body .container .row {
-  height: 100%;
-}
-
-.lst_nav {
-  width: 100%;
-  height: 50%;
-  text-align: center;
+  margin: 0 auto;
   overflow: hidden;
-  transform: translateY(100%);
 }
-.lst_nav li {
+.sub_visual .container .sub_all {
+  height: 0%;
+  overflow: hidden;
+  transition: all 0.5s ease;
+}
+.sub_visual .container .sub_all .sub {
+  height: 100%;
+  width: 70%;
+  margin-left: 10.8%;
+}
+.sub_visual .container .sub_all .sub ul {
   float: left;
-  width: 33.3333333333%;
+  width: 16.6666666667%;
+  height: 100%;
+  text-align: center;
+  font-size: 14px;
 }
-.lst_nav li a {
+.sub_visual .container .sub_all .sub ul li {
+  padding: 5px 0;
+}
+.sub_visual .container .visual {
+  height: 100%;
+  width: 100%;
+  background-image: url("https://yighub-bucket.s3.amazonaws.com/media/yighub/albums/2018/01/30/KakaoTalk_20180130_205853818.jpg");
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/*Nav_lst*/
+.Nav_lst {
+  display: none;
+}
+.Nav_lst .container .row {
+  padding: 0 15px;
+}
+.Nav_lst ul li {
+  width: 100%;
+  font-size: 16px;
+  position: relative;
+}
+.Nav_lst ul li a {
   display: inline-block;
-  color: white;
-  font-size: 30px;
-  font-weight: 400;
-  text-align: center;
+  height: 100%;
+  width: 100%;
+  line-height: 45px;
+  color: #e50914;
 }
-.lst_nav li .ico {
-  display: table;
-  margin-bottom: 10px;
-  transform: translateX(90%);
-  width: 35%;
-  height: 35%;
-  border-radius: 15px;
-  background-color: rgba(239, 224, 170, 0.6);
+.Nav_lst ul li a:after {
+  content: '';
+  display: block;
+  position: absolute;
+  right: 22px;
+  top: 10px;
+  width: 8px;
+  height: 8px;
+  border-width: 1px 1px 0 0;
+  border-style: solid;
+  border-color: #ddd;
+  -webkit-transform: rotate(135deg);
+  transform: rotate(135deg);
 }
-.lst_nav li .ico em {
-  display: table-cell;
-  text-align: center;
-  vertical-align: middle;
+.Nav_lst ul li .show {
+  display: block;
 }
-
-img {
-  vertical-align: middle;
+.Nav_lst ul li ul {
+  display: none;
+}
+.Nav_lst ul li ul li a {
+  background: #f8f8f8;
+  color: #666;
+}
+.Nav_lst ul li ul li a:before {
+  content: '';
+  display: inline-block;
+  width: 2px;
+  height: 2px;
+  margin-right: 5px;
+  background: #aaa;
+  vertical-align: 5px;
 }
 
 @media (max-width: 1280px) {
@@ -248,80 +256,66 @@ img {
     padding: 0 15px;
   }
 }
-@media (max-width: 1280px) {
-  .container {
-    width: 100%;
-  }
-  .container .row {
-    padding: 0 15px;
-  }
-}
-/*태블릿까지는 그대로*/
-@media (max-width: 840px) {
+@media (max-width: 850px) {
   .container .row {
     padding: 0 5px;
   }
 
   #header .nav .YIG {
+    width: 10%;
+    position: relative;
+  }
+  #header .nav .YIG a {
     display: none;
   }
+  #header .nav .YIG button {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    left: 60px;
+    top: 20px;
+  }
   #header .nav .Main_nav {
-    width: 80%;
+    display: none;
   }
   #header .nav .account {
     margin-top: 14px;
+    float: right;
+    margin-right: 10px;
   }
   #header .nav .account .signup {
     margin-left: 5px;
     padding: 2.5px 5px;
   }
 
-  .lst_nav li a {
-    font-size: 20px;
-  }
-}
-@media (max-width: 750px) {
-  #header {
-    background-color: rgba(0, 0, 0, 0.5);
-    height: 180px;
-  }
-  #header .nav .YIG {
-    display: block;
-  }
-  #header .nav .YIG a {
+  .sub_visual .container .sub_all {
     display: none;
   }
-  #header .nav .hidden {
-    display: block;
-  }
-  #header .nav .Main_nav {
-    font-size: 12px;
-    width: 55%;
-  }
-  #header .nav .Main_nav ul li {
-    width: 100%;
-    padding: 5px 0;
-  }
-  #header .nav .account {
-    width: 35%;
-    margin-top: 19px;
-    font-size: 12px;
-  }
-  #header .nav .account a {
-    display: block;
-  }
-  #header .nav .account .login {
-    margin-left: 6px;
-  }
-  #header .nav .account .signup {
-    margin-top: 10px;
-    padding: 2.5px 5px;
-    margin-left: 0;
-  }
 
-  .lst_nav li a {
-    font-size: 12px;
+  .Nav_lst .container .row {
+    padding: 0 15px;
+  }
+}
+@media (max-width: 700px) {
+  #header .nav .account {
+    margin-right: 30px;
+  }
+}
+@media (max-width: 600px) {
+  #header .nav .account {
+    margin-right: 50px;
+  }
+}
+@media (max-width: 500px) {
+  #header .nav .account {
+    margin-right: 70px;
+  }
+}
+@media (max-width: 400px) {
+  #header .nav .account {
+    margin-right: 80px;
   }
 }
 
-/*# sourceMappingURL=home_for_visitor.css.map */
+/*# sourceMappingURL=VisitorHeader.css.map */
