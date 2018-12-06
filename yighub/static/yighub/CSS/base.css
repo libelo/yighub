@@ -1,18 +1,27 @@
 body {
-  font-family: Arial sans-serif; }
+  font-family: Arial sans-serif;
+}
 
 :lang(ko) {
-  font-family: "Nanum Gothic", "sans-serif"; }
+  font-family: "Nanum Gothic", "sans-serif";
+}
+
+:lang(en) {
+  font-family: Arial sans-serif;
+}
 
 .wrap {
-  white-space: pre-wrap; }
+  white-space: pre-wrap;
+}
 
 #lead {
   font-size: 2em;
-  color: rgba(214, 40, 40, 0.8); }
+  color: rgba(214, 40, 40, 0.8);
+}
 
 #sub_lead {
-  font-size: 20px; }
+  font-size: 20px;
+}
 
 .container-fluid {
   margin-top: 100px;
@@ -20,16 +29,22 @@ body {
   width: 90%;
   margin-left: auto;
   margin-right: auto;
-  font-size: 16px; }
+  font-size: 16px;
+  line-height: 30px;
+}
 
 @media (max-width: 850px) {
   #lead {
-    font-size: 20px; }
+    font-size: 20px;
+  }
 
   #sub_lead {
-    font-size: 16px; }
+    font-size: 16px;
+  }
 
   .container-fluid {
-    font-size: 12px; } }
+    font-size: 12px;
+  }
+}
 
 /*# sourceMappingURL=base.css.map */

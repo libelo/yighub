@@ -1,50 +1,27 @@
 {% extends "yighub/extends/TopBar_for_Visitor.html" %}
 {% load static %}
 {% block style %}
-    <link rel="stylesheet" href="{% static "yighub/CSS/Sub_TopBar_For_Visitor.css" %}"/>
+    <link rel="stylesheet" href="{% static "yighub/CSS/sub_bar_visitor.css" %}"/>
     {% block customstyle%}
     {% endblock %}
 {% endblock %}
-
-{% block Sub_TopBar_For_Visitor %}
-<section class="sub_section">
-    <section class="sub_nav">
-        <nav>
-            <ul class="sub_depth1">
-                <li><a href="#" onclick="sub_depth1_drop()">Recruiting</a></li>
-                <ul id="sub_depth1_drop">
-                    <li><a href="{% url 'yighub:Public_Introduction' %}">AboutYIG</a></li>
-                    <li><a href="{% url 'yighub:Public_Member_Profile' 0 %}">Member Profile</a></li>
-                    <li><a href="{% url 'yighub:Public_SIM_A' 0 %}">Fund</a></li>
-                    <li><a href="{% url 'yighub:Public_Research' 0 %}">Research</a></li>
-                    <li><a href="{% url 'yighub:Public_Contact' %}">Contact Us</a></li>
-                </ul>
+{% block sub_bar %}
+<section class="sub_bar">
+    <div>
+        <ul class="sub_depth1">
+            <li class="clearfix"><a href="{% url 'yighub:Public_Recruiting' %}">Recruiting</a></li>
+            <ul class="sub_depth1_drop clearfix">
+                <li class="clearfix"><a href="{% url 'yighub:Public_Introduction' %}">About YIG</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:Public_Member_Profile' 0 %}">Member Profile</a></li>
+                <li class="clearfix"><a href="{%  url 'yighub:Public_SIM_A' 0 %}">Fund</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:Public_Research' 0 %}">Research</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:Public_Contact' %}">Contact Us</a></li>
             </ul>
-        </nav>
-        {% block sup_depth2 %}
-        {% endblock %}
-    </section>
-    <section class="contents"></section>
+        </ul>
+        <!--//sub_depth1-->
+    </div>
+    {% block sub_depth2 %}
+    {% endblock %}
 </section>
-<script>
-    function sub_depth1_drop(){
-        console.log(1);
-        var sub_one=document.getElementById("sub_depth1_drop");
-        if (sub_one.style.display==="none"){
-            sub_one.style.display="block";
-        } else{
-            sub_one.style.display="none";
-        }
-    }
-
-    function sub_depth2_drop(){
-        console.log(2);
-        var sub_one=document.getElementById("sub_depth2_drop");
-        if (sub_one.style.display==="none"){
-            sub_one.style.display="block";
-        } else{
-            sub_one.style.display="none";
-        }
-    }
-</script>
+<!--//sub_bar-->
 {% endblock %}

@@ -6,6 +6,10 @@ body{
   font-family: "Nanum Gothic", "sans-serif";
 }
 
+:lang(en){
+  font-family: Arial sans-serif;
+}
+
 .wrap {
 	white-space: pre-wrap;
 }
@@ -26,6 +30,7 @@ body{
   margin-left: auto;
   margin-right: auto;
   font-size: 16px;
+  line-height: 30px;
 }
 
 @media (max-width: 850px) {

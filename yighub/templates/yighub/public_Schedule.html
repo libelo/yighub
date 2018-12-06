@@ -1,76 +1,92 @@
 {% extends "yighub/extends/TopBar_Recruiting.html" %}
-{% block sup_depth2 %}
-    <nav>
+{% load static %}
+{% block customstyle %}
+    <link rel="stylesheet" href="{% static "yighub/CSS/VisitorIntroduction.css" %}"/>
+    <style>
+    .table{
+        max-width: 680px;width: 100%;
+        border: 1px solid rgba(214, 40, 40, .8);
+        font-size: 16px;
+    }
+
+    .table td{
+        padding: 5px;
+    }
+
+    @media (max-width: 850px) {
+        .table{
+            font-size: 12px;
+        }
+    }
+    </style>
+{% endblock %}
+{% block sub_depth2 %}
+    <div>
         <ul class="sub_depth2">
-            <li><a href="#" onclick="sub_depth2_drop()">Schedule</a></li>
-            <ul id="sub_depth2_drop">
-                <li><a href="{% url 'yighub:Public_Recruiting' %}">Recruiting</a></li>
-                <li><a href="{% url 'yighub:Public_Apply' %}">Apply</a></li>
-                <li><a href="{% url 'yighub:Public_FAQ' %}">FAQ</a></li>
+            <li class="clearfix"><a href="{% url 'yighub:Public_Schedule' %}">Schedule</a></li>
+            <ul class="sub_depth2_drop clearfix">
+                <li class="clearfix"><a href="{% url 'yighub:Public_Recruiting' %}">Recruiting</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:Public_Apply' %}">Apply</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:Public_FAQ' %}">FAQ</a></li>
             </ul>
         </ul>
-    </nav>
+        <!--//sub_depth2-->
+    </div>
 {% endblock %}
-
-
 {% block contents %}
+<section class="schedule" lang="ko">
+    <div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
+        <span id="lead" lang="en">Schedule</span>
         <br />
-		<br />
+        <br />
+        <strong>2018년 2학기 리쿠르팅 일정</strong>
+        <br />
+        <br />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>일정</th>
+                    <th>내용</th>
+                    <th>비고</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>8월 20일(월)-9월 9일(일)</td>
+                    <td>지원서 제출 및 마감</td>
+                    <td>9월 9일 (일) 24:00 마감</td>
+                </tr>
+                <tr>
+                    <td>9월 5일(수) 7:00pm</td>
+                    <td>YIG 신입회원 Recruiting 설명회</td>
+                    <td>장소: 경영관 B226호</td>
+                </tr>
+                <tr>
+                    <td>9월 10일(월) 오전</td>
+                    <td>서류합격 발표 및 면접안내</td>
+                    <td>개별통보</td>
+                </tr>
+                <tr>
+                    <td>9월 10일(월)-11일(화)</td>
+                    <td>지원자 대상 면접</td>
+                    <td>※ 지원자 희망시간 반영</td>
+                </tr>
+                <tr>
+                    <td>9월 13일(목) 저녁</td>
+                    <td>합격자 발표</td>
+                    <td>합격자 개별 통보</td>
+                </tr>
+                <tr>
+                    <td>9월 15일(토)</td>
+                    <td>엠티</td>
+                    <td></td>
+                </tr>
 
-		<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
-			<div class="row-fluid">
-				<span class="lead" lang="en">Schedule</span>
-			</div>
-			<br />
-			<br />
-			<strong>2018년 2학기 리쿠르팅 일정</strong>
-			<br />
-			<br />
-			<table class="table" style="max-width:680px; border:1px solid rgba(214, 40, 40, .8); width: 100%;">
-				<thead>
-					<tr>
-						<th>일정</th>
-						<th>내용</th>
-						<th>비고</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>8월 20일(월)-9월 9일(일)</td>
-						<td>지원서 제출 및 마감</td>
-						<td>9월 9일 (일) 24:00 마감</td>
-					</tr>
-					<tr>
-						<td>9월 5일(수) 7:00pm</td>
-						<td>YIG 신입회원 Recruiting 설명회</td>
-						<td>장소: 경영관 B226호</td>
-					</tr>
-					<tr>
-						<td>9월 10일(월) 오전</td>
-						<td>서류합격 발표 및 면접안내</td>
-						<td>개별통보</td>
-					</tr>
-					<tr>
-						<td>9월 10일(월)-11일(화)</td>
-						<td>지원자 대상 면접</td>
-						<td>※ 지원자 희망시간 반영</td>
-					</tr>
-					<tr>
-						<td>9월 13일(목) 저녁</td>
-						<td>합격자 발표</td>
-						<td>합격자 개별 통보</td>
-					</tr>
-					<tr>
-						<td>9월 15일(토)</td>
-						<td>엠티</td>
-						<td></td>
-					</tr>
-
-				</tbody>
-			</table>
-			<br />
-			<br />
-			<br />
-		</div>
-
+            </tbody>
+        </table>
+        <br />
+        <br />
+        <br />
+    </div>
+</section>
 {% endblock %}

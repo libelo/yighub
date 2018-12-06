@@ -26,13 +26,9 @@
 		<strong id="sub_lead">{{ e.title }}</strong>
 		<dl class="dl-horizontal">
 			{% for h in e.history %}
-                <br/>
 			<dt>{{ h.month }}</dt>
-                <br/>
-
 			{% for event in h.events %}
 				<dd>{{ event }}</dd>
-                <br/>
 			{% endfor %}
 
 			{% endfor %}
