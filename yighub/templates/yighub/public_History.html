@@ -1,35 +1,38 @@
 {% extends "yighub/extends/TopBar_AboutYIG.html" %}
+{% load static %}
+{% block customstyle %}
+    <link rel="stylesheet" href="{% static "yighub/CSS/VisitorIntroduction.css" %}"/>
+{% endblock %}
 {% block sub_depth2 %}
-    <nav>
+    <div>
         <ul class="sub_depth2">
-            <li><a href="#" onclick="sub_depth2_drop()">History</a></li>
-            <ul id="sub_depth2_drop">
-                <li><a href="{% url 'yighub:Public_Introduction' %}">Introduction</a></li>
-                <li><a href="{% url 'yighub:Public_Vision' %}">Vision</a></li>
-                <li><a href="{% url 'yighub:Public_Activity' %}">Activity</a></li>
+            <li class="clearfix"><a href="{% url 'yighub:Public_History' %}">History</a></li>
+            <ul class="sub_depth2_drop clearfix">
+                <li class="clearfix"><a href="{% url 'yighub:Public_Introduction' %}">Introduction</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:Public_Vision' %}">Vision</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:Public_Activity' %}">Activity</a></li>
             </ul>
         </ul>
-    </nav>
+        <!--//sub_depth2-->
+    </div>
 {% endblock %}
 {% block contents %}
-	<br />
-	<br />
-
-	<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
-		<div class="row-fluid">
-			<span class="lead">History</span> 
-		</div>
+<section class="history">
+	<div class="container-fluid">
+		<span id="lead">History</span>
 		<br />
 		<br />
 		{% for e in page.entry_list %}
-		<strong class="sub_lead">{{ e.title }}</strong>
-
+		<strong id="sub_lead">{{ e.title }}</strong>
 		<dl class="dl-horizontal">
 			{% for h in e.history %}
+                <br/>
 			<dt>{{ h.month }}</dt>
+                <br/>
 
 			{% for event in h.events %}
 				<dd>{{ event }}</dd>
+                <br/>
 			{% endfor %}
 
 			{% endfor %}
@@ -38,7 +41,8 @@
 		<hr />
 		{% endif %}
 		{% endfor %}
-
 	</div>
-
+    <!--//container-fluid-->
+</section>
+<!--//history-->
 {% endblock %}

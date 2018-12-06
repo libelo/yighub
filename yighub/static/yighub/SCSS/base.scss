@@ -1,0 +1,43 @@
+body{
+  font-family: Arial sans-serif;
+}
+
+:lang(ko){
+  font-family: "Nanum Gothic", "sans-serif";
+}
+
+.wrap {
+	white-space: pre-wrap;
+}
+
+#lead{
+    font-size: 2em;
+    color: rgba(214, 40, 40, .8);
+}
+
+#sub_lead{
+    font-size: 20px;
+}
+
+.container-fluid{
+  margin-top: 100px;
+  max-width: 680px;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 16px;
+}
+
+@media (max-width: 850px) {
+  #lead{
+    font-size: 20px;
+  }
+
+  #sub_lead{
+    font-size: 16px;
+  }
+
+  .container-fluid{
+    font-size: 12px;
+  }
+}

@@ -1,34 +1,37 @@
 {% extends "yighub/extends/TopBar_AboutYIG.html" %}
-{% load staticfiles %}
+{% load static %}
+{% block customstyle %}
+    <link rel="stylesheet" href="{% static "yighub/CSS/VisitorIntroduction.css" %}"/>
+{% endblock %}
 {% block sub_depth2 %}
-    <nav>
+    <div>
         <ul class="sub_depth2">
-            <li><a href="#" onclick="sub_depth2_drop()">Vision</a></li>
-            <ul id="sub_depth2_drop">
-                <li><a href="{% url 'yighub:Public_Introduction' %}">Introduction</a></li>
-                <li><a href="{% url 'yighub:Public_Activity' %}">Activity</a></li>
-                <li><a href="{% url 'yighub:Public_History' %}">History</a></li>
+            <li class="clearfix"><a href="{% url 'yighub:Public_Vision' %}">Vision</a></li>
+            <ul class="sub_depth2_drop clearfix">
+                <li class="clearfix"><a href="{% url 'yighub:Public_Introduction' %}">Introduction</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:Public_Activity' %}">Activity</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:Public_History' %}">History</a></li>
             </ul>
         </ul>
-    </nav>
+        <!--//sub_depth2-->
+    </div>
 {% endblock %}
 
 {% block contents %}
-		<br />
-		<br />
-
-		<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
-			<div class="row-fluid">
-				<span class="lead">YIG의 Vision</span>
-			</div>
-			<br />
-			<img src="{% static 'yighub/images/Vision.JPG' %}" style="margin-left:auto; margin-right:auto; display:block;" />
-			<br />
-			<p class="wrap">
+<section class="Vision">
+    <div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
+        <div class="row-fluid">
+            <span id="lead">YIG의 Vision</span>
+        </div>
+        <br />
+        <img src="{% static 'yighub/images/Vision.JPG' %}" style="margin-left:auto; margin-right:auto; display:block;" />
+        <br />
+        <p class="wrap" lang="ko">
 가치투자의 개념과 실제를 탐구하고 실전적용을 통해 건전한 투자 방법을 체득하는 것을 목적으로 함.
 
 미래 한국 자본시장을 이끌 금융전문인을 꿈꾸는 학생들의 모임꾸는 분들을 모집합니다. 불안정한 시장 상황일수록 시장가격과 내재가치를 구별하여 투자하는 것은 중요합니다. 순수한 열정으로 현명한 투자자를 꿈꾸는 이들을 환영합니다.
-			</p>
-		</div>
-
+        </p>
+    </div>
+</section>
 {% endblock %}
+

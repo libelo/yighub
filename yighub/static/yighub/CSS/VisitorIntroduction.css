@@ -1,0 +1,331 @@
+@charset "UTF-8";
+/*임포트 및 변수 설정*/
+/*여백 초기화*/
+body, div, dl, dd, dt, ul, li, ol, h1, h2, h3, h4, h5, h6, form, input, legend,
+textarea, select, fieldset, p, button {
+  margin: 0;
+  padding: 0; }
+
+/*container 기본*/
+.container {
+  width: 1200px;
+  margin: 0 auto; }
+
+/*링크 초기화*/
+a {
+  color: #2f3743;
+  text-decoration: none; }
+
+a:hover {
+  color: #111; }
+
+/*폰트 초기화*/
+body, input, textarea, select, button, table {
+  font-family: "Nanum Gothic", sans-serif;
+  font-size: 12px; }
+
+/*제목 초기화*/
+h1, h2, h3, h4, h5, h6 {
+  font-size: 12px;
+  font-weight: normal; }
+
+/*리스트 스타일 초기화*/
+ul, li, ol {
+  list-style: none; }
+
+/*ir 효과*/
+.ir {
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  font-size: 0;
+  line-height: 0;
+  position: absolute;
+  left: 0;
+  top: 0; }
+
+/*이미지 테두리 초기화*/
+img, fieldset {
+  border: 0; }
+
+/*font 스타일 초기화*/
+em, address {
+  font-style: normal; }
+
+/*시멘틱 태그 블록화*/
+section, article, aside, figure, figcaption, footer, header, menu, nav, details {
+  display: block; }
+
+/*반응형 이미지*/
+img, video {
+  width: 100%; }
+
+/*가로모드 글씨 초기화*/
+html {
+  font-size: 100%;
+  -webkit-text-size-adjust: none;
+  -ms-text-size-adjust: none; }
+
+/*clearfix*/
+.clearfix {
+  *zoom: 1; }
+  .clearfix:before, .clearfix:after {
+    display: block;
+    content: '';
+    line-height: 0; }
+  .clearfix:after {
+    clear: both; }
+
+/*익스플로어 버전에 따른 코드 변화!*/
+.ie7 .icon-font {
+  display: none; }
+
+.ie8 .icon-font li a .tool {
+  display: none; }
+
+/*기본설정*/
+/*container 기본*/
+.container {
+  width: 1200px;
+  margin: 0 auto; }
+
+/*header*/
+#header {
+  height: 60px; }
+  #header .nav div {
+    float: left; }
+  #header .nav .YIG {
+    position: relative;
+    width: 10%; }
+    #header .nav .YIG img {
+      margin-top: 5px;
+      height: 50px;
+      width: 50px; }
+    #header .nav .YIG a {
+      position: absolute;
+      font-size: 20px;
+      top: 12px;
+      color: #e50914; }
+    #header .nav .YIG button {
+      display: none; }
+  #header .nav .Main_nav {
+    width: 70%;
+    text-align: center;
+    font-size: 16px;
+    margin-top: 15px; }
+    #header .nav .Main_nav ul li {
+      float: left;
+      width: 16.6666666667%;
+      white-space: nowrap; }
+  #header .nav .account {
+    white-space: nowrap;
+    margin-top: 12px;
+    width: 20%; }
+    #header .nav .account .signup {
+      display: inline-block;
+      padding: 5px 10px;
+      width: auto;
+      margin-left: 20px;
+      border: 1px solid #e50914;
+      border-radius: 15px; }
+
+/*sub_visual*/
+.sub_visual {
+  height: 160px; }
+  .sub_visual .container {
+    height: 100%;
+    margin: 0 auto;
+    overflow: hidden; }
+    .sub_visual .container .sub_all {
+      height: 0%;
+      overflow: hidden;
+      transition: all 0.5s ease; }
+      .sub_visual .container .sub_all .sub {
+        height: 100%;
+        width: 70%;
+        margin-left: 10.8%; }
+        .sub_visual .container .sub_all .sub ul {
+          float: left;
+          width: 16.6666666667%;
+          height: 100%;
+          text-align: center;
+          font-size: 14px; }
+          .sub_visual .container .sub_all .sub ul li {
+            padding: 5px 0; }
+    .sub_visual .container .visual {
+      height: 100%;
+      width: 100%;
+      background-image: url("https://yighub-bucket.s3.amazonaws.com/media/yighub/albums/2018/01/30/KakaoTalk_20180130_205853818.jpg");
+      background-position: center center;
+      background-size: cover;
+      background-repeat: no-repeat; }
+
+/*Nav_lst*/
+.Nav_lst {
+  display: none; }
+  .Nav_lst .container .row {
+    padding: 0 15px; }
+  .Nav_lst ul li {
+    width: 100%;
+    font-size: 16px;
+    position: relative; }
+    .Nav_lst ul li a {
+      display: inline-block;
+      height: 100%;
+      width: 100%;
+      line-height: 45px;
+      color: #e50914; }
+      .Nav_lst ul li a:after {
+        content: '';
+        display: block;
+        position: absolute;
+        right: 22px;
+        top: 10px;
+        width: 8px;
+        height: 8px;
+        border-width: 1px 1px 0 0;
+        border-style: solid;
+        border-color: #ddd;
+        -webkit-transform: rotate(135deg);
+        transform: rotate(135deg); }
+    .Nav_lst ul li .show {
+      display: block; }
+    .Nav_lst ul li ul {
+      display: none; }
+      .Nav_lst ul li ul li a {
+        background: #f8f8f8;
+        color: #666; }
+        .Nav_lst ul li ul li a:before {
+          content: '';
+          display: inline-block;
+          width: 2px;
+          height: 2px;
+          margin-right: 5px;
+          background: #aaa;
+          vertical-align: 5px; }
+
+@media (max-width: 1280px) {
+  .container {
+    width: 100%; }
+    .container .row {
+      padding: 0 15px; } }
+@media (max-width: 850px) {
+  .container .row {
+    padding: 0 5px; }
+
+  #header .nav .YIG {
+    width: 10%;
+    position: relative; }
+    #header .nav .YIG a {
+      display: none; }
+    #header .nav .YIG button {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      display: inline-block;
+      left: 60px;
+      top: 20px; }
+  #header .nav .Main_nav {
+    display: none; }
+  #header .nav .account {
+    margin-top: 14px;
+    float: right;
+    margin-right: 10px; }
+    #header .nav .account .signup {
+      margin-left: 5px;
+      padding: 2.5px 5px; }
+
+  .sub_visual .container .sub_all {
+    display: none; }
+
+  .Nav_lst .container .row {
+    padding: 0 15px; } }
+@media (max-width: 700px) {
+  #header .nav .account {
+    margin-right: 30px; } }
+@media (max-width: 600px) {
+  #header .nav .account {
+    margin-right: 50px; } }
+@media (max-width: 500px) {
+  #header .nav .account {
+    margin-right: 70px; } }
+@media (max-width: 400px) {
+  #header .nav .account {
+    margin-right: 80px; } }
+/*기본설정*/
+/*sub_bar*/
+.sub_bar {
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  height: 50px; }
+  .sub_bar div {
+    float: left;
+    width: 15%;
+    height: 100%;
+    margin: 0;
+    padding: 0; }
+    .sub_bar div .sub_depth1 {
+      height: 100%;
+      background-color: rgba(19, 24, 86, 0.4);
+      border-right: 1px solid white;
+      text-align: center;
+      box-sizing: border-box; }
+      .sub_bar div .sub_depth1 a {
+        height: 100%;
+        width: 100%;
+        font-size: 16px;
+        color: white;
+        line-height: 50px; }
+      .sub_bar div .sub_depth1 .sub_depth1_drop {
+        display: none; }
+      .sub_bar div .sub_depth1 .sub_depth1_drop.show {
+        display: block;
+        border: none;
+        border-bottom: 1px solid white; }
+        .sub_bar div .sub_depth1 .sub_depth1_drop.show li a {
+          background-color: rgba(19, 24, 86, 0.4); }
+    .sub_bar div .sub_depth2 {
+      height: 100%;
+      text-align: center;
+      background-color: rgba(19, 24, 86, 0.4);
+      border-right: 1px solid white;
+      box-sizing: border-box; }
+      .sub_bar div .sub_depth2 a:first-child {
+        width: 100%;
+        height: 100%;
+        font-size: 16px;
+        color: white;
+        line-height: 50px; }
+      .sub_bar div .sub_depth2 .sub_depth2_drop {
+        display: none; }
+      .sub_bar div .sub_depth2 .sub_depth2_drop.show {
+        display: block;
+        border-bottom: 1px solid white; }
+        .sub_bar div .sub_depth2 .sub_depth2_drop.show li a {
+          background-color: rgba(19, 24, 86, 0.4); }
+  .sub_bar ul a {
+    float: left;
+    height: 100%; }
+
+@media (max-width: 850px) {
+  .sub_bar div .sub_depth1 a {
+    font-size: 12px; }
+  .sub_bar div .sub_depth2 a:first-child {
+    font-size: 12px; } }
+@media (max-width: 700px) {
+  .sub_bar {
+    height: 30px; }
+    .sub_bar div .sub_depth1 a {
+      font-size: 12px;
+      line-height: 30px; }
+    .sub_bar div .sub_depth2 a:first-child {
+      font-size: 12px;
+      line-height: 30px; } }
+@media (max-width: 600px) {
+  .sub_bar div {
+    width: 20%; } }
+@media (max-width: 450px) {
+  .sub_bar div {
+    width: 25%; } }
+
+/*# sourceMappingURL=VisitorIntroduction.css.map */

@@ -1,155 +1,35 @@
-/*전체 설정*/
-nav, li, ul, header{
-    margin: 0;
-	padding: 0;
-}
-
 body {
- background-image: url("https://i.pinimg.com/originals/e8/1e/f9/e81ef94eae77568adfd02e18a17775ab.jpg");
- background-size: 100% 100%;
- background-repeat: no-repeat;
- height: 100%;
- font-family: "맑은 고딕 Semilight", "sans-serif";
- font-size: 1.1em;
-}
+  font-family: Arial sans-serif; }
 
-a{
-	/*margin:0;*/
-	text-decoration: None;
-	background: transparent;
-	color: white;
-}
+:lang(ko) {
+  font-family: "Nanum Gothic", "sans-serif"; }
 
-@media (max-width: 980px) {
-		/* Enable use of floated navbar text */
-    .navbar-text.pull-right {
-			float: none;
-			padding-left: 5px;
-			padding-right: 5px;}
+.wrap {
+  white-space: pre-wrap; }
 
-    .container {
-		  padding:0;
-		  margin:0;
-    }
+#lead {
+  font-size: 2em;
+  color: rgba(214, 40, 40, 0.8); }
 
-    body {
-		  padding:0;
-    }
+#sub_lead {
+  font-size: 20px; }
 
-    .navbar-fixed-top, .navbar-fixed-bottom, .navbar-static-top {
-		  margin-left: 0;
-		  margin-right: 0;
-		  margin-bottom:0;
-    }
-}
+.container-fluid {
+  margin-top: 100px;
+  max-width: 680px;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 16px; }
 
-@media (min-width: 670px) {
-    .creator-column {
-	    	width: 50px;
-    }
+@media (max-width: 850px) {
+  #lead {
+    font-size: 20px; }
 
-    .board-column {
-	    	max-width: 120px;
-    }
+  #sub_lead {
+    font-size: 16px; }
 
-    .title-column {
+  .container-fluid {
+    font-size: 12px; } }
 
-    }
-
-    .time-column {
-	    	width: 80px;
-
-    }
-}
-
-/*TopHeader 전체 설정*/
-
-.YIG_top_header {
-	width: 100%;
-	height: auto;
-	margin: 0;
-	padding: 0;
-}
-
-.YIG_top_header nav{
-	float: left;
-	padding-top: 25px;
-}
-
-/*YIG*/
-.YIG{
-	height: 80px;
-	box-sizing: border-box;
-	width: 120px;
-}
-
-#YIG{
-	line-height: 40px;
-	color: rgb(214, 40, 40);
-	font-size: 1.5em;
-}
-
-/*Main_nav*/
-.Main_nav{
-	box-sizing: border-box;
-	width:1080px;
-	font-size: 1.3em;
-}
-
-
-
-.Main_nav ul{
-	margin: 0;
-	padding: 0;
-	list-style: none;
-
-}
-
-.Main_nav ul li{
-	float: left;
-	width: 180px;
-	height: 40px;
-	line-height: 40px;
-	text-align: center;
-}
-
-.Main_nav ul li a{
-	display: block;
-}
-
-.Main_nav ul li ul li{
-	display: none;
-}
-
-.Main_nav ul li:hover 	ul li{
-	display: block;
-}
-
-
-/*Account*/
-.Account{
-	height: 80px;
-	width: auto;
-	box-sizing: border-box;
-	font-size: 1.1em;
-	margin-left: 60px;
-}
-
-.Account a{
-	line-height: 40px;
-}
-
-.Account a:nth-child(2){
-	line-height: 40px;
-	padding: 5 10px;
-	margin-left: 20px;
-	border: 1px solid rgb(214, 40, 40);
-	border-radius: 15px;
-}
-
-/*header 끝*/
-
-.horizon{
-	margin: 0;
-	border: 1px solid white;
-}
+/*# sourceMappingURL=base.css.map */
