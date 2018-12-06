@@ -1,33 +1,28 @@
 {% extends "yighub/extends/TopBar_Fund.html" %}
 {% load static %}
 {% block customstyle %}
-    <link rel="stylesheet" href="{% static "yighub/CSS/public_fund.css" %}"/>
+    <link rel="stylesheet" href="{% static "yighub/CSS/VisitorIntroduction.css" %}"/>
 {% endblock %}
 {% block sub_depth2 %}
-    <nav>
+    <div>
         <ul class="sub_depth2">
-            <li><a href="#" onclick="sub_depth2_drop()">G Fund</a></li>
-            <ul id="sub_depth2_drop">
-                <li><a href="{% url 'yighub:Public_SIM_A' 0 %}">SIM-A Fund</a></li>
-                <li><a href="{% url 'yighub:Public_SIM_JS' 0 %}">SIM-JS Fund</a></li>
-                <li><a href="{% url 'yighub:Public_Sfund' 0 %}">S Fund</a></li>
-                <li><a href="{% url 'yighub:Public_YIG_Universe' 0 %}">YIG Universe</a></li>
+            <li class="clearfix"><a href="{% url 'yighub:Public_Gfund' 0 %}">G Fund</a></li>
+            <ul class="sub_depth2_drop clearfix">
+                <li class="clearfix"><a href="{% url 'yighub:Public_SIM_A' 0 %}">SIM-A Fund</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:Public_SIM_JS' 0 %}">SIM-JS Fund</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:Public_Sfund' 0 %}">S Fund</a></li>
             </ul>
         </ul>
-    </nav>
+        <!--//sub_depth2-->
+    </div>
 {% endblock %}
-
 {% block contents %}
-    	<br />
-		<br />
-
-		<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
-			<div class="row-fluid">
-				<span class="lead">Fund</span>
-			</div>
+    <section class="Fund">
+		<div class="container-fluid">
+            <span id="lead">Fund</span>
 			<br />
 			<br />
-			<strong>G FUND</strong>
+			<strong>SIM-JS FUND</strong>
 			<br />
             <br />
         <table class="fund_table">
@@ -42,7 +37,7 @@
                 {% for entry in page.entry_list %}
                     <tr>
                         <td>{{ entry.creator }}</td>
-                        <td class="fund_title"><a href="{% url "yighub:Public_G_detail" entry.id  %}">{{ entry.title }}</a></td>
+                        <td class="fund_title"><a href="{% url "yighub:Public_Gfund_detail" entry.id  %}">{{ entry.title }}</a></td>
                         <td>{{ entry.time_created|date:"Y-m-d" }}</td>
                     </tr>
                 {% endfor %}
@@ -99,11 +94,15 @@
 			  </ul>
                 {% if user and user.level != 'non' %}
                  <span class="pull-left">
-                        <!-- <a href="{% url 'yighub:create_in_board' board board_id %}"> -->
-                            <button type="button" class="btn btn-primary" onclick="location.href = '{% url 'yighub:create_in_board' board board_id %}'">글쓰기</button>
-                        <!-- </a> -->
-                </span>
+                     <!-- <a href="{% url 'yighub:create_in_board' board board_id %}"> -->
+                     <button type="button" class="btn btn-primary" onclick="location.href = '{% url 'yighub:create_in_board' board board_id %}'">글쓰기</button>
+                     <!-- </a> -->
+                 </span>
 		        {% endif %}
 			</div>
+        <!--//pagination text-center-->
 		</div>
+    <!--container-fluid-->
+    </section>
+    <!--//fund-->
 {% endblock %}
