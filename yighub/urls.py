@@ -4,6 +4,7 @@ from . import views
 app_name = 'yighub'
 urlpatterns = [
     url(r'^home/$', views.home, name='home'),
+    url(r'^home_for_members/$', views.home_member.as_view(), name='home_for_member'),
 
     url(r'^join/$', views.join, name='join'),
     url(r'^login/$', views.login, name='login'),

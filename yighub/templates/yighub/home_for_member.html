@@ -1,42 +1,11 @@
 {% load staticfiles %}
-
-{% block style %}
-.lead {
-color:deepskyblue;
-}
-{% endblock %}
-
-{% block sidebar %}
-
-<div class="span3">
-	<div class="sidebar-nav">
-		<ul class="nav nav-list sidebar">
-			<li class="nav-header">Boards</li>
-			{% for b in bulletin_list %}
-			<li>
-				<a href="{% url 'yighub:listing' 'bulletin' b.id 1 %}">{{ b.name }}
-					<i class="icon-chevron-right"></i>
-				</a>
-			</li>
-			{% endfor %}
-			<li class="nav-header">Taskforce</li>
-			{% for t in taskforce_list %}
-			<li>
-				<a href="{% url 'yighub:listing' 'taskforce' t.id 1 %}">{{ t.name }}
-					<i class="icon-chevron-right"></i>
-				</a>
-			</li>
-			{% endfor %}
-		</ul>
-	</div><!--/.well -->
-</div><!--/span-->
-{% endblock %}
 {% block contents %}
 <div class="span9">
 	<br />	
 	<br />
 
 	<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
+    <!--
 		{% if birthday %}
 		{% for member in birthday %}
 		<div class="alert alert-success">
@@ -45,7 +14,7 @@ color:deepskyblue;
 		</div>
 		{% endfor %}
 		{% endif %}
-
+    -->
 		<div class="row-fluid">
 			<span class="lead">News</span>
 		</div>

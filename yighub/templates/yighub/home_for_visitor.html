@@ -57,10 +57,17 @@
                     </ul>
                 </div>
                 <!--Main Nav-->
-                <div class="account">
-                    <a class="login" href="{% url 'yighub:login' %}">LogIn</a>
-                    <a class="signup" href="{% url 'yighub:join' %}">Become a YIGIAN</a>
-                </div>
+                {% if user.name %}
+                    <div class="account">
+                        <a href="{% url 'yighub:home_for_member' %}">go to members</a>
+                        <a class="signup" href="{% url 'yighub:logout' %}">Logout</a>
+                    </div>
+                {% else %}
+                    <div class="account">
+                        <a class="login" href="{% url 'yighub:login' %}">LogIn</a>
+                        <a class="signup" href="{% url 'yighub:join' %}">Become a YIGIAN</a>
+                    </div>
+                {% endif %}
                 <!--Account Nav-->
             </div>
             <!--nav-->

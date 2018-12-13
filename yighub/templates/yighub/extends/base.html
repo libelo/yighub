@@ -71,10 +71,17 @@
             <li><a href="{% url 'yighub:Public_Contact' %}">Contact Us</a></li>
         </ul>
     </nav>
+    {% if user.name %}
+    <div class="account">
+        <div>{{ user.name }}</div>
+        <a class="signup" href="{% url 'yighub:logout' %}">Logout</a>
+    </div>
+    {% else %}
     <nav class="Account">
         <a href="{% url "yighub:login" %}">LogIn</a>
         <a href="{% url "yighub:join" %}">Become a YIGIAN</a>
     </nav>
+    {% endif %}
 </header>
 <div class="horizon"></div>
 {% block contents %}

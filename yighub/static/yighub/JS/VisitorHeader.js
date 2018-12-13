@@ -33,12 +33,12 @@ $(document).ready(function(){
       }
    });
 
-   $(".sub_depth1").click(function (e) {
+   $("#current").click(function (e) {
        e.preventDefault();
        sub_one.toggleClass("show");
    });
 
-   $(".sub_depth2").click(function (e) {
+   $("#current_two").click(function (e) {
        e.preventDefault();
        sub_two.toggleClass("show");
    });

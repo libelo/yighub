@@ -395,12 +395,7 @@ def home(request):
     memos = Memo.objects.all().order_by('-pk')[0:10]
     bulletin_list = get_board_list('bulletin')
     taskforce_list = get_board_list('taskforce')
-    # bulletin_news = BulletinEntry.objects.all().order_by('-time_created')[0:5]
-    # for b in bulletin_news:
-    #     b.range = range(b.depth)
-    # taskforce_news = TaskforceEntry.objects.all().order_by('-time_created')[0:5]
-    # for t in taskforce_news:
-    #     t.range = range(t.depth)
+
     news = []
     bulletin_news = BulletinEntry.objects.all().order_by('-time_created')[0:10]
     for b in bulletin_news:
@@ -426,61 +421,17 @@ def home(request):
             if member.birthday:
                 if member.birthday.month == today.month and member.birthday.day == today.day:
                     birthday_list.append(member)
-    """ 메모를 위한 거였구만.
 
-    # 최신글 목록 가져오기
-    news = Entry.objects.all().order_by('-arrangement')[0:10]
-
-    current_page = int(current_page)
-    page_size = 10
-    no = (current_page - 1) * page_size
-
-    # 총 글 수와 entry list 구하기
-    count_entry = Memo.objects.count()
-    entry_list = Memo.objects.all().order_by('-pk')[no : (no + page_size)] # filter(board = board_number)
-
-    # 첫 페이지와 끝 페이지 설정
-    first_page = 1
-    last_page = (count_entry - 1)//page_size + 1
-    
-    # 페이지 리스트 만들기
-    if current_page < 5:
-        start_page = 1
-    else:
-        start_page = current_page - 4
-
-    if current_page > last_page - 5:
-        end_page = last_page
-    else:
-        end_page = current_page + 4
-    
-    page_list = range(start_page, end_page + 1)
-
-    # 이전 페이지, 다음 페이지 설정
-    prev_page = current_page - 1
-    next_page = current_page + 1
-    
-    # 맨 첫 페이지나 맨 끝 페이지일 때 고려
-    if current_page == last_page:
-        next_page = 0
-        last_page = 0
-    if current_page == first_page:
-        prev_page = 0
-        first_page = 0
-    """
-
-    # # memo 페이지 dictionary 만들기
-    # m = {'entry_list' : entry_list, 'current_page' : current_page,
-    #         'page_list' : page_list,
-    #         'first_page' : first_page,
-    #         'last_page' : last_page,
-    #         'prev_page' : prev_page,
-    #         'next_page' : next_page,
-    #        }
     logger.info('%s(%d)님이 홈페이지를 열었습니다.' % (user.name, user.id))
-    return render(request, 'yighub/Introduction', { 'user' : user, 'public_dict' : PublicBoardDict,
+
+    return render(request, 'yighub/home_for_member.html', { 'user' : user, 'public_dict' : PublicBoardDict,
     'bulletin_list' : bulletin_list, 'taskforce_list' : taskforce_list, 'news' : news,
     'album_news' : album_news, 'memos' : memos, 'birthday' : birthday_list,},)
+
+
+class home_member(TemplateView):
+    template_name = "yighub/home_for_member.html"
+
 
 def all_news(request, page):
 
@@ -1461,7 +1412,7 @@ def login_check(request):
 
             logger.info('%s(%d)님이 로그인했습니다.' % (u.name, u.id))
 
-            return render(request, "yighub/home_for_member.html")
+            return HttpResponseRedirect(reverse('yighub:home_for_member'))
         else:
             messages.error(request, 'password does not correct') # send message 
             logger.info('%s(%d)님이 로그인 도중 비밀번호를 잘못 입력했습니다.' % (u.name, u.id))

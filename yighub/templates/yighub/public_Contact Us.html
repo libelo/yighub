@@ -1,5 +1,5 @@
 {% extends "yighub/extends/TopBar_Contact.html" %}
-{% load staticfiles %}
+{% load static %}
 {% block customstyle %}
 <style>
 .name{
@@ -15,44 +15,41 @@
 {% endblock %}
 
 {% block contents %}
-	    <br />
-		<br />
+<section class="contact" lang="ko">
+    <div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
+        <span id="lead">Contact Us</span>
+        <br />
+        <br />
+        <!-- <img src="{% static 'yighub/images/contacts.png' %}" style="height:30%; width:100%;" /> -->
 
-		<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
-			<div class="row-fluid">
-				<span class="lead">Contact Us</span> 
-			</div>
-			<br />
-			<br />
-			<!-- <img src="{% static 'yighub/images/contacts.png' %}" style="height:30%; width:100%;" /> -->
+        <div class="well">
+            <strong class="name">회 장 김민석</strong>
+            <br />
+            <div class="phone">전화번호: 010-7548-6879</div>
+            <br />
 
-			<div class="well">
-				<strong class="name">회 장 김민석</strong>
-				<br />
-				<div class="phone">전화번호: 010-7548-6879</div>
-				<br />
+            <strong class="name">부회장 정승원</strong>
+            <br />
+            <div class="phone">전화번호: 010-3450-2093</div>
+            <br />
 
-				<strong class="name">부회장 정승원</strong>
-				<br />
-				<div class="phone">전화번호: 010-3450-2093</div>
-				<br />
-				
-				<strong class="name">부회장 정승원</strong>
-				<br />
-				<div class="phone">전화번호: 010-4050-0878</div>
-				<br />
+            <strong class="name">부회장 정승원</strong>
+            <br />
+            <div class="phone">전화번호: 010-4050-0878</div>
+            <br />
 
-				<strong style="font-size: 1.1em;">카카오톡 플러스친구: </strong>
-				<strong>“YIG”</strong>
-				<br />
-                <br/>
-				<strong style="margin-top: 15px; font-size: 1.1em;">Email: </strong>
-				<strong>yigyonsei@gmail.com</strong>
-				<br />
-				<br />
-			</div>
+            <strong style="font-size: 1.1em;">카카오톡 플러스친구: </strong>
+            <strong>“YIG”</strong>
+            <br />
+            <br/>
+            <strong style="margin-top: 15px; font-size: 1.1em;">Email: </strong>
+            <strong>yigyonsei@gmail.com</strong>
+            <br />
+            <br />
+        </div>
+        <br />
+        <br />
+    </div>
+</section>
 
-			<br />
-			<br />
-		</div>
 {% endblock %}

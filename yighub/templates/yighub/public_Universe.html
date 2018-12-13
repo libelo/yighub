@@ -6,7 +6,7 @@
 {% block sub_depth2 %}
     <nav>
         <ul class="sub_depth2">
-            <li><a href="#" onclick="sub_depth2_drop()">YIG Universe</a></li>
+            <li id="current_two"><a href="#" onclick="sub_depth2_drop()">YIG Universe</a></li>
             <ul id="sub_depth2_drop">
                 <li><a href="{% url 'yighub:Public_SIM_A' 0 %}">SIM-A Fund</a></li>
                 <li><a href="{% url 'yighub:Public_SIM_JS' 0 %}">SIM-JS Fund</a></li>
