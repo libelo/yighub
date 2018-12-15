@@ -99,4 +99,5 @@ urlpatterns = [
     #Test 임시 URL(완성 후 즉각 삭제 요망)
     url(r'^TopBar/$', views.TopBar_for_Visitor.as_view(), name="TopBar_for_Visitor"),
     url(r'^SubTopBar/$', views.SubTopBar_for_Visitor.as_view(), name="SubTopBar"),
+    url(r'^TopBarMember/$', views.Topbar_member.as_view(), name="TopBar_for_Member"),
 ]

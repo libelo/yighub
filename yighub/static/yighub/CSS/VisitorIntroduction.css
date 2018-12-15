@@ -17,7 +17,7 @@ a {
   text-decoration: none; }
 
 a:hover {
-  color: #111; }
+  color: #e50914; }
 
 /*폰트 초기화*/
 body, input, textarea, select, button, table {
@@ -230,7 +230,8 @@ html {
   #header .nav .account {
     margin-top: 14px;
     float: right;
-    margin-right: 10px; }
+    margin-right: 10px;
+    color: white; }
     #header .nav .account .signup {
       margin-left: 5px;
       padding: 2.5px 5px; }

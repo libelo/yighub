@@ -5,6 +5,7 @@ var sub_two=$(".sub_depth2_drop");
 var Nav_lst=$(".Nav_lst");
 var sub_bar=$(".sub_bar");
 var contents=$(".container-fluid");
+var menu_btn=$("#menu_btn");
 
 function showup(){
     sub.style.height="100%";
@@ -15,11 +16,14 @@ function disappear() {
 };
 
 $(document).ready(function(){
+
+   //Nav 클릭시 sub_nav 통제 함수
    $(".Nav_lst>ul>li").click(function (e) {
        e.preventDefault();
        $(this).children("ul").toggleClass("show");
    });
 
+   //Manu_btn 클릭시 .Nav_lst 통제 함수
    $("#menu_btn").click(function (e) {
       e.preventDefault();
       if(Nav_lst.css("display")=="none"){
@@ -32,6 +36,11 @@ $(document).ready(function(){
           contents.css("display", "block");
       }
    });
+
+   //menu_btn Max_width로 인한 버그 수정
+    if(menu_btn.css("display")=="none"){
+        Nav_lst.css("display", "none");
+    }
 
    $("#current").click(function (e) {
        e.preventDefault();

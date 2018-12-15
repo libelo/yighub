@@ -432,6 +432,41 @@ def home(request):
 class home_member(TemplateView):
     template_name = "yighub/home_for_member.html"
 
+    def get_context_data(self, **kwargs):
+        context=super(TemplateView, self).get_context_data()
+        username=self.request.session['user_id']
+        try:
+            user = User.objects.get(user_id=username)
+        except User.DoesNotExist:
+            logger.info('세션의 회원정보(%d)가 데이터베이스에 존재하지 않아 로그아웃 됩니다.' % username)
+            return redirect(reverse('yighub:logout'))
+        # 홈페이지를 열 때마다 마지막 방문날짜를 업데이트한다.
+        user.last_login = timezone.now()
+        user.save()
+
+        bulletin_list = get_board_list('bulletin')
+        taskforce_list = get_board_list('taskforce')
+
+        news = []
+        bulletin_news = BulletinEntry.objects.all().order_by('-time_created')[0:10]
+        for b in bulletin_news:
+            b.board_type = 'bulletin'
+        news += bulletin_news
+        taskforce_news = TaskforceEntry.objects.all().order_by('-time_created')[0:10]
+        for t in taskforce_news:
+            t.board_type = 'taskforce'
+        news += taskforce_news
+        news = sorted(news, key=lambda news: news.time_created, reverse=True)[:10]
+
+        context.update({'public_dict' : PublicBoardDict, 'bulletin_list' : bulletin_list, 'taskforce_list' : taskforce_list,
+                        'news' : news, 'boards_news': bulletin_news, 'taskforce_news': taskforce_news})
+
+        return context
+
+#임시방편
+class Topbar_member(TemplateView):
+    template_name = "yighub/extends/TopBar_for_member.html"
+
 
 def all_news(request, page):
 
@@ -1542,8 +1577,6 @@ def memo(request, page = 1):
         {'user': u, 'public_dict' : PublicBoardDict, 
         'bulletin_list' : bulletin_list, 
         'taskforce_list' : taskforce_list, 'page': p})
-
-
 
 def create_memo(request):
     if request.method == 'POST':

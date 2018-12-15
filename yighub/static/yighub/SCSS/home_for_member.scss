@@ -1,0 +1,272 @@
+/*basic settings*/
+table, th, td{
+    border-bottom: 1px solid #ddd;
+}
+
+#contents{
+  .container{
+    box-sizing: border-box;
+    width: 1200px;
+
+    .search{
+      margin-top: 20px;
+      text-align: center;
+
+      input{
+        background: transparent;
+        width: 20%;
+        outline: none;
+        border-radius: 22px;
+        background-color: #F1F3F4;
+      }
+    }
+
+    .Taskforce_news{
+      float: left;
+      width: 50%;
+      max-width: 600px;
+      margin-top: 50px;
+      margin-bottom: 50px;
+      text-align: center;
+
+      .lead_write{
+        position: relative;
+        a{
+          position: absolute;
+          bottom: 0;
+          right: 0;
+        }
+      }
+
+      .table{
+        width: 80%;
+        margin: 0 auto;
+        border-collapse: collapse;
+        text-align: left;
+        white-space: nowrap;
+
+        .title-column{
+          padding-left: 10px;
+        }
+
+        tr th{
+          background-color: royalblue;
+          color: white;
+
+          &:first-child{
+            width: 50px;
+            padding: 0;
+          }
+
+          &:nth-child(2){
+            width: 1%;
+            padding: 0;
+          }
+
+          &:nth-child(3){
+            padding-left: 10px;
+          }
+
+          &:last-child{
+            width: 1%;
+            padding: 0;
+            }
+          }
+        }
+      }
+
+    .Boards_news{
+      float:left;
+      width: 50%;
+      max-width: 600px;
+      margin-top: 50px;
+      margin-bottom: 50px;
+      text-align: center;
+
+      .lead_write{
+        position: relative;
+        a{
+          position: absolute;
+          bottom: 0;
+          right: 0;
+        }
+      }
+
+      .table{
+        width: 80%;
+        border-collapse: collapse;
+        text-align: left;
+        white-space: nowrap;
+        margin: 0 auto;
+
+        .title-column{
+          padding-left: 10px;
+        }
+
+        tr th{
+          background-color: royalblue;
+          color: white;
+
+          &:first-child{
+            width: 50px;
+            padding: 0;
+          }
+
+          &:nth-child(2){
+            width: 1%;
+            padding: 0;
+          }
+
+          &:nth-child(3){
+            padding-left: 10px;
+          }
+
+          &:last-child{
+            width: 1%;
+            padding: 0;
+            }
+          }
+        }
+      }
+  }
+}
+
+table tbody td{
+  height: 30px;
+}
+
+@media (max-width: 1280px){
+  #contents{
+    width: 100%;
+
+    .container{
+      width: 100%;
+      padding: 0 15px;
+    }
+  }
+}
+
+@media (max-width: 850px) {
+  #contents{
+    .container{
+      .Taskforce_news{
+        width: 80%;
+        transform: translateX(10%);
+      }
+
+      .Boards_news{
+        width: 80%;
+        transform: translateX(10%);
+      }
+    }
+  }
+}
+
+@media (max-width: 550px) {
+  #contents{
+    .container{
+      .Taskforce_news{
+        width: 100%;
+        transform: none;
+        .table {
+          margin: 0 auto;
+
+          tr th {
+            &:nth-child(2) {
+              display: none;
+            }
+          }
+
+          .board-column {
+            display: none;
+          }
+        }
+      }
+
+      .Boards_news{
+        width: 100%;
+        transform: none;
+        .table {
+          margin: 0 auto;
+
+          tr th {
+            &:nth-child(2) {
+              display: none;
+            }
+          }
+
+          .board-column {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 440px) {
+  #contents{
+    .container{
+      .Taskforce_news{
+        .table {
+          width: 100%;
+          max-width: 100%;
+          tr th {
+            &:first-child{
+              width: 1%;
+            }
+
+            &:nth-child(3){
+            }
+
+            &:last-child {
+              display: none;
+            }
+          }
+
+          .time-column {
+            display: none;
+          }
+
+          .title-column{
+            text-overflow: ellipsis;
+          }
+        }
+      }
+
+      .Boards_news{
+        .table {
+          width: 100%;
+          max-width: 100%;
+          tr th {
+            &:first-child{
+              width: 1%;
+            }
+
+            &:nth-child(3){
+            }
+
+            &:last-child {
+              display: none;
+            }
+          }
+
+          .time-column {
+            display: none;
+          }
+
+           .title-column{
+            text-overflow: ellipsis;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 399px) {
+  tr th:nth-child(3) {
+    width: 100px;
+    padding: 0;
+  }
+}
