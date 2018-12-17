@@ -1,0 +1,42 @@
+.Intro{
+  margin-top: 20px;
+  width: 100%;
+  height: 150px;
+
+  .container{
+    box-sizing: border-box;
+    padding: 0 15px;
+    margin: 0 auto;
+    text-align: center;
+    height: 100%;
+    span{
+      display: inline-block;
+      font-size: 24px;
+      margin: 0 auto;
+    }
+
+    .search_create{
+        margin-top: 20px;
+        text-align: center;
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+        position: relative;
+
+        input{
+          background: transparent;
+          width: 40%;
+          outline: none;
+          border-radius: 22px;
+          background-color: #F1F3F4;
+        }
+      a{
+        display: block;
+        position: absolute;
+        top: 0px;
+        right: 0px;
+      }
+
+      }
+    }
+}

@@ -112,5 +112,5 @@ urlpatterns = [
 
     #Taskforce
     url('members/Taskforce/News/(?P<pk>\d+)', views.TaskforceNews.as_view(), name='member_Taskforce_News'),
-
+    url('members/Taskforce/(?P<board_id>\d+)/(?P<page>\d+)', views.Taskforce.as_view(), name='member_Taskforce'),
 ]

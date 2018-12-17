@@ -55,8 +55,8 @@ $(document).ready(function(){
    $("#current_two").click(function (e) {
        e.preventDefault();
        sub_two.toggleClass("show");
-       if($(".sidebar-nav").css("margin-top")!="50px"){
-        $(".sidebar-nav").css("margin-top", "50px");
+       if($(".sidebar-nav").css("margin-top")!="100px"){
+        $(".sidebar-nav").css("margin-top", "100px");
        }else{
         $(".sidebar-nav").css("margin-top", "20px");
        }

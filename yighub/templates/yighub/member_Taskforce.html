@@ -22,8 +22,9 @@
     </div>
     <div>
         <ul class="sub_depth2">
-            <li id="current_two" class="clearfix"><a href="{% url 'yighub:member_Taskforce_News' 0 %}">News</a></li>
+            <li id="current_two" class="clearfix"><a href="{% url 'yighub:member_Boards_News' 0 %}" style="display:block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{ current_board.name }}</a></li>
             <ul class="sub_depth2_drop clearfix">
+                <li id="current_two" class="clearfix"><a href="{% url 'yighub:member_Taskforce_News' 0 %}">News</a></li>
                 <li id="current_two" class="clearfix"><a href="{% url 'yighub:taskforce_archive' %}">Archive</a></li>
             </ul>
         </ul>
@@ -38,9 +39,9 @@
                 <a href="{% url 'yighub:create_taskforce' %}">
 						<button type="button" class="btn" onclick="location.href = '{% url 'yighub:create_taskforce' %}'">Taskforce 만들기</button>
                 </a>
-{#                <a href="{% url 'yighub:edit_taskforce' current_board.id %}">#}
-{#                    <button type="button" class="btn" onclick="location.href = '{% url 'yighub:edit_taskforce' current_board.id %}'">Taskforce 수정하기</button>#}
-{#                </a>#}
+                <a href="{% url 'yighub:edit_taskforce' current_board.id %}">
+                    <button type="button" class="btn" onclick="location.href = '{% url 'yighub:edit_taskforce' current_board.id %}'">Taskforce 수정하기</button>
+                </a>
                 <div class="icon"><a href="#"></a></div>
 			</div>
             <ul class="nav nav-list sidebar">
@@ -65,7 +66,8 @@
                 <!--//search-->
             <section class="news">
                 <div class="lead_write">
-                    <span id="lead">Taskforce News</span>
+                    <span id="lead">{{ current_board.name }}</span>
+                    <span class="muted">{{ current_board.count_entry }}</span>
                     <a href="{% url 'yighub:create' board %}">
                         <button type="button" class="btn btn-primary" onclick="location.href = '{% url 'yighub:create' board %}'">글쓰기</button>
                     </a>
@@ -105,8 +107,8 @@
                 <div class="pagination pagination-small text-center">
                   <ul>
                     <!-- {% if page.first_page %} -->
-                    <!-- <li class="visible-desktop pull-left"><a href="{% url 'yighub:member_Taskforce_News' board page.first_page %}">&laquo;</a></li> -->
-                    <!-- <li><a href="{% url 'yighub:member_Taskforce_News' board page.prev_page %}">&lsaquo;</a></li> -->
+                    <!-- <li class="visible-desktop pull-left"><a href="{% url 'yighub:member_Taskforce' current_board.id page.first_page %}">&laquo;</a></li> -->
+                    <!-- <li><a href="{% url 'yighub:member_Taskforce' current_board.id page.prev_page %}">&lsaquo;</a></li> -->
                     <!-- {% endif %} -->
                     {% for p in page.page_list %}
                         {% if p == page.current_page %}
@@ -114,18 +116,18 @@
                         {% else %}
                         <li>
                         {% endif %}
-                            <a href="{% url 'yighub:member_Taskforce_News' p %}">{{ p }}</a>
+                            <a href="{% url 'yighub:member_Taskforce' current_board.id p %}">{{ p }}</a>
                         </li>
                     {% endfor %}
                     {% if page.last_page %}
-                    <!-- <li><a href="{% url 'yighub:member_Taskforce_News' page.next_page %}">&rsaquo;</a></li> -->
-                    <li class="visible-desktop"><a href="{% url 'yighub:member_Taskforce_News' page.last_page %}">&raquo;</a></li>
+                    <!-- <li><a href="{% url 'yighub:member_Taskforce' current_board.id page.next_page %}">&rsaquo;</a></li> -->
+                    <li class="visible-desktop"><a href="{% url 'yighub:member_Taskforce' current_board.id page.last_page %}">&raquo;</a></li>
                     {% endif %}
                   </ul>
                 </div>
                 {% else %}
                 <div class="container-fruid text-center">
-                    <p> 아직 글이 존재하지 않습니다. </p>
+                    <p> 아직 글이 존재하지 않습니다. </p>s
                 </div>
                 {% endif %}
             </section>

@@ -781,6 +781,35 @@ class TaskforceNews(TemplateView):
         return context
 
 
+class Taskforce(TemplateView):
+    template_name = "yighub/member_Taskforce.html"
+
+    def get_context_data(self, **kwargs):
+        context=super(TemplateView, self).get_context_data()
+
+        try:
+            current_board = Board.objects.get(pk=self.kwargs['board_id'])
+        except Board.DoesNotExist:
+            raise Http404
+
+        p = pagination("taskforce", self.kwargs['board_id'], current_page=self.kwargs['page'])
+        board_list = get_board_list("taskforce")
+
+        # 권한 검사
+        permission = check_permission(self.request, "taskforce", current_board)
+        if permission[0] == False:
+            return permission[1]
+        try:
+            u = User.objects.get(user_id=self.request.session['user_id'])
+        except:
+            u = None
+
+        board="taskforce"
+        context.update({'user': u, 'board_list': board_list, 'current_board': current_board, 'page': p
+                        ,'board': board})
+        return context
+
+
 def all_news(request, page):
 
     permission = check_permission(request, 'memo')
@@ -909,11 +938,11 @@ def listing(request, board, board_id, page = '0'):    # url : yig.in/yighub/boar
     else:
         p = pagination(board, board_id, current_page = page)
     board_list = get_board_list(board)
-    
+
     # 권한 검사
     permission = check_permission(request, board, current_board)
     if permission[0] == False:
-        return permission[1] 
+        return permission[1]
     try:
         u = User.objects.get(user_id = request.session['user_id'])
     except:
@@ -922,7 +951,7 @@ def listing(request, board, board_id, page = '0'):    # url : yig.in/yighub/boar
     if u:
         logger.info('%s(%d)님이 %s 게시판 %s 페이지를 열었습니다.' % (u.name, u.id, current_board.name, page))
     else:
-        logger.info('방문자가 %s 게시판 %s 페이지를 열었습니다.' % (current_board.name, page))        
+        logger.info('방문자가 %s 게시판 %s 페이지를 열었습니다.' % (current_board.name, page))
 
     if board == 'public' and current_board.name!="Introduction":
         if current_board.name == 'Member Profile':
