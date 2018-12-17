@@ -5,6 +5,21 @@
     <link rel="stylesheet" href="{% static 'yighub/CSS/home_for_member.css' %}"/>
 {% endblock %}
 {% block contents %}
+<section class="sub_bar">
+    <div>
+        <ul class="sub_depth1">
+            <li id="current" class="clearfix"><a href="#">Home</a></li>
+            <ul class="sub_depth1_drop clearfix">
+                <li class="clearfix"><a href="{% url 'yighub:Public_Introduction' %}">Public</a></li>
+                <li class="clearfix"><a href="#">Taskforce</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:member_Boards_News' 0 %}">Boards</a></li>
+                <li class="clearfix"><a href="#">Albums</a></li>
+            </ul>
+        </ul>
+        <!--//sub_depth1-->
+    </div>
+</section>
+    <!--//sub_bar-->
 <section id="contents" class="clearfix">
 	<div class="container clearfix">
         <section class="real_time"></section>

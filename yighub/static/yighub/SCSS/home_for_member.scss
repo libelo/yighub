@@ -1,9 +1,12 @@
+@import "sub_bar_visitor";
+
 /*basic settings*/
 table, th, td{
     border-bottom: 1px solid #ddd;
 }
 
 #contents{
+  z-index: -1;
   .container{
     box-sizing: border-box;
     width: 1200px;

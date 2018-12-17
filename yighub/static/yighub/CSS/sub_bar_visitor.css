@@ -24,6 +24,7 @@
         color: white;
         line-height: 50px; }
       .sub_bar div .sub_depth1 .sub_depth1_drop {
+        z-index: 10;
         display: none; }
       .sub_bar div .sub_depth1 .sub_depth1_drop.show {
         display: block;

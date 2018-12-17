@@ -31,8 +31,8 @@
                 <div class="Main_nav">
                     <ul class="clearfix">
                         <li><a href="{% url 'yighub:home' %}">Public</a></li>
-                        <li><a href="#">Taskforce</a></li>
-                        <li><a href="#">Boards</a></li>
+                        <li><a href="{% url 'yighub:member_Taskforce_News' 0 %}">Taskforce</a></li>
+                        <li><a href="{% url 'yighub:member_Boards_News' 0 %}">Boards</a></li>
                         <li><a href="#">Albums</a></li>
                     </ul>
                 </div>
@@ -63,12 +63,12 @@
                 </ul>
                 <ul></ul>
                 <ul>
-                    <li><a href="#">학회운영 및 대회자료</a></li>
-                    <li><a href="#">개인 칼럼</a></li>
-                    <li><a href="#">포트폴리오</a></li>
-                    <li><a href="#">분석</a></li>
-                    <li><a href="#">공지</a></li>
-                    <li><a href="#">기타자료 게시판</a></li>
+                    <li><a href="{% url 'yighub:member_Data' 0 %}">학회운영 자료</a></li>
+                    <li><a href="{% url 'yighub:member_Column' 0 %}">개인 칼럼</a></li>
+                    <li><a href="{% url 'yighub:member_Portfolio' 0 %}">포트폴리오</a></li>
+                    <li><a href="{% url 'yighub:member_Analysis'  0%}">분석</a></li>
+                    <li><a href="{% url 'yighub:member_Notice'  0%}">공지</a></li>
+                    <li><a href="{% url 'yighub:member_Etc' 0 %}">기타자료 게시판</a></li>
                 </ul>
                 <ul></ul>
             </div>
