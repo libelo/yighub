@@ -652,13 +652,6 @@ p {
   margin: 0 0 10px;
 }
 
-.lead {
-  margin-bottom: 20px;
-  font-size: 21px;
-  font-weight: 200;
-  line-height: 30px;
-}
-
 small {
   font-size: 85%;
 }

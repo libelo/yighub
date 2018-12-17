@@ -1,0 +1,204 @@
+/*basic settings*/
+table, th, td {
+  border-bottom: 1px solid #ddd;
+}
+
+#contents .container {
+  box-sizing: border-box;
+  width: 1200px;
+}
+#contents .container .search {
+  margin-top: 20px;
+  text-align: center;
+}
+#contents .container .search input {
+  background: transparent;
+  width: 20%;
+  outline: none;
+  border-radius: 22px;
+  background-color: #F1F3F4;
+}
+#contents .container .Taskforce_news {
+  float: left;
+  width: 50%;
+  max-width: 600px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  text-align: center;
+}
+#contents .container .Taskforce_news .lead_write {
+  position: relative;
+}
+#contents .container .Taskforce_news .lead_write a {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+#contents .container .Taskforce_news .table {
+  width: 80%;
+  margin: 0 auto;
+  border-collapse: collapse;
+  text-align: left;
+  white-space: nowrap;
+}
+#contents .container .Taskforce_news .table .title-column {
+  padding-left: 10px;
+}
+#contents .container .Taskforce_news .table tr th {
+  background-color: royalblue;
+  color: white;
+}
+#contents .container .Taskforce_news .table tr th:first-child {
+  width: 50px;
+  padding: 0;
+}
+#contents .container .Taskforce_news .table tr th:nth-child(2) {
+  width: 1%;
+  padding: 0;
+}
+#contents .container .Taskforce_news .table tr th:nth-child(3) {
+  padding-left: 10px;
+}
+#contents .container .Taskforce_news .table tr th:last-child {
+  width: 1%;
+  padding: 0;
+}
+#contents .container .Boards_news {
+  float: left;
+  width: 50%;
+  max-width: 600px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  text-align: center;
+}
+#contents .container .Boards_news .lead_write {
+  position: relative;
+}
+#contents .container .Boards_news .lead_write a {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+#contents .container .Boards_news .table {
+  width: 80%;
+  border-collapse: collapse;
+  text-align: left;
+  white-space: nowrap;
+  margin: 0 auto;
+}
+#contents .container .Boards_news .table .title-column {
+  padding-left: 10px;
+}
+#contents .container .Boards_news .table tr th {
+  background-color: royalblue;
+  color: white;
+}
+#contents .container .Boards_news .table tr th:first-child {
+  width: 50px;
+  padding: 0;
+}
+#contents .container .Boards_news .table tr th:nth-child(2) {
+  width: 1%;
+  padding: 0;
+}
+#contents .container .Boards_news .table tr th:nth-child(3) {
+  padding-left: 10px;
+}
+#contents .container .Boards_news .table tr th:last-child {
+  width: 1%;
+  padding: 0;
+}
+
+table tbody td {
+  height: 30px;
+}
+
+@media (max-width: 1280px) {
+  #contents {
+    width: 100%;
+  }
+  #contents .container {
+    width: 100%;
+    padding: 0 15px;
+  }
+}
+@media (max-width: 850px) {
+  #contents .container .Taskforce_news {
+    width: 80%;
+    transform: translateX(10%);
+  }
+  #contents .container .Boards_news {
+    width: 80%;
+    transform: translateX(10%);
+  }
+}
+@media (max-width: 550px) {
+  #contents .container .Taskforce_news {
+    width: 100%;
+    transform: none;
+  }
+  #contents .container .Taskforce_news .table {
+    margin: 0 auto;
+  }
+  #contents .container .Taskforce_news .table tr th:nth-child(2) {
+    display: none;
+  }
+  #contents .container .Taskforce_news .table .board-column {
+    display: none;
+  }
+  #contents .container .Boards_news {
+    width: 100%;
+    transform: none;
+  }
+  #contents .container .Boards_news .table {
+    margin: 0 auto;
+  }
+  #contents .container .Boards_news .table tr th:nth-child(2) {
+    display: none;
+  }
+  #contents .container .Boards_news .table .board-column {
+    display: none;
+  }
+}
+@media (max-width: 440px) {
+  #contents .container .Taskforce_news .table {
+    width: 100%;
+    max-width: 100%;
+  }
+  #contents .container .Taskforce_news .table tr th:first-child {
+    width: 1%;
+  }
+  #contents .container .Taskforce_news .table tr th:last-child {
+    display: none;
+  }
+  #contents .container .Taskforce_news .table .time-column {
+    display: none;
+  }
+  #contents .container .Taskforce_news .table .title-column {
+    text-overflow: ellipsis;
+  }
+  #contents .container .Boards_news .table {
+    width: 100%;
+    max-width: 100%;
+  }
+  #contents .container .Boards_news .table tr th:first-child {
+    width: 1%;
+  }
+  #contents .container .Boards_news .table tr th:last-child {
+    display: none;
+  }
+  #contents .container .Boards_news .table .time-column {
+    display: none;
+  }
+  #contents .container .Boards_news .table .title-column {
+    text-overflow: ellipsis;
+  }
+}
+@media (max-width: 399px) {
+  tr th:nth-child(3) {
+    width: 100px;
+    padding: 0;
+  }
+}
+
+/*# sourceMappingURL=home_for_member.css.map */

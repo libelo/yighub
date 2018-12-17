@@ -1,229 +1,176 @@
-{% extends "yighub/base.html" %}
+{% extends 'yighub/extends/TopBar_for_member.html' %}
 {% load staticfiles %}
-
+{% load static %}
 {% block style %}
-.lead {
-color:deepskyblue;
-}
-{% endblock %}
-
-{% block sidebar %}
-
-<div class="span3">
-	<div class="sidebar-nav">
-		<ul class="nav nav-list sidebar">
-			<li class="nav-header">Boards</li>
-			{% for b in bulletin_list %}
-			<li>
-				<a href="{% url 'yighub:listing' 'bulletin' b.id 1 %}">{{ b.name }}
-					<i class="icon-chevron-right"></i>
-				</a>
-			</li>
-			{% endfor %}
-			<li class="nav-header">Taskforce</li>
-			{% for t in taskforce_list %}
-			<li>
-				<a href="{% url 'yighub:listing' 'taskforce' t.id 1 %}">{{ t.name }}
-					<i class="icon-chevron-right"></i>
-				</a>
-			</li>
-			{% endfor %}
-		</ul>
-	</div><!--/.well -->
-</div><!--/span-->
+    <link rel="stylesheet" href="{% static 'yighub/CSS/home_for_member.css' %}"/>
 {% endblock %}
 {% block contents %}
-<div class="span9">
-	<br />	
-	<br />
+<section id="contents" class="clearfix">
+	<div class="container clearfix">
+        <section class="real_time"></section>
+        <section class="search">
+            <form action="{% url 'yighub:search' 0 'keyword' 1 %}" method="post" class="form-search" />
+                {% csrf_token %}
+                <input type="text" name="keyword" class="input-medium search-query" />
+                <button type="submit" class="btn">Search</button>
+            </form>
+        </section>
+    <!--//search-->
+        <section class="Taskforce_news">
+            <div class="lead_write">
+                <span id="lead">Taskforce News</span>
+                <a href="{% url 'yighub:create' 'bulletin' %}">
+                    <button type="button" class="btn btn-primary" onclick="location.href = '{% url 'yighub:create' 'bulletin' %}'">Boards에 글쓰기</button>
+                </a>
+            </div>
+        <!--lead_write-->
+            <br/>
+            {% if taskforce_news %}
+                <table class="table">
+                    <thead>
+                        <tr class="info">
+                            <th> 글쓴이 </th>
+                            <th> 게시판 </th>
+                            <th> 제목 </th>
+                            <th> 등록일 </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entry in taskforce_news %}
+                        <tr>
+                            <td class="creator-column"> {{ entry.creator }} </td>
+                            <td class="board-column"> {{ entry.board.name|truncatechars:12 }} </td>
+                            <td class="title-column">
+                                {% for i in entry.range %} ↳ {% endfor %}
+                                <a href="{% url 'yighub:read' entry.board_type entry.id %}">{{ entry.title|truncatechars:30 }}
+                                    {% if not entry.count_comment == 0 %}
+                                    <span class="badge badge-info">{{ entry.count_comment }}</span>
+                                    {% endif %}
+                                </a>
+                            </td>
+                            <td class="time-column"> {{ entry.time_created|date:"Y-m-d" }} </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <p class="text-center"><a href="{% url 'yighub:all_news' 1 %}">뉴스 더보기</a></p>
+            {% else %}
+            <div class="container-fruid text-center">
+                <p> 아직 글이 존재하지 않습니다. </p>
+            </div>
+            {% endif %}
+        </section>
+    <!--//Taskforce_news-->
+        <section class="Boards_news">
+            <div class="lead_write">
+                <span id="lead">Boards News</span>
+                <a href="{% url 'yighub:create' 'taskforce' %}">
+                    <button type="button" class="btn btn-primary" onclick="location.href = '{% url 'yighub:create' 'taskforce' %}'">Taskforce에 글쓰기</button>
+                </a>
+            </div>
+        <!--lead_write-->
+            <br/>
+            {% if  boards_news %}
+                <table class="table">
+                    <thead>
+                        <tr class="info">
+                            <th> 글쓴이 </th>
+                            <th> 게시판 </th>
+                            <th> 제목 </th>
+                            <th> 등록일 </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entry in boards_news %}
+                        <tr>
+                            <td class="creator-column"> {{ entry.creator }} </td>
+                            <td class="board-column"> {{ entry.board.name|truncatechars:12 }} </td>
+                            <td class="title-column">
+                                {% for i in entry.range %} ↳ {% endfor %}
+                                <a href="{% url 'yighub:read' entry.board_type entry.id %}">{{ entry.title|truncatechars:30 }}
+                                    {% if not entry.count_comment == 0 %}
+                                    <span class="badge badge-info">{{ entry.count_comment }}</span>
+                                    {% endif %}
+                                </a>
+                            </td>
+                            <td class="time-column"> {{ entry.time_created|date:"Y-m-d" }} </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <p class="text-center"><a href="{% url 'yighub:all_news' 1 %}">뉴스 더보기</a></p>
+            {% else %}
+            <div class="container-fruid text-center">
+                <p> 아직 글이 존재하지 않습니다. </p>
+            </div>
+            {% endif %}
+        </section>
+    <!--//Boards_News-->
 
-	<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
-		{% if birthday %}
-		{% for member in birthday %}
-		<div class="alert alert-success">
-		  <button type="button" class="close" data-dismiss="alert">&times;</button>
-		  오늘은 {% if member.ordinal %}{{ member.ordinal }}기{% endif %} <strong>{{ member.name }}</strong>님의 생일입니다. <strong>{{ member.name }}</strong>님의 생일을 축하해 주세요!
-		</div>
-		{% endfor %}
-		{% endif %}
-
-		<div class="row-fluid">
-			<span class="lead">News</span>
-		</div>
-		<br />
-		{% if news %}
-		<table class="table">
-			<thead>
-				<tr class="info">
-					<th> 글쓴이 </th>
-					<th> 게시판 </th>
-					<th> 제목 </th>
-					<th> 등록일 </th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for entry in news %}
-				<tr>
-					<td class="creator-column"> {{ entry.creator }} </td>
-					<td class="board-column"> {{ entry.board.name|truncatechars:12 }} </td>
-					<td class="title-column">
-						{% for i in entry.range %} ↳ {% endfor %}
-						<a href="{% url 'yighub:read' entry.board_type entry.id %}">{{ entry.title|truncatechars:30 }}
-							{% if not entry.count_comment == 0 %}
-							<span class="badge badge-info">{{ entry.count_comment }}</span>
-							{% endif %}
-						</a>
-					</td>
-					<td class="time-column"> {{ entry.time_created|date:"Y-m-d" }} </td>
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-		<p class="text-center"><a href="{% url 'yighub:all_news' 1 %}">뉴스 더보기</a></p>
-
-		{% else %}
-		<div class="container-fruid text-center">
-			<p> 아직 글이 존재하지 않습니다. </p>
-		</div>
-		{% endif %}
-
-		<br />
-		<div class="row-fluid">
-		{% for a in album_news %}
-			<div class="span6 text-center" style="padding-left:6px; padding-right:6px;">
-				<a href="{% url 'yighub:photos' a.id %}">
-					
-					<div style="height:160px;">
-						{% if a.thumbnail %}
-						<img src="{{ a.thumbnail.photo.url }}" style="max-width:200px; max-height:150px;" />
-						{% else %}
-						<img src="{% static 'yighub/images/main.jpg' %}" style="max-width:200px; max-height:150px;" />
-						{% endif %}
-					</div>
-					<h4 class="text-center">{{ a.name }}</h4>
-				</a>
-			</div>
-		{% endfor %}
-		</div>
-		<p class="text-center"><a href="{% url 'yighub:albums' 1 %}">앨범 더보기</a></p>
-
-		<br />
-
-		<div class="row-fluid">
-			<div class="container-fluid pull-left">
-				<!-- <a href="{% url 'yighub:create' 'bulletin' %}"> -->
-					<button type="button" class="btn btn-primary" onclick="location.href = '{% url 'yighub:create' 'bulletin' %}'">Boards에 글쓰기</button>
-				<!-- </a> -->
-			</div>
-			<div class="container-fluid pull-left">
-				<!-- <a href="{% url 'yighub:create' 'taskforce' %}"> -->
-					<button type="button" class="btn btn-primary" onclick="location.href = '{% url 'yighub:create' 'taskforce' %}'">Taskforce에 글쓰기</button>
-				<!-- </a> -->
-			</div> 
-			<div class="container-fluid pull-right">
-				<form action="{% url 'yighub:search' 0 'keyword' 1 %}" method="post" class="form-search" />
-					{% csrf_token %}
-				  <input type="text" name="keyword" class="input-medium search-query" />
-				  <button type="submit" class="btn">Search</button>
-				</form>
-			</div>
-		</div>
-
-		<br />
-		<form class="form-inline" action="{% url 'yighub:create_memo' %}" method="post">
-			{% csrf_token %}
-			<span class="lead">Memo</span>
-			<input class="span9" style="margin-left:15px;" type = 'text' name = 'memo' maxlength="50" placeholder="한줄씩 흔적 남기기"/>
-			<input type="hidden" name="path" value="{{ request.path }}"/>
-			<button type="submit" class="btn pull-right">남기기</button>
-		</form>
-
-		<table class="table">
-			{% if memos %}
-			<tbody>
-				{% for m in memos %}
-				<tr>
-					<td class="creator-column"> {{ m.creator }} </td>
-					<td class="title-column"> {{ m.memo }} 
-						{% if m.creator == user %}
-						<script>
-						function check_delete_memo_{{m.id}}() {
-							if (confirm("정말 삭제하시겠습니까?")){
-							window.open("{% url 'yighub:delete_memo' m.id %}", "_self")						
-							}
-						}
-						</script>
-						<a onclick="check_delete_memo_{{m.id}}()"> 
-							<i class="icon-remove" style="opacity:0.25"></i> 
-						</a>
-						{% endif %}
-					</td>
-					<td class="time-column"> {{ m.time_created|date:"Y-m-d" }} </td>
-				</tr>
-				{% endfor %}
-			</tbody>
-			{% else %}
-			<tbody>
-				<tr>
-					<td>
-						<p class="text-center"> 아직 글이 존재하지 않습니다. </p>
-					</td>
-				</tr>
-			</tbody>
-			{% endif %}
-		</table>
-		<p class="text-center"><a href="{% url 'yighub:memo' 1 %}">메모 더보기</a></p>
-	</div>
-
-</div><!--/span-->	
-<!-- <a class='inline' href="#inline_content"></a> -->
+{#                <div class="container-fluid pull-right">#}
+{#                    <form action="{% url 'yighub:search' 0 'keyword' 1 %}" method="post" class="form-search" />#}
+{#                        {% csrf_token %}#}
+{#                      <input type="text" name="keyword" class="input-medium search-query" />#}
+{#                      <button type="submit" class="btn">Search</button>#}
+{#                    </form>#}
+{#                </div>#}
+{#            </div>#}
+    </div>
+    <!--//container-->
+</section>
+<!--//contents-->
 {% endblock %}
-<!--
-<h2>최신글 보기</h2>
-{% if page.entry_list %}
-<ul>
-{% for entry in news %}
-{% for i in entry.range %}
-<ul>
-{% endfor %}
-<li><a href = '/yighub/entry/{{ entry.id }}/'>{{ entry.title }}</a></li> {# 여러 정보 표시할 것#}
-{% for i in entry.range %}
-</ul>
-{% endfor %}
 
-{% endfor %}
-</ul>
-{% else %}
-<p> No entry is available. </p>
-{% endif %}
-<h2>최신글 더보기</h2>
-<p><a href = '/yighub/board/0/page/1'>최신글 페이지</a></p>
-<br />
-<h2>한줄게시판</h2>
-{% for m in memos.entry_list %}
-<p>{{ m.creator }} : {{ m.memo }} - {{ m.time_created }}</p>
-{% endfor %}
-<br />
-{% if memos.first_page %}
-<br />
-<a href = '/yighub/home/page/{{ memos.first_page }}/'>first_page</a>
-<a href = '/yighub/home/page/{{ memos.prev_page }}/'>prev_page</a>
-{% endif %}
-{% for p in memos.page_list %}
-<a href = '/yighub/home/page/{{ p }}/'>{{ p }}</a>
-{% endfor %}
-{% if page.last_page %}
-<a href = '/yighub/home/page/{{ memos.next_page }}/'>next_page</a>
-<a href = '/yighub/home/page/{{ memos.last_page }}/'>last_page</a>
-{% endif %}
-<h2>메모 쓰기</h2>
-<form action = '/yighub/memo/create/' method = 'post'>
-{% csrf_token %}
-<input type = 'text' name = 'memo' />
-<input type = 'submit' value = '메모 작성' />
-</form>
-<a href = '/yighub/entry/create/'>글쓰기</a>
 
-<br />
-<a href = '/yighub/logout/'>로그아웃</a>
-
+{#</div><!--/span-->	#}
+{#<!-- <a class='inline' href="#inline_content"></a> -->#}
+{#{% endblock %}#}
+{#<!--#}
+{#<h2>최신글 보기</h2>#}
+{#{% if page.entry_list %}#}
+{#<ul>#}
+{#{% for entry in news %}#}
+{#{% for i in entry.range %}#}
+{#<ul>#}
+{#{% endfor %}#}
+{#<li><a href = '/yighub/entry/{{ entry.id }}/'>{{ entry.title }}</a></li> {# 여러 정보 표시할 것#}
+{#{% for i in entry.range %}#}
+{#</ul>#}
+{#{% endfor %}#}
+{##}
+{#{% endfor %}#}
+{#</ul>#}
+{#{% else %}#}
+{#<p> No entry is available. </p>#}
+{#{% endif %}#}
+{#<h2>최신글 더보기</h2>#}
+{#<p><a href = '/yighub/board/0/page/1'>최신글 페이지</a></p>#}
+{#<br />#}
+{#<h2>한줄게시판</h2>#}
+{#{% for m in memos.entry_list %}#}
+{#<p>{{ m.creator }} : {{ m.memo }} - {{ m.time_created }}</p>#}
+{#{% endfor %}#}
+{#<br />#}
+{#{% if memos.first_page %}#}
+{#<br />#}
+{#<a href = '/yighub/home/page/{{ memos.first_page }}/'>first_page</a>#}
+{#<a href = '/yighub/home/page/{{ memos.prev_page }}/'>prev_page</a>#}
+{#{% endif %}#}
+{#{% for p in memos.page_list %}#}
+{#<a href = '/yighub/home/page/{{ p }}/'>{{ p }}</a>#}
+{#{% endfor %}#}
+{#{% if page.last_page %}#}
+{#<a href = '/yighub/home/page/{{ memos.next_page }}/'>next_page</a>#}
+{#<a href = '/yighub/home/page/{{ memos.last_page }}/'>last_page</a>#}
+{#{% endif %}#}
+{#<h2>메모 쓰기</h2>#}
+{#<form action = '/yighub/memo/create/' method = 'post'>#}
+{#{% csrf_token %}#}
+{#<input type = 'text' name = 'memo' />#}
+{#<input type = 'submit' value = '메모 작성' />#}
+{#</form>#}
+{#<a href = '/yighub/entry/create/'>글쓰기</a>#}
+{##}
+{#<br />#}
+{#<a href = '/yighub/logout/'>로그아웃</a>#}
+{##}

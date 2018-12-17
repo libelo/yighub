@@ -1,57 +1,64 @@
-{% extends "yighub/sidebar.html" %}
+{% extends 'yighub/extends/TopBar_MemberProfile.html'%}
+{% load static %}
+{% block customstyle %}
+    <link rel="stylesheet" href="{% static "yighub/CSS/MemberProfile.css" %}"/>
+    <link rel="stylesheet" href="{% static "yighub/CSS/VisitorIntroduction.css" %}"/>
+    <style>
+    .profile_Img{
+        display: block;
+        float: right;
+        width: 100px;
+        border-radius: 10px;
+        height: 100%;
+        max-height: 150px;
+    }
 
-{% block style %}
-.wrap {
-	white-space: pre-wrap;
-}
+    .profile{
+        min-height: 150px;
+    }
+    </style>
 {% endblock %}
-
 {% block contents %}
-	<div class="span9">
-		<br />	
-		<br />
+<section class="memberprofile">
+    <div class="container-fluid">
+        <span id="lead">Member Profile</span>
+        <br />
+        <ul class="breadcrumb">
+            {% for o in page.ordinal_range %}
+            <li {% if o == page.display_ordinal %} class="active" {% endif %}><a href="{% url "yighub:Public_Member_Profile"  o %}">{{ o }}기</a> {% if not forlosop.last %}<span class="divider">|</span>{% endif %}</li>
+            {% endfor %}
+        </ul>
+        <br />
+        <strong class="muted" style="font-size: 1.3em ">{{ page.display_ordinal }}기</strong>
+        <br />
+        <br />
+        {% for u in page.user_list %}
+        {% if not forloop.first %}<hr/>{% endif %}
+        <article class="profile clearfix">
+            {% if u.profile %}
+            <img class="profile_Img" src="{{ u.profile.url }}"/>
+            {% endif %}
 
-		<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
-			<div class="row-fluid">
-				<span class="lead">Member Profile</span> 
-			</div>
-			<br />
-			<ul class="breadcrumb">
-				{% for o in page.ordinal_range %}
-				<li {% if o == page.display_ordinal %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Memb.id o %}">{{ o }}기</a> {% if not forloop.last %}<span class="divider">/</span>{% endif %}</li>
-				{% endfor %}
-			</ul>
-			<br />
-			<strong class="muted">{{ page.display_ordinal }}기</strong>
-			<br />
-			<br />
-			{% for u in page.user_list %}
-			{% if not forloop.first %}<hr />{% endif %}
-			<div style="height:150px;">
-				{% if u.profile %}
-				<img class="pull-right img-rounded" src="{{ u.profile.url }}" style="height:100%; max-height:150px; float:right;"/>
-				{% endif %}
+            <span id="sub_lead" style="font-weight: bold;">{{ u.name }}</span>
+            {% if u == user %}<span style="margin-left: 10px;"><a href="{% url 'yighub:edit_profile' %}">수정하기</a></span>{% endif %}
 
-				<span class="lead" style="font-weight: bold;">{{ u.name }}</span>
-				{% if u == user %}<span style="margin-left: 10px;"><a href="{% url 'yighub:edit_profile' %}">수정하기</a></span>{% endif %}
+            <br />
+            <br />
 
-				<br />
-				<br />
-
-				<ul>
-					{% if u.career1 %}<li>{{ u.career1 }}</li>{% endif %}
-					{% if u.career2 %}<li>{{ u.career2 }}</li>{% endif %}
-					{% if u.career3 %}<li>{{ u.career3 }}</li>{% endif %}
-					{% if u.career4 %}<li>{{ u.career4 }}</li>{% endif %}
-					{% if u.career5 %}<li>{{ u.career5 }}</li>{% endif %}
-				</ul>
-
-			</div>
-			{% endfor %}
-
-			<br />
-			<br />
-		</div>
-	</div><!--/span-->	
-
+            <ul style="font-size: 0.9em;">
+                {% if u.career1 %}<li>{{ u.career1 }}</li>{% endif %}
+                {% if u.career2 %}<li>{{ u.career2 }}</li>{% endif %}
+                {% if u.career3 %}<li>{{ u.career3 }}</li>{% endif %}
+                {% if u.career4 %}<li>{{ u.career4 }}</li>{% endif %}
+                {% if u.career5 %}<li>{{ u.career5 }}</li>{% endif %}
+            </ul>
+        </article>
+            <!--//profile-->
+        {% endfor %}
+        <br />
+        <br />
+    </div>
+<!--//container-fluid-->
+</section>
+    <!--//memberprofile-->
 {% endblock %}

@@ -1,69 +1,57 @@
-{% extends "yighub/sidebar.html" %}
-
-{% block style %}
-.wrap {
-	white-space: pre-wrap;
-}
+{% extends "yighub/extends/TopBar_Recruiting.html" %}
+{% load static %}
+{% block customstyle %}
+    <link rel="stylesheet" href="{% static "yighub/CSS/VisitorIntroduction.css" %}"/>
 {% endblock %}
-
+{% block sub_depth2 %}
+    <div>
+        <ul class="sub_depth2">
+            <li id="current_two" class="clearfix"><a href="{% url 'yighub:Public_Recruiting' %}">Recruiting</a></li>
+            <ul class="sub_depth2_drop clearfix">
+                <li class="clearfix"><a href="{% url 'yighub:Public_Apply' %}">Apply</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:Public_Schedule' %}">Schedule</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:Public_FAQ' %}">FAQ</a></li>
+            </ul>
+        </ul>
+        <!--//sub_depth2-->
+    </div>
+{% endblock %}
 {% block contents %}
-	<div class="span9">
-		<br />	
-		<br />
-
-		<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
-			<div class="row-fluid">
-				<span class="lead">Recruiting</span> 
-			</div>
-			<br />
-			<br />
-			<strong>2018년 2학기 정회원 리크루팅 </strong>
-			<br />
-			<br />
-			<br />
-			<p class="text-info text-center wrap">
+ <section class="recruiting" lang="ko">
+    <div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
+        <span id="lead">Recruiting</span>
+        <br />
+        <br />
+        <strong id="sub_lead">2018년 2학기 정회원 리크루팅 </strong>
+        <br />
+        <br />
+        <p>
 YIG는 2018년 2학기 32기 회원을 모집합니다.
-			</p>
-			<p class="wrap">
+        </p>
+        <p class="wrap">
 기존 증권투자동아리가 경영 및 경제 관련 전공의 학생들만이 주로 활동하는 것과 달리 YIG는 공학, 법학, 정치학, 문학, 사회학 등 다양한 분야의 학생들이 모여 더욱 새롭고 다양한 시각으로 기업을 분석하여 높은 시너지 효과를 얻고 있습니다. 
-			</p>
-			<strong>지원 자격</strong>
-			<p class="wrap">
+        </p>
+        <strong class="sub_lead">지원 자격</strong>
+        <p class="wrap">
 - 연세대학교 재학 중이며 방학 포함 연속 2학기 이상 활동이 가능하신 분  
 - 투자, 금융 재무에 관심이 많으신 분 
 - 금융, 재무 전문가의 꿈을 가지신 분  
 - 주인정신으로 주어진 미션을 책임지고 완성할 수 있는 열정이 있으신 분  
 - 재무, 회계 금융 자격증 보유자 우대 
 
-YIG는 기본적으로 
+YIG는 기본적으로
 1. 창의적인 투자 아이디어 
 2. 논리적 사고 및 분석력 
 3. 적극적인 참여의식을 가진 분을 찾습니다. 
-			</p>
-			<p class="wrap">
-Unlike other investment groups, we recruit students from various majors including not only business and economics but also engineering, law, politics, literature, sociology, etc. This facilitates company analysis from various perspectives.  
-			</p>
-			<strong>Application Requirements</strong>
-			<p class="wrap">
-An applicant must 
-- Be a Yonsei student being able to participate two consequent semesters. 
-- Have a deep interest in Investment & Finance
-- Be ambitious to become a Financial Specialist 
-- Possess passion to get the given job done. 
-(We give preference to the person who have accounting and finance certificate.)
-
-We are looking for new members with creative investment idea, and logical and analytic thoughts, as well as willingness to actively participate. 
-
-YIG is waiting for you!` 
-			</p>
-			<p class="wrap">
+        </p>
 문의사항은 다음 연락처로 보내주세요.
-
-<a href="{% url 'yighub:listing' 'public' public_dict.Cont.id 0 %}">Contact Us</a>
-			</p>
-			<br />
-			<br />
-		</div>
-	</div><!--/span-->	
-
+<br/><br/>
+<a class="sub_lead" href="{% url "yighub:Public_Contact" %}" style="text-decoration: none;">Contact Us</a>
+        <br />
+        <br />
+        <br/>
+    </div>
+    <!--//container-fluid-->
+ </section>
+ <!--//Recruiting-->
 {% endblock %}

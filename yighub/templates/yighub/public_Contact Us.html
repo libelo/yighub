@@ -1,62 +1,55 @@
-{% extends "yighub/sidebar.html" %}
-{% load staticfiles %}
-
-{% block style %}
-.wrap {
-	white-space: pre-wrap;
+{% extends "yighub/extends/TopBar_Contact.html" %}
+{% load static %}
+{% block customstyle %}
+<style>
+.name{
+    font-size: 1.3em;
 }
+
+.phone{
+    font-size: 1em;
+    color: rgba(0,0,0,.8);
+    margin-top: 15px;
+}
+</style>
 {% endblock %}
 
 {% block contents %}
-	<div class="span9">
-		<br />	
-		<br />
+<section class="contact" lang="ko">
+    <div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
+        <span id="lead">Contact Us</span>
+        <br />
+        <br />
+        <!-- <img src="{% static 'yighub/images/contacts.png' %}" style="height:30%; width:100%;" /> -->
 
-		<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
-			<div class="row-fluid">
-				<span class="lead">Contact Us</span> 
-			</div>
-			<br />
-			<br />
-			<!-- <img src="{% static 'yighub/images/contacts.png' %}" style="height:30%; width:100%;" /> -->
+        <div class="well">
+            <strong class="name">회 장 김민석</strong>
+            <br />
+            <div class="phone">전화번호: 010-7548-6879</div>
+            <br />
 
-			<div class="well">
-				<strong class="text-info">회 장</strong>
-				<strong>김민석</strong>
-				<br />
-				<span class="text-info">- PHONE</span>
-				<span>010.7548.6879</span>
-				<br />
-				<br />
+            <strong class="name">부회장 정승원</strong>
+            <br />
+            <div class="phone">전화번호: 010-3450-2093</div>
+            <br />
 
-				<strong class="text-info">부회장</strong>
-				<strong>정승원</strong>
-				<br />
-				<span class="text-info">- PHONE</span>
-				<span>010.3450.2093</span>
-				<br />
-				<br />
-				
-				<strong class="text-info">HR 매니저</strong>
-				<strong>권경호</strong>
-				<br />
-				<span class="text-info">- PHONE</span>
-				<span>010.4050.0878</span>
-				<br />
-				<br />
+            <strong class="name">부회장 정승원</strong>
+            <br />
+            <div class="phone">전화번호: 010-4050-0878</div>
+            <br />
 
-				<strong class="text-info">카카오톡 플러스친구</strong>
-				<strong>“YIG”</strong>
-				<br />
-				<strong class="text-info">E.mail</strong>
-				<strong>yigyonsei@gmail.com</strong>
-				<br />
-				<br />
-			</div>
-
-			<br />
-			<br />
-		</div>
-	</div><!--/span-->	
+            <strong style="font-size: 1.1em;">카카오톡 플러스친구: </strong>
+            <strong>“YIG”</strong>
+            <br />
+            <br/>
+            <strong style="margin-top: 15px; font-size: 1.1em;">Email: </strong>
+            <strong>yigyonsei@gmail.com</strong>
+            <br />
+            <br />
+        </div>
+        <br />
+        <br />
+    </div>
+</section>
 
 {% endblock %}

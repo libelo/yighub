@@ -1,37 +1,48 @@
-{% extends "yighub/sidebar.html" %}
-
+{% extends "yighub/extends/TopBar_Fund.html" %}
+{% load static %}
+{% block customstyle %}
+    <link rel="stylesheet" href="{% static "yighub/CSS/VisitorIntroduction.css" %}"/>
+{% endblock %}
+{% block sub_depth2 %}
+    <div>
+        <ul class="sub_depth2">
+            <li id="current_two" class="clearfix"><a href="{% url 'yighub:Public_Gfund' 0 %}">G Fund</a></li>
+            <ul class="sub_depth2_drop clearfix">
+                <li class="clearfix"><a href="{% url 'yighub:Public_SIM_A' 0 %}">SIM-A Fund</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:Public_SIM_JS' 0 %}">SIM-JS Fund</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:Public_Sfund' 0 %}">S Fund</a></li>
+            </ul>
+        </ul>
+        <!--//sub_depth2-->
+    </div>
+{% endblock %}
 {% block contents %}
-	<div class="span9">
-		<br />	
-		<br />
-
-		<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
-			<div class="row-fluid">
-				<span class="lead">Fund</span> 
-			</div>
+    <section class="Fund">
+		<div class="container-fluid">
+            <span id="lead">Fund</span>
 			<br />
 			<br />
-			<strong>G FUND</strong>
+			<strong>SIM-JS FUND</strong>
 			<br />
-			{% for entry in page.entry_list %}
-			<h3>{{ entry.title }}</h3>
-			<span> {{ entry.time_created }} </span>
-			<hr />
-			{% if entry.thumbnails %}
-			{% for t in entry.thumbnails.all %}
-			<div class="text-center">
-				<img src="{{ t.thumbnail.url }}" style="width:100%; max-width:650px;"/>
-			</div>
-			<br />
-			{% endfor %}
-			<br />
-			<br />
-			{% endif %}
-			{% filter urlize|linebreaks %}
-			{{ entry.content|safe }}
-			{% endfilter %}
-			<br />
-			<hr />
+            <br />
+        <table class="fund_table">
+            <thead>
+                <tr>
+                    <th>글쓴이</th>
+                    <th>제목</th>
+                    <th>등록일</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in page.entry_list %}
+                    <tr>
+                        <td>{{ entry.creator }}</td>
+                        <td class="fund_title"><a href="{% url "yighub:Public_Gfund_detail" entry.id  %}">{{ entry.title }}</a></td>
+                        <td>{{ entry.time_created|date:"Y-m-d" }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
 			{% if files %}
 			<!--<p class="lead">파일 다운로드</p>-->
@@ -46,26 +57,26 @@
 
 			{% if entry.creator == user %}
 			<span class="pull-right">
-				<a href = "{% url 'yighub:edit' board entry.id %}">수정하기</a> 
+				<a href = "{% url 'yighub:edit' board entry.id %}">수정하기</a>
 				&nbsp;&nbsp;
 				<script>
 				function check_delete_{{entry.id}}() {
 					if (confirm("정말 삭제하시겠습니까?")){
-					window.open("{% url 'yighub:delete' board entry.id %}", "_self")						
+					window.open("{% url 'yighub:delete' board entry.id %}", "_self")
 					}
 				}
 				</script>
 				<a onclick="check_delete_{{entry.id}}()">삭제하기</a>
 			</span>
 			{% endif %}
-			{% endfor %}
+
 			<br />
 			<br />
 			<div class="pagination pagination-small text-center">
 			  <ul>
 			  	<!-- {% if page.first_page %} -->
-			    <!-- <li class="visible-desktop pull-left"><a href="{% url 'yighub:listing' board current_board.id page.first_page %}">&laquo;</a></li> -->
-			    <!-- <li><a href="{% url 'yighub:listing' board current_board.id page.prev_page %}">&lsaquo;</a></li> -->
+			    <!-- <li class="visible-desktop pull-left"><a href="{% url 'yighub:Public_Gfund' page.first_page %}">&laquo;</a></li> -->
+			    <!-- <li><a href="{% url 'yighub:Public_Gfund' page.prev_page %}">&lsaquo;</a></li> -->
 			    <!-- {% endif %} -->
 			    {% for p in page.page_list %}
 				    {% if p == page.current_page %}
@@ -73,30 +84,25 @@
 				    {% else %}
 				    <li>
 				    {% endif %}
-					    <a href="{% url 'yighub:listing' board current_board.id p %}">{{ p }}</a>
+					    <a href="{% url 'yighub:Public_Gfund' p %}">{{ p }}</a>
 					</li>
 			    {% endfor %}
 			    {% if page.last_page %}
-			    <!-- <li><a href="{% url 'yighub:listing' board current_board.id page.next_page %}">&rsaquo;</a></li> -->
-			    <li class="visible-desktop"><a href="{% url 'yighub:listing' board current_board.id page.last_page %}">&raquo;</a></li>
+			    <!-- <li><a href="{% url 'yighub:Public_Gfund' page.next_page %}">&rsaquo;</a></li> -->
+			    <li class="visible-desktop"><a href="{% url 'yighub:Public_Gfund' page.last_page %}">&raquo;</a></li>
 			    {% endif %}
 			  </ul>
+                {% if user and user.level != 'non' %}
+                 <span class="pull-left">
+                     <!-- <a href="{% url 'yighub:create_in_board' board board_id %}"> -->
+                     <button type="button" class="btn btn-primary" onclick="location.href = '{% url 'yighub:create_in_board' board board_id %}'">글쓰기</button>
+                     <!-- </a> -->
+                 </span>
+		        {% endif %}
 			</div>
-
+        <!--//pagination text-center-->
 		</div>
-
-		{% if user and user.level != 'non' %}
-		<div class="row-fluid" style="margin-top: 70px">
-			<div class="container-fluid">
-				<span class="pull-right">
-				<!-- <a href="{% url 'yighub:create_in_board' board current_board.id %}"> -->
-					<button type="button" class="btn btn-primary" onclick="location.href = '{% url 'yighub:create_in_board' board current_board.id %}'">글쓰기</button>
-				<!-- </a> -->
-				</span>
-			</div> 			
-		</div>
-		{% endif %}
-
-	</div><!--/span-->	
-
+    <!--container-fluid-->
+    </section>
+    <!--//fund-->
 {% endblock %}

@@ -1,11 +1,10 @@
 from django.conf.urls import url
-
 from . import views
 
 app_name = 'yighub'
 urlpatterns = [
-    url(r'^$', views.home),
     url(r'^home/$', views.home, name='home'),
+    url(r'^home_for_members/$', views.home_member.as_view(), name='home_for_member'),
 
     url(r'^join/$', views.join, name='join'),
     url(r'^login/$', views.login, name='login'),
@@ -27,21 +26,6 @@ urlpatterns = [
 
     url(r'^search/(?P<board_id>\d+)/(?P<keyword>.+)/(?P<page>\d+)$', views.search, name='search'),
     url(r'^search_albums/(?P<keyword>.+)/(?P<page>\d+)/$', views.search_albums, name='search_albums'),
-
-    # url(r'^man_won_bbang/$', views.man_won_bbang, name='man_won_bbang'),
-
-    # url(r'^transform/user/$', 'transform_user'),
-    # url(r'^transform/data/$', 'transform_data'),
-    # url(r'^transform/column/$', 'transform_column'),
-    # url(r'^transform/portfolio/$', 'transform_portfolio'),
-    # url(r'^transform/analysis/$', 'transform_analysis'),
-    # url(r'^transform/notice/$', 'transform_notice'),
-    # url(r'^transform/board/$', 'transform_board'),
-    # url(r'^transform/tf/$', 'transform_tf'),
-    # url(r'^transform/research/$', 'transform_research'),
-    # url(r'^transform/fund/$', 'transform_fund'),
-    # url(r'^transform/photos/$', 'transform_photos'),
-    # url(r'^transform/memo/$', 'transform_memo'),
 
     url(r'^taskforce/create/$', views.create_taskforce, name='create_taskforce'), # can make taskforce board 
     url(r'^taskforce/(?P<taskforce_id>\d+)/edit/$', views.edit_taskforce, name='edit_taskforce'),    
@@ -75,5 +59,45 @@ urlpatterns = [
     url(r'^(?P<board>\w+)/entry/(?P<entry_id>\d+)/comment/(?P<comment_id>\d+)/delete/$', views.delete_comment, name='delete_comment'),    
     url(r'^(?P<board>\w+)/entry/(?P<entry_id>\d+)/comment/(?P<comment_id>\d+)/reply/$', views.reply_comment, name='reply_comment'),
     url(r'^(?P<board>\w+)/entry/(?P<entry_id>\d+)/comment/(?P<comment_id>\d+)/recommend/$', views.recommend_comment, name='recommend_comment'),
-    #url(r'^(?P<board>\w+)/entry/(?P<entry_id>\d+)/comment/(?P<comment_id>\d+)/recommend/delete/$', views.recommend_comment, name='recommend_comment'),
+    #url(r'^(?P<board>\w+)/entry/(?P<entry_id>\d+)/comment/(?P<comment_id>\d+)/recommend/delete/$', views.recommend_comment, name='recommend_comment')
+
+    #도메인 이름 변경
+    ##About YIG
+    url(r'^AboutYIG/Introduction/$', views.Introduction.as_view(), name="Public_Introduction"),
+    url(r'^AboutYIG/Vision/$', views.Vision.as_view(), name="Public_Vision"),
+    url(r'^AboutYIG/Activity/$', views.Activity.as_view(), name="Public_Activity"),
+    url(r'^AboutYIG/History/$', views.History.as_view(), name="Public_History"),
+    url(r'^AboutYIG/Clipping/$', views.Introduction.as_view(), name="Public_Clipping"),
+
+    ##Recruiting
+    url(r'^Recruiting/$', views.Recruiting.as_view(), name="Public_Recruiting"),
+    url(r'^Recruiting/Apply/$', views.Apply.as_view(), name="Public_Apply"),
+    url(r'^Recruiting/Schedule/$', views.Schedule.as_view(), name="Public_Schedule"),
+    url(r'^Recruiting/FAQ/$', views.FAQ.as_view(), name="Public_FAQ"),
+
+    #MemberProfile
+    url(r'^MemberProfile/(?P<page>\d+)/$', views.MemberProfile.as_view(), name="Public_Member_Profile"),
+
+    #Fund (Fund, 디테일)
+    url(r'^Fund/SIMA-Fund/(?P<page>\d+)/$', views.SIM_A.as_view(), name="Public_SIM_A"),
+    url(r'^Fund/SIMA-Fund/detail/(?P<pk>\d+)/$', views.Fund_detail.as_view(), name="Public_SIM_A_detail"),
+    url(r'^Fund/SIMJS-Fund/(?P<page>\d+)/$', views.SIM_JS.as_view(), name="Public_SIM_JS"),
+    url(r'^Fund/SIMJS-Fund/detail/(?P<pk>\d+)/$', views.Fund_detail.as_view(), name="Public_SIM_JS_detail"),
+    url(r'^Fund/GFund/(?P<page>\d+)/$', views.Gfund.as_view(), name="Public_Gfund"),
+    url(r'^Fund/GFund/detail/(?P<pk>\d+)/$', views.Fund_detail.as_view(), name="Public_G_detail"),
+    url(r'^Fund/SFund/(?P<page>\d+)/$', views.Sfund.as_view(), name="Public_Sfund"),
+    url(r'^Fund/SFund/detail/(?P<pk>\d+)/$', views.Fund_detail.as_view(), name="Public_S_detail"),
+    url(r'^Fund/YIG_Universe/(?P<page>\d+)/$', views.YIG_Universe.as_view(), name="Public_YIG_Universe"),
+    url(r'^Fund/YIG_Universe/detail/(?P<pk>\d+)/$', views.Fund_detail.as_view(), name="Public_Universe_detail"),
+
+    #Research
+    url(r'^Research/(?P<page>\d+)/$', views.Research.as_view(), name="Public_Research"),
+
+    #Cotact
+    url(r'^Contact/$', views.Contact.as_view(), name="Public_Contact"),
+
+    #Test 임시 URL(완성 후 즉각 삭제 요망)
+    url(r'^TopBar/$', views.TopBar_for_Visitor.as_view(), name="TopBar_for_Visitor"),
+    url(r'^SubTopBar/$', views.SubTopBar_for_Visitor.as_view(), name="SubTopBar"),
+    url(r'^TopBarMember/$', views.Topbar_member.as_view(), name="TopBar_for_Member"),
 ]

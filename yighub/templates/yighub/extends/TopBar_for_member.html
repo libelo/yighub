@@ -1,0 +1,126 @@
+{% load static %}
+<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, width=device-width, target-densitydpi=medium-dpi" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'yighub/CSS/VisitorHeader.css' %}"/>
+    <link rel="stylesheet" href="{% static "yighub/CSS/base.css" %}"/>
+    <link rel="stylesheet" href="{% static "yighub/CSS/MemberHeader.css" %}"/>
+    <link rel="stylesheet" href="{% static "yighub/CSS/Wang_Bootstrap.css" %}"/>
+    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic" rel="stylesheet">
+    <style>
+        .sub_visual{
+            height: 200px;
+        }
+    </style>
+    {% block style %}
+    {% endblock %}
+</head>
+<body>
+<header id="header" onmouseover="showup()">
+    <div class="container">
+        <div class="row">
+            <nav class="nav clearfix">
+                <div class="YIG">
+                    <img src="{% static "yighub/images/yiglogo.png" %}" height="50px" width="50px"/>
+                    <a  id="YIG" href="{% url 'yighub:home' %}" title="YIG 메인페이지로 이동">YIG</a>
+                    <button id="menu_btn"><i class="fas fa-align-justify"></i></button>
+                </div>
+                <!--//YIG-->
+                <div class="Main_nav">
+                    <ul class="clearfix">
+                        <li><a href="{% url 'yighub:home' %}">Public</a></li>
+                        <li><a href="#">Taskforce</a></li>
+                        <li><a href="#">Boards</a></li>
+                        <li><a href="#">Albums</a></li>
+                    </ul>
+                </div>
+                <!--//Main_nav-->
+                <div class="account">
+                    <a href="{% url 'yighub:edit_profile' %}">{{ user.name }}</a>
+                    <a class="signup" href="{% url 'yighub:logout' %}">Logout</a>
+                </div>
+            </nav>
+            <!--//nav-->
+        </div>
+        <!--//row 끝-->
+    </div>
+    <!--//container 끝-->
+</header>
+<!--//header 끝-->
+<div class="sub_visual">
+    <div class="container">
+        <div class="sub_all" onmouseleave="disappear()">
+            <div class="sub clearfix">
+                <ul>
+                    <li><a href="{% url 'yighub:Public_Introduction' %}">About YIG</a></li>
+                    <li><a href="{% url 'yighub:Public_Recruiting' %}">Recruiting</a></li>
+                    <li><a id="Activity" href="{% url 'yighub:Public_Member_Profile' 0 %}">Member Profile</a></li>
+                    <li><a href="{% url 'yighub:Public_SIM_A' 0 %}">Fund</a></li>
+                    <li><a href="{% url 'yighub:Public_Research' 0 %}">Research</a></li>
+                    <li><a href="{% url 'yighub:Public_Contact' %}">Contact Us</a></li>
+                </ul>
+                <ul></ul>
+                <ul>
+                    <li><a href="#">학회운영 및 대회자료</a></li>
+                    <li><a href="#">개인 칼럼</a></li>
+                    <li><a href="#">포트폴리오</a></li>
+                    <li><a href="#">분석</a></li>
+                    <li><a href="#">공지</a></li>
+                    <li><a href="#">기타자료 게시판</a></li>
+                </ul>
+                <ul></ul>
+            </div>
+            <!--//sub-->
+        </div>
+        <!--//sub_all-->
+        <section class="visual"></section>
+        <!--//visual-->
+    </div>
+    <!--//container-->
+</div>
+<!--//sub_visual-->
+<nav id="nav">
+    <div class="container">
+        <div class="row">
+            <div class="Nav_lst">
+                <ul>
+                    <li><a href="#">Public</a>
+                        <ul>
+                            <li><a href="{% url 'yighub:Public_Introduction' %}">About YIG</a></li>
+                            <li><a href="{% url 'yighub:Public_Recruiting' %}">Recruiting</a></li>
+                            <li><a id="Activity" href="{% url 'yighub:Public_Member_Profile' 0 %}">Member Profile</a></li>
+                            <li><a href="{% url 'yighub:Public_SIM_A' 0 %}">Fund</a></li>
+                            <li><a href="{% url 'yighub:Public_Research' 0 %}">Research</a></li>
+                            <li><a href="{% url 'yighub:Public_Contact' %}">Contact Us</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Taskforce</a></li>
+                    <li><a href="#">Boards</a>
+                        <ul>
+                            <li><a href="#">학회운영 및 대회자료</a></li>
+                            <li><a href="#">개인 칼럼</a></li>
+                            <li><a href="#">포트폴리오</a></li>
+                            <li><a href="#">분석</a></li>
+                            <li><a href="#">공지</a></li>
+                            <li><a href="#">기타자료 게시판</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Albums</a></li>
+                </ul>
+            </div>
+            <!--Nav_lst-->
+        </div>
+        <!--//row-->
+    </div>
+    <!--//container-->
+</nav>
+<!--//nav-->
+{% block contents %}
+{% endblock %}
+</body>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+  crossorigin="anonymous"></script>
+<script src="{% static "yighub/JS/VisitorHeader.js" %}"></script>
+</html>

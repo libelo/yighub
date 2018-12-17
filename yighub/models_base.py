@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django.db import models
 
 MEMBER_LEVEL_CHOICES = (
@@ -106,6 +108,7 @@ def upload_thumbnail_path(instance, filename):
     time = instance.entry.time_created
     return 'yighub/thumbnails/%s/%s/%s/%s/%s' % (board, time.year, time.month, time.day, instance.name)
 
+
 class Thumbnail(models.Model):
     name = models.CharField(max_length = 200)
     thumbnail = models.ImageField(upload_to = upload_thumbnail_path)
@@ -117,6 +120,7 @@ def upload_file_path(instance, filename):
     board = 'board' + str(instance.entry.board.id)
     time = instance.entry.time_created
     return 'yighub/files/%s/%s/%s/%s/%s' % (board, time.year, time.month, time.day, instance.name)
+
 
 class File(models.Model):
     name = models.CharField(max_length = 200)

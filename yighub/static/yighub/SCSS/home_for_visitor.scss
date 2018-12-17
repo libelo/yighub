@@ -1,0 +1,282 @@
+@import "reset";
+
+/*배경화면 설정*/
+html{
+  background: url("https://i.pinimg.com/originals/e8/1e/f9/e81ef94eae77568adfd02e18a17775ab.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+a{
+  color: white;
+}
+
+ul li{
+  text-align: center;
+}
+
+/*container 기본*/
+.container{
+  width: 1200px;
+  margin: 0 auto;
+}
+
+/*상위 header 기본*/
+#header{
+  height: 165px;
+
+  .nav{
+    /*YIG 로고 및 글씨*/
+    .YIG{
+      position: relative;
+      width: 10%;
+
+      img{
+       margin-top: 5px;
+       height: 50px; width: 50px;
+      }
+
+      a{
+        position: absolute;
+        font-size: 20px;
+        top:12px;
+        color: $yigcolor;
+      }
+    }
+
+    /*main nav*/
+    .Main_nav{
+      font-size: 16px;
+      width: 70%;
+      margin-top: 15px;
+
+      ul li{
+        width: (100%/6);
+        white-space: nowrap;
+
+        ul li{
+          width: 100%;
+          float: none;
+          padding: 5px 0;
+          display: none;
+          transition: all 1s ease;
+        }
+
+        .show{
+          li{
+            display: block;
+          }
+        }
+      }
+    }
+
+    .account{
+      white-space: nowrap;
+      margin-top: 12px;
+      width: 20%;
+
+      .login{
+
+      }
+
+      .signup{
+        display: inline-block;
+	    padding: 5px 10px;
+        width: auto;
+        margin-left: 20px;
+	    border: 1px solid $yigcolor;
+	    border-radius: 15px;;
+      }
+    }
+
+    div{
+      float: left;
+
+      ul li{
+        float: left;
+      }
+    }
+  }
+}
+
+/*body*/
+html {
+  height: 100%;
+
+  body {
+  min-height: 100%;
+}
+}
+.body{
+  height: calc(100vh - 60px);
+  .container{
+    height: 100%;
+    .row{
+      height: 100%;
+    }
+  }
+}
+.lst_nav /*소개하기*/
+{
+  width: 100%;
+  height: 50%;
+  text-align: center;
+  overflow: hidden;
+  transform: translateY(100%);
+
+  li {
+    float: left;
+    width: (100%/3);
+
+    a {
+      display: inline-block;
+      color: white;
+      font-size: 30px;
+      font-weight: 400;
+      text-align: center;
+    }
+
+    .ico {
+      display: table;
+      margin-bottom: 10px;
+      transform: translateX(90%);
+      width: 35%;
+      height: 35%;
+      border-radius: 15px;
+      background-color: rgba(239, 224, 170, 0.6);
+
+      em {
+        display: table-cell;
+        text-align: center;
+        vertical-align: middle;
+      }
+    }
+  }
+}
+
+img{
+    vertical-align: middle;
+}
+
+@media (max-width: 1280px){
+  .container{
+    width: 100%;
+
+    .row{
+      padding: 0 15px;
+    }
+  }
+}
+
+@media (max-width: 1280px){
+  .container{
+    width: 100%;
+
+    .row{
+      padding: 0 15px;
+    }
+  }
+}
+
+/*태블릿까지는 그대로*/
+@media (max-width: 840px){
+
+  .container{
+    .row{
+      padding: 0 5px;
+    }
+  }
+
+  #header{
+    .nav{
+      .YIG{
+      display: none;
+      }
+
+      .Main_nav{
+      width: 80%;
+      }
+
+      .account{
+        margin-top: 14px;
+
+        .signup{
+          margin-left: 5px;
+          padding: 2.5px 5px;
+        }
+      }
+    }
+  }
+
+  .lst_nav{
+    li{
+      a{
+        font-size: 20px;
+      }
+    }
+  }
+}
+
+@media (max-width: 750px){
+  #header{
+    background-color: rgba(0,0,0,.5);
+    height: 180px;
+
+    .nav{
+      .YIG{
+        display: block;
+        a{
+          display: none;
+        }
+      }
+
+      .hidden{
+        display: block;
+      }
+
+      .Main_nav{
+        font-size: 12px;
+        width: 55%;
+
+        ul li{
+          width: 100%;
+          padding: 5px 0;
+        }
+      }
+
+      .account{
+        width: 35%;
+        margin-top: 19px;
+        font-size: 12px;
+
+        a{
+          display: block;
+        }
+
+        .login{
+          margin-left: 6px;
+        }
+
+        .signup{
+          margin-top: 10px;
+          padding: 2.5px 5px;
+          margin-left: 0;
+        }
+      }
+    }
+  }
+
+  .lst_nav{
+    li{
+      a{
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+@media (max-width: 320px){
+
+}

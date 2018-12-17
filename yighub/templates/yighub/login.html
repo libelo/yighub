@@ -1,8 +1,82 @@
-﻿{% extends "yighub/simple.html" %}
+﻿{% extends "yighub/extends/TopBar_AboutYIG.html" %}
+{% load static %}
+{% block customstyle %}
+    <link rel="stylesheet" href="{% static "yighub/CSS/login.css" %}"/>
+    <link rel="stylesheet" href="{% static "yighub/CSS/Wang_Bootstrap.css" %}"/>
+    <style>
+    .login{
+        margin-top: 100px;
+    }
 
+    .login-container{
+        max-width: 300px;
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .form-signin {
+        max-width: 300px;
+        padding: 19px 29px 29px;
+        margin: 0 auto 20px;
+        background-color: #fff;
+        border: 1px solid #e5e5e5;
+        -webkit-border-radius: 5px;
+           -moz-border-radius: 5px;
+                border-radius: 5px;
+        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+                box-shadow: 0 1px 2px rgba(0,0,0,.05);
+      }
+      .form-signin .form-signin-heading,
+      .form-signin .checkbox {
+        margin-bottom: 10px;
+      }
+      .form-signin input[type="text"],
+      .form-signin input[type="password"] {
+        font-size: 16px;
+        height: auto;
+        margin-bottom: 15px;
+        padding: 7px 9px;
+      }
+
+      .messages{
+          color :red;
+          font-size: 12px;
+      }
+
+       .muted {
+       color: #999999;
+      }
+
+      a.muted:hover,
+      a.muted:focus {
+      color: #808080;
+      }
+
+       .input-block-level {
+        display: block;
+        width: 100%;
+        min-height: 30px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+       }
+
+       @media (max-width: 600px){
+        .form-signin input[type="text"],
+        .form-signin input[type="password"] {
+            font-size: 12px;
+            height: auto;
+            margin-bottom: 10px;
+            padding: 7px 9px;
+        }
+       }
+    </style>
+{% endblock %}
 {% block contents %}
-    <div class="container">
-
+<section class="login container-fluid">
+    <div class="login-container">
       <form class="form-signin" action="{% url 'yighub:login_check' %}", method = "post">
       	{% csrf_token %}
         <h2 class="form-signin-heading">Please sign in</h2>
@@ -24,5 +98,8 @@
         <button class="btn btn-large btn-primary" type="submit">로그인</button>
       </form>
 
-    </div> <!-- /container -->
+    </div>
+    <!-- /container -->
+</section>
+    <!--//login-->
 {% endblock %}

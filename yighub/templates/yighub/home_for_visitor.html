@@ -1,32 +1,123 @@
-﻿{% extends "yighub/base.html" %}
-{% load staticfiles %}
+﻿{% load static %}
+<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" href="{% static "yighub/CSS/home_for_visitor.css" %}"/>
+    <link rel="stylesheet" href="{% static "yighub/CSS/VisitorHeader.css" %}"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <!--<link rel="stylesheet" href="assets/css/reset.css"/>-->
+    <style>
+        a{
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<header id="header">
+    <div class="container">
+        <div class="row">
+            <div class="nav clearfix">
+                <div class="YIG">
+                    <img src="{% static "yighub/images/yiglogo.png" %}" height="50px" width="50px"/>
+                    <a  id="YIG" href="{% url 'yighub:home' %}" title="YIG 메인페이지로 이동">YIG</a>
+                </div>
+                <!--//YIG-->
+                <!--<button class="hidden menu">-->
+                    <!--<i class="fas fa-align-justify"></i>-->
+                <!--</button>-->
+                <div class="Main_nav">
+                    <ul class="clearfix">
+                        <li><a href="{% url 'yighub:Public_Introduction' %}">About YIG</a>
+                            <ul class="subnav clearfix">
+                                <li><a href="{% url 'yighub:Public_Introduction' %}">Introduction</a></li>
+                                <li><a href="{% url 'yighub:Public_Vision' %}">Vision</a></li>
+                                <li><a href="{% url 'yighub:Public_Activity' %}">Activity</a></li>
+                                <li><a href="{% url 'yighub:Public_History' %}">History</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="{% url 'yighub:Public_Recruiting' %}">Recruiting</a>
+                            <ul class="subnav clearfix">
+                                <li><a href="{% url 'yighub:Public_Recruiting' %}">Recruiting</a></li>
+                                <li><a href="{% url 'yighub:Public_Apply' %}">Apply</a></li>
+                                <li><a href="{% url 'yighub:Public_Schedule' %}">Schedule</a></li>
+                                <li><a href="{% url 'yighub:Public_FAQ' %}">FAQ</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="{% url 'yighub:Public_Member_Profile' 0 %}">Member Profile</a></li>
+                        <li><a href="{% url 'yighub:Public_SIM_A' 0%}">Fund</a>
+                            <ul class="subnav clearfix">
+                                <li><a href="{% url 'yighub:Public_SIM_A' 0%}">SIM-A Fund</a></li>
+                                <li><a href="{% url 'yighub:Public_SIM_JS' 0%}">SIM-JS Fund</a></li>
+                                <li><a href="{% url 'yighub:Public_Gfund' 0%}">G Fund </a></li>
+                                <li><a href="{% url 'yighub:Public_Sfund' 0%}">S Fund</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="{% url 'yighub:Public_Research' 0%}">Research</a></li>
+                        <li><a href="{% url 'yighub:Public_Contact' %}">Contact Us</a></li>
+                    </ul>
+                </div>
+                <!--Main Nav-->
+                {% if user.name %}
+                    <div class="account">
+                        <a href="{% url 'yighub:home_for_member' %}">go to members</a>
+                        <a class="signup" href="{% url 'yighub:logout' %}">Logout</a>
+                    </div>
+                {% else %}
+                    <div class="account">
+                        <a class="login" href="{% url 'yighub:login' %}">LogIn</a>
+                        <a class="signup" href="{% url 'yighub:join' %}">Become a YIGIAN</a>
+                    </div>
+                {% endif %}
+                <!--Account Nav-->
+            </div>
+            <!--nav-->
+        </div>
+        <!--//row-->
+    </div>
+    <!--//container-->
+</header>
+<div class="body">
+    <div class="container">
+        <div class="row">
+            <ul class="lst_nav">
+                <li class="nav1">
+                    <a href="{% url 'yighub:Public_Introduction' %}">
+                       <span class="ico">
+                          <em>
+                            <img src="{% static "yighub/images/Introduction.png" %}"/>
+                          </em>
+                       </span>
+                        YIG 소개
+                    </a>
+                </li>
+                <li class="nav2">
+                    <a href="{% url 'yighub:Public_Apply' %}">
+                        <span class="ico">
+                            <em>
+                                <img src="{% static "yighub/images/applyIcon.png" %}"/>
+                            </em>
+                        </span>
+                         지원하기
+                    </a>
+                </li>
+                <li class="nav3">
+                    <a href="{% url 'yighub:Public_Contact' %}">
+                        <span class="ico">
+                            <em>
+                                <img src="{% static "yighub/images/Contact.png" %}"/>
+                            </em>
+                        </span>
+                         연락처
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--//header-->
+</body>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+  crossorigin="anonymous"></script>
+<script src="{% static "yighub/JS/home_for_visitor.js" %}"></script>
+</html>
 
-{% block style %}
-body {
-	padding-top: 40px
-}
-div.container-fluid {
-	padding: 0px
-}
-{% endblock %}
-
-{% block contents %}
-
-      <!-- Begin page content -->
-
-      <div align="center">
-	      <iframe allowFullScreen frameborder="0" height="564" mozallowfullscreen src="https://player.vimeo.com/video/256381664" webkitAllowFullScreen width="640"></iframe>
-	  </div>
-	  <div align="center">
-		<h3><a href="{% static 'yighub/YIG Application Form.docx' %}">지원서 다운로드</a></h3>
-		<h4>yigyonsei@gmail.com 으로 제출</h4>
-	  </div>
-      <br />
-      <div align="center">
-      	<img src="{% static 'yighub/images/main.jpg' %}" style="height:30%; width:60%;" />
-      </div>
-
-      
-	  
-	<!-- <a class='inline' href="#inline_content"></a> -->
-{% endblock %}

@@ -1,0 +1,277 @@
+@import "reset";
+
+/*기본설정*/
+
+/*container 기본*/
+.container{
+  width: 1200px;
+  margin: 0 auto;
+}
+
+/*header*/
+#header{
+  height: 60px;
+
+  .nav{
+    div{
+      float: left
+    }
+
+    .YIG {
+      position: relative;
+      width: 10%;
+
+      img {
+        margin-top: 5px;
+        height: 50px;
+        width: 50px;
+      }
+
+      a {
+        position: absolute;
+        font-size: 20px;
+        top: 12px;
+        color: $yigcolor;
+      }
+
+      button{
+        display: none;
+      }
+    }
+
+    .Main_nav {
+      width: 70%;
+      text-align: center;
+      font-size: 16px;
+      margin-top: 15px;
+
+      ul li {
+        float: left;
+        width: (100%/6);
+        white-space: nowrap;
+      }
+    }
+
+    .account{
+      white-space: nowrap;
+      margin-top: 12px;
+      width: 20%;
+
+      .login{
+
+       }
+
+      .signup{
+        display: inline-block;
+	    padding: 5px 10px;
+        width: auto;
+        margin-left: 20px;
+	    border: 1px solid $yigcolor;
+	    border-radius: 15px;;
+      }
+    }
+  }
+}
+
+/*sub_visual*/
+.sub_visual{
+  height: 160px;
+  .container {
+    height: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+
+    .sub_all {
+      height: 0%;
+      overflow: hidden;
+      transition: all 0.5s ease;
+
+      .sub {
+        height: 100%;
+        width: 70%;
+        margin-left: 10.8%;
+
+        ul {
+          float: left;
+          width: (100%/6);
+          height: 100%;
+          text-align: center;
+          font-size: 14px;
+
+          li {
+            padding: 5px 0;
+          }
+        }
+      }
+    }
+
+    .visual{
+      height: 100%;
+      width: 100%;
+      background-image: url("https://yighub-bucket.s3.amazonaws.com/media/yighub/albums/2018/01/30/KakaoTalk_20180130_205853818.jpg");
+      background-position: center center;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+  }
+}
+
+/*Nav_lst*/
+.Nav_lst{
+  display: none;
+  .container{
+    .row{
+      padding: 0 15px;
+    }
+  }
+  ul li{
+    width: 100%;
+    font-size: 16px;
+    position: relative;
+
+    a{
+      display: inline-block;
+      height: 100%;
+      width: 100%;
+      line-height: 45px;
+      color: $yigcolor;
+
+      &:after{
+        content: '';
+        display: block;
+        position: absolute;
+        right: 22px;
+        top: 10px;
+        width: 8px;
+        height: 8px;
+        border-width: 1px 1px 0 0;
+        border-style: solid;
+        border-color: #ddd;
+        -webkit-transform: rotate(135deg);
+        transform: rotate(135deg);
+      }
+    }
+
+    .show{
+      display: block;
+    }
+
+    ul{
+      display: none;
+
+      li a{
+        background: #f8f8f8;
+        color: #666;
+
+        &:before{
+          content: '';
+          display: inline-block;
+          width: 2px;
+          height: 2px;
+          margin-right: 5px;
+          background: #aaa;
+          vertical-align: 5px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1280px){
+  .container{
+    width: 100%;
+
+    .row{
+      padding: 0 15px;
+    }
+  }
+}
+
+@media (max-width: 850px){
+  .container{
+    .row{
+      padding: 0 5px;
+    }
+  }
+
+  #header{
+    .nav{
+      .YIG{
+        width: 10%;
+        position: relative;
+
+        a{
+          display: none;
+        }
+
+        button{
+          position: absolute;
+          width: 20px; height: 20px;
+          display: inline-block;
+          left: 60px;
+          top: 20px;
+        }
+      }
+
+      .Main_nav{
+      display: none;
+      }
+
+      .account{
+        margin-top: 14px;
+        float: right;
+        margin-right: 10px;
+        color: white;
+
+
+        .signup{
+          margin-left: 5px;
+          padding: 2.5px 5px;
+        }
+      }
+    }
+  }
+
+  .sub_visual{
+    .container{
+      .sub_all{
+        display: none;
+      }
+    }
+  }
+
+  .Nav_lst {
+    .container {
+      .row {
+        padding: 0 15px;
+      }
+    }
+  }
+}
+
+@media (max-width: 700px){
+  #header .nav .account{
+    margin-right: 30px;
+  }
+}
+
+
+@media (max-width: 600px){
+  #header .nav .account{
+    margin-right: 50px;
+  }
+}
+
+@media (max-width: 500px){
+  #header .nav .account{
+    margin-right: 70px;
+  }
+}
+
+@media (max-width: 400px){
+  #header .nav .account{
+    margin-right: 80px;
+  }
+}
+
+

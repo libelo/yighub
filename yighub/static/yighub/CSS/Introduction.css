@@ -1,0 +1,10 @@
+@import url(http://fonts.googleapis.com/earlyaccess/kopubbatang.css);
+
+.text-right{
+    text-align: right;
+}
+
+.text-info{
+    text-align: center;
+    color: rgba(158,20,43,1);
+}

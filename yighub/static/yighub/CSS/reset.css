@@ -1,0 +1,103 @@
+@charset "UTF-8";
+/*여백 초기화*/
+body, div, dl, dd, dt, ul, li, ol, h1, h2, h3, h4, h5, h6, form, input, legend,
+textarea, select, fieldset, p, button {
+  margin: 0;
+  padding: 0;
+}
+
+/*container 기본*/
+.container {
+  width: 1200px;
+  margin: 0 auto;
+}
+
+/*링크 초기화*/
+a {
+  color: #2f3743;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #e50914;
+}
+
+/*폰트 초기화*/
+body, input, textarea, select, button, table {
+  font-family: "Nanum Gothic", sans-serif;
+  font-size: 12px;
+}
+
+/*제목 초기화*/
+h1, h2, h3, h4, h5, h6 {
+  font-size: 12px;
+  font-weight: normal;
+}
+
+/*리스트 스타일 초기화*/
+ul, li, ol {
+  list-style: none;
+}
+
+/*ir 효과*/
+.ir {
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  font-size: 0;
+  line-height: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+/*이미지 테두리 초기화*/
+img, fieldset {
+  border: 0;
+}
+
+/*font 스타일 초기화*/
+em, address {
+  font-style: normal;
+}
+
+/*시멘틱 태그 블록화*/
+section, article, aside, figure, figcaption, footer, header, menu, nav, details {
+  display: block;
+}
+
+/*반응형 이미지*/
+img, video {
+  width: 100%;
+}
+
+/*가로모드 글씨 초기화*/
+html {
+  font-size: 100%;
+  -webkit-text-size-adjust: none;
+  -ms-text-size-adjust: none;
+}
+
+/*clearfix*/
+.clearfix {
+  *zoom: 1;
+}
+.clearfix:before, .clearfix:after {
+  display: block;
+  content: '';
+  line-height: 0;
+}
+.clearfix:after {
+  clear: both;
+}
+
+/*익스플로어 버전에 따른 코드 변화!*/
+.ie7 .icon-font {
+  display: none;
+}
+
+.ie8 .icon-font li a .tool {
+  display: none;
+}
+
+/*# sourceMappingURL=reset.css.map */

@@ -1,0 +1,90 @@
+{% load staticfiles %}
+{% load static  %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>YIG &middot; Yonsei Investment Group</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Yonsei Investment Group">
+	<meta name="author" content="">
+
+	<!-- Le styles -->
+	<link href="{% static 'yighub/bootstrap/css/bootstrap.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static "yighub/CSS/base.css" %}"/>
+
+    {% block style %}
+    {% endblock %}
+
+	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+	<!--[if lt IE 9]>
+	<script src="../assets/js/html5shiv.js"></script>
+	<![endif]-->
+
+	<!-- Google Analystics 추적 코드 -->
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	  ga('create', 'UA-45163537-1', 'yig.in');
+	  ga('require', 'linkid', 'linkid.js');
+	  ga('send', 'pageview');
+
+	</script>
+</head>
+<body>
+<header class="YIG_top_header">
+    <nav class="YIG">
+        <img src="{% static "yighub/images/yiglogo.png" %}" height="50px" width="50px"/>
+        <a  id="YIG" href="#" title="YIG 메인페이지로 이동">YIG</a>
+    </nav>
+    <nav class="Main_nav">
+        <ul>
+            <li><a href="{% url 'yighub:Public_Introduction' %}">About YIG</a>
+                <ul>
+                    <li><a href="{% url "yighub:Public_Introduction" %}">Introduction</a></li>
+                    <li><a href="{% url "yighub:Public_Vision" %}">Vision</a></li>
+                    <li><a href="{% url "yighub:Public_Activity" %}">Activity</a></li>
+                    <li><a href="{% url "yighub:Public_History" %}">History</a></li>
+                </ul>
+            </li>
+            <li><a href="{% url 'yighub:Public_Recruiting' %}">Recruiting</a>
+                <ul>
+                    <li><a href="{% url "yighub:Public_Recruiting" %}">Recruiting</a></li>
+                    <li><a href="{% url "yighub:Public_Apply" %}">Apply</a></li>
+                    <li><a href="{% url "yighub:Public_Schedule" %}">Schedule</a></li>
+                    <li><a href="{% url "yighub:Public_FAQ" %}">FAQ</a></li>
+                </ul>
+            </li>
+            <li><a href="{% url 'yighub:Public_Member_Profile' 0 %}">Member Profile</a></li>
+            <li><a href="{% url 'yighub:Public_SIM_A' 0 %}">Fund</a>
+                <ul>
+                    <li><a href="{% url "yighub:Public_SIM_A" 0 %}">SIM-A Fund</a></li>
+                    <li><a href="{% url "yighub:Public_SIM_JS" 0 %}">SIM-JS Fund</a></li>
+                    <li><a href="{% url "yighub:Public_Gfund" 0 %}">G Fund </a></li>
+                    <li><a href="{% url "yighub:Public_Sfund" 0 %}">S Fund</a></li>
+                </ul>
+            </li>
+            <li><a href="{% url 'yighub:Public_YIG_Universe' 0 %}">Research</a></li>
+            <li><a href="{% url 'yighub:Public_Contact' %}">Contact Us</a></li>
+        </ul>
+    </nav>
+    {% if user.name %}
+    <div class="account">
+        <div>{{ user.name }}</div>
+        <a class="signup" href="{% url 'yighub:logout' %}">Logout</a>
+    </div>
+    {% else %}
+    <nav class="Account">
+        <a href="{% url "yighub:login" %}">LogIn</a>
+        <a href="{% url "yighub:join" %}">Become a YIGIAN</a>
+    </nav>
+    {% endif %}
+</header>
+<div class="horizon"></div>
+{% block contents %}
+{% endblock %}
+</body>
+</html>

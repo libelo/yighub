@@ -1,0 +1,18 @@
+.wrap {
+  white-space: pre-wrap; }
+
+.lead {
+  font-size: 2em;
+  color: rgba(214, 40, 40, 0.8); }
+
+.sub_lead {
+  font-size: 1.2em; }
+
+.container-fluid {
+  margin-top: 100px;
+  max-width: 680px;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto; }
+
+/*# sourceMappingURL=base.css.map */

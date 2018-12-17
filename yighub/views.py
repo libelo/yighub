@@ -1,16 +1,19 @@
+# -*- coding: utf-8 -*-
+
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render_to_response, get_object_or_404, render, redirect
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.contrib import messages
+from django.views.generic import TemplateView, DetailView
 import mimetypes
+import pdb
 import datetime
 from urllib.parse import quote, unquote
 from django.utils import timezone
 from django.contrib.auth import hashers
 from django.utils.http import urlquote
 from django.utils.encoding import iri_to_uri
-
 from .models import User, Letter, Memo, UserForm
 from .models import Board
 from .models import BulletinBoard, TaskforceBoard, PublicBoard
@@ -22,9 +25,9 @@ from .models import BulletinEntryForm, TaskforceEntryForm, PublicEntryForm
 from .models import TaskforceBoardForm
 from .models import Album, Photo, PhotoComment
 from .models import AlbumForm, PhotoForm
+from .models_base import Entry
 
 # from .man_won_bbang import betting_list_now
-
 import logging
 logger = logging.getLogger(__name__)
 
@@ -94,19 +97,7 @@ def pagination(board, board_id, current_page, page_size = 20): # board_number가
 #    real_list = []
     for e in entry_list:
         e.range = range(e.depth)
-        """
-        if e.depth:
-            try:
-                p = Entry.objects.get(pk = e.parent)
-            except Entry.DoesNotExist:
-                real_list.append("원본 글이 삭제되었습니다.")
-            else:
-                if p.board.pk != board_number:
-                    real_list.append("원본 글이 이동되었습니다.")
-                else:
-                    pass
-        real_list.append(e) 
-        """
+
     if last_page <= 7:
         start_page = 1
     elif current_page <= 4:
@@ -139,14 +130,9 @@ def pagination(board, board_id, current_page, page_size = 20): # board_number가
         prev_page = 0
         first_page = 0
 
-    return {'entry_list' : entry_list,
-            'current_page' : current_page,
-            'page_list' : page_list,
-            'first_page' : first_page,
-            'last_page' : last_page,
-            'prev_page' : prev_page,
-            'next_page' : next_page,
-            }
+    return {'entry_list' : entry_list, 'current_page' : current_page, 'page_list' : page_list,
+            'first_page' : first_page, 'last_page' : last_page, 'prev_page' : prev_page,
+            'next_page' : next_page,}
 
 def check_permission(request, board, current_board = None, mode = 'reading'):
     
@@ -196,6 +182,195 @@ def get_board_list(board):
 
     return board_list
 
+
+class Introduction(TemplateView):
+    template_name = "yighub/public_Introduction.html"
+
+
+class Vision(TemplateView):
+    template_name = "yighub/public_Vision.html"
+
+
+class Activity(TemplateView):
+    template_name = "yighub/public_Activity.html"
+
+
+class History(TemplateView):
+    template_name = "yighub/public_History.html"
+
+    def get_context_data(self, **kwargs):
+        context=super(TemplateView, self).get_context_data()
+        p = pagination("public", '4', current_page='0')
+        for e in p['entry_list']:
+            e.history = []
+            months = e.content.split('\n')
+            for m in months:
+                month = m.split('-')[0][:-1]
+                events = m.split('-')[1].split(', ')
+                e.history.append({'month': month, 'events': events})
+        context['page']=p
+        return context
+
+
+class Recruiting(TemplateView):
+    template_name = "yighub/public_Recruiting.html"
+
+
+class Apply(TemplateView):
+    template_name="yighub/public_Apply.html"
+
+
+class Schedule(TemplateView):
+    template_name = "yighub/public_Schedule.html"
+
+
+class FAQ(TemplateView):
+    template_name = "yighub/public_FAQ.html"
+
+
+class MemberProfile(TemplateView):
+    template_name = "yighub/public_Member Profile.html"
+
+    def get_context_data(self, page):
+        context=super(TemplateView, self).get_context_data()
+        current_ordinal = User.objects.all().order_by('-ordinal')[0].ordinal
+        p=pagination("public", "10", current_page=page)
+
+        if page == '0':
+            p['display_ordinal'] = current_ordinal
+        else:
+            p['display_ordinal'] = int(page)
+
+        p['user_list'] = User.objects.filter(ordinal=p['display_ordinal']).order_by('name')
+        p['ordinal_range'] = range(1, current_ordinal + 1)
+        context['page']=p
+
+        return context
+
+
+class SIM_A(TemplateView):
+    template_name = "yighub/public_simA.html"
+
+    def get_context_data(self, page):
+        context=super(TemplateView, self).get_context_data()
+        p=pagination("public", "11", current_page=page, page_size=10)
+        context.update({'page':p, 'board_id': 11, "board": "public"})
+
+        return context
+
+
+class SIM_JS(TemplateView):
+    template_name = "yighub/public_simJ.html"
+
+    def get_context_data(self, page):
+        context=super(TemplateView, self).get_context_data()
+        p=pagination("public", "71", current_page=page, page_size=10)
+        context.update({'page':p, 'board_id': 71, "board": "public"})
+
+        return context
+
+
+class Gfund(TemplateView):
+    template_name = "yighub/public_GFun.html"
+
+    def get_context_data(self, page):
+        context=super(TemplateView, self).get_context_data()
+        p=pagination("public", "92", current_page=page, page_size=10)
+        context.update({'page':p, 'board_id': 71, "board": "public"})
+
+        return context
+
+
+class Sfund(TemplateView):
+    template_name = "yighub/public_SFun.html"
+
+    def get_context_data(self, page):
+        context=super(TemplateView, self).get_context_data()
+        try:
+            p=pagination("public", "98", current_page=page, page_size=10)
+        except:
+            context.update({'board_id': 98, "board": "public"})
+        else:
+            context.update({'page':p, 'board_id': 98, "board": "public"})
+
+        return context
+
+
+class Fund_detail(DetailView):
+    template_name = "yighub/public_fund_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context=super(DetailView, self).get_context_data()
+        try:
+            user=User.objects.get(id=self.request.user.pk)
+        except:
+            context['user']=None
+        else:
+            context['user']=user
+        if "SIMA" in self.request.path:
+            context['Fund_name']="SIM-A Fund"
+        elif "SIMJS" in self.request.path:
+            context['Fund_name']="SIM-JS Fund"
+        elif "GFund" in self.request.path:
+            context['Fund_name']="G Fund"
+        elif "Universe" in self.request.path:
+            context['Fund_name']="YIG Universe"
+        else:
+            context['Fund_name']="S Fund"
+
+        return context
+
+    def get_object(self):
+        object = PublicEntry.objects.get(id=self.kwargs['pk'])
+        object.downloads = []
+
+        for f in object.files.all():
+            f.filename = urlquote(f.name)
+            object.downloads.append(f)
+
+        return object
+
+
+class YIG_Universe(TemplateView):
+    template_name = "yighub/public_Universe.html"
+
+    def get_context_data(self, page):
+        context=super(TemplateView, self).get_context_data()
+        p=pagination("public", "14", current_page=page, page_size=10)
+        context.update({'page':p, 'board_id': 14, "board": "public"})
+
+        return context
+
+
+class Research(TemplateView):
+    template_name = "yighub/public_Research.html"
+
+    def get_context_data(self, page):
+        context = super(TemplateView, self).get_context_data()
+        p = pagination("public", "15", current_page=page, page_size=2)
+
+        for e in p['entry_list']:
+            e.downloads = []
+            for f in e.files.all():
+                f.filename = urlquote(f.name)
+                e.downloads.append(f)
+        context.update({'page': p, 'board_id': 15, "board": "public"})
+
+        return context
+
+
+class Contact(TemplateView):
+    template_name = "yighub/public_Contact Us.html"
+
+
+class TopBar_for_Visitor(TemplateView):
+    template_name = "yighub/extends/TopBar_for_Visitor.html"
+
+
+class SubTopBar_for_Visitor(TemplateView):
+    template_name="yighub/extends/Sub_TopBar_For_Visitor.html"
+
+
 def home(request):
 
     if 'user_id' not in request.session:
@@ -220,12 +395,7 @@ def home(request):
     memos = Memo.objects.all().order_by('-pk')[0:10]
     bulletin_list = get_board_list('bulletin')
     taskforce_list = get_board_list('taskforce')
-    # bulletin_news = BulletinEntry.objects.all().order_by('-time_created')[0:5]
-    # for b in bulletin_news:
-    #     b.range = range(b.depth)
-    # taskforce_news = TaskforceEntry.objects.all().order_by('-time_created')[0:5]
-    # for t in taskforce_news:
-    #     t.range = range(t.depth)
+
     news = []
     bulletin_news = BulletinEntry.objects.all().order_by('-time_created')[0:10]
     for b in bulletin_news:
@@ -251,71 +421,52 @@ def home(request):
             if member.birthday:
                 if member.birthday.month == today.month and member.birthday.day == today.day:
                     birthday_list.append(member)
-    """ 메모를 위한 거였구만.
 
-    # 최신글 목록 가져오기
-    news = Entry.objects.all().order_by('-arrangement')[0:10]
-
-    current_page = int(current_page)
-    page_size = 10
-    no = (current_page - 1) * page_size
-
-    # 총 글 수와 entry list 구하기
-    count_entry = Memo.objects.count()
-    entry_list = Memo.objects.all().order_by('-pk')[no : (no + page_size)] # filter(board = board_number)
-
-    # 첫 페이지와 끝 페이지 설정
-    first_page = 1
-    last_page = (count_entry - 1)//page_size + 1
-    
-    # 페이지 리스트 만들기
-    if current_page < 5:
-        start_page = 1
-    else:
-        start_page = current_page - 4
-
-    if current_page > last_page - 5:
-        end_page = last_page
-    else:
-        end_page = current_page + 4
-    
-    page_list = range(start_page, end_page + 1)
-
-    # 이전 페이지, 다음 페이지 설정
-    prev_page = current_page - 1
-    next_page = current_page + 1
-    
-    # 맨 첫 페이지나 맨 끝 페이지일 때 고려
-    if current_page == last_page:
-        next_page = 0
-        last_page = 0
-    if current_page == first_page:
-        prev_page = 0
-        first_page = 0
-    """
-
-    # # memo 페이지 dictionary 만들기
-    # m = {'entry_list' : entry_list, 'current_page' : current_page,
-    #         'page_list' : page_list,
-    #         'first_page' : first_page,
-    #         'last_page' : last_page,
-    #         'prev_page' : prev_page,
-    #         'next_page' : next_page,
-    #        }
     logger.info('%s(%d)님이 홈페이지를 열었습니다.' % (user.name, user.id))
-    return render(request, 'yighub/home_for_member.html', # 아직까지는 페이지 넘기기 지원하지 않음.
-                                  { 'user' : user,
-                                    'public_dict' : PublicBoardDict,
-                                    'bulletin_list' : bulletin_list,
-                                    'taskforce_list' : taskforce_list,
-                                    # 'bulletin_news' : bulletin_news,
-                                    # 'taskforce_news' : taskforce_news,
-                                    'news' : news,
-                                    'album_news' : album_news,
-                                    'memos' : memos,
-                                    'birthday' : birthday_list,
-                                   },   
-                                  ) 
+
+    return render(request, 'yighub/home_for_member.html', { 'user' : user, 'public_dict' : PublicBoardDict,
+    'bulletin_list' : bulletin_list, 'taskforce_list' : taskforce_list, 'news' : news,
+    'album_news' : album_news, 'memos' : memos, 'birthday' : birthday_list,},)
+
+
+class home_member(TemplateView):
+    template_name = "yighub/home_for_member.html"
+
+    def get_context_data(self, **kwargs):
+        context=super(TemplateView, self).get_context_data()
+        username=self.request.session['user_id']
+        try:
+            user = User.objects.get(user_id=username)
+        except User.DoesNotExist:
+            logger.info('세션의 회원정보(%d)가 데이터베이스에 존재하지 않아 로그아웃 됩니다.' % username)
+            return redirect(reverse('yighub:logout'))
+        # 홈페이지를 열 때마다 마지막 방문날짜를 업데이트한다.
+        user.last_login = timezone.now()
+        user.save()
+
+        bulletin_list = get_board_list('bulletin')
+        taskforce_list = get_board_list('taskforce')
+
+        news = []
+        bulletin_news = BulletinEntry.objects.all().order_by('-time_created')[0:10]
+        for b in bulletin_news:
+            b.board_type = 'bulletin'
+        news += bulletin_news
+        taskforce_news = TaskforceEntry.objects.all().order_by('-time_created')[0:10]
+        for t in taskforce_news:
+            t.board_type = 'taskforce'
+        news += taskforce_news
+        news = sorted(news, key=lambda news: news.time_created, reverse=True)[:10]
+
+        context.update({'public_dict' : PublicBoardDict, 'bulletin_list' : bulletin_list, 'taskforce_list' : taskforce_list,
+                        'news' : news, 'boards_news': bulletin_news, 'taskforce_news': taskforce_news})
+
+        return context
+
+#임시방편
+class Topbar_member(TemplateView):
+    template_name = "yighub/extends/TopBar_for_member.html"
+
 
 def all_news(request, page):
 
@@ -460,8 +611,7 @@ def listing(request, board, board_id, page = '0'):    # url : yig.in/yighub/boar
     else:
         logger.info('방문자가 %s 게시판 %s 페이지를 열었습니다.' % (current_board.name, page))        
 
-    if board == 'public':
-
+    if board == 'public' and current_board.name!="Introduction":
         if current_board.name == 'Member Profile':
             current_ordinal = User.objects.all().order_by('-ordinal')[0].ordinal
             if page == '0':
@@ -472,15 +622,6 @@ def listing(request, board, board_id, page = '0'):    # url : yig.in/yighub/boar
             p['user_list'] = User.objects.filter(ordinal = p['display_ordinal']).order_by('name')
             p['ordinal_range'] = range(1, current_ordinal+1)
 
-        if current_board.name == 'History':
-            for e in p['entry_list']:                
-                e.history = [] 
-                months = e.content.split('\n')
-                for m in months:
-                    month = m.split('-')[0][:-1]
-                    events = m.split('-')[1].split(', ')
-                    e.history.append({'month': month, 'events': events})
-
         for e in p['entry_list']:
             e.downloads = []
             for f in e.files.all():
@@ -488,12 +629,12 @@ def listing(request, board, board_id, page = '0'):    # url : yig.in/yighub/boar
                 e.downloads.append(f)
 
         return render(request, 'yighub/public_' + current_board.name + '.html', 
-            {'user': u, 'public_dict' : PublicBoardDict, 'board': board, 'board_list': board_list, 'current_board': current_board, 'page': p}
-            )
+            {'user': u, 'public_dict' : PublicBoardDict, 'board': board, 'board_list': board_list,
+             'current_board': current_board, 'page': p})
 
     return render(request, 'yighub/listing.html',
-        {'user': u, 'public_dict' : PublicBoardDict, 'board': board, 'board_list': board_list, 'current_board': current_board, 'page': p}
-        )
+        {'user': u, 'public_dict' : PublicBoardDict, 'board': board, 'board_list': board_list,
+         'current_board': current_board, 'page': p})
 
     # if board_id:
     #     b = Board.objects.get(pk = board_id)
@@ -1306,7 +1447,7 @@ def login_check(request):
 
             logger.info('%s(%d)님이 로그인했습니다.' % (u.name, u.id))
 
-            return HttpResponseRedirect(reverse('yighub:home'))
+            return HttpResponseRedirect(reverse('yighub:home_for_member'))
         else:
             messages.error(request, 'password does not correct') # send message 
             logger.info('%s(%d)님이 로그인 도중 비밀번호를 잘못 입력했습니다.' % (u.name, u.id))
@@ -1436,8 +1577,6 @@ def memo(request, page = 1):
         {'user': u, 'public_dict' : PublicBoardDict, 
         'bulletin_list' : bulletin_list, 
         'taskforce_list' : taskforce_list, 'page': p})
-
-
 
 def create_memo(request):
     if request.method == 'POST':

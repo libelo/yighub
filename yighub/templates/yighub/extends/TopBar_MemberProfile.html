@@ -1,0 +1,27 @@
+{% extends "yighub/extends/TopBar_for_Visitor.html" %}
+{% load static %}
+{% block style %}
+    <link rel="stylesheet" href="{% static "yighub/CSS/sub_bar_visitor.css" %}"/>
+    {% block customstyle%}
+    {% endblock %}
+{% endblock %}
+{% block sub_bar %}
+<section class="sub_bar">
+    <div>
+        <ul class="sub_depth1">
+            <li id="current" class="clearfix"><a href="{% url 'yighub:Public_Member_Profile' 0 %}">Member Profile</a></li>
+            <ul class="sub_depth1_drop clearfix">
+                <li class="clearfix"><a href="{% url 'yighub:Public_Introduction' %}">About YIG</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:Public_Recruiting'%}">Recruiting</a></li>
+                <li class="clearfix"><a href="{%  url 'yighub:Public_SIM_A' 0 %}">Fund</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:Public_Research' 0 %}">Research</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:Public_Contact' %}">Contact Us</a></li>
+            </ul>
+        </ul>
+        <!--//sub_depth1-->
+    </div>
+    {% block sub_depth2 %}
+    {% endblock %}
+</section>
+<!--//sub_bar-->
+{% endblock %}

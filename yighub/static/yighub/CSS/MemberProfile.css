@@ -1,0 +1,23 @@
+.breadcrumb{
+    display: block;
+    scroll-snap-margin-block-start: 1em;
+    scroll-snap-margin-block-end: 1em;
+    scroll-snap-margin-inline-start: 0px;
+    scroll-snap-margin-inline-end: 0px;
+    scroll-padding-inline-start: 40px;
+}
+
+.breadcrumb li{
+    display: inline-block;
+}
+
+.container-fluid{
+    padding-right: 20px;
+    padding-right: 20px;
+}
+
+.span9 {
+  width: 100%;
+}
+
+
