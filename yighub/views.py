@@ -759,7 +759,6 @@ class TaskforceNews(TemplateView):
 
     def get_context_data(self, **kwargs):
         context=super(TemplateView, self).get_context_data()
-
         # 권한 검사
         try:
             u = self.request.session['user_id']

@@ -45,10 +45,20 @@ $(document).ready(function(){
    $("#current").click(function (e) {
        e.preventDefault();
        sub_one.toggleClass("show");
+       if($(".sidebar-nav").css("margin-top")!="200px"){
+        $(".sidebar-nav").css("margin-top", "200px");
+       }else{
+        $(".sidebar-nav").css("margin-top", "20px");   
+       }
    });
 
    $("#current_two").click(function (e) {
        e.preventDefault();
        sub_two.toggleClass("show");
+       if($(".sidebar-nav").css("margin-top")!="50px"){
+        $(".sidebar-nav").css("margin-top", "50px");
+       }else{
+        $(".sidebar-nav").css("margin-top", "20px");
+       }
    });
 });

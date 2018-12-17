@@ -1,0 +1,109 @@
+.contents {
+  width: 1200px;
+}
+.contents .container .sidebar-nav {
+  float: left;
+  width: 250px;
+  font-size: 16px;
+  margin-left: 15px;
+  margin-top: 20px;
+}
+.contents .container .sidebar-nav ul {
+  margin-top: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+}
+.contents .container .sidebar-nav ul li {
+  display: block;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+.contents .container .sidebar-nav ul li:last-child {
+  border-bottom: none;
+}
+.contents .container .sidebar-nav ul li a {
+  display: block;
+  width: 100%;
+  transition: all 0.3s ease-in-out;
+  line-height: 30px;
+  padding-left: 10px;
+  box-sizing: border-box;
+}
+.contents .container .sidebar-nav ul li a:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+  color: white;
+}
+.contents .container .Main_contents {
+  float: left;
+  width: calc(100% - 265px);
+}
+
+@media (max-width: 1280px) {
+  .contents {
+    width: 100%;
+  }
+  .contents .container {
+    padding: 0 15px;
+  }
+}
+@media (max-width: 830px) {
+  .contents .container .news {
+    width: 100%;
+  }
+  .contents .container .news .table {
+    width: 80%;
+  }
+  .contents .container .news .table tr th:nth-child(2) {
+    display: none;
+  }
+  .contents .container .news .table .board-column {
+    display: none;
+  }
+}
+@media (max-width: 700px) {
+  .contents .container .sidebar-nav {
+    width: 100%;
+    margin-left: 0px;
+    position: relative;
+  }
+  .contents .container .sidebar-nav .edit_taskforce {
+    height: 25px;
+  }
+  .contents .container .sidebar-nav .edit_taskforce .icon a {
+    display: block;
+    position: absolute;
+    right: 22px;
+    top: 8px;
+    width: 20px;
+    height: 20px;
+  }
+  .contents .container .sidebar-nav .edit_taskforce .icon a:after {
+    display: block;
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-width: 1px 1px 0 0;
+    border-style: solid;
+    border-color: #ddd;
+    -webkit-transform: rotate(135deg);
+    transform: rotate(135deg);
+  }
+  .contents .container .sidebar-nav .edit_taskforce .icon a.change:after {
+    -webkit-transform: rotate(315deg);
+    transform: rotate(315deg);
+  }
+  .contents .container .sidebar-nav ul {
+    display: none;
+    font-size: 12px;
+  }
+  .contents .container .sidebar-nav ul li a {
+    line-height: 20px;
+  }
+  .contents .container .Main_contents {
+    width: 100%;
+  }
+  .contents .container .Main_contents .search {
+    margin-top: 30px;
+  }
+}
+
+/*# sourceMappingURL=member_taskforce.css.map */
