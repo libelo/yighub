@@ -776,7 +776,7 @@ class TaskforceNews(TemplateView):
         board_list = get_board_list("taskforce")
 
         logger.info('%s(%d)님이 %s news를 열었습니다.' % (user.name, user.id, "bulletin"))
-        context.update({'public_dict': PublicBoardDict, 'board': "bulletin", 'board_list': board_list,
+        context.update({'public_dict': PublicBoardDict, 'board': "taskforce", 'board_list': board_list,
                        'page': p})
         return context
 
@@ -786,7 +786,6 @@ class Taskforce(TemplateView):
 
     def get_context_data(self, **kwargs):
         context=super(TemplateView, self).get_context_data()
-
         try:
             current_board = Board.objects.get(pk=self.kwargs['board_id'])
         except Board.DoesNotExist:
@@ -1020,7 +1019,7 @@ def create_taskforce(request):
 
             logger.info('%s(%d)님이 새 taskforce를 만들었습니다: "%s"(%d)' % (u.name, u.id, t.name, t.id))
 
-            return redirect('yighub:news', board='taskforce', page=1 )
+            return redirect('yighub:member_Taskforce_News', pk=0 )
     else:
         form = TaskforceBoardForm()
 
@@ -1055,7 +1054,7 @@ def edit_taskforce(request, taskforce_id): # 여기서 archive로 넘기기도 �
             t.save()
 
             logger.info('%s(%d)님이 %s taskforce(%d)를 수정했습니다.' % (u.name, u.id, t.name, t.id))
-            return redirect('yighub:news', board='taskforce', page=1 )
+            return redirect('yighub:member_Taskforce_News', pk=1)
     else:
         form = TaskforceBoardForm(instance = t)
 
@@ -1137,14 +1136,7 @@ def create(request, board, board_id = None):
     exist, Board, Entry, Comment, Thumbnail, File, EntryForm = classify(board)
     if exist == False:
         raise Http404
-
-    if board_id:
-        try:
-            current_board = Board.objects.get(pk = board_id)
-        except Board.DoesNotExist:
-            raise Http404
-    else:
-        current_board = None
+    current_board = None
 
     # 권한 검사
     permission = check_permission(request, board, current_board, mode = 'writing')
@@ -1194,7 +1186,13 @@ def create(request, board, board_id = None):
             b.save()
 
             logger.info('%s(%d)님이 %s 게시판(%d)에 게시글을 작성했습니다: "%s"(%d)' % (u.name, u.id, current_board.name, current_board.id, e.title, e.id))
-            return redirect('yighub:listing', board=board, board_id=b.id, page=1)
+
+            if board=="bulletin":
+                return redirect('yighub:member_Boards_News', pk=0)
+            elif board=="taskforce":
+                return redirect('yighub:member_Taskforce_News', pk=0)
+            else:
+                return redirect('yighub:home_for_member', pk=0)
     else:
         if board_id:
             form = EntryForm(initial = {'board' : current_board})

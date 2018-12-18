@@ -88,10 +88,12 @@
 						<button type="submit" class="btn btn-primary">올리기</button>
 						&nbsp;
 						<!-- <a href=""> -->
-						{% if current_board %}
-							<button type="button" class="btn" onclick="location.href = '{% url 'yighub:listing' board current_board.id 0 %}'">취소</button>
-						{% else %}
-							<button type="button" class="btn" onclick="location.href = '{% url 'yighub:home' %}'">취소</button>
+						{% if board == 'bulletin' %}
+							<button type="button" class="btn" onclick="location.href = '{% url 'yighub:member_Boards_News' 0 %}'">취소</button>
+						{% elif board == "taskforce" %}
+							<button type="button" class="btn" onclick="location.href = '{% url 'yighub:member_Taskforce_News' 0 %}'">취소</button>
+                        {% else %}
+                            <button type="button" class="btn" onclick="location.href = '{% url 'yighub:home_for_member' %}'">취소</button>
 						{% endif %}
 						<!-- </a> -->
 					</div>

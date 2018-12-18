@@ -1,123 +1,120 @@
-{% extends "yighub/extends/base.html" %}
-
+{% extends 'yighub/extends/TopBar_for_member.html' %}
+{% load staticfiles %}
+{% load static %}
 {% block style %}
-	.upload-photo {
-	max-width: 680px; 
-	margin-left: 200px; 
-	margin-right: 200px;
-}
+    <link rel="stylesheet" href="{% static 'yighub/CSS/sub_bar_visitor.css' %}"/>
+    <link rel="stylesheet" href="{% static 'yighub/CSS/member_albums.css' %}"/>
+    <style>
+    .container-fluid{
+        margin-top: 0px;
+    }
+
+    .upload-photo {
+        max-width: 680px;
+    }
+
+    .create_albums{
+        width: 100%;
+    }
+
+    .create_albums .container{
+        padding: 0 15px;
+    }
+
+    .create_albums .container form{
+        width: 80%;
+        margin: 0 auto;
+        box-sizing: border-box;
+    }
+
+    .description textarea{
+        width: 100%;
+    }
+
+    #drop_zone {
+      border: 3px dotted royalblue;
+      border-radius: 12px;
+      width:  100%;
+      height: 100px;
+      text-align: center;
+      font-size: 24px;
+    }
+
+    </style>
 {% endblock %}
-
 {% block contents %}
-
+<section class="sub_bar">
+    <div>
+        <ul class="sub_depth1">
+            <li id="current" class="clearfix"><a href="{% url 'yighub:albums' 0 %}">Albums</a></li>
+            <ul class="sub_depth1_drop clearfix">
+                <li class="clearfix"><a href="{% url 'yighub:home_for_member' %}">Home</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:Public_Introduction' %}">Public</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:member_Boards_News' 0 %}">Boards</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:member_Taskforce_News' 0 %}">Taskforce</a></li>
+            </ul>
+        </ul>
+        <!--//sub_depth1-->
+    </div>
+</section>
 <div class="text-center" style="margin:25px auto 0px auto">
 	<h2>{{ album.name }}</h2>
 	<h3>사진 올리기</h3>
 </div>
+<section class="create_albums">
+    <div class="container" style="margin-left:auto; margin-right:auto;">
+        <form action="{% url 'yighub:create_photos' album.id %}" enctype = "multipart/form-data" method = "post">
+            {% csrf_token %}
+            <input id="size" type="hidden" name="size" value="3" />
+            <div id="upload_photos">
+                <hr />
+                <div class="container-fluid upload-photo">
+                    <label>사진</label>
+                    <input type="file" name="photo_0" />
+                    <div class="description">
+                    <label>설명</label>
+                    <textarea name="description_0" rows="5" placeholder="사진 설명을 해주세요"></textarea>
+                    </div>
+                    <!--//description-->
+                </div>
+                <hr />
+                <div class="container-fluid upload-photo">
 
-<div class="span2"></div>
-<div class="span8" style="margin-left:auto; margin-right:auto;">
-	<form action="{% url 'yighub:create_photos' album.id %}" enctype = "multipart/form-data" method = "post">
-		{% csrf_token %}
-		<input id="size" type="hidden" name="size" value="3" />
-		<div id="upload_photos">
-			<hr />
-			<div class="container-fluid upload-photo">
-				
-				<label>사진</label>
-				<input type="file" name="photo_0" />
+                    <label>사진</label>
+                    <input type="file" name="photo_0" />
+                    <div class="description">
+                    <label>설명</label>
+                    <textarea name="description_1" rows="5" placeholder="사진 설명을 해주세요"></textarea>
+                    </div>
+                    <!--//description-->
+                </div>
+                <hr />
+                <div class="container-fluid upload-photo">
+                    <label>사진</label>
+                    <input type="file" name="photo_0" />
+                    <div class="description">
+                    <label>설명</label>
+                    <textarea name="description_2" rows="5" placeholder="사진 설명을 해주세요"></textarea>
+                    </div>
+                    <!--//description-->
+                </div>
+            </div>
+            <hr />
+            <div class="text-center">
+                <a onclick="add_photos()">사진 추가</a>
+            </div>
+            <br />
 
-				<br />
-				<br />
-				<label>설명</label>
-				<textarea class="span12" name="description_0" rows="5" placeholder="사진 설명을 해주세요"></textarea>
-				
-			</div>
-
-			<hr />
-			<div class="container-fluid upload-photo">
-				
-				<label>사진</label>
-				<input type="file" name="photo_1" />
-
-				<br />
-				<br />
-				<label>설명</label>
-				<textarea class="span12" name="description_1" rows="5" placeholder="사진 설명을 해주세요"></textarea>
-				
-			</div>
-
-			<hr />
-			<div class="container-fluid upload-photo">
-				
-				<label>사진</label>
-				<input type="file" name="photo_2" />
-
-				<br />
-				<br />
-				<label>설명</label>
-				<textarea class="span12" name="description_2" rows="5" placeholder="사진 설명을 해주세요"></textarea>
-				
-			</div>
-		</div>
-		<script>
-		function add_photos() {
-			photos = document.getElementById("upload_photos");
-			size = Number(document.getElementById("size").value);
-
-			hr = document.createElement("hr");
-			photos.appendChild(hr);
-
-			new_photo = document.createElement("div");
-			new_photo.setAttribute("class", "container-fluid upload-photo");
-
-			photo_label = document.createElement("label");
-			photo_label.innerHTML = "사진";
-			new_photo.appendChild(photo_label);
-
-			input = document.createElement("input");
-			input.type = "file";
-			input.name = "photo_" + size;
-			new_photo.appendChild(input);
-
-			br1 = document.createElement("br");
-			new_photo.appendChild(br1);
-			br2 = document.createElement("br");
-			new_photo.appendChild(br2);
-
-
-			description_label = document.createElement("label");
-			description_label.innerHTML = "설명";
-			new_photo.appendChild(description_label);
-
-			textarea = document.createElement("textarea");
-			textarea.setAttribute("class", "span12");
-			textarea.name = "description_" + size;
-			textarea.rows = 5;
-			textarea.placeholder = "사진 설명을 해주세요";
-			new_photo.appendChild(textarea);
-
-			photos.appendChild(new_photo);
-
-			document.getElementById("size").value = size + 1;
-		}
-		</script>
-
-		<hr />
-		<div class="text-center">
-			<a onclick="add_photos()">사진 추가</a>
-		</div>
-		<br />
-
-		<div class="form-actions text-center">
-			<button type="submit" class="btn btn-primary">올리기</button>
-			<button type="button" class="btn" onclick="location.href = '{% url 'yighub:photos' album.id %}'">취소</button>
-		</div>
-	</form>
-
-</div>
-<div class="span2"></div>
-
-
-
+            <div class="form-actions text-center">
+                <button type="submit" class="btn btn-primary">올리기</button>
+                <button type="button" class="btn" onclick="location.href = '{% url 'yighub:photos' album.id %}'">취소</button>
+            </div>
+        </form>
+    </div>
+<!--//container-->
+</section>
+    <!--//create_albumns-->
+{% endblock %}
+{% block script %}
+    <script src="{% static 'yighub/JS/create.js' %}"></script>
 {% endblock %}

@@ -65,3 +65,43 @@ function removeDragData(ev) {
   }
 };
 
+function add_photos() {
+			photos = document.getElementById("upload_photos");
+			size = Number(document.getElementById("size").value);
+
+			hr = document.createElement("hr");
+			photos.appendChild(hr);
+
+			new_photo = document.createElement("div");
+			new_photo.setAttribute("class", "container-fluid upload-photo");
+
+			photo_label = document.createElement("label");
+			photo_label.innerHTML = "사진";
+			new_photo.appendChild(photo_label);
+
+			input = document.createElement("input");
+			input.type = "file";
+			input.name = "photo_" + size;
+			new_photo.appendChild(input);
+
+			br1 = document.createElement("br");
+			new_photo.appendChild(br1);
+			br2 = document.createElement("br");
+			new_photo.appendChild(br2);
+
+
+			description_label = document.createElement("label");
+			description_label.innerHTML = "설명";
+			new_photo.appendChild(description_label);
+
+			textarea = document.createElement("textarea");
+			textarea.name = "description_" + size;
+			textarea.rows = 5;
+			textarea.placeholder = "사진 설명을 해주세요";
+			textarea.style.width="100%";
+			new_photo.appendChild(textarea);
+
+			photos.appendChild(new_photo);
+
+			document.getElementById("size").value = size + 1;
+		}
