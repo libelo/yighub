@@ -247,6 +247,7 @@ table tbody td{
             }
 
             &:nth-child(3){
+              width: 270px;
             }
 
             &:last-child {
@@ -259,7 +260,10 @@ table tbody td{
           }
 
            .title-column{
-            text-overflow: ellipsis;
+             text-overflow: ellipsis;
+             overflow: hidden;
+             white-space: nowrap;
+             width: 270px;
           }
         }
       }
@@ -267,9 +271,16 @@ table tbody td{
   }
 }
 
-@media (max-width: 399px) {
-  tr th:nth-child(3) {
-    width: 100px;
-    padding: 0;
+@media (max-width: 400px) {
+  #contents{
+    .container{
+      .Taskforce_news{
+        text-align: left;
+      }
+
+      .Boards_news{
+        text-align: left;
+      }
+    }
   }
 }

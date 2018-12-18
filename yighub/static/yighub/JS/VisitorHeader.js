@@ -6,6 +6,7 @@ var Nav_lst=$(".Nav_lst");
 var sub_bar=$(".sub_bar");
 var contents=$(".container-fluid");
 var menu_btn=$("#menu_btn");
+var all_contents=$("#all");
 
 function showup(){
     sub.style.height="100%";
@@ -18,9 +19,10 @@ function disappear() {
 $(document).ready(function(){
 
    //Nav 클릭시 sub_nav 통제 함수
-   $(".Nav_lst>ul>li").click(function (e) {
+
+   $(".drive>a").click(function (e) {
        e.preventDefault();
-       $(this).children("ul").toggleClass("show");
+       $(this).parent().children("ul").toggleClass("show");
    });
 
    //Manu_btn 클릭시 .Nav_lst 통제 함수
@@ -30,10 +32,12 @@ $(document).ready(function(){
           Nav_lst.css("display", "block");
           sub_bar.css("display", "none");
           contents.css("display", "none");
+          all_contents.css("display", "none");
       } else{
           Nav_lst.css("display", "none");
           sub_bar.css("display", "block");
           contents.css("display", "block");
+          all_contents.css("display", "block");
       }
    });
 

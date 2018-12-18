@@ -18,17 +18,17 @@
     {% endblock %}
 </head>
 <body>
-<header id="header" onmouseover="showup()" lang="en">
+<header id="header" onmouseover="showup()">
     <div class="container">
         <div class="row">
             <nav class="nav clearfix">
                 <div class="YIG">
                     <img src="{% static "yighub/images/yiglogo.png" %}" height="50px" width="50px"/>
-                    <a  id="YIG" href="{% url 'yighub:home' %}" title="YIG 메인페이지로 이동">YIG</a>
+                    <a  lang="en" id="YIG" href="{% url 'yighub:home' %}" title="YIG 메인페이지로 이동">YIG</a>
                     <button id="menu_btn"><i class="fas fa-align-justify"></i></button>
                 </div>
                 <!--//YIG-->
-                <div class="Main_nav">
+                <div class="Main_nav" lang="en">
                     <ul class="clearfix">
                         <li><a href="{% url 'yighub:home' %}">Public</a></li>
                         <li><a href="{% url 'yighub:member_Taskforce_News' 0 %}">Taskforce</a></li>
@@ -37,8 +37,8 @@
                     </ul>
                 </div>
                 <!--//Main_nav-->
-                <div class="account">
-                    <a href="{% url 'yighub:edit_profile' %}">{{ user.name }}</a>
+                <div class="account" lang="en">
+                    <a lang="ko" href="{% url 'yighub:edit_profile' %}">{{ user.name }}</a>
                     <a class="signup" href="{% url 'yighub:logout' %}">Logout</a>
                 </div>
             </nav>
@@ -86,7 +86,7 @@
         <div class="row">
             <div class="Nav_lst">
                 <ul>
-                    <li><a href="#">Public</a>
+                    <li class="drive"><a href="#">Public</a>
                         <ul>
                             <li><a href="{% url 'yighub:Public_Introduction' %}">About YIG</a></li>
                             <li><a href="{% url 'yighub:Public_Recruiting' %}">Recruiting</a></li>
@@ -96,18 +96,18 @@
                             <li><a href="{% url 'yighub:Public_Contact' %}">Contact Us</a></li>
                         </ul>
                     </li>
-                    <li><a href="#">Taskforce</a></li>
-                    <li><a href="#">Boards</a>
+                    <li><a href="{% url 'yighub:member_Taskforce_News' 0 %}">Taskforce</a></li>
+                    <li class="drive"><a href="#">Boards</a>
                         <ul lang="ko">
-                            <li><a href="#">학회운영 및 대회자료</a></li>
-                            <li><a href="#">개인 칼럼</a></li>
-                            <li><a href="#">포트폴리오</a></li>
-                            <li><a href="#">분석</a></li>
-                            <li><a href="#">공지</a></li>
-                            <li><a href="#">기타자료 게시판</a></li>
+                            <li><a href="{% url 'yighub:member_Data' 0 %}">학회운영 및 대회자료</a></li>
+                            <li><a href="{% url 'yighub:member_Column' 0 %}">개인 칼럼</a></li>
+                            <li><a href="{% url 'yighub:member_Portfolio' 0 %}">포트폴리오</a></li>
+                            <li><a href="{% url 'yighub:member_Analysis' 0 %}">분석</a></li>
+                            <li><a href="{% url 'yighub:member_Notice' 0 %}">공지</a></li>
+                            <li><a href="{% url 'yighub:member_Etc' 0 %}">기타자료 게시판</a></li>
                         </ul>
                     </li>
-                    <li><a href="#">Albums</a></li>
+                    <li><a href="{% url 'yighub:albums' 0 %}">Albums</a></li>
                 </ul>
             </div>
             <!--Nav_lst-->
@@ -117,8 +117,11 @@
     <!--//container-->
 </nav>
 <!--//nav-->
+<div id="all" class="clearfix">
 {% block contents %}
 {% endblock %}
+</div>
+<!--all clearfix//-->
 </body>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
   crossorigin="anonymous"></script>

@@ -100,6 +100,11 @@
             &:last-child {
               display: none;
             }
+
+            &:nth-child(2){
+              width: 270px;
+            }
+
           }
 
           .time-column {
@@ -107,12 +112,14 @@
           }
 
           .title-column{
+            display: block;
             text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            width: 270px;
           }
         }
       }
     }
   }
 }
-
-

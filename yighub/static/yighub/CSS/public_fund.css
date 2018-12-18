@@ -769,10 +769,28 @@ body {
   font-size: 1.2em;
 }
 
-@media (max-width: 399px) {
-  tr th:nth-child(3) {
-    width: 100px;
-    padding: 0;
+@media (max-width: 450px) {
+  tr th:last-child{
+    display: none;
+  }
+  tbody tr td:last-child{
+    display: none;
+  }
+
+  tr th:nth-child(2){
+    width: 90%;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  tbody tr td:nth-child(2){
+    width: 90%;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 }
 

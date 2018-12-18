@@ -78,11 +78,18 @@
   .contents .container .news .table tr th:last-child {
     display: none;
   }
+  .contents .container .news .table tr th:nth-child(2) {
+    width: 270px;
+  }
   .contents .container .news .table .time-column {
     display: none;
   }
   .contents .container .news .table .title-column {
+    display: block;
     text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 270px;
   }
 }
 

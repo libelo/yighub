@@ -9,6 +9,7 @@
   margin: 0 auto;
   text-align: center;
   height: 100%;
+  position: relative;
 }
 .Intro .container span {
   display: inline-block;
@@ -21,7 +22,6 @@
   width: 50%;
   margin-left: auto;
   margin-right: auto;
-  position: relative;
 }
 .Intro .container .search_create input {
   background: transparent;
@@ -33,8 +33,14 @@
 .Intro .container .search_create a {
   display: block;
   position: absolute;
-  top: 0px;
-  right: 0px;
+  right: 40px;
+  transform: translateY(-50%);
+}
+
+@media (max-width: 780px) {
+  .Intro .container .search_create a {
+    display: block;
+  }
 }
 
 /*# sourceMappingURL=member_albums.css.map */

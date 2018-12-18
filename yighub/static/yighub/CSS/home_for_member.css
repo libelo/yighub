@@ -288,6 +288,9 @@ table tbody td {
   #contents .container .Boards_news .table tr th:first-child {
     width: 1%;
   }
+  #contents .container .Boards_news .table tr th:nth-child(3) {
+    width: 270px;
+  }
   #contents .container .Boards_news .table tr th:last-child {
     display: none;
   }
@@ -296,12 +299,17 @@ table tbody td {
   }
   #contents .container .Boards_news .table .title-column {
     text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 270px;
   }
 }
-@media (max-width: 399px) {
-  tr th:nth-child(3) {
-    width: 100px;
-    padding: 0;
+@media (max-width: 400px) {
+  #contents .container .Taskforce_news {
+    text-align: left;
+  }
+  #contents .container .Boards_news {
+    text-align: left;
   }
 }
 
