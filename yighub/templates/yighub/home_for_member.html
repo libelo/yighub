@@ -122,20 +122,13 @@
             </div>
             {% endif %}
         </section>
-    <!--//Boards_News-->
-
-{#                <div class="container-fluid pull-right">#}
-{#                    <form action="{% url 'yighub:search' 0 'keyword' 1 %}" method="post" class="form-search" />#}
-{#                        {% csrf_token %}#}
-{#                      <input type="text" name="keyword" class="input-medium search-query" />#}
-{#                      <button type="submit" class="btn">Search</button>#}
-{#                    </form>#}
-{#                </div>#}
-{#            </div>#}
     </div>
     <!--//container-->
 </section>
 <!--//contents-->
+{% endblock %}
+{% block script %}
+    <script src="{% static 'yighub/JS/home_for_member.js' %}"></script>
 {% endblock %}
 
 

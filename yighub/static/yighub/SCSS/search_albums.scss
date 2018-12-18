@@ -1,0 +1,21 @@
+.search_create {
+  width: 100%;
+  height: 100px;
+  text-align: center;
+  position: relative;
+
+  input{
+    background: transparent;
+    width: 20%;
+    outline: none;
+    border-radius: 22px;
+    background-color: #F1F3F4;
+  }
+
+  a{
+    position: absolute;
+    display: block;
+    right: 40px;
+    top:0px;
+  }
+}

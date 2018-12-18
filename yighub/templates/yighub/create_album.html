@@ -42,15 +42,15 @@
     </style>
 {% endblock %}
 {% block contents %}
-<section class="sub_bar">
+<section class="sub_bar" lang="en">
     <div>
-        <ul class="sub_depth1" lang="en">
-            <li id="current" class="clearfix"><a href="{% url 'yighub:albums' 0 %}">Albums</a></li>
+        <ul class="sub_depth1">
+            <li id="current" class="clearfix"><a href="#">Home</a></li>
             <ul class="sub_depth1_drop clearfix">
-                <li class="clearfix"><a href="{% url 'yighub:home_for_member' %}">Home</a></li>
                 <li class="clearfix"><a href="{% url 'yighub:Public_Introduction' %}">Public</a></li>
-                <li class="clearfix"><a href="{% url 'yighub:member_Boards_News' 0 %}">Boards</a></li>
                 <li class="clearfix"><a href="{% url 'yighub:member_Taskforce_News' 0 %}">Taskforce</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:member_Boards_News' 0 %}">Boards</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:albums' 0 %}">Albums</a></li>
             </ul>
         </ul>
         <!--//sub_depth1-->
@@ -62,10 +62,12 @@
     <h2 class="form-signin-heading">앨범 만들기</h2>
     <br />
     {{ form.name.errors }}
-    <label>앨범 이름</label>
-    <input type="text" class="input-block-level" placeholder="새 앨범" name="name" />
-    <label>이벤트 날짜</label>
-    <input type="text" class="input-block-level" name="event_time" id="{{ form.birthday.label }}" placeholder="2013-09-01" {% if form.event_time.value %} value="{{ form.event_time.value }}" {% endif %} />
+    <div>앨범 이름</div>
+    <br/>
+    <input style="width: 80%; border-radius: 12px;" type="text" class="input-block-level" placeholder="새 앨범" name="name" />
+    <div>이벤트 날짜</div>
+    <br/>
+    <input style="width: 80%;" type="text" class="input-block-level" name="event_time" id="{{ form.birthday.label }}" placeholder="2013-09-01" {% if form.event_time.value %} value="{{ form.event_time.value }}" {% endif %} />
     <br />
     <br />
     <button class="btn btn-large btn-primary" type="submit">만들기</button>

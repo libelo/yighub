@@ -1,4 +1,4 @@
-$barcolor: rgba(19,24,86,0.4);
+$barcolor: rgba(19,24,86, 0.4);
 
 /*기본설정*/
 
@@ -9,6 +9,7 @@ $barcolor: rgba(19,24,86,0.4);
   height: 50px;
 
   div{
+    z-index: 10;
     float: left;
     width: 15%;
     height: 100%;
@@ -31,7 +32,7 @@ $barcolor: rgba(19,24,86,0.4);
         }
 
       .sub_depth1_drop {
-        z-index: 10;
+        z-index: 9;
         display: none;
       }
 
@@ -64,6 +65,7 @@ $barcolor: rgba(19,24,86,0.4);
 
       .sub_depth2_drop{
         display: none;
+        z-index: 9;
       }
 
       .sub_depth2_drop.show{

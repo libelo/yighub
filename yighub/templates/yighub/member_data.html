@@ -20,7 +20,7 @@
         <!--//sub_depth1-->
     </div>
     <div>
-        <ul class="sub_depth2">
+        <ul class="sub_depth2" onclick="adjust()">
             <li id="current_two" class="clearfix"><a href="{% url 'yighub:member_Data' 0 %}">학회운영 자료</a></li>
             <ul class="sub_depth2_drop clearfix">
                 <li lang="en" class="clearfix"><a href="{% url 'yighub:member_Boards_News' 0 %}">News</a></li>
@@ -116,3 +116,6 @@
 </section>
     <!--//contents-->
 {% endblock  %}
+{% block script %}
+    <script src="{% static 'yighub/JS/boards.js' %}"></script>
+{% endblock %}
