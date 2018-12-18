@@ -1,9 +1,56 @@
-{% extends "yighub/sidebar.html" %}
+{% extends "yighub/extends/TopBar_for_member.html" %}
+{% load static %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'yighub/CSS/sub_bar_visitor.css' %}" />
+    <style>
+    a:hover{
+        text-decoration: underline;
+    }
 
+    .title{
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .content{
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .delete{
+        color: rgb(229, 9, 20);
+        font-size: 12px;
+    }
+
+    #drop_zone {
+      border: 3px dotted royalblue;
+      border-radius: 12px;
+      width:  100%;
+      height: 100px;
+      text-align: center;
+      font-size: 24px;
+    }
+
+    </style>
+{% endblock %}
 {% block contents %}
-	<div class="span9">
-		<br />	<br />
-		<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
+<section class="sub_bar">
+    <div>
+        <ul class="sub_depth1">
+            <li class="clearfix"><a href="{% url 'yighub:home_for_member' %}">Home</a></li>
+            <ul class="sub_depth1_drop clearfix">
+                <li class="clearfix"><a href="{% url 'yighub:Public_Introduction' %}">Public</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:member_Boards_News' 0 %}">Boards</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:member_Taskforce_News' 0 %}">Taskforce</a></li>
+                <li id="current" class="clearfix"><a href="{% url 'yighub:albums' 0 %}">Albums</a></li>
+            </ul>
+        </ul>
+        <!--//sub_depth1-->
+    </div>
+</section>
+<section class="contents">
+	<div class="container">
+        <article class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
 			<form action = {% if board_id %} "{% url 'yighub:create_in_board' board board_id %}" {% else %} "{% url 'yighub:create' board %}" {% endif %} enctype = "multipart/form-data" method = "post">
 				<!-- 이렇게 구현하긴 했지만 솔직히 in board인지 아닌지 올 때나 상관있지 form action에선 어디로 가나 똑같을 듯 -->
 				{% csrf_token %}
@@ -12,59 +59,31 @@
 					{{ form.board.errors }}
 					{{ form.board }}
 					<br />
-					<br />
 					{{ form.title.errors }}
-					<input name="title" type="text" class="span12" maxlength="50" placeholder="여기에 제목을 입력하세요" {% if form.title.value %} value="{{ form.title.value }}" {% endif %}>
+					<input name="title" type="text" class="title" maxlength="50" placeholder="여기에 제목을 입력하세요" {% if form.title.value %} value="{{ form.title.value }}" {% endif %}>
 					<br />
 					{{ form.content.errors }}
-					<textarea name="content" rows="20" class="span12" placeholder="여기에 내용을 입력하세요">{% if form.content.value %}{{ form.content.value }}{% endif %}</textarea>
+					<textarea name="content" rows="20" class="content" placeholder="여기에 내용을 입력하세요">{% if form.content.value %}{{ form.content.value }}{% endif %}</textarea>
 					<br />
-					<br />
-					<script>
-					function add_thumbnail() {
-						thumbnails = document.getElementById("upload_thumbnails");
-						new_thumbnail = document.createElement("input");
-						new_thumbnail.setAttribute("type", "file");
-						new_thumbnail.setAttribute("name", "thumbnails");
-						thumbnails.appendChild(new_thumbnail);
-
-						new_line = document.createElement("br");
-						thumbnails.appendChild(new_line);
-					}
-					function add_file() {
-						files = document.getElementById("upload_files");
-						new_file = document.createElement("input");
-						new_file.setAttribute("type", "file");
-						new_file.setAttribute("name", "files");
-						files.appendChild(new_file);
-
-						new_line = document.createElement("br");
-						files.appendChild(new_line);
-					}
-					</script>
-
 					<label>썸네일</label>
+					<a style="color: rgb(229, 9, 20); font-size: 12px;"   onclick="add_thumbnail()">썸네일 추가</a>
 					<div id="upload_thumbnails">
 						<input type = 'file' name = 'thumbnails' />
 						<br />
 					</div>
 					<br />
-					<a onclick="add_thumbnail()">썸네일 추가</a>
+                    <label>파일 업로드</label>
+                    <a style="color: rgb(229, 9, 20); font-size: 12px;" onclick="add_file()"> 파일 추가 </a>
 
-					<br />
-					<br />
-					<br />
-					<label>파일 업로드</label>
-					<div id="upload_files">
-						<input type = 'file' name = 'files' />
-						<br />
-						<input type = 'file' name = 'files' />
-						<br />
-						<input type = 'file' name = 'files' />
-						<br />
+                    <div id="upload_files">
+                        <div class="file">
+                            <input class="fileInput" type = 'file' name = 'files' /><a class="delete">(이 파일 삭제)</a>
+                        </div>
 					</div>
-					<br />
-					<a onclick="add_file()">파일 추가</a>
+
+                    <div id="drop_zone" ondrop="dropHandler(event);"  ondragover="dragOverHandler(event);">
+                      <p>Drop the file!</p>
+                    </div>
 					<div class="form-actions text-center">
 						<button type="submit" class="btn btn-primary">올리기</button>
 						&nbsp;
@@ -78,6 +97,11 @@
 					</div>
 				</fieldset>
 			</form>
-		</div>
-	</div><!--/span-->	
+		</article>
+	</div><!--/span-->
+</section>
+    <!--//contents-->
+{% endblock %}
+{% block script %}
+    <script src="{% static 'yighub/JS/create.js' %}"></script>
 {% endblock %}
