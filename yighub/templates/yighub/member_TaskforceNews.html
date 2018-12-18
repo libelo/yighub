@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{% static 'yighub/CSS/member_taskforce.css' %}"/>
 {% endblock %}
 {% block contents %}
-<section class="sub_bar">
+<section class="sub_bar" lang="en">
     <div>
         <ul class="sub_depth1">
             <li id="current" class="clearfix"><a href="{% url 'yighub:member_Taskforce_News' 0 %}">Taskforce</a></li>
@@ -15,7 +15,7 @@
                 <li class="clearfix"><a href="{% url 'yighub:home_for_member' %}">Home</a></li>
                 <li class="clearfix"><a href="{% url 'yighub:Public_Introduction' %}">Public</a></li>
                 <li class="clearfix"><a href="{% url 'yighub:member_Boards_News' 0 %}">Boards</a></li>
-                <li class="clearfix"><a href="#">Albums</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:albums' 0 %}">Albums</a></li>
             </ul>
         </ul>
         <!--//sub_depth1-->
@@ -55,7 +55,7 @@
         </section>
         <!--//sidebar-nav-->
         <section class="Main_contents">
-            <section class="search">
+            <section class="search" lang="en">
                 <form action="{% url 'yighub:search' 0 'keyword' 1 %}" method="post" class="form-search" />
                     {% csrf_token %}
                     <input type="text" name="keyword" class="input-medium search-query" />
@@ -65,7 +65,7 @@
                 <!--//search-->
             <section class="news">
                 <div class="lead_write">
-                    <span id="lead">Taskforce News</span>
+                    <span id="lead" lang="en">Taskforce News</span>
                     <a href="{% url 'yighub:create' board %}">
                         <button type="button" class="btn btn-primary" onclick="location.href = '{% url 'yighub:create' board %}'">글쓰기</button>
                     </a>

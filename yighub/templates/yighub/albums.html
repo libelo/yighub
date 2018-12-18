@@ -8,7 +8,7 @@
 {% block contents %}
 <section class="sub_bar">
     <div>
-        <ul class="sub_depth1">
+        <ul class="sub_depth1" lang="en">
             <li id="current" class="clearfix"><a href="{% url 'yighub:albums' 0 %}">Albums</a></li>
             <ul class="sub_depth1_drop clearfix">
                 <li class="clearfix"><a href="{% url 'yighub:home_for_member' %}">Home</a></li>
@@ -22,8 +22,8 @@
 </section>
 <section class="Intro">
     <div class="container">
-        <span>Albums</span>
-        <div class="search_create clearfix">
+        <span lang="en">Albums</span>
+        <div lang="en" class="search_create clearfix">
             <form action="{% url 'yighub:search_albums' 'keyword' 1 %}" method="post" class="form-search" >
                 {% csrf_token %}
                 <input type="text" name="keyword" class="input-medium search-query" />

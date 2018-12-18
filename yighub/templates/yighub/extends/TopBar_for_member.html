@@ -18,7 +18,7 @@
     {% endblock %}
 </head>
 <body>
-<header id="header" onmouseover="showup()">
+<header id="header" onmouseover="showup()" lang="en">
     <div class="container">
         <div class="row">
             <nav class="nav clearfix">
@@ -53,7 +53,7 @@
     <div class="container">
         <div class="sub_all" onmouseleave="disappear()">
             <div class="sub clearfix">
-                <ul>
+                <ul lang="en">
                     <li><a href="{% url 'yighub:Public_Introduction' %}">About YIG</a></li>
                     <li><a href="{% url 'yighub:Public_Recruiting' %}">Recruiting</a></li>
                     <li><a id="Activity" href="{% url 'yighub:Public_Member_Profile' 0 %}">Member Profile</a></li>
@@ -62,7 +62,7 @@
                     <li><a href="{% url 'yighub:Public_Contact' %}">Contact Us</a></li>
                 </ul>
                 <ul></ul>
-                <ul>
+                <ul lang="ko">
                     <li><a href="{% url 'yighub:member_Data' 0 %}">학회운영 자료</a></li>
                     <li><a href="{% url 'yighub:member_Column' 0 %}">개인 칼럼</a></li>
                     <li><a href="{% url 'yighub:member_Portfolio' 0 %}">포트폴리오</a></li>
@@ -81,7 +81,7 @@
     <!--//container-->
 </div>
 <!--//sub_visual-->
-<nav id="nav">
+<nav id="nav" lang="en">
     <div class="container">
         <div class="row">
             <div class="Nav_lst">
@@ -98,7 +98,7 @@
                     </li>
                     <li><a href="#">Taskforce</a></li>
                     <li><a href="#">Boards</a>
-                        <ul>
+                        <ul lang="ko">
                             <li><a href="#">학회운영 및 대회자료</a></li>
                             <li><a href="#">개인 칼럼</a></li>
                             <li><a href="#">포트폴리오</a></li>

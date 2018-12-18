@@ -7,13 +7,13 @@
 {% block contents %}
 <section class="sub_bar">
     <div>
-        <ul class="sub_depth1">
+        <ul class="sub_depth1" lang="en">
             <li id="current" class="clearfix"><a href="#">Home</a></li>
             <ul class="sub_depth1_drop clearfix">
                 <li class="clearfix"><a href="{% url 'yighub:Public_Introduction' %}">Public</a></li>
-                <li class="clearfix"><a href="#">Taskforce</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:member_Taskforce_News' 0 %}">Taskforce</a></li>
                 <li class="clearfix"><a href="{% url 'yighub:member_Boards_News' 0 %}">Boards</a></li>
-                <li class="clearfix"><a href="#">Albums</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:albums' 0 %}">Albums</a></li>
             </ul>
         </ul>
         <!--//sub_depth1-->
@@ -23,7 +23,7 @@
 <section id="contents" class="clearfix">
 	<div class="container clearfix">
         <section class="real_time"></section>
-        <section class="search">
+        <section class="search" lang="en">
             <form action="{% url 'yighub:search' 0 'keyword' 1 %}" method="post" class="form-search" />
                 {% csrf_token %}
                 <input type="text" name="keyword" class="input-medium search-query" />
@@ -33,7 +33,7 @@
     <!--//search-->
         <section class="Taskforce_news">
             <div class="lead_write">
-                <span id="lead">Taskforce News</span>
+                <span id="lead" lang="en">Taskforce News</span>
                 <a href="{% url 'yighub:create' 'taskforce' %}">
                     <button type="button" class="btn btn-primary" onclick="location.href = '{% url 'yighub:create' 'taskforce' %}'">Taskforce에 글쓰기</button>
                 </a>
@@ -78,7 +78,7 @@
     <!--//Taskforce_news-->
         <section class="Boards_news">
             <div class="lead_write">
-                <span id="lead">Boards News</span>
+                <span id="lead" lang="en">Boards News</span>
                 <a href="{% url 'yighub:create' 'bulletin' %}">
                     <button type="button" class="btn btn-primary" onclick="location.href = '{% url 'yighub:create' 'bulletin' %}'">Boards에 글쓰기</button>
                 </a>
