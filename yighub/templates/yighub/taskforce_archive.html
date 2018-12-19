@@ -1,44 +1,58 @@
-{% extends "yighub/sidebar.html" %}
-
+{% extends "yighub/extends/TopBar_for_member.html" %}
+{% load static %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'yighub/CSS/sub_bar_visitor.css' %}" />
+    <link rel="stylesheet" href="{% static 'yighub/CSS/member_taskforce_archive.css' %}" />
+{% endblock %}
 {% block contents %}
-	<div class="span9">
-		<br />	
-		<br />
-
-		<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
-			<div class="row-fluid">
-				<span class="lead">Taskforce 아카이브</span>
-			</div>
-			<br />
-			{% if taskforce_list %}
-			<table class="table">
-				<thead>
-					<tr class="info">
-						<th> 게시판 </th>
-						<th class="pull-right"> 마지막 등록일 </th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for taskforce in taskforce_list %}
-					<tr>
-						<td>
-							<a href="{% url 'yighub:listing' 'taskforce' taskforce.id 1 %}"> 
-								{{ taskforce.name }}
-								<span class="muted">{{ taskforce.count_entry }}</span>
-							</a>
-						</td>
-						<td class="pull-right"> {{ taskforce.newest_time|date:"Y-m-d" }} </td>
-					</tr>
-					{% endfor %}
-				</tbody>
-				</table>
-			<br />
-			{% else %}
-			<div class="container-fruid text-center">
-				<p> 아직 글이 존재하지 않습니다. </p>
-			</div>
-			{% endif %}
-		</div>
-	</div><!--/span-->	
-
+<section class="sub_bar" lang="en">
+    <div>
+        <ul class="sub_depth1">
+            <li class="clearfix"><a href="{% url 'yighub:home_for_member' %}">Home</a></li>
+            <ul class="sub_depth1_drop clearfix">
+                <li class="clearfix"><a href="{% url 'yighub:Public_Introduction' %}">Public</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:member_Boards_News' 0 %}">Boards</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:member_Taskforce_News' 0 %}">Taskforce</a></li>
+                <li id="current" class="clearfix"><a href="{% url 'yighub:albums' 0 %}">Albums</a></li>
+            </ul>
+        </ul>
+        <!--//sub_depth1-->
+    </div>
+</section>
+<section class="archive">
+    <div class="container" style="max-width: 680px; margin-left: auto; margin-right: auto;">
+        <span id="lead">Taskforce 아카이브</span>
+        <br/>
+        <br/>
+        {% if taskforce_list %}
+        <table class="table">
+            <thead>
+                <tr class="info">
+                    <th> 게시판 </th>
+                    <th> 마지막 등록일 </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for taskforce in taskforce_list %}
+                <tr>
+                    <td>
+                        <a href="{% url 'yighub:member_Taskforce' taskforce.id 1 %}">
+                            {{ taskforce.name }}
+                            <span class="muted">{{ taskforce.count_entry }}</span>
+                        </a>
+                    </td>
+                    <td> {{ taskforce.newest_time|date:"Y-m-d" }} </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+        <br />
+        {% else %}
+        <div class="container-fruid text-center">
+            <p> 아직 글이 존재하지 않습니다. </p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+<!--//archive-->
 {% endblock %}

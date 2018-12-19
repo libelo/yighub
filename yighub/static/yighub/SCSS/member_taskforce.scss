@@ -1,0 +1,144 @@
+$greycolor: rgba(0,0,0, 0.2);
+
+.contents{
+  width: 1200px;
+  .container{
+    .sidebar-nav{
+      float: left;
+      width: 250px;
+      font-size: 16px;
+      margin-left: 15px;
+      margin-top: 20px;
+
+      ul {
+        margin-top: 20px;
+        border: 1px solid $greycolor;
+        border-radius: 12px;
+
+        li {
+          display: block;
+          border-bottom: 1px solid $greycolor;
+
+          &:last-child{
+            border-bottom: none;
+          }
+
+          a{
+            display: block;
+            width: 100%;
+            transition: all 0.3s ease-in-out;
+            line-height: 30px;
+            padding-left: 10px;
+            box-sizing: border-box;
+
+            &:hover{
+              background-color: $greycolor;
+              color: white;
+            }
+          }
+        }
+      }
+    }
+
+    .Main_contents{
+      float: left;
+      width: calc(100% - 265px);
+
+
+    }
+  }
+}
+
+@media (max-width: 1280px){
+  .contents{
+    width: 100%;
+    .container{
+      padding: 0 15px;
+    }
+  }
+}
+
+@media (max-width: 830px){
+  .contents{
+    .container{
+      .news{
+        width: 100%;
+        .table {
+          width: 80%;
+          tr th {
+            &:nth-child(2) {
+              display: none;
+            }
+          }
+          .board-column {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 700px){
+  .contents{
+    .container{
+      .sidebar-nav{
+        width: 100%;
+        margin-left: 0px;
+        position: relative;
+
+        .edit_taskforce{
+          height: 25px;
+
+          .icon{
+           a{
+             display: block;
+             position: absolute;
+             right: 22px;
+             top: 8px;
+             width: 20px;
+             height: 20px;
+
+              &:after{
+                display: block;
+                content: '';
+                width: 10px;
+                height: 10px;
+                border-width: 1px 1px 0 0;
+                border-style: solid;
+                border-color: #ddd;
+                -webkit-transform: rotate(135deg);
+                transform: rotate(135deg);
+              }
+            }
+
+            a.change{
+              &:after{
+                -webkit-transform: rotate(315deg);
+                transform: rotate(315deg);
+              }
+            }
+          }
+        }
+
+        ul{
+          display: none;
+          font-size: 12px;
+          li{
+            a{
+              line-height: 20px;
+            }
+          }
+        }
+      }
+
+      .Main_contents{
+        width: 100%;
+
+        .search{
+          margin-top: 30px;
+        }
+      }
+    }
+  }
+}

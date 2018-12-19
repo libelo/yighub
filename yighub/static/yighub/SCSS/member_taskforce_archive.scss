@@ -1,0 +1,42 @@
+.archive{
+  width: 1200px;
+  .container{
+    margin-top: 20px;
+    text-align: center;
+    .table{
+      max-width: 680px;
+      width: 80%;
+      margin: 0 auto;
+      border-collapse: collapse;
+      text-align: left;
+      white-space: nowrap;
+
+      tr th{
+        background-color: royalblue;
+        color: white;
+
+        :first-child{
+          box-sizing: border-box;
+          border-right: 1px solid white;
+        }
+
+        :last-child{
+          width: 1%;
+        }
+      }
+
+
+    }
+  }
+}
+
+@media (max-width: 1280px) {
+  .archive{
+    width: 100%;
+
+    container{
+      box-sizing: border-box;
+      padding: 0 15px;
+    }
+  }
+}

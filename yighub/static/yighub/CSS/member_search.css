@@ -1,0 +1,73 @@
+.contents {
+  width: 1200px; }
+  .contents .container .Intro {
+    height: 50px;
+    width: 100%;
+    margin-top: 20px;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+    font-size: 24px; }
+  .contents .container .search {
+    margin-top: 20px;
+    text-align: center; }
+    .contents .container .search input {
+      background: transparent;
+      width: 20%;
+      outline: none;
+      border-radius: 22px;
+      background-color: #F1F3F4; }
+  .contents .container .results {
+    max-width: 680px;
+    width: 60%;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center; }
+    .contents .container .results .table {
+      width: 100%;
+      margin: 0 auto;
+      border-collapse: collapse;
+      text-align: left;
+      white-space: nowrap; }
+      .contents .container .results .table .title-column {
+        padding-left: 10px; }
+      .contents .container .results .table tr th {
+        background-color: royalblue;
+        color: white; }
+        .contents .container .results .table tr th:first-child {
+          width: 50px;
+          padding: 0; }
+        .contents .container .results .table tr th:nth-child(2) {
+          padding-left: 10px; }
+
+@media (max-width: 1280px) {
+  .contents {
+    width: 100%; }
+    .contents .container {
+      box-sizing: border-box;
+      padding: 0 15px; } }
+@media (max-width: 550px) {
+  .contents .container {
+    padding: 0 30px; }
+    .contents .container .results {
+      width: 100%; } }
+@media (max-width: 440px) {
+  .contents .container .search {
+    margin-top: 50px; }
+  .contents .container .results .table tr th:first-child {
+    width: 1%; }
+  .contents .container .results .table tr th:last-child {
+    display: none; }
+  .contents .container .results .table tr th:nth-child(2) {
+    width: 270px; }
+  .contents .container .results .table .time-column {
+    display: none; }
+  .contents .container .results .table .title-column {
+    display: block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 270px; } }
+
+/*# sourceMappingURL=member_search.css.map */

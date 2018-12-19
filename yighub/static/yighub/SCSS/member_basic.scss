@@ -1,0 +1,139 @@
+.contents{
+  width: 1200px;
+  .container{
+    .search{
+      margin-top: 20px;
+      text-align: center;
+
+      input{
+        background: transparent;
+        width: 20%;
+        outline: none;
+        border-radius: 22px;
+        background-color: #F1F3F4;
+      }
+    }
+
+    .news{
+      max-width: 680px;
+      width: 60%;
+      margin-top: 20px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+
+      .lead_write{
+        position: relative;
+        margin-bottom: 20px;;
+        a{
+          position: absolute;
+          bottom: 0;
+          right: 0;
+        }
+      }
+
+     .table{
+      width: 100%;
+      margin: 0 auto;
+      border-collapse: collapse;
+      text-align: left;
+      white-space: nowrap;
+
+      .title-column{
+        padding-left: 10px;
+      }
+
+      tr th{
+        background-color: royalblue;
+        color: white;
+
+        &:first-child{
+          width: 50px;
+          padding: 0;
+        }
+
+        &:nth-child(2){
+          width: 1%;
+          padding: 0;
+        }
+
+        &:nth-child(3){
+          padding-left: 10px;
+        }
+
+        &:last-child{
+          width: 1%;
+          padding: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1280px){
+  .contents{
+    width: 100%;
+    .container{
+      box-sizing: border-box;
+      padding: 0 15px;
+    }
+  }
+}
+
+@media (max-width: 550px) {
+  .contents{
+    .container{
+      padding: 0 30px;
+      .news{
+        width: 100%;
+
+        .table {
+          tr th {
+            &:nth-child(2) {
+              display: none;
+            }
+          }
+          .board-column {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+@media (max-width: 440px){
+  .contents{
+    .container{
+      .search{
+        margin-top: 50px;
+      }
+
+      .news{
+        .table {
+          tr th {
+            &:first-child{
+              width: 1%;
+            }
+
+            &:last-child {
+              display: none;
+            }
+          }
+
+          .time-column {
+            display: none;
+          }
+
+          .title-column{
+            text-overflow: ellipsis;
+          }
+        }
+      }
+    }
+  }
+}
+
+

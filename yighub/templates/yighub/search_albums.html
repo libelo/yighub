@@ -1,16 +1,38 @@
-{% extends "yighub/extends/base.html" %}
-
+{% extends 'yighub/extends/TopBar_for_member.html' %}
+{% load staticfiles %}
+{% load static %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'yighub/CSS/sub_bar_visitor.css' %}"/>
+    <link rel="stylesheet" href="{% static 'yighub/CSS/search_albums.css' %}"/>
+{% endblock %}
 {% block contents %}
-
+<section class="sub_bar" lang="en">
+<div>
+    <ul class="sub_depth1">
+        <li id="current" class="clearfix"><a href="#">Home</a></li>
+        <ul class="sub_depth1_drop clearfix">
+            <li class="clearfix"><a href="{% url 'yighub:Public_Introduction' %}">Public</a></li>
+            <li class="clearfix"><a href="{% url 'yighub:member_Taskforce_News' 0 %}">Taskforce</a></li>
+            <li class="clearfix"><a href="{% url 'yighub:member_Boards_News' 0 %}">Boards</a></li>
+            <li class="clearfix"><a href="{% url 'yighub:albums' 0 %}">Albums</a></li>
+        </ul>
+    </ul>
+    <!--//sub_depth1-->
+</div>
+</section>
 <div class="text-center" style="margin:30px auto 50px auto">
 	<h2>Albums에서 '{{ keyword }}' 검색결과</h2>
-	<div class="container-fluid pull-right">
-		<!-- <a href="{% url 'yighub:create_album' %}"> -->
-			<button type="button" class="btn btn-primary" onclick="location.href = '{% url 'yighub:create_album' %}'">새 앨범</button>
-		<!-- </a> -->
-	</div> 
 </div>
-<br />
+<section class="search_create">
+    <form action="{% url 'yighub:search_albums' 'keyword' 1 %}" method="post" class="form-search" >
+		{% csrf_token %}
+	  <input type="text" name="keyword" class="input-medium search-query" />
+	  <button type="submit" class="btn">Search</button>
+	</form>
+    <a href="{% url 'yighub:create_album' %}">
+        <button type="button" class="btn btn-primary" onclick="location.href = '{% url 'yighub:create_album' %}'">새앨범 만들기</button>
+    </a>
+</section>
 {% if albums %}
 
 {% for a in albums %}
@@ -56,15 +78,6 @@
 	{% endif %}
 	</ul>
 </div>
-
-<div class="container-fluid pull-right">
-	<form action="{% url 'yighub:search_albums' 'keyword' 1 %}" method="post" class="form-search" >
-		{% csrf_token %}
-	  <input type="text" name="keyword" class="input-medium search-query" />
-	  <button type="submit" class="btn">Search</button>
-	</form>
-</div>
-
 {% else %}
 <p> 아직 앨범이 없습니다. </p>
 {% endif %}

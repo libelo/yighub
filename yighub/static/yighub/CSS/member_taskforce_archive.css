@@ -1,0 +1,38 @@
+.archive {
+  width: 1200px;
+}
+.archive .container {
+  margin-top: 20px;
+  text-align: center;
+}
+.archive .container .table {
+  max-width: 680px;
+  width: 80%;
+  margin: 0 auto;
+  border-collapse: collapse;
+  text-align: left;
+  white-space: nowrap;
+}
+.archive .container .table tr th {
+  background-color: royalblue;
+  color: white;
+}
+.archive .container .table tr th :first-child {
+  box-sizing: border-box;
+  border-right: 1px solid white;
+}
+.archive .container .table tr th :last-child {
+  width: 1%;
+}
+
+@media (max-width: 1280px) {
+  .archive {
+    width: 100%;
+  }
+  .archive container {
+    box-sizing: border-box;
+    padding: 0 15px;
+  }
+}
+
+/*# sourceMappingURL=member_taskforce_archive.css.map */

@@ -1,164 +1,170 @@
-﻿{% extends "yighub/sidebar.html" %}
-
+﻿{% extends "yighub/extends/TopBar_for_member.html" %}
+{% load static %}
 {% block style %}
-.comments p {
-	line-height: 180%;
-}
+    <link rel="stylesheet" href="{% static 'yighub/CSS/sub_bar_visitor.css' %}" />
+    <style>
+    .comments p{
+        line-height: 180%;
+    }
+	</style>
 {% endblock %}
-
 {% block contents %}
-	<div class="span9">
-		<br />	
-		<br />
-		<div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
-			<a href="{% url 'yighub:listing' board current_board.id 1 %}">{{ entry.board }}</a>
-			<h3>{{ entry.title }}</h3>
-			<div class="media">
-   			{% if entry.creator.avatar %}
-			  <a class="pull-left" style="float:left;">
-			    <img src="{{ entry.creator.avatar.url }}" style="height:50px;" class="media-object">
-			  </a>
-			  {% endif %}
-			  <div class="media-body">
-		    	<strong>{{ entry.creator }}</strong>
-		    	<br />
-		    	<span> {{ entry.time_created }} </span>
-		    	{% if entry.time_last_modified != entry.time_created %}
-		    	<span class="muted"> / 마지막 수정 {{ entry.time_last_modified }} </span>
-		    	{% endif %}
-		    	<span class="pull-right" style="float:right;">조회수 {{ entry.count_view }} / 추천수 {{ entry.count_recommendation }} </span>
-			  </div>
-			</div>
-			<hr />
-			{% if thumbnails %}
-			{% for t in thumbnails %}
-			<div class="text-center">
-				<img src="{{ t.thumbnail.url }}" style="max-width:650px;"/>
-			</div>
-			<br />
-			{% endfor %}
-			<br />
-			<br />
-			{% endif %}
-			{{ entry.content|urlize|linebreaks }}
-			<br />
-			<hr />
-			{% if files %}
-			<!--<p class="lead">파일 다운로드</p>-->
-			<ul class="unstyled">
-				{% for f in files %}
-				<li><a href="{{ f.file.url }}">{{ f.name }}&nbsp;</a><span class="badge badge-success">{{ f.hit }}</span></li>
-				{% endfor %}
-			</ul>
-			<hr />
-			{% endif %}
+<section class="sub_bar">
+    <div>
+        <ul class="sub_depth1" lang="en">
+            <li class="clearfix"><a href="{% url 'yighub:home_for_member' %}">Home</a></li>
+            <ul class="sub_depth1_drop clearfix">
+                <li class="clearfix"><a href="{% url 'yighub:Public_Introduction' %}">Public</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:member_Boards_News' 0 %}">Boards</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:member_Taskforce_News' 0 %}">Taskforce</a></li>
+                <li id="current" class="clearfix"><a href="{% url 'yighub:albums' 0 %}">Albums</a></li>
+            </ul>
+        </ul>
+        <!--//sub_depth1-->
+</div>
+</section>
+<section class="contents">
+    <div class="container-fluid" style="max-width: 680px; margin-left: auto; margin-right: auto;">
+        <div class="intro" style="width: 100%;">
+            {% if board == "taskforce" %}
+            <a style="font-size: 12px;" href="{% url 'yighub:member_Taskforce' current_board.id 0 %}">{{ entry.board }}</a>
+            {% else %}
+            <a style="font-size: 12px;" href="{% url 'yighub:member_Boards_News' 0 %}">Bulletin</a>
+            {% endif %}
+            <span style="float: right;">
+                <button type="button" class="btn" onclick = 'history.back()'>글 목록</button>
+            </span>
+        </div>
+        <h2>{{ entry.title }}</h2>
+        <div class="media">
+        {% if entry.creator.avatar %}
+          <a class="pull-left" style="float:left;">
+            <img src="{{ entry.creator.avatar.url }}" style="height:50px;" class="media-object">
+          </a>
+          {% endif %}
+          <div class="media-body">
+            <strong>{{ entry.creator }}</strong>
+            <br />
+            <span> {{ entry.time_created }} </span>
+            {% if entry.time_last_modified != entry.time_created %}
+            <span class="muted"> / 마지막 수정 {{ entry.time_last_modified }} </span>
+            {% endif %}
+            <span class="pull-right" style="float:right;">조회수 {{ entry.count_view }} / 추천수 {{ entry.count_recommendation }} </span>
+          </div>
+        </div>
+        <hr />
+        {% if thumbnails %}
+        {% for t in thumbnails %}
+        <div class="text-center">
+            <img src="{{ t.thumbnail.url }}" style="max-width:650px;"/>
+        </div>
+        <br />
+        {% endfor %}
+        <br />
+        <br />
+        {% endif %}
+        {{ entry.content|urlize|linebreaks }}
+        <br />
+        <hr />
+        {% if files %}
+        <!--<p class="lead">파일 다운로드</p>-->
+        <ul class="unstyled">
+            {% for f in files %}
+            <li><a href="{{ f.file.url }}">{{ f.name }}&nbsp;</a><span class="badge badge-success">{{ f.hit }}</span></li>
+            {% endfor %}
+        </ul>
+        <hr />
+        {% endif %}
 
-			<span>
-				{% if user not in entry.recommendation.all %}
-				<a href = "{% url 'yighub:recommend' board entry.id %}">추천하기</a>
-				{% else %}
-				<a href = "{% url 'yighub:delete_recommend' board entry.id %}">추천 취소</a>
-				{% endif %}
-				&nbsp;&nbsp;
-				<a href = "{% url 'yighub:reply' board entry.id %}">답글쓰기</a>
-			</span>
-			{% if entry.creator == user %}
-			<span class="pull-right">
-				<a href = "{% url 'yighub:edit' board entry.id %}">수정하기</a> 
-				&nbsp;&nbsp;
+        <span>
+            {% if user not in entry.recommendation.all %}
+            <a style="font-size: 12px;" href = "{% url 'yighub:recommend' board entry.id %}">추천하기</a>
+            {% else %}
+            <a style="font-size: 12px;" href = "{% url 'yighub:delete_recommend' board entry.id %}">추천 취소</a>
+            {% endif %}
+            &nbsp;&nbsp;
+            <a style="font-size: 12px;" href = "{% url 'yighub:reply' board entry.id %}">답글쓰기</a>
+        </span>
+        {% if entry.creator == user %}
+        <span class="pull-right">
+            <a style="font-size: 12px;" href = "{% url  'yighub:edit' board entry.id %}">수정하기</a>
+            <a style="font-size: 12px;" onclick="check_delete()">삭제하기</a>
+        </span>
+        {% endif %}
 
-				<script>
-				function check_delete() {
-					if (confirm("정말 삭제하시겠습니까?")){
-					window.open("{% url 'yighub:delete' board entry.id %}", "_self")						
-					}
-				}
-				</script>
-				<a onclick="check_delete()">삭제하기</a>
-			</span>
-			{% endif %}
+        <script>
+             function check_delete() {
+                if (confirm("정말 삭제하시겠습니까?")){
+                window.open("{% url 'yighub:delete' board entry.id %}", "_self")
+                }
+            };
+        </script>
 
-			{% if recommendations %}
-			<br />
-			<br />
-			<span class="muted">{{ count_recommendation }}명이 추천합니다 -</span>
-			{% for r in recommendations %}
-			<strong>
-				{% if forloop.counter > 1 %}
-				,
-				{% endif %}
-				&nbsp;{{ r }}
-			</strong> 
-			{% endfor %}
-			{% endif %}
+        {% if recommendations %}
+        <br />
+        <br />
+        <span class="muted">{{ count_recommendation }}명이 추천합니다 -</span>
+        {% for r in recommendations %}
+        <strong>
+            {% if forloop.counter > 1 %}
+            ,
+            {% endif %}
+            &nbsp;{{ r }}
+        </strong>
+        {% endfor %}
+        {% endif %}
 
-			<br />
-			<br />
+        <br />
+        {% if comments %}
+        <div class="comments" style="background-color: #edeff4; ">
+            {% for c in comments %}
+            <div style="padding: 15px 20px 5px 20px; border-bottom-style: solid; border-width: 2px; border-color: white;">
+                <div class="media">
+                    {% if c.creator.avatar %}
+                    <a class="pull-left" style="float:left;">
+                        <img src="{{ c.creator.avatar.url }}" style="width:50px;" class="media-object">
+                    </a>
+                    {% endif %}
+                    <div class="media-body">
+                        <strong>{{ c.creator }}</strong>
+                        <small class="muted"> {{ c.time_created }} </small>
 
-			{% if comments %}
-			<div class="comments" style="background-color: #edeff4; ">
-				{% for c in comments %}
-				<div style="padding: 15px 20px 5px 20px; border-bottom-style: solid; border-width: 2px; border-color: white;">
-					<div class="media">
-						{% if c.creator.avatar %}
-						<a class="pull-left" style="float:left;">
-							<img src="{{ c.creator.avatar.url }}" style="width:50px;" class="media-object">
-						</a>
-						{% endif %}
-						<div class="media-body">
-							<strong>{{ c.creator }}</strong>
-							<small class="muted"> {{ c.time_created }} </small>	
+                        {% if c.creator == user %}
+                        <span class="pull-right" style="float:right">
+                            <script>
+                            function check_delete_comment_{{c.id}}() {
+                                if (confirm("정말 삭제하시겠습니까?")){
+                                    window.open("{% url 'yighub:delete_comment' board entry.id c.id %}", "_self")
+                                }
+                            }
+                            </script>
+                            <a onclick="check_delete_comment_{{c.id}}()">
+                                <i class="icon-remove" style="opacity:0.25"></i>
+                            </a>
+                        </span>
+                        {% endif %}
+                        {{ c.content|urlize|linebreaks }}
 
-							{% if c.creator == user %}
-							<span class="pull-right" style="float:right">
-								<script>
-								function check_delete_comment_{{c.id}}() {
-									if (confirm("정말 삭제하시겠습니까?")){
-										window.open("{% url 'yighub:delete_comment' board entry.id c.id %}", "_self")
-									}
-								}
-								</script>
-								<a onclick="check_delete_comment_{{c.id}}()"> 
-									<i class="icon-remove" style="opacity:0.25"></i> 
-								</a>
-							</span>
-							{% endif %}
-							{{ c.content|urlize|linebreaks }}
+                        <!-- Nested media object -->
+                        <div class="media">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
 
-							<!-- Nested media object -->
-							<div class="media">
-							</div>
-						</div>
-					</div>
-				</div>
-				{% endfor %}
-				
-			</div>	
-			{% endif %}
-			<div style="padding: 15px 20px 5px 20px;">
-				<form action = "{% url 'yighub:comment' board entry.id %}" method = 'post' >
-					{% csrf_token %}
-					<textarea rows="3" class="span12" name = "content"></textarea>
-					<button style="margin: 10px;" class="btn btn-success pull-right" type = "submit">댓글달기</button>
-				</form>
-			</div>
-		</div>
-
-		<div class="row-fluid" style="margin-top: 70px">
-			<div class="container-fluid">
-				<span>
-				<!-- <a href="{% url 'yighub:listing' board current_board.id 1 %}"> -->
-					<button type="button" class="btn" onclick="location.href = '{% url 'yighub:listing' board current_board.id 1 %}'">글 목록</button>
-<!-- 					<button type="button" class="btn" onclick = 'history.back()'>글 목록</button>-->
-				<!-- </a> -->
-				</span>
-				<span class="pull-right">
-				<!-- <a href="{% url 'yighub:create_in_board' board current_board.id %}"> -->
-					<button type="button" class="btn btn-primary" onclick="location.href = '{% url 'yighub:create_in_board' board current_board.id %}'">글쓰기</button>
-				<!-- </a> -->
-				</span>
-			</div> 
-			
-		</div>
-	</div><!--/span-->	
+        </div>
+        {% endif %}
+        <div style="padding: 15px 20px 5px 20px;">
+            <form action = "{% url 'yighub:comment' board entry.id %}" method = 'post' >
+                {% csrf_token %}
+                <textarea rows="3" style="width: 100%;" name = "content"></textarea>
+                <button style="margin: 10px;" class="btn btn-success pull-right" type = "submit">댓글달기</button>
+            </form>
+        </div>
+    </div>
+</section>
+    <!--contents//-->
+{% endblock %}
+{% block script %}
 {% endblock %}

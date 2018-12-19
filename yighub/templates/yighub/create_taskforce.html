@@ -1,18 +1,60 @@
-{% extends "yighub/simple.html" %}
-
+{% extends "yighub/extends/TopBar_for_member.html" %}
+{% load static %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'yighub/CSS/sub_bar_visitor.css' %}" />
+    <style>
+      .form-signin {
+        max-width: 300px;
+        padding: 19px 29px 29px;
+        margin: 0 auto 20px;
+        background-color: #fff;
+        border: 1px solid #e5e5e5;
+        -webkit-border-radius: 5px;
+           -moz-border-radius: 5px;
+                border-radius: 5px;
+        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+                box-shadow: 0 1px 2px rgba(0,0,0,.05);
+      }
+      .form-signin .form-signin-heading,
+      .form-signin .checkbox {
+        margin-bottom: 10px;
+      }
+      .form-signin input[type="text"],
+      .form-signin input[type="password"] {
+        font-size: 16px;
+        height: auto;
+        margin-bottom: 15px;
+        padding: 7px 9px;
+      }
+	</style>
+{% endblock %}
 {% block contents %}
-    <div class="container">
+<section class="sub_bar" lang="en">
+    <div>
+        <ul class="sub_depth1">
+            <li class="clearfix"><a href="{% url 'yighub:home_for_member' %}">Home</a></li>
+            <ul class="sub_depth1_drop clearfix">
+                <li class="clearfix"><a href="{% url 'yighub:Public_Introduction' %}">Public</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:member_Boards_News' 0 %}">Boards</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:member_Taskforce_News' 0 %}">Taskforce</a></li>
+                <li id="current" class="clearfix"><a href="{% url 'yighub:albums' 0 %}">Albums</a></li>
+            </ul>
+        </ul>
+        <!--//sub_depth1-->
+    </div>
+</section>
+<div class="container" style="margin-top: 20px;">
+  <form class="form-signin" action="{% url 'yighub:create_taskforce' %}", method = "post">
+    {% csrf_token %}
+    <h2 class="form-signin-heading">Taskforce 만들기</h2>
+    <br />
+    {{ form.name.errors }}
+    <input type="text" class="input-block-level" placeholder="새 테스크포스" name="name" />
+    <br />
+    <br />
+    <button class="btn btn-large btn-primary" type="submit">만들기</button>
+  </form>
 
-      <form class="form-signin" action="{% url 'yighub:create_taskforce' %}", method = "post">
-      	{% csrf_token %}
-        <h2 class="form-signin-heading">Taskforce 만들기</h2>
-        <br />
-        {{ form.name.errors }}
-        <input type="text" class="input-block-level" placeholder="새 테스크포스" name="name" />
-        <br />
-        <br />
-        <button class="btn btn-large btn-primary" type="submit">만들기</button>
-      </form>
-
-    </div> <!-- /container -->
+</div> <!-- /container -->
 {% endblock %}
