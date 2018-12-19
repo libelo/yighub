@@ -33,6 +33,11 @@ body {
   line-height: 30px;
 }
 
+button {
+  padding: 2px;
+  border-radius: 5px;
+}
+
 @media (max-width: 850px) {
   #lead {
     font-size: 20px;

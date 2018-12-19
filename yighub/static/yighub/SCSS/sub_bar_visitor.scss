@@ -4,7 +4,8 @@ $barcolor: rgba(19,24,86, 0.4);
 
 /*sub_bar*/
 .sub_bar{
-  width: 100%;
+  width: 1200px;
+  margin: 0 auto;
   background-color: rgba(0, 0, 0, 0.9);
   height: 50px;
 
@@ -80,6 +81,12 @@ $barcolor: rgba(19,24,86, 0.4);
     ul a{
       float: left;
       height: 100%;
+  }
+}
+
+@media (max-width: 1280px){
+  .sub_bar{
+    width: 100%;
   }
 }
 
