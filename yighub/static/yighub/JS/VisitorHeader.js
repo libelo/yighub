@@ -8,6 +8,17 @@ var contents=$(".container-fluid");
 var menu_btn=$("#menu_btn");
 var all_contents=$("#all");
 
+var Vanilla_nav=document.getElementsByClassName("Nav_lst");
+
+(function() {
+  if(window.matchMedia('(max-width:850px)').matches){
+      console.log(Vanilla_nav);
+    Vanilla_nav[0].style.display="none";
+  } else{
+    console.log(12);
+    }
+})();
+
 function showup(){
     sub.style.height="100%";
 };
