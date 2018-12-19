@@ -154,6 +154,7 @@ html {
 /*sub_visual*/
 .sub_visual {
   height: 160px;
+  width: 100%;
 }
 .sub_visual .container {
   height: 100%;
