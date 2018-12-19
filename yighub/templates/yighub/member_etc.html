@@ -1,0 +1,121 @@
+{% extends 'yighub/extends/TopBar_for_member.html' %}
+{% load staticfiles %}
+{% load static %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'yighub/CSS/member_listings.css' %}"/>
+    <link rel="stylesheet" href="{% static 'yighub/CSS/home_for_member.css' %}"/>
+{% endblock %}
+{% block contents %}
+<section class="sub_bar">
+    <div>
+        <ul class="sub_depth1" lang="en">
+            <li id="current" class="clearfix"><a href="#">Boards</a></li>
+            <ul class="sub_depth1_drop clearfix">
+                <li class="clearfix"><a href="{% url 'yighub:home_for_member' %}">Home</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:Public_Introduction' %}">Public</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:member_Taskforce_News' 0 %}">Taskforce</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:albums' 0 %}">Albums</a></li>
+            </ul>
+        </ul>
+        <!--//sub_depth1-->
+    </div>
+    <div>
+        <ul class="sub_depth2">
+            <li id="current_two" class="clearfix"><a href="{% url 'yighub:member_Etc' 0 %}">기타자료 게시판</a></li>
+            <ul class="sub_depth2_drop clearfix">
+                <li lang="en" class="clearfix"><a href="{% url 'yighub:member_Boards_News' 0 %}">News</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:member_Data' 0 %}">학회운영 자료</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:member_Column' 0 %}">개인 칼럼</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:member_Portfolio' 0 %}">포트폴리오</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:member_Analysis' 0 %}">분석</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:member_Notice' 0 %}">기타자료 게시판</a></li>
+            </ul>
+        </ul>
+        <!--//sub_depth2-->
+    </div>
+</section>
+<!--sub_bar-->
+<section class="contents">
+    <div class="container">
+        <section class="search">
+            <form action="{% url 'yighub:search' 0 'keyword' 1 %}" method="post" class="form-search" />
+                {% csrf_token %}
+                <input type="text" name="keyword" class="input-medium search-query" />
+                <button type="submit" class="btn">Search</button>
+            </form>
+        </section>
+        <!--//search-->
+        <section class="news">
+            <div class="lead_write">
+                <span id="lead">기타자료 게시판</span>
+                <span class="muted">{{ current_board.count_entry }}</span>
+                <a href="{% url 'yighub:create' board %}">
+                    <button type="button" class="btn btn-primary" onclick="location.href = '{% url 'yighub:create' board %}'">글쓰기</button>
+                </a>
+            </div>
+            <!--//lead_write-->
+
+			{% if page.entry_list %}
+			<table class="table">
+				<thead>
+					<tr class="info">
+						<th> 글쓴이 </th>
+						<th> 제목 </th>
+						<th> 등록일 </th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for entry in page.entry_list %}
+					{# for i in entry.range #}
+					<tr>
+						<td class="creator-column"> {{ entry.creator }} </td>
+						<td class="title-column">
+							{% for i in entry.range %} ↳ {% endfor %}
+							<a href="{% url 'yighub:read' board entry.id %}">{{ entry.title|truncatechars:30 }}
+								{% if not entry.count_comment == 0 %}
+								<span class="badge badge-info">{{ entry.count_comment }}</span>
+								{% endif %}
+							</a>
+						</td>
+						<td class="time-column"> {{ entry.time_created|date:"Y-m-d" }} </td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			<br />
+			<div class="pagination pagination-small text-center">
+			  <ul>
+			  	<!-- {% if page.first_page %} -->
+			    <!-- <li class="visible-desktop pull-left"><a href="{% url 'yighub:member_Etc' board page.first_page %}">&laquo;</a></li> -->
+			    <!-- <li><a href="{% url 'yighub:member_Etc' board page.prev_page %}">&lsaquo;</a></li> -->
+			    <!-- {% endif %} -->
+			    {% for p in page.page_list %}
+				    {% if p == page.current_page %}
+				    <li class="active">
+				    {% else %}
+				    <li>
+				    {% endif %}
+				    	<a href="{% url 'yighub:member_Etc' p %}">{{ p }}</a>
+				    </li>
+			    {% endfor %}
+			    {% if page.last_page %}
+			    <!-- <li><a href="{% url 'yighub:member_Etc' page.next_page %}">&rsaquo;</a></li> -->
+			    <li class="visible-desktop"><a href="{% url 'yighub:member_Etc' page.last_page %}">&raquo;</a></li>
+			    {% endif %}
+			  </ul>
+			</div>
+			{% else %}
+			<div class="container-fruid text-center">
+				<p> 아직 글이 존재하지 않습니다. </p>
+			</div>
+			{% endif %}
+        </section>
+    <!--//news-->
+    </div>
+    <!--//container-->
+</section>
+    <!--//contents-->
+{% endblock  %}
+{% block script %}
+    <script src="{% static 'yighub/JS/boards.js' %}"></script>
+{% endblock %}

@@ -100,4 +100,17 @@ urlpatterns = [
     url(r'^TopBar/$', views.TopBar_for_Visitor.as_view(), name="TopBar_for_Visitor"),
     url(r'^SubTopBar/$', views.SubTopBar_for_Visitor.as_view(), name="SubTopBar"),
     url(r'^TopBarMember/$', views.Topbar_member.as_view(), name="TopBar_for_Member"),
+
+    #Members_Boards
+    url('members/Boards/news/(?P<pk>\d+)', views.BoardsNews.as_view(), name='member_Boards_News'),
+    url('members/Boards/Column/(?P<pk>\d+)', views.Column.as_view(), name='member_Column'),
+    url('members/Boards/Data/(?P<pk>\d+)', views.Data.as_view(), name='member_Data'),
+    url('members/Boards/Portfolio/(?P<pk>\d+)', views.Portfolio.as_view(), name='member_Portfolio'),
+    url('members/Boards/Analysis/(?P<pk>\d+)', views.Analysis.as_view(), name='member_Analysis'),
+    url('members/Boards/Notice/(?P<pk>\d+)', views.Notice.as_view(), name='member_Notice'),
+    url('members/Boards/Etc/(?P<pk>\d+)', views.Etc.as_view(), name='member_Etc'),
+
+    #Taskforce
+    url('members/Taskforce/News/(?P<pk>\d+)', views.TaskforceNews.as_view(), name='member_Taskforce_News'),
+    url('members/Taskforce/(?P<board_id>\d+)/(?P<page>\d+)', views.Taskforce.as_view(), name='member_Taskforce'),
 ]

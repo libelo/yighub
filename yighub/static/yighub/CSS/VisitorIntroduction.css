@@ -24,11 +24,6 @@ body, input, textarea, select, button, table {
   font-family: "Nanum Gothic", sans-serif;
   font-size: 12px; }
 
-/*제목 초기화*/
-h1, h2, h3, h4, h5, h6 {
-  font-size: 12px;
-  font-weight: normal; }
-
 /*리스트 스타일 초기화*/
 ul, li, ol {
   list-style: none; }
@@ -260,6 +255,7 @@ html {
   background-color: rgba(0, 0, 0, 0.9);
   height: 50px; }
   .sub_bar div {
+    z-index: 10;
     float: left;
     width: 15%;
     height: 100%;
@@ -278,7 +274,8 @@ html {
         color: white;
         line-height: 50px; }
       .sub_bar div .sub_depth1 .sub_depth1_drop {
-        display: none; }
+        display: none;
+        z-index: 9; }
       .sub_bar div .sub_depth1 .sub_depth1_drop.show {
         display: block;
         border: none;
@@ -298,7 +295,8 @@ html {
         color: white;
         line-height: 50px; }
       .sub_bar div .sub_depth2 .sub_depth2_drop {
-        display: none; }
+        display: none;
+        z-index: 9; }
       .sub_bar div .sub_depth2 .sub_depth2_drop.show {
         display: block;
         border-bottom: 1px solid white; }

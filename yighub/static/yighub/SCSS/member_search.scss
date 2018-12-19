@@ -1,0 +1,124 @@
+.contents{
+  width: 1200px;
+  .container{
+    .Intro{
+      height: 50px;
+      width: 100%;
+      margin-top: 20px;
+      margin-right: auto;
+      margin-left: auto;
+      text-align: center;
+      font-size: 24px;
+    }
+
+    .search{
+        margin-top: 20px;
+        text-align: center;
+
+        input{
+          background: transparent;
+          width: 20%;
+          outline: none;
+          border-radius: 22px;
+          background-color: #F1F3F4;
+        }
+      }
+
+    .results{
+      max-width: 680px;
+      width: 60%;
+      margin-top: 20px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+
+      .table{
+        width: 100%;
+        margin: 0 auto;
+        border-collapse: collapse;
+        text-align: left;
+        white-space: nowrap;
+
+        .title-column{
+          padding-left: 10px;
+        }
+
+        tr th{
+          background-color: royalblue;
+          color: white;
+
+          &:first-child{
+            width: 50px;
+            padding: 0;
+          }
+
+          &:nth-child(2){
+            padding-left: 10px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1280px){
+  .contents{
+    width: 100%;
+    .container{
+      box-sizing: border-box;
+      padding: 0 15px;
+    }
+  }
+}
+
+@media (max-width: 550px) {
+  .contents{
+    .container{
+      padding: 0 30px;
+      .results{
+        width: 100%;
+      }
+    }
+  }
+}
+
+@media (max-width: 440px){
+  .contents{
+    .container{
+      .search{
+        margin-top: 50px;
+      }
+
+      .results{
+        .table {
+          tr th {
+            &:first-child{
+              width: 1%;
+            }
+
+            &:last-child {
+              display: none;
+            }
+
+            &:nth-child(2){
+              width: 270px;
+            }
+
+          }
+
+          .time-column {
+            display: none;
+          }
+
+          .title-column{
+            display: block;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            width: 270px;
+          }
+        }
+      }
+    }
+  }
+}

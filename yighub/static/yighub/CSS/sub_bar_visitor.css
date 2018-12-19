@@ -6,6 +6,7 @@
   background-color: rgba(0, 0, 0, 0.9);
   height: 50px; }
   .sub_bar div {
+    z-index: 10;
     float: left;
     width: 15%;
     height: 100%;
@@ -24,6 +25,7 @@
         color: white;
         line-height: 50px; }
       .sub_bar div .sub_depth1 .sub_depth1_drop {
+        z-index: 9;
         display: none; }
       .sub_bar div .sub_depth1 .sub_depth1_drop.show {
         display: block;
@@ -44,7 +46,8 @@
         color: white;
         line-height: 50px; }
       .sub_bar div .sub_depth2 .sub_depth2_drop {
-        display: none; }
+        display: none;
+        z-index: 9; }
       .sub_bar div .sub_depth2 .sub_depth2_drop.show {
         display: block;
         border-bottom: 1px solid white; }

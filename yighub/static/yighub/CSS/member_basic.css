@@ -1,0 +1,103 @@
+.contents {
+  width: 1200px;
+}
+.contents .container .search {
+  margin-top: 20px;
+  text-align: center;
+}
+.contents .container .search input {
+  background: transparent;
+  width: 20%;
+  outline: none;
+  border-radius: 22px;
+  background-color: #F1F3F4;
+}
+.contents .container .news {
+  max-width: 680px;
+  width: 60%;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+.contents .container .news .lead_write {
+  position: relative;
+  margin-bottom: 20px;
+}
+.contents .container .news .lead_write a {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+.contents .container .news .table {
+  width: 100%;
+  margin: 0 auto;
+  border-collapse: collapse;
+  text-align: left;
+  white-space: nowrap;
+}
+.contents .container .news .table .title-column {
+  padding-left: 10px;
+}
+.contents .container .news .table tr th {
+  background-color: royalblue;
+  color: white;
+}
+.contents .container .news .table tr th:first-child {
+  width: 50px;
+  padding: 0;
+}
+.contents .container .news .table tr th:nth-child(2) {
+  width: 1%;
+  padding: 0;
+}
+.contents .container .news .table tr th:nth-child(3) {
+  padding-left: 10px;
+}
+.contents .container .news .table tr th:last-child {
+  width: 1%;
+  padding: 0;
+}
+
+@media (max-width: 1280px) {
+  .contents {
+    width: 100%;
+  }
+  .contents .container {
+    box-sizing: border-box;
+    padding: 0 15px;
+  }
+}
+@media (max-width: 550px) {
+  .contents .container {
+    padding: 0 30px;
+  }
+  .contents .container .news {
+    width: 100%;
+  }
+  .contents .container .news .table tr th:nth-child(2) {
+    display: none;
+  }
+  .contents .container .news .table .board-column {
+    display: none;
+  }
+}
+@media (max-width: 440px) {
+  .contents .container .search {
+    margin-top: 50px;
+  }
+  .contents .container .news .table tr th:first-child {
+    width: 1%;
+  }
+  .contents .container .news .table tr th:last-child {
+    display: none;
+  }
+  .contents .container .news .table .time-column {
+    display: none;
+  }
+  .contents .container .news .table .title-column {
+    text-overflow: ellipsis;
+  }
+}
+
+/*# sourceMappingURL=member_basic.css.map */

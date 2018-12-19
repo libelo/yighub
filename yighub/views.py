@@ -392,7 +392,6 @@ def home(request):
         logger.info('비회원 %s(%d)님이 홈페이지를 열었습니다.' % (user.name, user.id))
         return render(request, 'yighub/home_for_visitor.html', {'public_dict' : PublicBoardDict, 'user' : user})
 
-    memos = Memo.objects.all().order_by('-pk')[0:10]
     bulletin_list = get_board_list('bulletin')
     taskforce_list = get_board_list('taskforce')
 
@@ -405,28 +404,31 @@ def home(request):
     for t in taskforce_news:
         t.board_type = 'taskforce'
     news += taskforce_news
-    news = sorted(news, key = lambda news: news.time_created, reverse = True)[:10]
+    news = sorted(news, key=lambda news: news.time_created, reverse=True)[:10]
 
-    album_news = Album.objects.order_by('-newest_time')[:2]
-    for album in album_news:
-        try:
-            album.thumbnail = album.photos.all()[0]
-        except:
-            album.thumbnail = None
+    # memos = Memo.objects.all().order_by('-pk')[0:10]
+    # news += bulletin_news
+    # taskforce_news = TaskforceEntry.objects.all().order_by('-time_created')[0:10]
+    # album_news = Album.objects.order_by('-newest_time')[:2]
+    # for album in album_news:
+    #     try:
+    #         album.thumbnail = album.photos.all()[0]
+    #     except:
+    #         album.thumbnail = None
+    #
+    # today = datetime.datetime.now()
+    # birthday_list = []
+    # for member in User.objects.all():
+    #     if member.level != 'non':
+    #         if member.birthday:
+    #             if member.birthday.month == today.month and member.birthday.day == today.day:
+    #                 birthday_list.append(member)
 
-    today = datetime.datetime.now()
-    birthday_list = []
-    for member in User.objects.all():
-        if member.level != 'non':
-            if member.birthday:
-                if member.birthday.month == today.month and member.birthday.day == today.day:
-                    birthday_list.append(member)
-
-    logger.info('%s(%d)님이 홈페이지를 열었습니다.' % (user.name, user.id))
+    # logger.info('%s(%d)님이 홈페이지를 열었습니다.' % (user.name, user.id))
 
     return render(request, 'yighub/home_for_member.html', { 'user' : user, 'public_dict' : PublicBoardDict,
-    'bulletin_list' : bulletin_list, 'taskforce_list' : taskforce_list, 'news' : news,
-    'album_news' : album_news, 'memos' : memos, 'birthday' : birthday_list,},)
+    'bulletin_list' : bulletin_list, 'taskforce_list' : taskforce_list, 'news' : news, 'boards_news': bulletin_news,
+    'taskforce_news': taskforce_news },)
 
 
 class home_member(TemplateView):
@@ -466,6 +468,345 @@ class home_member(TemplateView):
 #임시방편
 class Topbar_member(TemplateView):
     template_name = "yighub/extends/TopBar_for_member.html"
+
+
+####MEMBERS CLASS START########
+class BoardsNews(TemplateView):
+    template_name = "yighub/member_BoardsNews.html"
+
+    def get_context_data(self, **kwargs):
+        context=super(TemplateView, self).get_context_data()
+
+        # 권한 검사
+        try:
+            u = self.request.session['user_id']
+            user = User.objects.get(user_id=u)
+        except KeyError:
+            return redirect('yighub:login')
+        except User.DoesNotExist:  # 세션에는 남아있지만 데이터베이스에는 없는 경우. 회원탈퇴이거나 다른 app을 쓰다 접근.
+            return redirect('yighub:logout', )
+
+        if user.level == 'non':
+            messages.error(self.request, '접근 권한이 없습니다.')
+            return render(self.request, 'yighub/error.html', )
+
+        p = pagination("bulletin", board_id=0, current_page=self.kwargs['pk'])
+        board_list = get_board_list("bulletin")
+
+        logger.info('%s(%d)님이 %s news를 열었습니다.' % (user.name, user.id, "bulletin"))
+        context.update({'public_dict': PublicBoardDict, 'board': "bulletin", 'board_list': board_list,
+                       'page': p})
+        return context
+
+
+class Column(TemplateView):
+    template_name = "yighub/member_Column.html"
+
+    def get_context_data(self, **kwargs):
+        context=super(TemplateView, self).get_context_data()
+
+        board="bulletin"
+        board_id=19
+        page='0'
+
+        # board 분류
+        exist, Board, Entry, Comment, Thumbnail, File, EntryForm = classify(board)
+        if exist == False:
+            raise Http404
+
+        try:
+            current_board = Board.objects.get(pk=board_id)
+        except Board.DoesNotExist:
+            raise Http404
+
+        p = pagination(board, board_id, current_page='0')
+        board_list = get_board_list(board)
+
+        # 권한 검사
+        permission = check_permission(self.request, board, current_board)
+        if permission[0] == False:
+            return permission[1]
+        try:
+            u = User.objects.get(user_id=self.request.session['user_id'])
+        except:
+            u = None
+
+        if u:
+            logger.info('%s(%d)님이 %s 게시판 %s 페이지를 열었습니다.' % (u.name, u.id, current_board.name, page))
+        else:
+            logger.info('방문자가 %s 게시판 %s 페이지를 열었습니다.' % (current_board.name, page))
+
+        context.update({'public_dict': PublicBoardDict, 'board': board, 'board_list': board_list,
+                       'current_board': current_board, 'page': p})
+
+        return context
+
+
+
+class Data(TemplateView):
+    template_name = "yighub/member_data.html"
+
+    def get_context_data(self, **kwargs):
+        context=super(TemplateView, self).get_context_data()
+
+        board="bulletin"
+        board_id=18
+        page='0'
+
+        # board 분류
+        exist, Board, Entry, Comment, Thumbnail, File, EntryForm = classify(board)
+        if exist == False:
+            raise Http404
+
+        try:
+            current_board = Board.objects.get(pk=board_id)
+        except Board.DoesNotExist:
+            raise Http404
+
+        p = pagination(board, board_id, current_page='0')
+        board_list = get_board_list(board)
+
+        # 권한 검사
+        permission = check_permission(self.request, board, current_board)
+        if permission[0] == False:
+            return permission[1]
+        try:
+            u = User.objects.get(user_id=self.request.session['user_id'])
+        except:
+            u = None
+
+        if u:
+            logger.info('%s(%d)님이 %s 게시판 %s 페이지를 열었습니다.' % (u.name, u.id, current_board.name, page))
+        else:
+            logger.info('방문자가 %s 게시판 %s 페이지를 열었습니다.' % (current_board.name, page))
+
+        context.update({'public_dict': PublicBoardDict, 'board': board, 'board_list': board_list,
+                       'current_board': current_board, 'page': p})
+
+        return context
+
+
+class Portfolio(TemplateView):
+    template_name = "yighub/member_Portfolio.html"
+
+    def get_context_data(self, **kwargs):
+        context=super(TemplateView, self).get_context_data()
+
+        board="bulletin"
+        board_id=20
+        page='0'
+
+        # board 분류
+        exist, Board, Entry, Comment, Thumbnail, File, EntryForm = classify(board)
+        if exist == False:
+            raise Http404
+
+        try:
+            current_board = Board.objects.get(pk=board_id)
+        except Board.DoesNotExist:
+            raise Http404
+
+        p = pagination(board, board_id, current_page='0')
+        board_list = get_board_list(board)
+
+        # 권한 검사
+        permission = check_permission(self.request, board, current_board)
+        if permission[0] == False:
+            return permission[1]
+        try:
+            u = User.objects.get(user_id=self.request.session['user_id'])
+        except:
+            u = None
+
+        if u:
+            logger.info('%s(%d)님이 %s 게시판 %s 페이지를 열었습니다.' % (u.name, u.id, current_board.name, page))
+        else:
+            logger.info('방문자가 %s 게시판 %s 페이지를 열었습니다.' % (current_board.name, page))
+
+        context.update({'public_dict': PublicBoardDict, 'board': board, 'board_list': board_list,
+                       'current_board': current_board, 'page': p})
+        return context
+
+
+class Analysis(TemplateView):
+    template_name = "yighub/member_analysis.html"
+
+    def get_context_data(self, **kwargs):
+        context=super(TemplateView, self).get_context_data()
+
+        board="bulletin"
+        board_id=21
+        page='0'
+
+        # board 분류
+        exist, Board, Entry, Comment, Thumbnail, File, EntryForm = classify(board)
+        if exist == False:
+            raise Http404
+
+        try:
+            current_board = Board.objects.get(pk=board_id)
+        except Board.DoesNotExist:
+            raise Http404
+
+        p = pagination(board, board_id, current_page='0')
+        board_list = get_board_list(board)
+
+        # 권한 검사
+        permission = check_permission(self.request, board, current_board)
+        if permission[0] == False:
+            return permission[1]
+        try:
+            u = User.objects.get(user_id=self.request.session['user_id'])
+        except:
+            u = None
+
+        if u:
+            logger.info('%s(%d)님이 %s 게시판 %s 페이지를 열었습니다.' % (u.name, u.id, current_board.name, page))
+        else:
+            logger.info('방문자가 %s 게시판 %s 페이지를 열었습니다.' % (current_board.name, page))
+
+        context.update({'public_dict': PublicBoardDict, 'board': board, 'board_list': board_list,
+                       'current_board': current_board, 'page': p})
+        return context
+
+
+class Notice(TemplateView):
+    template_name = "yighub/member_notice.html"
+
+    def get_context_data(self, **kwargs):
+        context=super(TemplateView, self).get_context_data()
+
+        board="bulletin"
+        board_id=22
+        page='0'
+
+        # board 분류
+        exist, Board, Entry, Comment, Thumbnail, File, EntryForm = classify(board)
+        if exist == False:
+            raise Http404
+
+        try:
+            current_board = Board.objects.get(pk=board_id)
+        except Board.DoesNotExist:
+            raise Http404
+
+        p = pagination(board, board_id, current_page='0')
+        board_list = get_board_list(board)
+
+        # 권한 검사
+        permission = check_permission(self.request, board, current_board)
+        if permission[0] == False:
+            return permission[1]
+        try:
+            u = User.objects.get(user_id=self.request.session['user_id'])
+        except:
+            u = None
+
+        if u:
+            logger.info('%s(%d)님이 %s 게시판 %s 페이지를 열었습니다.' % (u.name, u.id, current_board.name, page))
+        else:
+            logger.info('방문자가 %s 게시판 %s 페이지를 열었습니다.' % (current_board.name, page))
+
+        context.update({'public_dict': PublicBoardDict, 'board': board, 'board_list': board_list,
+                       'current_board': current_board, 'page': p})
+        return context
+
+
+class Etc(TemplateView):
+    template_name = "yighub/member_etc.html"
+
+    def get_context_data(self, **kwargs):
+        context=super(TemplateView, self).get_context_data()
+
+        board="bulletin"
+        board_id=23
+        page='0'
+
+        # board 분류
+        exist, Board, Entry, Comment, Thumbnail, File, EntryForm = classify(board)
+        if exist == False:
+            raise Http404
+
+        try:
+            current_board = Board.objects.get(pk=board_id)
+        except Board.DoesNotExist:
+            raise Http404
+
+        p = pagination(board, board_id, current_page='0')
+        board_list = get_board_list(board)
+
+        # 권한 검사
+        permission = check_permission(self.request, board, current_board)
+        if permission[0] == False:
+            return permission[1]
+        try:
+            u = User.objects.get(user_id=self.request.session['user_id'])
+        except:
+            u = None
+
+        if u:
+            logger.info('%s(%d)님이 %s 게시판 %s 페이지를 열었습니다.' % (u.name, u.id, current_board.name, page))
+        else:
+            logger.info('방문자가 %s 게시판 %s 페이지를 열었습니다.' % (current_board.name, page))
+
+        context.update({'public_dict': PublicBoardDict, 'board': board, 'board_list': board_list,
+                       'current_board': current_board, 'page': p})
+        return context
+
+
+class TaskforceNews(TemplateView):
+    template_name = "yighub/member_TaskforceNews.html"
+
+    def get_context_data(self, **kwargs):
+        context=super(TemplateView, self).get_context_data()
+        # 권한 검사
+        try:
+            u = self.request.session['user_id']
+            user = User.objects.get(user_id=u)
+        except KeyError:
+            return redirect('yighub:login')
+        except User.DoesNotExist:  # 세션에는 남아있지만 데이터베이스에는 없는 경우. 회원탈퇴이거나 다른 app을 쓰다 접근.
+            return redirect('yighub:logout', )
+
+        if user.level == 'non':
+            messages.error(self.request, '접근 권한이 없습니다.')
+            return render(self.request, 'yighub/error.html', )
+
+        p = pagination("taskforce", board_id=0, current_page=self.kwargs['pk'])
+        board_list = get_board_list("taskforce")
+
+        logger.info('%s(%d)님이 %s news를 열었습니다.' % (user.name, user.id, "bulletin"))
+        context.update({'public_dict': PublicBoardDict, 'board': "taskforce", 'board_list': board_list,
+                       'page': p})
+        return context
+
+
+class Taskforce(TemplateView):
+    template_name = "yighub/member_Taskforce.html"
+
+    def get_context_data(self, **kwargs):
+        context=super(TemplateView, self).get_context_data()
+        try:
+            current_board = Board.objects.get(pk=self.kwargs['board_id'])
+        except Board.DoesNotExist:
+            raise Http404
+
+        p = pagination("taskforce", self.kwargs['board_id'], current_page=self.kwargs['page'])
+        board_list = get_board_list("taskforce")
+
+        # 권한 검사
+        permission = check_permission(self.request, "taskforce", current_board)
+        if permission[0] == False:
+            return permission[1]
+        try:
+            u = User.objects.get(user_id=self.request.session['user_id'])
+        except:
+            u = None
+
+        board="taskforce"
+        context.update({'user': u, 'board_list': board_list, 'current_board': current_board, 'page': p
+                        ,'board': board})
+        return context
 
 
 def all_news(request, page):
@@ -596,11 +937,11 @@ def listing(request, board, board_id, page = '0'):    # url : yig.in/yighub/boar
     else:
         p = pagination(board, board_id, current_page = page)
     board_list = get_board_list(board)
-    
+
     # 권한 검사
     permission = check_permission(request, board, current_board)
     if permission[0] == False:
-        return permission[1] 
+        return permission[1]
     try:
         u = User.objects.get(user_id = request.session['user_id'])
     except:
@@ -609,7 +950,7 @@ def listing(request, board, board_id, page = '0'):    # url : yig.in/yighub/boar
     if u:
         logger.info('%s(%d)님이 %s 게시판 %s 페이지를 열었습니다.' % (u.name, u.id, current_board.name, page))
     else:
-        logger.info('방문자가 %s 게시판 %s 페이지를 열었습니다.' % (current_board.name, page))        
+        logger.info('방문자가 %s 게시판 %s 페이지를 열었습니다.' % (current_board.name, page))
 
     if board == 'public' and current_board.name!="Introduction":
         if current_board.name == 'Member Profile':
@@ -678,7 +1019,7 @@ def create_taskforce(request):
 
             logger.info('%s(%d)님이 새 taskforce를 만들었습니다: "%s"(%d)' % (u.name, u.id, t.name, t.id))
 
-            return redirect('yighub:news', board='taskforce', page=1 )
+            return redirect('yighub:member_Taskforce_News', pk=0 )
     else:
         form = TaskforceBoardForm()
 
@@ -713,7 +1054,7 @@ def edit_taskforce(request, taskforce_id): # 여기서 archive로 넘기기도 �
             t.save()
 
             logger.info('%s(%d)님이 %s taskforce(%d)를 수정했습니다.' % (u.name, u.id, t.name, t.id))
-            return redirect('yighub:news', board='taskforce', page=1 )
+            return redirect('yighub:member_Taskforce_News', pk=1)
     else:
         form = TaskforceBoardForm(instance = t)
 
@@ -795,14 +1136,7 @@ def create(request, board, board_id = None):
     exist, Board, Entry, Comment, Thumbnail, File, EntryForm = classify(board)
     if exist == False:
         raise Http404
-
-    if board_id:
-        try:
-            current_board = Board.objects.get(pk = board_id)
-        except Board.DoesNotExist:
-            raise Http404
-    else:
-        current_board = None
+    current_board = None
 
     # 권한 검사
     permission = check_permission(request, board, current_board, mode = 'writing')
@@ -852,7 +1186,13 @@ def create(request, board, board_id = None):
             b.save()
 
             logger.info('%s(%d)님이 %s 게시판(%d)에 게시글을 작성했습니다: "%s"(%d)' % (u.name, u.id, current_board.name, current_board.id, e.title, e.id))
-            return redirect('yighub:listing', board=board, board_id=b.id, page=1)
+
+            if board=="bulletin":
+                return redirect('yighub:member_Boards_News', pk=0)
+            elif board=="taskforce":
+                return redirect('yighub:member_Taskforce_News', pk=0)
+            else:
+                return redirect('yighub:home_for_member', pk=0)
     else:
         if board_id:
             form = EntryForm(initial = {'board' : current_board})

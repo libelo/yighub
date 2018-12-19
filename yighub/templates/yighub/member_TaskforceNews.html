@@ -1,0 +1,142 @@
+{% extends 'yighub/extends/TopBar_for_member.html' %}
+{% load staticfiles %}
+{% load static %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'yighub/CSS/member_basic.css' %}"/>
+    <link rel="stylesheet" href="{% static 'yighub/CSS/home_for_member.css' %}"/>
+    <link rel="stylesheet" href="{% static 'yighub/CSS/member_taskforce.css' %}"/>
+{% endblock %}
+{% block contents %}
+<section class="sub_bar" lang="en">
+    <div>
+        <ul class="sub_depth1">
+            <li id="current" class="clearfix"><a href="{% url 'yighub:member_Taskforce_News' 0 %}">Taskforce</a></li>
+            <ul class="sub_depth1_drop clearfix">
+                <li class="clearfix"><a href="{% url 'yighub:home_for_member' %}">Home</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:Public_Introduction' %}">Public</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:member_Boards_News' 0 %}">Boards</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:albums' 0 %}">Albums</a></li>
+            </ul>
+        </ul>
+        <!--//sub_depth1-->
+    </div>
+    <div>
+        <ul class="sub_depth2">
+            <li id="current_two" class="clearfix"><a href="{% url 'yighub:member_Taskforce_News' 0 %}">News</a></li>
+            <ul class="sub_depth2_drop clearfix">
+                <li id="current_two" class="clearfix"><a href="{% url 'yighub:taskforce_archive' %}">Archive</a></li>
+            </ul>
+        </ul>
+        <!--//sub_depth2-->
+    </div>
+</section>
+<!--sub_bar-->
+<section class="contents clearfix">
+    <div class="container clearfix">
+        <section class="sidebar-nav">
+            <div class="edit_taskforce">
+                <a href="{% url 'yighub:create_taskforce' %}">
+						<button type="button" class="btn" onclick="location.href = '{% url 'yighub:create_taskforce' %}'">Taskforce 만들기</button>
+                </a>
+{#                <a href="{% url 'yighub:edit_taskforce' current_board.id %}">#}
+{#                    <button type="button" class="btn" onclick="location.href = '{% url 'yighub:edit_taskforce' current_board.id %}'">Taskforce 수정하기</button>#}
+{#                </a>#}
+                <div class="icon"><a href="#"></a></div>
+			</div>
+            <ul class="nav nav-list sidebar">
+				{% for b in board_list %}
+				<li {% if b == current_board %} class="active" {% endif %}>
+					<a href="{% url 'yighub:member_Taskforce' b.id 0 %}">
+						{{ b.name }}
+					</a>
+				</li>
+				{% endfor %}
+			</ul>
+        </section>
+        <!--//sidebar-nav-->
+        <section class="Main_contents">
+            <section class="search" lang="en">
+                <form action="{% url 'yighub:search' 0 'keyword' 1 %}" method="post" class="form-search" />
+                    {% csrf_token %}
+                    <input type="text" name="keyword" class="input-medium search-query" />
+                    <button type="submit" class="btn">Search</button>
+                </form>
+            </section>
+                <!--//search-->
+            <section class="news">
+                <div class="lead_write">
+                    <span id="lead" lang="en">Taskforce News</span>
+                    <a href="{% url 'yighub:create' board %}">
+                        <button type="button" class="btn btn-primary" onclick="location.href = '{% url 'yighub:create' board %}'">글쓰기</button>
+                    </a>
+                </div>
+                <!--//lead_write-->
+
+                {% if page.entry_list %}
+                <table class="table">
+                    <thead>
+                        <tr class="info">
+                            <th> 글쓴이 </th>
+                            <th> 게시판 </th>
+                            <th> 제목 </th>
+                            <th> 등록일 </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entry in page.entry_list %}
+                        {# for i in entry.range #}
+                        <tr>
+                            <td class="creator-column"> {{ entry.creator }} </td>
+                            <td class="board-column"> {{ entry.board.name|truncatechars:12 }} </td>
+                            <td class="title-column">
+                                {% for i in entry.range %} ↳ {% endfor %}
+                                <a href="{% url 'yighub:read' board entry.id %}">{{ entry.title|truncatechars:30 }}
+                                    {% if not entry.count_comment == 0 %}
+                                    <span class="badge badge-info">{{ entry.count_comment }}</span>
+                                    {% endif %}
+                                </a>
+                            </td>
+                            <td class="time-column"> {{ entry.time_created|date:"Y-m-d" }} </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <br />
+                <div class="pagination pagination-small text-center">
+                  <ul>
+                    <!-- {% if page.first_page %} -->
+                    <!-- <li class="visible-desktop pull-left"><a href="{% url 'yighub:member_Taskforce_News' board page.first_page %}">&laquo;</a></li> -->
+                    <!-- <li><a href="{% url 'yighub:member_Taskforce_News' board page.prev_page %}">&lsaquo;</a></li> -->
+                    <!-- {% endif %} -->
+                    {% for p in page.page_list %}
+                        {% if p == page.current_page %}
+                        <li class="active">
+                        {% else %}
+                        <li>
+                        {% endif %}
+                            <a href="{% url 'yighub:member_Taskforce_News' p %}">{{ p }}</a>
+                        </li>
+                    {% endfor %}
+                    {% if page.last_page %}
+                    <!-- <li><a href="{% url 'yighub:member_Taskforce_News' page.next_page %}">&rsaquo;</a></li> -->
+                    <li class="visible-desktop"><a href="{% url 'yighub:member_Taskforce_News' page.last_page %}">&raquo;</a></li>
+                    {% endif %}
+                  </ul>
+                </div>
+                {% else %}
+                <div class="container-fruid text-center">
+                    <p> 아직 글이 존재하지 않습니다. </p>
+                </div>
+                {% endif %}
+            </section>
+        <!--//news-->
+        </section>
+        <!--//Main_contents-->
+    </div>
+    <!--//container-->
+</section>
+    <!--//contents-->
+{% endblock  %}
+{% block script %}
+<script src="{% static "yighub/JS/taskforce.js" %}"></script>
+{% endblock %}
