@@ -68,8 +68,8 @@
                 <div class="lead_write">
                     <span id="lead">{{ current_board.name }}</span>
                     <span class="muted">{{ current_board.count_entry }}</span>
-                    <a href="{% url 'yighub:create' board %}">
-                        <button type="button" class="btn btn-primary" onclick="location.href = '{% url 'yighub:create' board %}'">글쓰기</button>
+                    <a href="{% url 'yighub:create_in_board' board  board_id%}">
+                        <button type="button" class="btn btn-primary" onclick="location.href = '{% url 'yighub:create_in_board' board board_id %}'">글쓰기</button>
                     </a>
                 </div>
                 <!--//lead_write-->
