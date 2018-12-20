@@ -805,7 +805,7 @@ class Taskforce(TemplateView):
 
         board="taskforce"
         context.update({'user': u, 'board_list': board_list, 'current_board': current_board, 'page': p
-                        ,'board': board})
+                        ,'board': board, 'board_id': int(self.kwargs['board_id'])})
         return context
 
 
@@ -1136,7 +1136,15 @@ def create(request, board, board_id = None):
     exist, Board, Entry, Comment, Thumbnail, File, EntryForm = classify(board)
     if exist == False:
         raise Http404
-    current_board = None
+
+    if board_id:
+        try:
+            current_board = Board.objects.get(pk=board_id)
+
+        except Board.DoesNotExist:
+            raise Http404
+    else:
+        current_board = None
 
     # 권한 검사
     permission = check_permission(request, board, current_board, mode = 'writing')
