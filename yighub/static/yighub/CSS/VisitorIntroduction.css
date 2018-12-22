@@ -156,22 +156,25 @@ html {
       background-size: cover;
       background-repeat: no-repeat; }
 
+#nav .container .row {
+  padding: 0 15px; }
+
 /*Nav_lst*/
 .Nav_lst {
   display: none; }
-  .Nav_lst .container .row {
-    padding: 0 15px; }
-  .Nav_lst ul li {
+  .Nav_lst .Nav_ul li {
     width: 100%;
     font-size: 16px;
     position: relative; }
-    .Nav_lst ul li a {
+    .Nav_lst .Nav_ul li:nth-child(3) a:after, .Nav_lst .Nav_ul li:nth-child(5) a:after, .Nav_lst .Nav_ul li:last-child a:after {
+      content: none; }
+    .Nav_lst .Nav_ul li a {
       display: inline-block;
       height: 100%;
       width: 100%;
       line-height: 45px;
       color: #e50914; }
-      .Nav_lst ul li a:after {
+      .Nav_lst .Nav_ul li a:after {
         content: '';
         display: block;
         position: absolute;
@@ -184,14 +187,14 @@ html {
         border-color: #ddd;
         -webkit-transform: rotate(135deg);
         transform: rotate(135deg); }
-    .Nav_lst ul li .show {
+    .Nav_lst .Nav_ul li .show {
       display: block; }
-    .Nav_lst ul li ul {
+    .Nav_lst .Nav_ul li ul {
       display: none; }
-      .Nav_lst ul li ul li a {
+      .Nav_lst .Nav_ul li ul li a {
         background: #f8f8f8;
         color: #666; }
-        .Nav_lst ul li ul li a:before {
+        .Nav_lst .Nav_ul li ul li a:before {
           content: '';
           display: inline-block;
           width: 2px;
@@ -199,6 +202,8 @@ html {
           margin-right: 5px;
           background: #aaa;
           vertical-align: 5px; }
+        .Nav_lst .Nav_ul li ul li a:after {
+          content: none; }
 
 @media (max-width: 1280px) {
   .container {
@@ -252,7 +257,8 @@ html {
 /*기본설정*/
 /*sub_bar*/
 .sub_bar {
-  width: 100%;
+  width: 1200px;
+  margin: 0 auto;
   background-color: rgba(0, 0, 0, 0.9);
   height: 50px; }
   .sub_bar div {
@@ -307,6 +313,9 @@ html {
     float: left;
     height: 100%; }
 
+@media (max-width: 1280px) {
+  .sub_bar {
+    width: 100%; } }
 @media (max-width: 850px) {
   .sub_bar div .sub_depth1 a {
     font-size: 12px; }

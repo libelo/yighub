@@ -116,18 +116,30 @@
   }
 }
 
-/*Nav_lst*/
-.Nav_lst{
-  display: none;
+#nav{
   .container{
     .row{
       padding: 0 15px;
     }
   }
-  ul li{
+}
+
+/*Nav_lst*/
+.Nav_lst{
+  display: none;
+
+  .Nav_ul li{
     width: 100%;
     font-size: 16px;
     position: relative;
+
+    &:nth-child(3), &:nth-child(5), &:last-child{
+      a{
+        &:after{
+          content: none;
+        }
+      }
+    }
 
     a{
       display: inline-block;
@@ -171,6 +183,10 @@
           margin-right: 5px;
           background: #aaa;
           vertical-align: 5px;
+        }
+
+        &:after{
+          content: none;
         }
       }
     }

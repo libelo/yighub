@@ -79,7 +79,7 @@
     <div class="login-container">
       <form class="form-signin" action="{% url 'yighub:login_check' %}", method = "post">
       	{% csrf_token %}
-        <h2 class="form-signin-heading">Please sign in</h2>
+        <h2 class="form-signin-heading">Please Sign in</h2>
         {% if messages %}
         <ul class = "messages">
         {% for message in messages %}
@@ -95,7 +95,7 @@
           <input type="checkbox" value="remember-me"> Remember me
         </label>
     	-->
-        <button class="btn btn-large btn-primary" type="submit">로그인</button>
+        <button class="btn btn-large btn-primary" type="submit">Log In</button>
       </form>
 
     </div>
