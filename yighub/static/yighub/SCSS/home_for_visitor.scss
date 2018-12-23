@@ -25,7 +25,7 @@ ul li{
 
 /*상위 header 기본*/
 #header{
-  height: 165px;
+  height: 60px;
 
   .nav{
     /*YIG 로고 및 글씨*/
@@ -43,6 +43,10 @@ ul li{
         font-size: 20px;
         top:12px;
         color: $yigcolor;
+      }
+
+      button{
+        display: none;
       }
     }
 
@@ -160,6 +164,85 @@ img{
     vertical-align: middle;
 }
 
+#nav{
+  .container{
+    .row{
+      padding: 0 15px;
+    }
+  }
+}
+
+/*Nav_lst*/
+.Nav_lst{
+  display: none;
+
+  .Nav_ul li{
+    width: 100%;
+    font-size: 16px;
+    position: relative;
+
+    &:nth-child(3), &:nth-child(5), &:last-child{
+      a{
+        &:after{
+          content: none;
+        }
+      }
+    }
+
+    a{
+      display: inline-block;
+      height: 100%;
+      width: 100%;
+      line-height: 45px;
+      color: $yigcolor;
+      text-align: left;
+
+      &:after{
+        content: '';
+        display: block;
+        position: absolute;
+        right: 22px;
+        top: 10px;
+        width: 8px;
+        height: 8px;
+        border-width: 1px 1px 0 0;
+        border-style: solid;
+        border-color: #ddd;
+        -webkit-transform: rotate(135deg);
+        transform: rotate(135deg);
+      }
+    }
+
+    .show{
+      display: block;
+    }
+
+    ul{
+      display: none;
+
+      li a{
+        background: #f8f8f8;
+        color: #666;
+
+        &:before{
+          content: '';
+          display: inline-block;
+          width: 2px;
+          height: 2px;
+          margin-right: 5px;
+          background: #aaa;
+          vertical-align: 5px;
+        }
+
+        &:after{
+          content: none;
+        }
+      }
+    }
+  }
+}
+
+
 @media (max-width: 1280px){
   .container{
     width: 100%;
@@ -170,18 +253,10 @@ img{
   }
 }
 
-@media (max-width: 1280px){
-  .container{
-    width: 100%;
-
-    .row{
-      padding: 0 15px;
-    }
+@media (max-width: 850px){
+  html{
+    background-image: none;
   }
-}
-
-/*태블릿까지는 그대로*/
-@media (max-width: 840px){
 
   .container{
     .row{
@@ -192,15 +267,131 @@ img{
   #header{
     .nav{
       .YIG{
-      display: none;
+        width: 10%;
+        position: relative;
+
+        a{
+          display: none;
+        }
+
+        button{
+          position: absolute;
+          width: 20px; height: 20px;
+          display: inline-block;
+          left: 60px;
+          top: 20px;
+        }
       }
 
       .Main_nav{
-      width: 80%;
+      display: none;
       }
 
       .account{
         margin-top: 14px;
+        float: right;
+        margin-right: 10px;
+
+        .login{
+          color: black;
+        }
+
+        .signup{
+          margin-left: 5px;
+          padding: 2.5px 5px;
+          color: black;
+        }
+      }
+    }
+  }
+
+  .body{
+    display: none;
+  }
+
+  .Nav_lst {
+    display: block;
+    .container {
+      .row {
+        padding: 0 15px;
+      }
+    }
+  }
+}
+
+
+
+///*태블릿까지는 그대로*/
+//@media (max-width: 840px){
+//
+//  .container{
+//    .row{
+//      padding: 0 5px;
+//    }
+//  }
+//
+//  #header{
+//    .nav{
+//      .YIG{
+//      display: none;
+//      }
+//
+//      .Main_nav{
+//      width: 80%;
+//      }
+//
+//      .account{
+//        margin-top: 14px;
+//
+//        .signup{
+//          margin-left: 5px;
+//          padding: 2.5px 5px;
+//        }
+//      }
+//    }
+//  }
+//
+//  .lst_nav{
+//    li{
+//      a{
+//        font-size: 20px;
+//      }
+//    }
+//  }
+//}
+
+@media (max-width: 750px){
+  .container{
+    .row{
+      padding: 0 5px;
+    }
+  }
+
+  #header{
+    .nav{
+      .YIG{
+        width: 10%;
+        position: relative;
+
+        a{
+          display: none;
+        }
+
+        button{
+          position: absolute;
+          width: 20px; height: 20px;
+          display: inline-block;
+          left: 60px;
+          top: 20px;
+        }
+      }
+
+      .account{
+        margin-top: 14px;
+        float: right;
+        margin-right: 30px;
+        color: white;
+
 
         .signup{
           margin-left: 5px;
@@ -210,72 +401,47 @@ img{
     }
   }
 
-  .lst_nav{
-    li{
-      a{
-        font-size: 20px;
+  .Nav_lst {
+    .container {
+      .row {
+        padding: 0 15px;
       }
     }
   }
 }
 
-@media (max-width: 750px){
+@media (max-width: 600px) {
+  .container {
+    .row {
+      padding: 0 5px;
+    }
+  }
+
   #header{
-    background-color: rgba(0,0,0,.5);
-    height: 180px;
-
     .nav{
-      .YIG{
-        display: block;
-        a{
-          display: none;
-        }
-      }
-
-      .hidden{
-        display: block;
-      }
-
-      .Main_nav{
-        font-size: 12px;
-        width: 55%;
-
-        ul li{
-          width: 100%;
-          padding: 5px 0;
-        }
-      }
-
       .account{
-        width: 35%;
-        margin-top: 19px;
-        font-size: 12px;
-
-        a{
-          display: block;
-        }
-
-        .login{
-          margin-left: 6px;
-        }
-
-        .signup{
-          margin-top: 10px;
-          padding: 2.5px 5px;
-          margin-left: 0;
-        }
-      }
-    }
-  }
-
-  .lst_nav{
-    li{
-      a{
-        font-size: 12px;
+        margin-right: 50px;
       }
     }
   }
 }
+
+@media (max-width: 500px) {
+  .container {
+    .row {
+      padding: 0 5px;
+    }
+  }
+
+  #header{
+    .nav{
+      .account{
+        margin-right: 80px;
+      }
+    }
+  }
+}
+
 
 @media (max-width: 320px){
 
