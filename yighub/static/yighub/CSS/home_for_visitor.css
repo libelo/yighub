@@ -119,7 +119,7 @@ ul li {
 
 /*상위 header 기본*/
 #header {
-  height: 165px;
+  height: 60px;
 }
 #header .nav {
   /*YIG 로고 및 글씨*/
@@ -139,6 +139,9 @@ ul li {
   font-size: 20px;
   top: 12px;
   color: #e50914;
+}
+#header .nav .YIG button {
+  display: none;
 }
 #header .nav .Main_nav {
   font-size: 16px;
@@ -234,6 +237,67 @@ img {
   vertical-align: middle;
 }
 
+#nav .container .row {
+  padding: 0 15px;
+}
+
+/*Nav_lst*/
+.Nav_lst {
+  display: none;
+}
+.Nav_lst .Nav_ul li {
+  width: 100%;
+  font-size: 16px;
+  position: relative;
+}
+.Nav_lst .Nav_ul li:nth-child(3) a:after, .Nav_lst .Nav_ul li:nth-child(5) a:after, .Nav_lst .Nav_ul li:last-child a:after {
+  content: none;
+}
+.Nav_lst .Nav_ul li a {
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  line-height: 45px;
+  color: #e50914;
+  text-align: left;
+}
+.Nav_lst .Nav_ul li a:after {
+  content: '';
+  display: block;
+  position: absolute;
+  right: 22px;
+  top: 10px;
+  width: 8px;
+  height: 8px;
+  border-width: 1px 1px 0 0;
+  border-style: solid;
+  border-color: #ddd;
+  -webkit-transform: rotate(135deg);
+  transform: rotate(135deg);
+}
+.Nav_lst .Nav_ul li .show {
+  display: block;
+}
+.Nav_lst .Nav_ul li ul {
+  display: none;
+}
+.Nav_lst .Nav_ul li ul li a {
+  background: #f8f8f8;
+  color: #666;
+}
+.Nav_lst .Nav_ul li ul li a:before {
+  content: '';
+  display: inline-block;
+  width: 2px;
+  height: 2px;
+  margin-right: 5px;
+  background: #aaa;
+  vertical-align: 5px;
+}
+.Nav_lst .Nav_ul li ul li a:after {
+  content: none;
+}
+
 @media (max-width: 1280px) {
   .container {
     width: 100%;
@@ -242,79 +306,109 @@ img {
     padding: 0 15px;
   }
 }
-@media (max-width: 1280px) {
-  .container {
-    width: 100%;
+@media (max-width: 850px) {
+  html {
+    background-image: none;
   }
-  .container .row {
-    padding: 0 15px;
-  }
-}
-/*태블릿까지는 그대로*/
-@media (max-width: 840px) {
+
   .container .row {
     padding: 0 5px;
   }
 
   #header .nav .YIG {
+    width: 10%;
+    position: relative;
+  }
+  #header .nav .YIG a {
     display: none;
   }
+  #header .nav .YIG button {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    left: 60px;
+    top: 20px;
+  }
   #header .nav .Main_nav {
-    width: 80%;
+    display: none;
   }
   #header .nav .account {
     margin-top: 14px;
+    float: right;
+    margin-right: 10px;
+  }
+  #header .nav .account .login {
+    color: black;
+  }
+  #header .nav .account .signup {
+    margin-left: 5px;
+    padding: 2.5px 5px;
+    color: black;
+  }
+
+  .body {
+    display: none;
+  }
+
+  .Nav_lst {
+    display: block;
+  }
+  .Nav_lst .container .row {
+    padding: 0 15px;
+  }
+}
+@media (max-width: 750px) {
+  .container .row {
+    padding: 0 5px;
+  }
+
+  #header .nav .YIG {
+    width: 10%;
+    position: relative;
+  }
+  #header .nav .YIG a {
+    display: none;
+  }
+  #header .nav .YIG button {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    left: 60px;
+    top: 20px;
+  }
+  #header .nav .account {
+    margin-top: 14px;
+    float: right;
+    margin-right: 30px;
+    color: white;
   }
   #header .nav .account .signup {
     margin-left: 5px;
     padding: 2.5px 5px;
   }
 
-  .lst_nav li a {
-    font-size: 20px;
+  .Nav_lst .container .row {
+    padding: 0 15px;
   }
 }
-@media (max-width: 750px) {
-  #header {
-    background-color: rgba(0, 0, 0, 0.5);
-    height: 180px;
-  }
-  #header .nav .YIG {
-    display: block;
-  }
-  #header .nav .YIG a {
-    display: none;
-  }
-  #header .nav .hidden {
-    display: block;
-  }
-  #header .nav .Main_nav {
-    font-size: 12px;
-    width: 55%;
-  }
-  #header .nav .Main_nav ul li {
-    width: 100%;
-    padding: 5px 0;
-  }
-  #header .nav .account {
-    width: 35%;
-    margin-top: 19px;
-    font-size: 12px;
-  }
-  #header .nav .account a {
-    display: block;
-  }
-  #header .nav .account .login {
-    margin-left: 6px;
-  }
-  #header .nav .account .signup {
-    margin-top: 10px;
-    padding: 2.5px 5px;
-    margin-left: 0;
+@media (max-width: 600px) {
+  .container .row {
+    padding: 0 5px;
   }
 
-  .lst_nav li a {
-    font-size: 12px;
+  #header .nav .account {
+    margin-right: 50px;
+  }
+}
+@media (max-width: 500px) {
+  .container .row {
+    padding: 0 5px;
+  }
+
+  #header .nav .account {
+    margin-right: 80px;
   }
 }
 
