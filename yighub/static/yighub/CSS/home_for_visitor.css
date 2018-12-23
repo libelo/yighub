@@ -242,9 +242,6 @@ img {
 }
 
 /*Nav_lst*/
-.Nav_lst {
-  display: none;
-}
 .Nav_lst .Nav_ul li {
   width: 100%;
   font-size: 16px;
