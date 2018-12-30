@@ -1200,7 +1200,7 @@ def create(request, board, board_id = None):
             elif board=="taskforce":
                 return redirect('yighub:member_Taskforce_News', pk=0)
             else:
-                return redirect('yighub:home_for_member', pk=0)
+                return redirect('yighub:home_for_member')
     else:
         if board_id:
             form = EntryForm(initial = {'board' : current_board})
