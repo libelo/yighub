@@ -42,7 +42,7 @@
 
         {% endif %}
 
-        {% if entry.creator == user %}
+        {% if entry.creator == useraccount %}
         <span class="pull-right">
             <a href = "{% url 'yighub:edit' board entry.id %}">수정하기</a>
             &nbsp;&nbsp;
@@ -79,7 +79,7 @@
             <li class="visible-desktop"><a href="{% url 'yighub:Public_Research' page.last_page %}">&raquo;</a></li>
             {% endif %}
           </ul>
-            {% if user and user.level != 'non' %}
+            {% if useraccount and useraccount.level != 'non' %}
              <span class="pull-left">
                     <!-- <a href="{% url 'yighub:create_in_board' board board_id %}"> -->
                         <button type="button" class="btn btn-primary" onclick="location.href = '{% url 'yighub:create_in_board' board board_id %}'">글쓰기</button>

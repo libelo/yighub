@@ -4,6 +4,6 @@ def users(request):
     try:
         user = User.objects.get(user_id=request.session['user_id'])
     except:
-        return {'user': 'Anonymous'}
+        return {'useraccount': 'Anonymous'}
     else:
-        return {'user': user}
+        return {'useraccount': user}
