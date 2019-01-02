@@ -107,22 +107,22 @@ $greycolor: rgba(0,0,0, 0.2);
                 border-width: 1px 1px 0 0;
                 border-style: solid;
                 border-color: #ddd;
-                -webkit-transform: rotate(135deg);
-                transform: rotate(135deg);
+                -webkit-transform: rotate(315deg);
+                transform: rotate(315deg);
               }
             }
 
             a.change{
               &:after{
-                -webkit-transform: rotate(315deg);
-                transform: rotate(315deg);
+                -webkit-transform: rotate(135deg);
+                transform: rotate(135deg);
               }
             }
           }
         }
 
         ul{
-          display: none;
+          display: block;
           font-size: 12px;
           li{
             a{

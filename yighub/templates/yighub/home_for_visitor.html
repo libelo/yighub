@@ -60,7 +60,7 @@
                     </ul>
                 </div>
                 <!--Main Nav-->
-                {% if user.name %}
+                {% if useraccount.name %}
                     <div class="account">
                         <a href="{% url 'yighub:home_for_member' %}">go to members</a>
                         <a class="signup" href="{% url 'yighub:logout' %}">Logout</a>

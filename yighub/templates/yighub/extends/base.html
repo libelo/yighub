@@ -71,9 +71,9 @@
             <li><a href="{% url 'yighub:Public_Contact' %}">Contact Us</a></li>
         </ul>
     </nav>
-    {% if user.name %}
+    {% if useraccount.name %}
     <div class="account">
-        <div>{{ user.name }}</div>
+        <div>{{ useraccount.name }}</div>
         <a class="signup" href="{% url 'yighub:logout' %}">Logout</a>
     </div>
     {% else %}

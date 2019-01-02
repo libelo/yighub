@@ -84,15 +84,15 @@
     border-width: 1px 1px 0 0;
     border-style: solid;
     border-color: #ddd;
-    -webkit-transform: rotate(135deg);
-    transform: rotate(135deg);
-  }
-  .contents .container .sidebar-nav .edit_taskforce .icon a.change:after {
     -webkit-transform: rotate(315deg);
     transform: rotate(315deg);
   }
+  .contents .container .sidebar-nav .edit_taskforce .icon a.change:after {
+    -webkit-transform: rotate(135deg);
+    transform: rotate(135deg);
+  }
   .contents .container .sidebar-nav ul {
-    display: none;
+    display: block;
     font-size: 12px;
   }
   .contents .container .sidebar-nav ul li a {

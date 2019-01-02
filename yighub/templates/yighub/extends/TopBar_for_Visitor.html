@@ -32,7 +32,7 @@
                     </ul>
                 </div>
                 <!--//Main_nav-->
-                {% if user.name %}
+                {% if useraccount.name %}
                 <div class="account" lang="en">
                     <a lang="ko" href="{% url 'yighub:home_for_member' %}">go to Members</a>
                     <a lang="en" class="signup" href="{% url 'yighub:logout' %}">Logout</a>
@@ -70,10 +70,8 @@
                 </ul>
                 <ul></ul>
                 <ul>
-                    <li><a href="{% url 'yighub:Public_SIM_A' 0%}">SIM-A Fund</a></li>
-                    <li><a href="{% url 'yighub:Public_SIM_JS' 0%}">SIM-JS Fund</a></li>
-                    <li><a href="{% url 'yighub:Public_Gfund' 0%}">G Fund </a></li>
-                    <li><a href="{% url 'yighub:Public_Sfund' 0%}">S Fund</a>
+                    <li><a href="{% url 'yighub:Public_SIM_A' 0%}">OK Fund</a></li>
+                    <li><a href="{% url 'yighub:Public_Sfund' 0%}">S Fund</a></li>
                     <li><a href="{% url 'yighub:Public_YIG_Universe' 0 %}">YIG Universe</a></li>
                 </ul>
                 <ul></ul>
@@ -112,9 +110,7 @@
                     <li><a href="{% url 'yighub:Public_Member_Profile' 0 %}">Member Profile</a></li>
                     <li class="drive"><a href="{%  url 'yighub:Public_SIM_A' 0 %}">Fund</a>
                         <ul>
-                            <li><a href="{%  url 'yighub:Public_SIM_A' 0 %}">SIM-A Fund</a></li>
-                            <li><a href="{%  url 'yighub:Public_SIM_JS' 0 %}">SIM-JS Fund</a></li>
-                            <li><a href="{%  url 'yighub:Public_Gfund' 0 %}">G Fund</a></li>
+                            <li><a href="{%  url 'yighub:Public_SIM_A' 0 %}">OK Fund</a></li>
                             <li><a href="{%  url 'yighub:Public_Sfund' 0 %}">S Fund</a></li>
                             <li><a href="{% url 'yighub:Public_YIG_Universe' 0 %}">YIG Universe</a></li>
                         </ul>

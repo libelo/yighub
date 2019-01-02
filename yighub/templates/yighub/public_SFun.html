@@ -8,9 +8,7 @@
         <ul class="sub_depth2">
             <li id="current_two" class="clearfix"><a href="{% url 'yighub:Public_Sfund' 0 %}">S Fund</a></li>
             <ul class="sub_depth2_drop clearfix">
-                <li class="clearfix"><a href="{% url 'yighub:Public_SIM_A' 0 %}">SIM-A Fund</a></li>
-                <li class="clearfix"><a href="{% url 'yighub:Public_SIM_JS' 0 %}">SIM-JS Fund</a></li>
-                <li class="clearfix"><a href="{% url 'yighub:Public_Gfund' 0 %}">G Fund</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:Public_SIM_A' 0 %}">OK Fund</a></li>
                 <li class="clearfix"><a href="{% url 'yighub:Public_YIG_Universe' 0 %}">YIG Universe</a></li>
             </ul>
         </ul>
@@ -23,7 +21,7 @@
             <span id="lead" lang="en">Fund</span>
 			<br />
 			<br />
-			<strong lang="en">SIM-JS FUND</strong>
+			<strong lang="en">S FUND</strong>
 			<br />
             <br />
         <table class="fund_table">
@@ -56,7 +54,7 @@
 			<hr />
 			{% endif %}
 
-			{% if entry.creator == user %}
+			{% if entry.creator == useraccount %}
 			<span class="pull-right">
 				<a href = "{% url 'yighub:edit' board entry.id %}">수정하기</a>
 				&nbsp;&nbsp;
@@ -93,7 +91,7 @@
 			    <li class="visible-desktop"><a href="{% url 'yighub:Public_Sfund' page.last_page %}">&raquo;</a></li>
 			    {% endif %}
 			  </ul>
-                {% if user and user.level != 'non' %}
+                {% if useraccount and useraccount.level != 'non' %}
                  <span class="pull-left">
                      <!-- <a href="{% url 'yighub:create_in_board' board board_id %}"> -->
                      <button type="button" class="btn btn-primary" onclick="location.href = '{% url 'yighub:create_in_board' board board_id %}'">글쓰기</button>
