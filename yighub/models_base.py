@@ -50,6 +50,7 @@ class User(models.Model):
     def __str__(self):
         return self.name
 
+
 class Board(models.Model):
     name = models.CharField(max_length = 50)
     order = models.PositiveIntegerField(default = 1)
@@ -62,6 +63,7 @@ class Board(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Tag(models.Model):
     name = models.CharField(max_length = 200)

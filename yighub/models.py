@@ -20,7 +20,7 @@ class TaskforceBoard(Board):
     archive = models.BooleanField(default = False) 
 
 class PublicBoard(Board):
-    pass
+    active_fund=models.BooleanField(default=False)
 
 class TaskforceBoardForm(forms.ModelForm):
     class Meta:

@@ -6,11 +6,11 @@
 {% block sub_depth2 %}
     <div>
         <ul class="sub_depth2">
-            <li id="current_two" class="clearfix"><a href="{% url 'yighub:Public_SIM_JS' 0 %}">SIM-JS Fund</a></li>
+            <li id="current_two" class="clearfix"><a href="#">{{ fund_name }}</a></li>
             <ul class="sub_depth2_drop clearfix">
-                <li class="clearfix"><a href="{% url 'yighub:Public_SIM_A' 0 %}">SIM-A Fund</a></li>
-                <li class="clearfix"><a href="{% url 'yighub:Public_Gfund' 0 %}">G Fund</a></li>
-                <li class="clearfix"><a href="{% url 'yighub:Public_Sfund' 0 %}">S Fund</a></li>
+                {% for other in other_boards  %}
+                <li class="clearfix"><a href="{% url 'yighub:Public_Fund' other.name 0 %}">{{ other.name }}</a></li>
+                {% endfor %}
                 <li class="clearfix"><a href="{% url 'yighub:Public_YIG_Universe' 0 %}">YIG Universe</a></li>
             </ul>
         </ul>
@@ -18,12 +18,12 @@
     </div>
 {% endblock %}
 {% block contents %}
-    <section class="Fund">
+    <section class="Fund" lang="ko">
 		<div class="container-fluid">
             <span id="lead" lang="en">Fund</span>
 			<br />
 			<br />
-			<strong>SIM-JS FUND</strong>
+			<strong>{{ fund_name }}</strong>
 			<br />
             <br />
         <table class="fund_table">
@@ -38,7 +38,7 @@
                 {% for entry in page.entry_list %}
                     <tr>
                         <td>{{ entry.creator }}</td>
-                        <td class="fund_title"><a href="{% url "yighub:Public_SIM_JS_detail" entry.id  %}">{{ entry.title }}</a></td>
+                        <td class="fund_title"><a href="{% url "yighub:Public_Fund_Detail" fund_name entry.id  %}">{{ entry.title }}</a></td>
                         <td>{{ entry.time_created|date:"Y-m-d" }}</td>
                     </tr>
                 {% endfor %}
@@ -56,7 +56,7 @@
 			<hr />
 			{% endif %}
 
-			{% if entry.creator == user %}
+			{% if entry.creator == useraccount %}
 			<span class="pull-right">
 				<a href = "{% url 'yighub:edit' board entry.id %}">수정하기</a>
 				&nbsp;&nbsp;
@@ -76,8 +76,8 @@
 			<div class="pagination pagination-small text-center">
 			  <ul>
 			  	<!-- {% if page.first_page %} -->
-			    <!-- <li class="visible-desktop pull-left"><a href="{% url 'yighub:Public_SIM_JS' page.first_page %}">&laquo;</a></li> -->
-			    <!-- <li><a href="{% url 'yighub:Public_SIM_JS' page.prev_page %}">&lsaquo;</a></li> -->
+			    <!-- <li class="visible-desktop pull-left"><a href="{% url 'yighub:Public_Fund' fund_name page.first_page %}">&laquo;</a></li> -->
+			    <!-- <li><a href="{% url 'yighub:Public_Fund' fund_name page.prev_page %}">&lsaquo;</a></li> -->
 			    <!-- {% endif %} -->
 			    {% for p in page.page_list %}
 				    {% if p == page.current_page %}
@@ -85,15 +85,15 @@
 				    {% else %}
 				    <li>
 				    {% endif %}
-					    <a href="{% url 'yighub:Public_SIM_JS' p %}">{{ p }}</a>
+					    <a href="{% url 'yighub:Public_Fund' fund_name p %}">{{ p }}</a>
 					</li>
 			    {% endfor %}
 			    {% if page.last_page %}
-			    <!-- <li><a href="{% url 'yighub:Public_SIM_JS' page.next_page %}">&rsaquo;</a></li> -->
-			    <li class="visible-desktop"><a href="{% url 'yighub:Public_SIM_JS' page.last_page %}">&raquo;</a></li>
+			    <!-- <li><a href="{% url 'yighub:Public_Fund' fund_name page.next_page %}">&rsaquo;</a></li> -->
+			    <li class="visible-desktop"><a href="{% url 'yighub:Public_Fund' fund_name page.last_page %}">&raquo;</a></li>
 			    {% endif %}
 			  </ul>
-                {% if user and user.level != 'non' %}
+                {% if useraccount and useraccount.level != 'non' %}
                  <span class="pull-left">
                      <!-- <a href="{% url 'yighub:create_in_board' board board_id %}"> -->
                      <button type="button" class="btn btn-primary" onclick="location.href = '{% url 'yighub:create_in_board' board board_id %}'">글쓰기</button>

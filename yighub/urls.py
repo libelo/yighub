@@ -79,16 +79,10 @@ urlpatterns = [
     url(r'^MemberProfile/(?P<page>\d+)/$', views.MemberProfile.as_view(), name="Public_Member_Profile"),
 
     #Fund (Fund, 디테일)
-    url(r'^Fund/SIMA-Fund/(?P<page>\d+)/$', views.SIM_A.as_view(), name="Public_SIM_A"),
-    url(r'^Fund/SIMA-Fund/detail/(?P<pk>\d+)/$', views.Fund_detail.as_view(), name="Public_SIM_A_detail"),
-    url(r'^Fund/SIMJS-Fund/(?P<page>\d+)/$', views.SIM_JS.as_view(), name="Public_SIM_JS"),
-    url(r'^Fund/SIMJS-Fund/detail/(?P<pk>\d+)/$', views.Fund_detail.as_view(), name="Public_SIM_JS_detail"),
-    url(r'^Fund/GFund/(?P<page>\d+)/$', views.Gfund.as_view(), name="Public_Gfund"),
-    url(r'^Fund/GFund/detail/(?P<pk>\d+)/$', views.Fund_detail.as_view(), name="Public_G_detail"),
-    url(r'^Fund/SFund/(?P<page>\d+)/$', views.Sfund.as_view(), name="Public_Sfund"),
-    url(r'^Fund/SFund/detail/(?P<pk>\d+)/$', views.Fund_detail.as_view(), name="Public_S_detail"),
     url(r'^Fund/YIG_Universe/(?P<page>\d+)/$', views.YIG_Universe.as_view(), name="Public_YIG_Universe"),
     url(r'^Fund/YIG_Universe/detail/(?P<pk>\d+)/$', views.Fund_detail.as_view(), name="Public_Universe_detail"),
+    url(r'^Fund/(?P<fund>\w+)/(?P<page>\d+)/$', views.Fund.as_view(), name="Public_Fund"),
+    url(r'^Fund/(?P<fund>\w+)/detail/(?P<pk>\d+)/$', views.Fund_detail.as_view(), name="Public_Fund_Detail"),
 
     #Research
     url(r'^Research/(?P<page>\d+)/$', views.Research.as_view(), name="Public_Research"),

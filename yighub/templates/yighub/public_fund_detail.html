@@ -25,14 +25,7 @@
 <section class="sub_bar">
     <div>
         <ul class="sub_depth1">
-            <li class="clearfix"><a href="{%  url 'yighub:Public_SIM_A' 0 %}">Fund</a></li>
-            <ul class="sub_depth1_drop clearfix">
-                <li class="clearfix"><a href="{% url 'yighub:Public_Introduction' %}">About YIG</a></li>
-                <li class="clearfix"><a href="{% url 'yighub:Public_Recruiting'%}">Recruiting</a></li>
-                <li class="clearfix"><a href="{%  url 'yighub:Public_Member_Profile' 0 %}">Member Profile</a></li>
-                <li class="clearfix"><a href="{% url 'yighub:Public_Research' 0 %}">Research</a></li>
-                <li class="clearfix"><a href="{% url 'yighub:Public_Contact' %}">Contact Us</a></li>
-            </ul>
+            <li class="clearfix"><a href="{% url 'yighub:Public_Fund' fund_name 0 %}">{{ fund_name }}</a></li>
         </ul>
         <!--//sub_depth1-->
     </div>
@@ -43,13 +36,9 @@
 {% endblock %}
 {% block contents %}
 <article class="article container-fluid" lang="ko">
-    <br/>
-    <br/>
-    <div id="lead">{{ Fund_name }}</div>
-        <br/>
+    <div id="lead">{{ fund_name }}</div>
         <br/>
         <strong id="sub_lead">{{ object.title }}</strong>
-        <br/>
         <br/>
     <div class="time">{{ object.time_created}}</div>
     <hr/>
@@ -87,7 +76,7 @@
         <br/>
         <br/>
 
-        {% if object.creator == user %}
+        {% if object.creator == useraccount %}
         <span class="pull-right">
             <a href = "{% url 'yighub:edit' board entry.id %}">수정하기</a>
             &nbsp;&nbsp;
