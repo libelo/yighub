@@ -18,21 +18,39 @@
     {% endblock %}
 </head>
 <body>
-<header id="header" onmouseover="showup()">
+<header id="header">
     <div class="container">
         <div class="row">
             <nav class="nav clearfix">
                 <div class="YIG">
                     <img src="{% static "yighub/images/yiglogo.png" %}" height="50px" width="50px"/>
                     <a  lang="en" id="YIG" href="{% url 'yighub:home' %}" title="YIG 메인페이지로 이동">YIG</a>
-                    <button id="menu_btn"><i class="fas fa-align-justify"></i></button>
+                    <button id="menu_btn"><i class="fas fa-bars"></i></button>
                 </div>
                 <!--//YIG-->
                 <div class="Main_nav" lang="en">
                     <ul class="clearfix">
-                        <li><a href="{% url 'yighub:home' %}">Public</a></li>
+                        <li><a href="{% url 'yighub:home' %}">Public</a>
+                            <ul class="subnav" lang="en">
+                                <li><a href="{% url 'yighub:Public_Introduction' %}">About YIG</a></li>
+                                <li><a href="{% url 'yighub:Public_Recruiting' %}">Recruiting</a></li>
+                                <li><a id="Activity" href="{% url 'yighub:Public_Member_Profile' 0 %}">Member Profile</a></li>
+                                <li><a href="{% url 'yighub:Public_Fund' rep_fund.id 0 %}">Fund</a></li>
+                                <li><a href="{% url 'yighub:Public_Research' 0 %}">Research</a></li>
+                                <li><a href="{% url 'yighub:Public_Contact' %}">Contact Us</a></li>
+                            </ul>
+                        </li>
                         <li><a href="{% url 'yighub:member_Taskforce_News' 0 %}">Taskforce</a></li>
-                        <li><a href="{% url 'yighub:member_Boards_News' 0 %}">Boards</a></li>
+                        <li><a href="{% url 'yighub:member_Boards_News' 0 %}">Boards</a>
+                            <ul class="subnav" lang="ko">
+                                <li><a href="{% url 'yighub:member_Data' 0 %}">학회운영 자료</a></li>
+                                <li><a href="{% url 'yighub:member_Column' 0 %}">개인 칼럼</a></li>
+                                <li><a href="{% url 'yighub:member_Portfolio' 0 %}">포트폴리오</a></li>
+                                <li><a href="{% url 'yighub:member_Analysis'  0%}">분석</a></li>
+                                <li><a href="{% url 'yighub:member_Notice'  0%}">공지</a></li>
+                                <li><a href="{% url 'yighub:member_Etc' 0 %}">기타자료 게시판</a></li>
+                            </ul>
+                        </li>
                         <li><a href="{% url 'yighub:albums' 0 %}">Albums</a></li>
                     </ul>
                 </div>
@@ -51,30 +69,6 @@
 <!--//header 끝-->
 <div class="sub_visual">
     <div class="container">
-        <div class="sub_all" onmouseleave="disappear()">
-            <div class="sub clearfix">
-                <ul lang="en">
-                    <li><a href="{% url 'yighub:Public_Introduction' %}">About YIG</a></li>
-                    <li><a href="{% url 'yighub:Public_Recruiting' %}">Recruiting</a></li>
-                    <li><a id="Activity" href="{% url 'yighub:Public_Member_Profile' 0 %}">Member Profile</a></li>
-                    <li><a href="{% url 'yighub:Public_Fund' rep_fund.id 0 %}">Fund</a></li>
-                    <li><a href="{% url 'yighub:Public_Research' 0 %}">Research</a></li>
-                    <li><a href="{% url 'yighub:Public_Contact' %}">Contact Us</a></li>
-                </ul>
-                <ul></ul>
-                <ul lang="ko">
-                    <li><a href="{% url 'yighub:member_Data' 0 %}">학회운영 자료</a></li>
-                    <li><a href="{% url 'yighub:member_Column' 0 %}">개인 칼럼</a></li>
-                    <li><a href="{% url 'yighub:member_Portfolio' 0 %}">포트폴리오</a></li>
-                    <li><a href="{% url 'yighub:member_Analysis'  0%}">분석</a></li>
-                    <li><a href="{% url 'yighub:member_Notice'  0%}">공지</a></li>
-                    <li><a href="{% url 'yighub:member_Etc' 0 %}">기타자료 게시판</a></li>
-                </ul>
-                <ul></ul>
-            </div>
-            <!--//sub-->
-        </div>
-        <!--//sub_all-->
         <section class="visual"></section>
         <!--//visual-->
     </div>
