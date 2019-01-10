@@ -6,9 +6,6 @@ from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.views.generic import TemplateView, DetailView
-import mimetypes
-import pdb
-import datetime
 from urllib.parse import quote, unquote
 from django.utils import timezone
 from django.contrib.auth import hashers
@@ -26,6 +23,7 @@ from .models import TaskforceBoardForm
 from .models import Album, Photo, PhotoComment
 from .models import AlbumForm, PhotoForm
 from .models_base import Entry
+import pdb
 
 # from .man_won_bbang import betting_list_now
 import logging
@@ -37,6 +35,7 @@ import re
 
 PublicBoardList = PublicBoard.objects.all()
 PublicBoardDict = {}
+
 for public_board in PublicBoardList:
     PublicBoardDict[public_board.name[:4]] = public_board
 
@@ -258,29 +257,6 @@ class SIM_A(TemplateView):
 
         return context
 
-
-class SIM_JS(TemplateView):
-    template_name = "yighub/public_simJ.html"
-
-    def get_context_data(self, page):
-        context=super(TemplateView, self).get_context_data()
-        p=pagination("public", "71", current_page=page, page_size=10)
-        context.update({'page':p, 'board_id': 71, "board": "public"})
-
-        return context
-
-
-class Gfund(TemplateView):
-    template_name = "yighub/public_GFun.html"
-
-    def get_context_data(self, page):
-        context=super(TemplateView, self).get_context_data()
-        p=pagination("public", "92", current_page=page, page_size=10)
-        context.update({'page':p, 'board_id': 71, "board": "public"})
-
-        return context
-
-
 class Sfund(TemplateView):
     template_name = "yighub/public_SFun.html"
 
@@ -289,9 +265,30 @@ class Sfund(TemplateView):
         try:
             p=pagination("public", "98", current_page=page, page_size=10)
         except:
-            context.update({'board_id': 98, "board": "public"})
+            context.update({'board_id': 93, "board": "public"})
         else:
-            context.update({'page':p, 'board_id': 98, "board": "public"})
+            context.update({'page':p, 'board_id': 93, "board": "public"})
+        pdb.set_trace()
+
+        return context
+
+
+class Fund(TemplateView):
+    template_name = "yighub/public_fund.html"
+
+    def get_context_data(self, **kwargs):
+        context=super(TemplateView, self).get_context_data()
+        fund_id=kwargs['fund_id']
+        page=kwargs['page']
+        fund_name=PublicBoard.objects.get(id=fund_id).name
+        other_boards=PublicBoard.objects.filter(active_fund=True).exclude(id=fund_id)
+
+        try:
+            p = pagination("public", str(fund_id), current_page=page, page_size=10)
+        except:
+            context.update({'board_id': fund_id, "board": "public", "fund_name": fund_name, "other_boards": other_boards[:2]})
+        else:
+            context.update({'page':p,'board_id': fund_id, "board": "public", "fund_name": fund_name, "other_boards": other_boards[:2]})
 
         return context
 
@@ -301,22 +298,8 @@ class Fund_detail(DetailView):
 
     def get_context_data(self, **kwargs):
         context=super(DetailView, self).get_context_data()
-        try:
-            user=User.objects.get(id=self.request.user.pk)
-        except:
-            context['user']=None
-        else:
-            context['user']=user
-        if "SIMA" in self.request.path:
-            context['Fund_name']="SIM-A Fund"
-        elif "SIMJS" in self.request.path:
-            context['Fund_name']="SIM-JS Fund"
-        elif "GFund" in self.request.path:
-            context['Fund_name']="G Fund"
-        elif "Universe" in self.request.path:
-            context['Fund_name']="YIG Universe"
-        else:
-            context['Fund_name']="S Fund"
+        fund=PublicBoard.objects.get(id= self.kwargs['fund_id']).name
+        context.update({'fund_name': fund, 'fund_id': self.kwargs['fund_id']})
 
         return context
 
