@@ -84,74 +84,71 @@ html {
   width: 1200px;
   margin: 0 auto; }
 
-/*header*/
+/*상위 header 기본*/
 #header {
-  height: 60px; }
-  #header .nav div {
-    float: left; }
-  #header .nav .YIG {
-    position: relative;
-    width: 10%; }
-    #header .nav .YIG img {
-      margin-top: 5px;
-      height: 50px;
-      width: 50px; }
-    #header .nav .YIG a {
-      position: absolute;
-      font-size: 20px;
-      top: 12px;
-      color: #e50914; }
-    #header .nav .YIG button {
-      display: none; }
-  #header .nav .Main_nav {
-    width: 70%;
-    text-align: center;
-    font-size: 16px;
-    margin-top: 15px; }
-    #header .nav .Main_nav ul li {
-      float: left;
-      width: 16.6666666667%;
-      white-space: nowrap; }
-  #header .nav .account {
-    white-space: nowrap;
-    margin-top: 12px;
-    width: 20%; }
-    #header .nav .account .signup {
-      display: inline-block;
-      padding: 5px 10px;
-      width: auto;
-      margin-left: 20px;
-      border: 1px solid #e50914;
-      border-radius: 15px; }
+  height: 60px;
+  overflow: hidden;
+  transition: all 1s ease-in-out; }
+  #header .nav {
+    /*YIG 로고 및 글씨*/
+    /*main nav*/ }
+    #header .nav .YIG {
+      position: relative;
+      width: 10%; }
+      #header .nav .YIG img {
+        margin-top: 5px;
+        height: 50px;
+        width: 50px; }
+      #header .nav .YIG a {
+        position: absolute;
+        font-size: 20px;
+        top: 12px;
+        color: #e50914; }
+      #header .nav .YIG button {
+        display: none; }
+    #header .nav .Main_nav {
+      font-size: 16px;
+      width: 70%;
+      margin-top: 15px; }
+      #header .nav .Main_nav .subnav {
+        margin-top: 20px; }
+      #header .nav .Main_nav ul li {
+        width: 16.6666666667%;
+        white-space: nowrap;
+        text-align: center; }
+        #header .nav .Main_nav ul li ul li {
+          width: 100%;
+          float: none;
+          padding: 5px 0;
+          display: none;
+          transition: all 1s ease; }
+        #header .nav .Main_nav ul li .show li {
+          display: block; }
+    #header .nav .account {
+      white-space: nowrap;
+      margin-top: 12px;
+      width: 20%; }
+      #header .nav .account .signup {
+        display: inline-block;
+        padding: 5px 10px;
+        width: auto;
+        margin-left: 20px;
+        border: 1px solid #e50914;
+        border-radius: 15px; }
+    #header .nav div {
+      float: left; }
+      #header .nav div ul li {
+        float: left; }
 
 /*sub_visual*/
 .sub_visual {
   height: 160px;
-  width: 100%; }
+  width: 100%;
+  transition: all 1s ease-in-out; }
   .sub_visual .container {
     height: 100%;
     margin: 0 auto;
     overflow: hidden; }
-    .sub_visual .container .sub_all {
-      height: 0%;
-      overflow: hidden;
-      transition: all 0.5s ease; }
-      .sub_visual .container .sub_all .sub {
-        height: 100%;
-        width: 70%;
-        margin-left: 10.8%; }
-        .sub_visual .container .sub_all .sub ul {
-          float: left;
-          width: 16.6666666667%;
-          height: 100%;
-          text-align: center;
-          font-size: 14px; }
-          .sub_visual .container .sub_all .sub ul li {
-            padding-top: 5px;
-            padding-bottom: 5px;
-            padding-right: 5px; }
-          .sub_visual .container .sub_all .sub ul:nth-child(4) {
-            padding-right: 25px; }
     .sub_visual .container .visual {
       height: 100%;
       width: 100%;
@@ -240,9 +237,6 @@ html {
     #header .nav .account .signup {
       margin-left: 5px;
       padding: 2.5px 5px; }
-
-  .sub_visual .container .sub_all {
-    display: none; }
 
   .Nav_lst .container .row {
     padding: 0 15px; } }

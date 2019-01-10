@@ -8,29 +8,26 @@
   margin: 0 auto;
 }
 
-/*header*/
+/*상위 header 기본*/
 #header{
   height: 60px;
-
+  overflow: hidden;
+  transition: all 1s ease-in-out;
   .nav{
-    div{
-      float: left
-    }
-
-    .YIG {
+    /*YIG 로고 및 글씨*/
+    .YIG{
       position: relative;
       width: 10%;
 
-      img {
-        margin-top: 5px;
-        height: 50px;
-        width: 50px;
+      img{
+       margin-top: 5px;
+       height: 50px; width: 50px;
       }
 
-      a {
+      a{
         position: absolute;
         font-size: 20px;
-        top: 12px;
+        top:12px;
         color: $yigcolor;
       }
 
@@ -39,16 +36,34 @@
       }
     }
 
-    .Main_nav {
-      width: 70%;
-      text-align: center;
+    /*main nav*/
+    .Main_nav{
       font-size: 16px;
+      width: 70%;
       margin-top: 15px;
 
-      ul li {
-        float: left;
+      .subnav{
+        margin-top: 20px;
+      }
+
+      ul li{
         width: (100%/6);
         white-space: nowrap;
+        text-align: center;
+
+        ul li{
+          width: 100%;
+          float: none;
+          padding: 5px 0;
+          display: none;
+          transition: all 1s ease;
+        }
+
+        .show{
+          li{
+            display: block;
+          }
+        }
       }
     }
 
@@ -59,7 +74,7 @@
 
       .login{
 
-       }
+      }
 
       .signup{
         display: inline-block;
@@ -70,6 +85,14 @@
 	    border-radius: 15px;;
       }
     }
+
+    div{
+      float: left;
+
+      ul li{
+        float: left;
+      }
+    }
   }
 }
 
@@ -77,40 +100,11 @@
 .sub_visual{
   height: 160px;
   width: 100%;
+  transition: all 1s ease-in-out;
   .container {
     height: 100%;
     margin: 0 auto;
     overflow: hidden;
-
-    .sub_all {
-      height: 0%;
-      overflow: hidden;
-      transition: all 0.5s ease;
-
-      .sub {
-        height: 100%;
-        width: 70%;
-        margin-left: 10.8%;
-
-        ul {
-          float: left;
-          width: (100%/6);
-          height: 100%;
-          text-align: center;
-          font-size: 14px;
-
-          li {
-            padding-top: 5px;
-            padding-bottom: 5px;
-            padding-right: 5px;
-          }
-
-          &:nth-child(4){
-            padding-right: 25px;
-          }
-        }
-      }
-    }
 
     .visual{
       height: 100%;
@@ -251,14 +245,6 @@
           margin-left: 5px;
           padding: 2.5px 5px;
         }
-      }
-    }
-  }
-
-  .sub_visual{
-    .container{
-      .sub_all{
-        display: none;
       }
     }
   }

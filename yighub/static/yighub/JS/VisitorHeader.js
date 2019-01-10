@@ -7,8 +7,8 @@ var sub_bar=$(".sub_bar");
 var contents=$(".container-fluid");
 var menu_btn=$("#menu_btn");
 var all_contents=$("#all");
-
 var Vanilla_nav=document.getElementsByClassName("Nav_lst");
+var x = window.matchMedia("(max-width: 850px)");
 
 (function() {
   if(window.matchMedia('(max-width:850px)').matches){
@@ -29,8 +29,26 @@ function disappear() {
 
 $(document).ready(function(){
 
-   //Nav 클릭시 sub_nav 통제 함수
+    //Header Showup & disappear 함수
+    $("#header").mouseover(function (e) {
+        e.preventDefault();
+        if (x.matches) { // If media query matches
+        } else{
+            $("#header").css("height", "220px");
+            $(".sub_visual").css("height", "0px");
+        }
+    });
 
+    $(".sub_bar").mouseover(function (e) {
+        e.preventDefault();
+        if( x.matches){
+        }else{
+            $("#header").css("height", "60px");
+            $(".sub_visual").css("height", "160px");
+        }
+    });
+
+   //Nav 클릭시 sub_nav 통제 함수
    $(".drive>a").click(function (e) {
        e.preventDefault();
        $(this).parent().children("ul").toggleClass("show");
