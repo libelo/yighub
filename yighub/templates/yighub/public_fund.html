@@ -9,7 +9,7 @@
             <li id="current_two" class="clearfix"><a href="#">{{ fund_name }}</a></li>
             <ul class="sub_depth2_drop clearfix">
                 {% for other in other_boards  %}
-                <li class="clearfix"><a href="{% url 'yighub:Public_Fund' other.name 0 %}">{{ other.name }}</a></li>
+                <li class="clearfix"><a href="{% url 'yighub:Public_Fund' other.id 0 %}">{{ other.name }}</a></li>
                 {% endfor %}
                 <li class="clearfix"><a href="{% url 'yighub:Public_YIG_Universe' 0 %}">YIG Universe</a></li>
             </ul>
@@ -38,7 +38,7 @@
                 {% for entry in page.entry_list %}
                     <tr>
                         <td>{{ entry.creator }}</td>
-                        <td class="fund_title"><a href="{% url "yighub:Public_Fund_Detail" fund_name entry.id  %}">{{ entry.title }}</a></td>
+                        <td class="fund_title"><a href="{% url "yighub:Public_Fund_Detail" board_id entry.id  %}">{{ entry.title }}</a></td>
                         <td>{{ entry.time_created|date:"Y-m-d" }}</td>
                     </tr>
                 {% endfor %}
@@ -76,8 +76,8 @@
 			<div class="pagination pagination-small text-center">
 			  <ul>
 			  	<!-- {% if page.first_page %} -->
-			    <!-- <li class="visible-desktop pull-left"><a href="{% url 'yighub:Public_Fund' fund_name page.first_page %}">&laquo;</a></li> -->
-			    <!-- <li><a href="{% url 'yighub:Public_Fund' fund_name page.prev_page %}">&lsaquo;</a></li> -->
+			    <!-- <li class="visible-desktop pull-left"><a href="{% url 'yighub:Public_Fund' board_id page.first_page %}">&laquo;</a></li> -->
+			    <!-- <li><a href="{% url 'yighub:Public_Fund' board_id page.prev_page %}">&lsaquo;</a></li> -->
 			    <!-- {% endif %} -->
 			    {% for p in page.page_list %}
 				    {% if p == page.current_page %}
@@ -85,12 +85,12 @@
 				    {% else %}
 				    <li>
 				    {% endif %}
-					    <a href="{% url 'yighub:Public_Fund' fund_name p %}">{{ p }}</a>
+					    <a href="{% url 'yighub:Public_Fund' board_id p %}">{{ p }}</a>
 					</li>
 			    {% endfor %}
 			    {% if page.last_page %}
-			    <!-- <li><a href="{% url 'yighub:Public_Fund' fund_name page.next_page %}">&rsaquo;</a></li> -->
-			    <li class="visible-desktop"><a href="{% url 'yighub:Public_Fund' fund_name page.last_page %}">&raquo;</a></li>
+			    <!-- <li><a href="{% url 'yighub:Public_Fund' board_id page.next_page %}">&rsaquo;</a></li> -->
+			    <li class="visible-desktop"><a href="{% url 'yighub:Public_Fund' board_id page.last_page %}">&raquo;</a></li>
 			    {% endif %}
 			  </ul>
                 {% if useraccount and useraccount.level != 'non' %}

@@ -278,17 +278,17 @@ class Fund(TemplateView):
 
     def get_context_data(self, **kwargs):
         context=super(TemplateView, self).get_context_data()
-        fund=kwargs['fund']
+        fund_id=kwargs['fund_id']
         page=kwargs['page']
-        board_id=PublicBoard.objects.get(name=fund).id
-        other_boards=PublicBoard.objects.filter(active_fund=True).exclude(name=fund)
+        fund_name=PublicBoard.objects.get(id=fund_id).name
+        other_boards=PublicBoard.objects.filter(active_fund=True).exclude(id=fund_id)
 
         try:
-            p = pagination("public", str(board_id), current_page=page, page_size=10)
+            p = pagination("public", str(fund_id), current_page=page, page_size=10)
         except:
-            context.update({'board_id': board_id, "board": "public", "fund_name": fund, "other_boards": other_boards[:2]})
+            context.update({'board_id': fund_id, "board": "public", "fund_name": fund_name, "other_boards": other_boards[:2]})
         else:
-            context.update({'page': p, 'board_id': board_id, "board": "public", "fund_name": fund, "other_boards": other_boards[:2]})
+            context.update({'page':p,'board_id': fund_id, "board": "public", "fund_name": fund_name, "other_boards": other_boards[:2]})
 
         return context
 
@@ -298,8 +298,8 @@ class Fund_detail(DetailView):
 
     def get_context_data(self, **kwargs):
         context=super(DetailView, self).get_context_data()
-        fund=self.kwargs['fund']
-        context.update({'fund_name': fund})
+        fund=PublicBoard.objects.get(id= self.kwargs['fund_id']).name
+        context.update({'fund_name': fund, 'fund_id': self.kwargs['fund_id']})
 
         return context
 

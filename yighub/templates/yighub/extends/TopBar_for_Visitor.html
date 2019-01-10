@@ -26,7 +26,7 @@
                         <li><a href="{% url 'yighub:Public_Introduction' %}">About YIG</a></li>
                         <li><a href="{% url 'yighub:Public_Recruiting' %}">Recruiting</a></li>
                         <li><a href="{% url 'yighub:Public_Member_Profile' 0 %}">Member Profile</a></li>
-                        <li><a href="{% url 'yighub:Public_Fund' rep_fund 0 %}">Fund</a></li>
+                        <li><a href="{% url 'yighub:Public_Fund' rep_fund.id 0 %}">Fund</a></li>
                         <li><a href="{% url 'yighub:Public_Research' 0%}">Research</a></li>
                         <li><a href="{% url 'yighub:Public_Contact' %}">Contact Us</a></li>
                     </ul>
@@ -71,7 +71,7 @@
                 <ul></ul>
                 <ul>
                     {% for fund in active_fund %}
-                    <li><a href="{% url 'yighub:Public_Fund' fund.name 0%}">{{ fund.name }}</a></li>
+                    <li><a href="{% url 'yighub:Public_Fund' fund.id 0%}">{{ fund.name }}</a></li>
                     {% endfor %}
                     <li><a href="{% url 'yighub:Public_YIG_Universe' 0 %}">YIG Universe</a></li>
                 </ul>
@@ -109,10 +109,10 @@
                         </ul>
                     </li>
                     <li><a href="{% url 'yighub:Public_Member_Profile' 0 %}">Member Profile</a></li>
-                    <li class="drive"><a href="{%  url 'yighub:Public_Fund' rep_fund 0 %}">Fund</a>
+                    <li class="drive"><a href="{%  url 'yighub:Public_Fund' rep_fund.id 0 %}">Fund</a>
                         <ul>
                             {% for fund in active_fund %}
-                            <li><a href="{%  url 'yighub:Public_Fund' fund.name 0 %}">{{ fund.name }}</a></li>
+                            <li><a href="{%  url 'yighub:Public_Fund' fund.id 0 %}">{{ fund.name }}</a></li>
                             {% endfor %}
                             <li><a href="{% url 'yighub:Public_YIG_Universe' 0 %}">YIG Universe</a></li>
                         </ul>
