@@ -9,6 +9,8 @@
 /*header*/
 #header{
   height: 60px;
+  transition: all 1s ease-in-out;
+  overflow: hidden;
 
   .nav{
     div{
@@ -34,6 +36,7 @@
 
       button{
         display: none;
+        font-size: 14px;
       }
     }
 
@@ -43,10 +46,21 @@
       font-size: 16px;
       margin-top: 15px;
 
+      .subnav{
+       margin-top: 20px;
+      }
       ul li {
         float: left;
         width: (100%/6);
         white-space: nowrap;
+
+        ul li{
+          width: 100%;
+          float: none;
+          padding: 5px 0;
+          display: block;
+          transition: all 1s ease;
+        }
       }
     }
 
@@ -73,36 +87,13 @@
 
 /*sub_visual*/
 .sub_visual{
-  height: 160px;
+  height: 180px;
   width: 100%;
+  transition: all 1s ease-in-out;
   .container {
     height: 100%;
     margin: 0 auto;
     overflow: hidden;
-
-    .sub_all {
-      height: 0%;
-      overflow: hidden;
-      transition: all 0.5s ease;
-
-      .sub {
-        height: 100%;
-        width: 70%;
-        margin-left: 10.8%;
-
-        ul {
-          float: left;
-          width: (100%/6);
-          height: 100%;
-          text-align: center;
-          font-size: 14px;
-
-          li {
-            padding: 5px 0;
-          }
-        }
-      }
-    }
 
     .visual{
       height: 100%;
@@ -114,7 +105,6 @@
     }
   }
 }
-
 
 /*Nav_lst*/
 .Nav_lst{
@@ -246,14 +236,6 @@
           margin-left: 5px;
           padding: 2.5px 5px;
         }
-      }
-    }
-  }
-
-  .sub_visual{
-    .container{
-      .sub_all{
-        display: none;
       }
     }
   }

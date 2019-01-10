@@ -8,7 +8,7 @@ var contents=$(".container-fluid");
 var menu_btn=$("#menu_btn");
 var all_contents=$("#all");
 var Vanilla_nav=document.getElementsByClassName("Nav_lst");
-var x = window.matchMedia("(max-width: 850px)");
+var x = window.matchMedia("(max-width: 890px)");
 
 (function() {
   if(window.matchMedia('(max-width:850px)').matches){
@@ -26,7 +26,7 @@ $(document).ready(function(){
         e.preventDefault();
         if (x.matches) { // If media query matches
         } else{
-            $("#header").css("height", "220px");
+            $("#header").css("height", "260px");
             $(".sub_visual").css("height", "0px");
         }
     });
@@ -36,7 +36,7 @@ $(document).ready(function(){
         if (x.matches) { // If media query matches
         } else{
             $("#header").css("height", "60px");
-            $(".sub_visual").css("height", "160px");
+            $(".sub_visual").css("height", "200px");
         }
     });
 
@@ -73,7 +73,7 @@ $(document).ready(function(){
        if($(".sidebar-nav").css("margin-top")!="200px"){
         $(".sidebar-nav").css("margin-top", "200px");
        }else{
-        $(".sidebar-nav").css("margin-top", "20px");   
+        $(".sidebar-nav").css("margin-top", "20px");
        }
    });
 

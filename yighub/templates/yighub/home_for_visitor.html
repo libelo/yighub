@@ -22,7 +22,7 @@
                 <div class="YIG">
                     <img src="{% static "yighub/images/yiglogo.png" %}" height="50px" width="50px"/>
                     <a  id="YIG" href="{% url 'yighub:home' %}" title="YIG 메인페이지로 이동">YIG</a>
-                    <button id="menu_btn"><i class="fas fa-align-justify"></i></button>
+                    <button id="menu_btn"><i class="fas fa-bars"></i></button>
                 </div>
                 <!--//YIG-->
                 <!--<button class="hidden menu">-->
@@ -47,10 +47,11 @@
                             </ul>
                         </li>
                         <li><a href="{% url 'yighub:Public_Member_Profile' 0 %}">Member Profile</a></li>
-                        <li><a href="{% url 'yighub:Public_SIM_A' 0%}">Fund</a>
+                        <li><a href="{% url 'yighub:Public_Fund' rep_fund.id 0%}">Fund</a>
                             <ul class="subnav clearfix">
-                                <li><a href="{% url 'yighub:Public_SIM_A' 0%}">OK Fund</a></li>
-                                <li><a href="{% url 'yighub:Public_Sfund' 0%}">S Fund</a></li>
+                                {% for fund in active_fund %}
+                                <li><a href="{% url 'yighub:Public_Fund' fund.id 0%}">{{ fund.name }}</a></li>
+                                {% endfor %}
                                 <li><a href="{% url 'yighub:Public_YIG_Universe' 0%}">YIG Universe</a></li>
                             </ul>
                         </li>
@@ -143,10 +144,11 @@
                         </ul>
                     </li>
                     <li><a href="{% url 'yighub:Public_Member_Profile' 0 %}">Member Profile</a></li>
-                    <li class="drive"><a href="{%  url 'yighub:Public_SIM_A' 0 %}">Fund</a>
+                    <li class="drive"><a href="{%  url 'yighub:Public_Fund' rep_fund.id 0 %}">Fund</a>
                         <ul>
-                            <li><a href="{%  url 'yighub:Public_SIM_A' 0 %}">OK Fund</a></li>
-                            <li><a href="{%  url 'yighub:Public_Sfund' 0 %}">S Fund</a></li>
+                            {% for fund in active_fund %}
+                            <li><a href="{%  url 'yighub:Public_Fund' fund.id 0 %}">{{ fund.name }}</a></li>
+                            {% endfor %}
                             <li><a href="{% url 'yighub:Public_YIG_Universe' 0 %}">YIG Universe</a></li>
                         </ul>
                     </li>
