@@ -5,10 +5,18 @@ import pdb
 def users(request):
     active_fund=PublicBoard.objects.filter(active_fund=True)
 
+    if len(active_fund)==0:
+        active_fund=PublicBoard.objects.filter(id=93)
+        context={'rep_fund': active_fund[0]}
+    else:
+        context={'rep_fund': active_fund[0]}
+
     try:
         user = User.objects.get(user_id=request.session['user_id'])
     except:
-        return {'useraccount': 'Anonymous', 'active_fund': active_fund[:3], 'rep_fund': active_fund[0]}
+        context.update({'useraccount': 'Anonymous', 'active_fund': active_fund[:3]})
+        return context
     else:
-        return {'useraccount': user, 'active_fund': active_fund[:3], 'rep_fund': active_fund[0]}
+        context.update({'useraccount': user, 'active_fund': active_fund[:3]})
+        return context
 
