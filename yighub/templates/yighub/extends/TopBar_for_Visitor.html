@@ -39,7 +39,7 @@
                             </ul>
                         </li>
                         <li><a href="{% url 'yighub:Public_Member_Profile' 0 %}">Member Profile</a></li>
-                        <li><a href="{% url 'yighub:Public_Fund' rep_fund.id 0%}">Fund</a>
+{#                        <li><a href="{% url 'yighub:Public_Fund' rep_fund.id 0%}">Fund</a>#}
                             <ul class="subnav  show clearfix">
                                 {% for fund in active_fund %}
                                 <li><a href="{% url 'yighub:Public_Fund' fund.id 0%}">{{ fund.name }}</a></li>
@@ -102,7 +102,7 @@
                         </ul>
                     </li>
                     <li><a href="{% url 'yighub:Public_Member_Profile' 0 %}">Member Profile</a></li>
-                    <li class="drive"><a href="{%  url 'yighub:Public_Fund' rep_fund.id 0 %}">Fund</a>
+{#                    <li class="drive"><a href="{%  url 'yighub:Public_Fund' rep_fund.id 0 %}">Fund</a>#}
                         <ul>
                             {% for fund in active_fund %}
                             <li><a href="{%  url 'yighub:Public_Fund' fund.id 0 %}">{{ fund.name }}</a></li>

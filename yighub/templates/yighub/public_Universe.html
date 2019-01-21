@@ -38,7 +38,7 @@
                 {% for entry in page.entry_list %}
                     <tr>
                         <td>{{ entry.creator }}</td>
-                        <td class="fund_title"><a href="{% url "yighub:Public_Universe_detail" entry.id  %}">{{ entry.title }}</a></td>
+                        <td class="fund_title"><a href="{% url "yighub:Public_Universe_detail" entry.id %}">{{ entry.title }}</a></td>
                         <td>{{ entry.time_created|date:"Y-m-d" }}</td>
                     </tr>
                 {% endfor %}
