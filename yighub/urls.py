@@ -80,7 +80,7 @@ urlpatterns = [
 
     #Fund (Fund, 디테일)
     url(r'^Fund/YIG_Universe/(?P<page>\d+)/$', views.YIG_Universe.as_view(), name="Public_YIG_Universe"),
-    url(r'^Fund/YIG_Universe/detail/(?P<pk>\d+)/$', views.Fund_detail.as_view(), name="Public_Universe_detail"),
+    url(r'^Fund/YIG_Universe/detail/(?P<pk>\d+)/$', views.YIG_Universe_detail.as_view(), name="Public_Universe_detail"),
     url(r'^Fund/(?P<fund_id>\d+)/(?P<page>\d+)/$', views.Fund.as_view(), name="Public_Fund"),
     url(r'^Fund/(?P<fund_id>\w+)/detail/(?P<pk>\d+)/$', views.Fund_detail.as_view(), name="Public_Fund_Detail"),
 

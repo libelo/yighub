@@ -325,6 +325,27 @@ class YIG_Universe(TemplateView):
         return context
 
 
+class YIG_Universe_detail(DetailView):
+    template_name = "yighub/Public_Universe_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context=super(DetailView, self).get_context_data()
+        fund="YIG Universe"
+        context.update({'fund_name': fund})
+
+        return context
+
+    def get_object(self):
+        object = PublicEntry.objects.get(id=self.kwargs['pk'])
+        object.downloads = []
+
+        for f in object.files.all():
+            f.filename = urlquote(f.name)
+            object.downloads.append(f)
+
+        return object
+
+
 class Research(TemplateView):
     template_name = "yighub/public_Research.html"
 
