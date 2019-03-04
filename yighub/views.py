@@ -299,17 +299,19 @@ class Fund_detail(DetailView):
     def get_context_data(self, **kwargs):
         context=super(DetailView, self).get_context_data()
         fund=PublicBoard.objects.get(id= self.kwargs['fund_id']).name
-        context.update({'fund_name': fund, 'fund_id': self.kwargs['fund_id']})
+        entry = PublicEntry.objects.get(id=self.kwargs['pk'])
+        # e = Entry.objects.get(pk=entry.id)
+        files = entry.files.all()
+
+        for f in files:
+            f.filename = urlquote(f.name)
+
+        context.update({'fund_name': fund, 'fund_id': self.kwargs['fund_id'], 'entry': entry, 'files': files, 'board': 'public'})
 
         return context
 
     def get_object(self):
         object = PublicEntry.objects.get(id=self.kwargs['pk'])
-        object.downloads = []
-
-        for f in object.files.all():
-            f.filename = urlquote(f.name)
-            object.downloads.append(f)
 
         return object
 
@@ -329,19 +331,21 @@ class YIG_Universe_detail(DetailView):
     template_name = "yighub/Public_Universe_detail.html"
 
     def get_context_data(self, **kwargs):
+        board=PublicBoard.objects.get(id=14)
         context=super(DetailView, self).get_context_data()
         fund="YIG Universe"
-        context.update({'fund_name': fund})
+        entry = PublicEntry.objects.get(id=self.kwargs['pk'])
+        files = entry.files.all()
+
+        for f in files:
+            f.filename = urlquote(f.name)
+
+        context.update({'fund_name': fund, 'entry': entry, 'files': files, 'board': 'public'})
 
         return context
 
     def get_object(self):
         object = PublicEntry.objects.get(id=self.kwargs['pk'])
-        object.downloads = []
-
-        for f in object.files.all():
-            f.filename = urlquote(f.name)
-            object.downloads.append(f)
 
         return object
 
@@ -1316,9 +1320,9 @@ def edit(request, board, entry_id):
 
 
 def delete(request, board, entry_id):
-    
-    # board 분류
+
     exist, Board, Entry, Comment, Thumbnail, File, EntryForm = classify(board)
+
     if exist == False:
         raise Http404
 
