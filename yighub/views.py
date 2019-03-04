@@ -311,9 +311,9 @@ class Fund_detail(DetailView):
         return context
 
     def get_object(self):
-        object = PublicEntry.objects.get(id=self.kwargs['pk'])
+        entry = PublicEntry.objects.get(id=self.kwargs['pk'])
 
-        return object
+        return entry
 
 
 class YIG_Universe(TemplateView):
@@ -331,7 +331,6 @@ class YIG_Universe_detail(DetailView):
     template_name = "yighub/Public_Universe_detail.html"
 
     def get_context_data(self, **kwargs):
-        board=PublicBoard.objects.get(id=14)
         context=super(DetailView, self).get_context_data()
         fund="YIG Universe"
         entry = PublicEntry.objects.get(id=self.kwargs['pk'])
@@ -345,9 +344,9 @@ class YIG_Universe_detail(DetailView):
         return context
 
     def get_object(self):
-        object = PublicEntry.objects.get(id=self.kwargs['pk'])
+        entry = PublicEntry.objects.get(id=self.kwargs['pk'])
 
-        return object
+        return entry
 
 
 class Research(TemplateView):
