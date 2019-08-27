@@ -21,22 +21,23 @@
 	<div class="container-fluid">
 		<span id="lead" lang="en">History</span>
 		<br />
-		<br />
-		{% for e in page.entry_list %}
-		<strong id="sub_lead">{{ e.title }}</strong>
-		<dl class="dl-horizontal">
-			{% for h in e.history %}
-			<dt>{{ h.month }}</dt>
-			{% for event in h.events %}
-				<dd>{{ event }}</dd>
-			{% endfor %}
-
-			{% endfor %}
-		</dl>
-		{% if not forloop.last %}
-		<hr />
-		{% endif %}
-		{% endfor %}
+        <img src="{% static "yighub/images/yighistory.jpg" %}" width="100%"/>
+{#		<br />#}
+{#		{% for e in page.entry_list %}#}
+{#		<strong id="sub_lead">{{ e.title }}</strong>#}
+{#		<dl class="dl-horizontal">#}
+{#			{% for h in e.history %}#}
+{#			<dt>{{ h.month }}</dt>#}
+{#			{% for event in h.events %}#}
+{#				<dd>{{ event }}</dd>#}
+{#			{% endfor %}#}
+{##}
+{#			{% endfor %}#}
+{#		</dl>#}
+{#		{% if not forloop.last %}#}
+{#		<hr />#}
+{#		{% endif %}#}
+{#		{% endfor %}#}
 	</div>
     <!--//container-fluid-->
 </section>
