@@ -71,7 +71,6 @@ urlpatterns = [
 
     ##Recruiting
     url(r'^Recruiting/$', views.Recruiting.as_view(), name="Public_Recruiting"),
-    url(r'^Recruiting/Apply/$', views.Apply.as_view(), name="Public_Apply"),
     url(r'^Recruiting/Schedule/$', views.Schedule.as_view(), name="Public_Schedule"),
     url(r'^Recruiting/FAQ/$', views.FAQ.as_view(), name="Public_FAQ"),
 

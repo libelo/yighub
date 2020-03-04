@@ -215,10 +215,6 @@ class Recruiting(TemplateView):
     template_name = "yighub/public_Recruiting.html"
 
 
-class Apply(TemplateView):
-    template_name="yighub/public_Apply.html"
-
-
 class Schedule(TemplateView):
     template_name = "yighub/public_Schedule.html"
 
