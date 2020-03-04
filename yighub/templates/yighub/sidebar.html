@@ -44,8 +44,7 @@
 				<li {% if current_board.name == 'Clipping' %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Clip.id 0 %}">Clipping<i class="icon-chevron-right"></i></a></li>
 				
 				<li class="nav-header">Recruiting</li>
-				<li {% if current_board.name == 'Recruiting' %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Recr.id 0 %}">Recruiting<i class="icon-chevron-right"></i></a></li>
-				<li {% if current_board.name == 'Apply' %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Appl.id 0 %}">Apply<i class="icon-chevron-right"></i></a></li>
+				<li {% if current_board.name == 'Recruiting' %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Recr.id 0 %}">Requirements<i class="icon-chevron-right"></i></a></li>
 				<li {% if current_board.name == 'Schedule' %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.Sche.id 0 %}">Schedule<i class="icon-chevron-right"></i></a></li>
 				<li {% if current_board.name == 'FAQ' %} class="active" {% endif %}><a href="{% url 'yighub:listing' 'public' public_dict.FAQ.id 0 %}">FAQ<i class="icon-chevron-right"></i></a></li>
 
