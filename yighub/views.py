@@ -1687,7 +1687,7 @@ def join(request):
     else:
         form = UserForm()
 
-    return render(request, 'yighub/join.html', {'public_dict' : PublicBoardDict, 'form' : form}, RequestContext(request))
+    return render(request, 'yighub/join.html', {'public_dict' : PublicBoardDict, 'form' : form}, context_instance = RequestContext(request))
 
 def edit_profile(request, first_login = False):
 
