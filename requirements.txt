@@ -3,5 +3,5 @@ certifi==2017.11.5
 Django==1.9
 django-storages==1.6.5
 olefile==0.44
-Pillow==7.1.0
+Pillow==8.2.0
 uwsgi==2.0.15
