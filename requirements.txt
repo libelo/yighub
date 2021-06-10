@@ -1,6 +1,6 @@
 boto==2.48.0
 certifi==2017.11.5
-Django==1.9
+Django==2.2.24
 django-storages==1.6.5
 olefile==0.44
 Pillow==7.1.0
